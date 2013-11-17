@@ -1,0 +1,37 @@
+{% extends './tutorial/layout.html' %}
+{% block title %}A7-Missing Function Level Access Control{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="bs-example" style="margin-bottom: 40px;">
+              <span class="label label-danger">Exploitability: EASY</span>
+              <span class="label label-warning">Prevalence: COMMON</span>
+              <span class="label label-warning">Detectability: AVERAGE</span>
+              <span class="label label-warning">Technical Impact: MODERATE</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Description</h3>
+        </div>
+        <div class="panel-body">
+        	Most web applications verify function level access rights before making that functionality visible in the UI. However, applications need to perform the same access control checks on the server when each function is accessed. If requests are not verified, attackers will be able to forge requests in order to access functionality without proper authorization.
+        </div>
+        </div>
+
+       <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title"> Real World Attack Incident Examples</h3>
+        </div>
+        <div class="panel-body">
+          Screencast here ...
+        </div>
+       </div>
+
+    </div>
+ </div>
+ {% endblock %}

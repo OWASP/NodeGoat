@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>OWASP Node.js Goat</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+
+     <style type="text/css">
+       #wrapper { padding-left: 0; }
+    </style>
+
+  </head>
+
+  <body>
+
+    <div id="wrapper">
+ <!-- Sidebar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/"></a>
+        </div>
+      </nav>
+
+
+      <div id="page-wrapper">
+
+
+      <div class="row">
+          <div class="col-lg-12">
+           <!-- <div class="panel panel-default">
+              <div class="panel-heading"><strong>About this application</strong></div>
+              <div class="panel-body">
+                This is a Node.js web application which is vulnerable to the <a href="https://www.owasp.org/index.php/Top_10_2013-Top_10"> OWASP Top 10</a>. It is intended to show how each of these categories of vulnerabilities can manifest themselves in a Node.js specific way as well as provide the subsequent mitigations for each.
+
+                <p>To access the application, login using the form below.</p>
+              </div>
+            </div>
+            -->
+            <div class="jumbotron">
+                <h2>OWASP Node.js Goat Project</h2>
+                <p>
+                    This is a Node.js web application which is vulnerable to the <a href="https://www.owasp.org/index.php/Top_10_2013-Top_10"> OWASP Top 10</a>. It is intended to show how each of these categories of vulnerabilities can manifest themselves in a Node.js specific way as well as provide the subsequent mitigations for each.
+                </p>
+                <p>To start hacking the application, login using the form below, or access the tutorial guide to know more.</p>
+                 <p>
+                    <a class="btn btn-danger btn-lg" target="_blank" href="/signup">Start HACKING!</a>
+                    <a class="btn btn-primary btn-lg" target="_blank" href="/tutorial">Tutorial Guide</a>
+                 </p>
+              </div>
+          </div>
+        </div><!-- /.row -->
+  {% if login_error %}
+       <div class="row">
+          <div class="col-lg-12">
+            <div class="alert alert-dismissable alert-danger">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{login_error}}
+            </div>
+          </div>
+        </div><!-- /.row -->
+  {% endif %}
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
+
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Heaven Corp. Employee Savings Plan</h3>
+                </div>
+                <div class="panel-body">
+
+                  <form method="post" role="form" method="post" id="loginform">
+                      <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{username}}" placeholder="Enter username">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="lastname">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" value="{{password}}" placeholder="Enter password">
+                      </div>
+
+                       <button type="submit" class="btn btn-default">Submit</button>
+                       <span><a href="/signup">New user? Sign Up</a><span>
+                      </form>
+                </div>
+                </div>
+            </div>
+        </div><!-- /.row -->
+      </div><!-- /#page-wrapper -->
+
+    </div><!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+  </body>
+</html>
