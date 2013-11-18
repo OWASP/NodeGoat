@@ -1,8 +1,8 @@
 {
-  "name": "blog",
+  "name": "OWASP Node.js Goat",
   "version": "0.0.0",
-  "description": "Blog Project for M101JS",
-  "main": "app.js",
+  "description": "A tool to learn OWASP Top 10 for node.js developers",
+  "main": "server.js",
   "dependencies": {
     "bcrypt-nodejs": "~0.0.3",
     "consolidate": "~0.9.1",
@@ -15,8 +15,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
-  "author": "Shaun Verch <shaun.verch@10gen.com>",
-  "license": "BSD",
+  "repository": "https://github.com/OWASP/NodejsGoat",
+  "license": "Apache 2.0",
   "private": true
 }
