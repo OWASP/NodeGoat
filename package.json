@@ -1,5 +1,5 @@
 {
-  "name": "OWASP Node.js Goat",
+  "name": "owasp-nodejs-goat",
   "version": "0.0.1",
   "description": "A tool to learn OWASP Top 10 for node.js developers",
   "main": "server.js",
