@@ -29,8 +29,8 @@ MongoClient.connect('mongodb://nodegoat:owasp@widmore.mongohq.com:10000/nodegoat
         app.listen(process.env.PORT, process.env.IP);
         console.log('Express server started at ' + process.env.IP + ":" + process.env.PORT);
     } else {
-        app.listen(3001);
-        console.log('Express server started at http://localhost:3001');
+        app.listen(5000);
+        console.log('Express server started at http://localhost:5000');
     }
 });
 

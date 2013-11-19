@@ -13,4 +13,4 @@ tour.addSteps([
     }
 ]);
 
-tour.start(true);
+//tour.start(true);
