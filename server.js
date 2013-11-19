@@ -25,12 +25,14 @@ MongoClient.connect('mongodb://nodegoat:owasp@widmore.mongohq.com:10000/nodegoat
     routes(app, db);
 
     swig.init({ root: __dirname + '/views', autoescape: false });
-    if(process.env.PORT && process.env.IP) {
-        app.listen(process.env.PORT, process.env.IP);
-        console.log('Express server started at ' + process.env.IP + ":" + process.env.PORT);
+    
+    var port = process.env.PORT || 5000;
+    if (process.env.IP) {
+        app.listen(port, process.env.IP);
+        console.log('Express server started at ' + process.env.IP + ":" + port);
     } else {
-        app.listen(5000);
-        console.log('Express server started at http://localhost:5000');
+        app.listen(port);
+        console.log('Express server started at port ' +  port);
     }
 });
 
