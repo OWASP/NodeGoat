@@ -1,6 +1,6 @@
-var tour = new Tour({name:"test1"});
+var redirectsTour = new Tour({name:"redirects"});
 
-tour.addSteps([
+redirectsTour.addSteps([
     {
         element: "#profile-menu-link", // string (jQuery selector) - html element next to which the step popover should be shown
         title: "Title of my popover", // string - title of the popover
@@ -13,4 +13,6 @@ tour.addSteps([
     }
 ]);
 
-//tour.start(true);
+$("#redirects-tour").on("click", function () {
+    redirectsTour.start(true);  
+})
