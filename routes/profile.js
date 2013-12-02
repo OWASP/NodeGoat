@@ -9,13 +9,10 @@ function ProfileHandler (db) {
     var session = new SessionDAO(db);
 
     this.displayProfile = function(req, res, next) {
-        "use strict";
-
+  
         var session_id = req.cookies.session;
 
         session.getUsername(session_id, function (err, username) {
-
-            "use strict";
 
             if (err) return next(err);
 
@@ -31,8 +28,6 @@ function ProfileHandler (db) {
 
     this.handleProfileUpdate = function(req, res, next) {
 
-        "use strict";
-
         var firstname = req.body.firstname;
         var lastname = req.body.lastname;
         var ssn = req.body.ssn;
@@ -42,7 +37,6 @@ function ProfileHandler (db) {
         var session_id = req.cookies.session;
 
         session.getUsername(session_id, function (err, username) {
-            "use strict";
 
             if (err) return next(err);
 

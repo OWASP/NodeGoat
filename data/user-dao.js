@@ -14,7 +14,6 @@ function UserDAO(db) {
     var users = db.collection("users");
 
     this.addUser = function(username, firstname, lastname, password, email, callback) {
-        "use strict";
 
         // Generate password hash
         var salt = bcrypt.genSaltSync();
@@ -25,12 +24,11 @@ function UserDAO(db) {
 
         // Add email if set
         if (email !== "") {
-            user['email'] = email;
+            user.email = email;
         }
 
         users.insert(user, function (err, result) {
-            "use strict";
-
+ 
             if (!err) {
                 console.log("Inserted new user");
 
@@ -40,15 +38,13 @@ function UserDAO(db) {
 
             return callback(err, null);
         });
-    }
+    };
 
     this.validateLogin = function(username, password, callback) {
-        "use strict";
-
+      
         // Callback to pass to MongoDB that validates a user document
         function validateUserDoc(err, user) {
-            "use strict";
-
+      
             if (err) return callback(err, null);
 
             if (user) {
@@ -74,9 +70,8 @@ function UserDAO(db) {
     };
     
     this.getUserById = function (_id, callback) {
-        "use strict";
         users.findOne({ '_id' : _id }, callback);
-    }
+    };
 }
 
 module.exports.UserDAO = UserDAO;

@@ -15,4 +15,4 @@ redirectsTour.addSteps([
 
 $("#redirects-tour").on("click", function () {
     redirectsTour.start(true);  
-})
+});

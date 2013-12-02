@@ -10,13 +10,10 @@ function ContributionsHandler (db) {
 
 
     this.displayContributions = function(req, res, next) {
-        "use strict";
-
+   
         var session_id = req.cookies.session;
 
         sessionDAO.getUsername(session_id, function (err, username) {
-
-            "use strict";
 
             if (err) return next(err);
 
@@ -32,8 +29,6 @@ function ContributionsHandler (db) {
 
     this.handleContributionsUpdate = function(req, res, next) {
 
-        "use strict";
-
         var pretax = req.body.pretax;
         var aftertax = req.body.aftertax;
         var roth = req.body.roth;
@@ -41,8 +36,7 @@ function ContributionsHandler (db) {
         var session_id = req.cookies.session;
 
         sessionDAO.getUsername(session_id, function (err, username) {
-            "use strict";
-
+   
             if (err) return next(err);
 
             contributionsDAO.update (username, pretax, aftertax, roth, function (err, contributions) {

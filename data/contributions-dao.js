@@ -12,8 +12,7 @@ function ContributionsDAO(db) {
     var contributionsDB = db.collection("contributions");
 
     this.update = function(username, pretax, aftertax, roth, callback) {
-        "use strict";
-
+   
          // Create contributions document
         var contributions = {'_id': username, 'pretax': pretax, 'aftertax': aftertax, 'roth': roth};
 
@@ -29,10 +28,7 @@ function ContributionsDAO(db) {
     };
 
     this.getByUsername = function (username, callback) {
-        "use strict";
         contributionsDB.findOne({ '_id' : username }, function(err, contributions) {
-
-            "use strict";
             if (err) return callback(err, null);
 
             callback(null, contributions);

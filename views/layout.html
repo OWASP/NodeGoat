@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="/vendor/theme/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/vendor/bootstrap/bootstrap-tour.css">
   </head>
-
   <body>
 
     <div id="wrapper">
@@ -65,12 +64,7 @@
                    <li class="divider"></li>
                   <li><a href="#" id="redirects-tour"><i class="fa fa-play-circle"></i> A10 Redirects</a></li>
               </ul>
-
-              
-              
             </li> <!-- /Tour menu -->
-
-            
           </ul>
         </div><!-- /.navbar-collapse -->
       </nav>
@@ -89,7 +83,6 @@
           {% block content %}{% endblock %}
 
       </div><!-- /#page-wrapper -->
-
     </div><!-- /#wrapper -->
 
     <!-- Bootstrap core JavaScript -->
@@ -103,9 +96,11 @@
     
     <script src="/js/chart/chart-data-morris.js"></script>
 
-    <!-- tour steps relates js --> 
+    <!-- tour steps related js --> 
     <script src="/js/tour/redirects-steps.js"></script>
- 
+
+    <!-- Load live reload script -->
+    <script>document.write("<script src='http://" + (location.host || "localhost").split(':')[0] + ":35729/livereload.js'></" + "script>")</script>
 
   </body>
 </html>

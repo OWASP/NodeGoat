@@ -3,9 +3,13 @@ var express = require('express'),
     consolidate = require('consolidate'), // Templating library adapter for Express
     swig = require('swig'),
     MongoClient = require('mongodb').MongoClient, // Driver for connecting to MongoDB
-    routes = require('./routes'); // Routes for our application
+    routes = require('./routes'),
 
-MongoClient.connect('mongodb://nodegoat:owasp@widmore.mongohq.com:10000/nodegoat', function(err, db) {
+    //Load configurations
+    env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
+    config = require('./config/config'); // Routes for our application config
+
+MongoClient.connect(config.db, function(err, db) {
     "use strict";
     if(err) throw err;
 
@@ -26,13 +30,12 @@ MongoClient.connect('mongodb://nodegoat:owasp@widmore.mongohq.com:10000/nodegoat
 
     swig.init({ root: __dirname + '/views', autoescape: false });
     
-    var port = process.env.PORT || 5000;
     if (process.env.IP) {
-        app.listen(port, process.env.IP);
-        console.log('Express server started at ' + process.env.IP + ":" + port);
+        app.listen(config.port, process.env.IP);
+        console.log('Express server started at ' + process.env.IP + ":" + config.port);
     } else {
-        app.listen(port);
-        console.log('Express server started at port ' +  port);
+        app.listen(config.port);
+        console.log('Express server started at port ' +  config.port);
     }
 });
 
