@@ -2,22 +2,22 @@ var ContributionsDAO = require('../data/contributions-dao').ContributionsDAO;
 var SessionDAO = require('../data/session-dao').SessionDAO;
 
 /* The ContributionsHandler must be constructed with a connected db */
-function ContributionsHandler (db) {
+function ContributionsHandler(db) {
     "use strict";
 
     var sessionDAO = new SessionDAO(db);
-   var contributionsDAO = new ContributionsDAO(db);
+    var contributionsDAO = new ContributionsDAO(db);
 
 
     this.displayContributions = function(req, res, next) {
-   
+
         var session_id = req.cookies.session;
 
-        sessionDAO.getUsername(session_id, function (err, username) {
+        sessionDAO.getUsername(session_id, function(err, username) {
 
             if (err) return next(err);
 
-            contributionsDAO.getByUsername(username, function (error, contrib) {
+            contributionsDAO.getByUsername(username, function(error, contrib) {
 
                 if (error) return next(error);
 
@@ -35,11 +35,11 @@ function ContributionsHandler (db) {
 
         var session_id = req.cookies.session;
 
-        sessionDAO.getUsername(session_id, function (err, username) {
-   
+        sessionDAO.getUsername(session_id, function(err, username) {
+
             if (err) return next(err);
 
-            contributionsDAO.update (username, pretax, aftertax, roth, function (err, contributions) {
+            contributionsDAO.update(username, pretax, aftertax, roth, function(err, contributions) {
 
                 if (err) return next(err);
 

@@ -1,5 +1,5 @@
 /* The ProfileDAO must be constructed with a connected database object */
-function ProfileDAO (db) {
+function ProfileDAO(db) {
 
     "use strict";
 
@@ -13,11 +13,21 @@ function ProfileDAO (db) {
     var users = db.collection("users");
 
     this.updateUser = function(username, firstname, lastname, ssn, dob, address, callback) {
-    
-         // Create user document
-        var user = {'firstname': firstname, 'lastname': lastname, 'ssn': ssn, 'dob': dob , 'address': address};
 
-        users.update({'_id': username}, {$set: user}, function (err, result) {
+        // Create user document
+        var user = {
+            'firstname': firstname,
+            'lastname': lastname,
+            'ssn': ssn,
+            'dob': dob,
+            'address': address
+        };
+
+        users.update({
+            '_id': username
+        }, {
+            $set: user
+        }, function(err, result) {
 
             if (!err) {
                 console.log("Updated user profile");
@@ -28,8 +38,10 @@ function ProfileDAO (db) {
         });
     };
 
-    this.getByUsername = function (username, callback) {
-        users.findOne({ '_id' : username }, function(err, user) {
+    this.getByUsername = function(username, callback) {
+        users.findOne({
+            '_id': username
+        }, function(err, user) {
 
             if (err) return callback(err, null);
 

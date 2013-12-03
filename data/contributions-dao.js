@@ -12,11 +12,20 @@ function ContributionsDAO(db) {
     var contributionsDB = db.collection("contributions");
 
     this.update = function(username, pretax, aftertax, roth, callback) {
-   
-         // Create contributions document
-        var contributions = {'_id': username, 'pretax': pretax, 'aftertax': aftertax, 'roth': roth};
 
-        contributionsDB.update({'_id': username}, contributions, {upsert: true}, function (err, result) {
+        // Create contributions document
+        var contributions = {
+            '_id': username,
+            'pretax': pretax,
+            'aftertax': aftertax,
+            'roth': roth
+        };
+
+        contributionsDB.update({
+            '_id': username
+        }, contributions, {
+            upsert: true
+        }, function(err, result) {
 
             if (!err) {
                 console.log("Updated contributions");
@@ -27,8 +36,10 @@ function ContributionsDAO(db) {
         });
     };
 
-    this.getByUsername = function (username, callback) {
-        contributionsDB.findOne({ '_id' : username }, function(err, contributions) {
+    this.getByUsername = function(username, callback) {
+        contributionsDB.findOne({
+            '_id': username
+        }, function(err, contributions) {
             if (err) return callback(err, null);
 
             callback(null, contributions);

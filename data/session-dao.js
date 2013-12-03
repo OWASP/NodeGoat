@@ -20,30 +20,37 @@ function SessionDAO(db) {
         var session_id = crypto.createHash('sha1').update(current_date + random).digest('hex');
 
         // Create session document
-        var session = {'username': username, '_id': session_id};
+        var session = {
+            'username': username,
+            '_id': session_id
+        };
 
         // Insert session document
-        sessions.insert(session, function (err, result) {
+        sessions.insert(session, function(err, result) {
             callback(err, session_id);
         });
     };
 
     this.endSession = function(session_id, callback) {
         // Remove session document
-        sessions.remove({ '_id' : session_id }, function (err, numRemoved) {
+        sessions.remove({
+            '_id': session_id
+        }, function(err, numRemoved) {
             callback(err);
         });
     };
 
     this.getUsername = function(session_id, callback) {
-      
+
         if (!session_id) {
             callback(new Error("Session not set"), null);
             return;
         }
 
-        sessions.findOne({ '_id' : session_id }, function(err, session) {
-   
+        sessions.findOne({
+            '_id': session_id
+        }, function(err, session) {
+
             if (err) return callback(err, null);
 
             if (!session) {

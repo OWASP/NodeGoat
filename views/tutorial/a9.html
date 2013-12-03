@@ -1,40 +1,39 @@
-{% extends './tutorial/layout.html' %}
-{% block title %}A9-Using Components with Known Vulnerabilities{% endblock %}
-{% block content %}
+{% extends './tutorial/layout.html' %} {% block title %}A9-Using Components with Known Vulnerabilities{% endblock %} {% block content %}
 <div class="row">
     <div class="col-lg-12">
         <div class="bs-example" style="margin-bottom: 40px;">
-              <span class="label label-warning">Exploitability: AVERAGE</span>
-              <span class="label label-danger">Prevalence: WIDESPREAD</span>
-              <span class="label label-default">Detectability: DIFFICULT</span>
-              <span class="label label-warning">Technical Impact: MODERATE</span>
+            <span class="label label-warning">Exploitability: AVERAGE</span>
+            <span class="label label-danger">Prevalence: WIDESPREAD</span>
+            <span class="label label-default">Detectability: DIFFICULT</span>
+            <span class="label label-warning">Technical Impact: MODERATE</span>
         </div>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-12">
-      <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title">Description</h3>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Description</h3>
+            </div>
+            <div class="panel-body">
+                <p>Components, such as libraries, frameworks, and other software modules, almost always run with full privileges. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications using
+                    components with known vulnerabilities may undermine application defenses and enable a range of possible attacks and impacts.
+                </p>
+                <p>Using insecure npm module can lead to this vulnerability. The <a href="https://nodesecurity.io/advisories">Node Security project </a> is a great resource to know about related vulnerabilities.</p>
+            </div>
         </div>
-        <div class="panel-body">
-            <p>	Components, such as libraries, frameworks, and other software modules, almost always run with full privileges. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications using components with known vulnerabilities may undermine application defenses and enable a range of possible attacks and impacts.
-            </p>
-            <p>Using insecure npm module can lead to this vulnerability. The <a href="https://nodesecurity.io/advisories">Node Security project </a> is a great resource to know about related vulnerabilities.</p>
-        </div>
-    </div>
 
-       <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title"> Real World Attack Incident Examples</h3>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Real World Attack Incident Examples</h3>
+            </div>
+            <div class="panel-body">
+                Screencast here ...
+            </div>
         </div>
-        <div class="panel-body">
-          Screencast here ...
-        </div>
-       </div>
 
     </div>
- </div>
- {% endblock %}
+</div>
+{% endblock %}
 

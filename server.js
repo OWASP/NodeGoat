@@ -11,7 +11,7 @@ var express = require('express'),
 
 MongoClient.connect(config.db, function(err, db) {
     "use strict";
-    if(err) throw err;
+    if (err) throw err;
 
     // Register our templating engine
     app.engine('.html', consolidate.swig);
@@ -28,14 +28,16 @@ MongoClient.connect(config.db, function(err, db) {
     // Application routes
     routes(app, db);
 
-    swig.init({ root: __dirname + '/views', autoescape: false });
-    
+    swig.init({
+        root: __dirname + '/views',
+        autoescape: false
+    });
+
     if (process.env.IP) {
         app.listen(config.port, process.env.IP);
         console.log('Express server started at ' + process.env.IP + ":" + config.port);
     } else {
         app.listen(config.port);
-        console.log('Express server started at port ' +  config.port);
+        console.log('Express server started at port ' + config.port);
     }
 });
-

@@ -29,7 +29,8 @@
     "grunt-contrib-jshint": "latest",
     "grunt-nodemon": "latest",
     "grunt-concurrent": "latest",
-    "grunt-mocha-test": "latest"
+    "grunt-mocha-test": "latest",
+    "grunt-jsbeautifier": "~0.2.3"
   },
   "repository": "https://github.com/OWASP/NodejsGoat",
   "license": "Apache 2.0",
