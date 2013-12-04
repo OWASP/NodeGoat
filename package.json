@@ -9,11 +9,28 @@
     "express": ">=3.x",
     "mongodb": "~1.3.9",
     "swig": "~0.14.0",
-    "validator": "~1.1.3"
+    "validator": "~1.1.3",
+    "underscore": "latest", 
+    "grunt": "latest",
+    "grunt-cli": "latest",
+    "grunt-env": "latest",
+    "forever": "latest"
   },
-  "devDependencies": {},
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node node_modules/grunt-cli/bin/grunt",
+    "test": "node node_modules/grunt-cli/bin/grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-watch": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-nodemon": "latest",
+    "grunt-concurrent": "latest",
+    "grunt-mocha-test": "latest",
+    "grunt-jsbeautifier": "~0.2.3"
   },
   "repository": "https://github.com/OWASP/NodejsGoat",
   "license": "Apache 2.0",
