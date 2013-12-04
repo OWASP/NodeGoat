@@ -7,30 +7,30 @@ function configureGrunt(grunt) {
         pkg: grunt.file.readJSON("package.json"),
         watch: {
             js: {
-                files: ["assets/js/**", "data/**/*.js", "test/**/*.js", "routes/**/*.js", "server.js"],
+                files: ["app/assets/js/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js", "test/**/*.js"],
                 tasks: ["jshint"],
                 options: {
                     livereload: true
                 }
             },
             html: {
-                files: ["views/**"],
+                files: ["app/views/**"],
                 options: {
                     livereload: true
                 }
             },
             css: {
-                files: ["assets/css/**"],
+                files: ["app/assets/css/**"],
                 options: {
                     livereload: true
                 }
             }
         },
         jshint: {
-            all: ["Gruntfile.js", "test/**/*.js", "assets/js/**", "data/**/*.js", "routes/**/*.js", "server.js"]
+            all: ["Gruntfile.js", "test/**/*.js", "app/assets/js/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js"]
         },
         jsbeautifier: {
-            files: ["Gruntfile.js", "views/**", "test/**/*.js", "assets/js/**", "assets/css/**", "data/**/*.js", "routes/**/*.js", "server.js"],
+            files: ["Gruntfile.js", "app/views/**", "app/assets/js/**", "app/assets/css/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js", "test/**/*.js"],
             options: {
                 html: {
                     braceStyle: "collapse",
@@ -74,7 +74,7 @@ function configureGrunt(grunt) {
                     args: [],
                     ignoredFiles: ["README.md", "node_modules/**"],
                     watchedExtensions: ["js", "html", "css"],
-                    watchedFolders: ["data", "routes", "assets", "views"],
+                    watchedFolders: ["app/data", "app/routes", "app/assets", "app/views", "app/views/tutorial"],
                     debug: true,
                     delayTime: 1,
                     env: {
@@ -121,6 +121,9 @@ function configureGrunt(grunt) {
 
     // Test task.
     grunt.registerTask("test", ["env:test", "mochaTest"]);
+
+    // start server.
+    grunt.registerTask("run", ["prepare", "concurrent"]);
 
     // Default task(s).
     grunt.registerTask("default", ["prepare", "concurrent"]);

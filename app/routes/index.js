@@ -1,10 +1,9 @@
 var SessionHandler = require('./session');
 var ProfileHandler = require('./profile');
 var ContributionsHandler = require('./contributions');
-
 var ErrorHandler = require('./error').errorHandler;
 
-module.exports = exports = function(app, db) {
+var exports = function(app, db) {
 
     var sessionHandler = new SessionHandler(db);
     var profileHandler = new ProfileHandler(db);
@@ -57,3 +56,5 @@ module.exports = exports = function(app, db) {
     // Error handling middleware
     app.use(ErrorHandler);
 };
+
+module.exports = exports;
