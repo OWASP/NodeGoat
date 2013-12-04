@@ -117,16 +117,16 @@ function configureGrunt(grunt) {
 
 
     // Code Validation, beautification task(s).
-    grunt.registerTask("prepare", ["jsbeautifier", "jshint"]);
+    grunt.registerTask("precommit", ["jsbeautifier", "jshint"]);
 
     // Test task.
     grunt.registerTask("test", ["env:test", "mochaTest"]);
 
     // start server.
-    grunt.registerTask("run", ["prepare", "concurrent"]);
+    grunt.registerTask("run", ["precommit", "concurrent"]);
 
     // Default task(s).
-    grunt.registerTask("default", ["prepare", "concurrent"]);
+    grunt.registerTask("default", ["precommit", "concurrent"]);
 }
 
 module.exports = configureGrunt;
