@@ -11,9 +11,9 @@ function ContributionsHandler(db) {
 
     this.displayContributions = function(req, res, next) {
 
-        var session_id = req.cookies.session;
+        var sessionId = req.cookies.session;
 
-        sessionDAO.getUsername(session_id, function(err, username) {
+        sessionDAO.getUsername(sessionId, function(err, username) {
 
             if (err) return next(err);
 
@@ -33,9 +33,9 @@ function ContributionsHandler(db) {
         var aftertax = req.body.aftertax;
         var roth = req.body.roth;
 
-        var session_id = req.cookies.session;
+        var sessionId = req.cookies.session;
 
-        sessionDAO.getUsername(session_id, function(err, username) {
+        sessionDAO.getUsername(sessionId, function(err, username) {
 
             if (err) return next(err);
 

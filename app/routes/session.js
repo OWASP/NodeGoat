@@ -9,8 +9,8 @@ function SessionHandler(db) {
     var session = new SessionDAO(db);
 
     this.isLoggedInMiddleware = function(req, res, next) {
-        var session_id = req.cookies.session;
-        session.getUsername(session_id, function(err, username) {
+        var sessionId = req.cookies.session;
+        session.getUsername(sessionId, function(err, username) {
 
             if (!err && username) {
                 req.username = username;
@@ -23,7 +23,7 @@ function SessionHandler(db) {
         return res.render("login", {
             username: "",
             password: "",
-            login_error: ""
+            loginError: ""
         });
     };
 
@@ -37,17 +37,17 @@ function SessionHandler(db) {
         user.validateLogin(username, password, function(err, user) {
 
             if (err) {
-                if (err.no_such_user) {
+                if (err.noSuchUser) {
                     return res.render("login", {
                         username: username,
                         password: "",
-                        login_error: "No such user"
+                        loginError: "No such user"
                     });
-                } else if (err.invalid_password) {
+                } else if (err.invalidPassword) {
                     return res.render("login", {
                         username: username,
                         password: "",
-                        login_error: "Invalid password"
+                        loginError: "Invalid password"
                     });
                 } else {
                     // Some other kind of error
@@ -55,11 +55,11 @@ function SessionHandler(db) {
                 }
             }
 
-            session.startSession(user._id, function(err, session_id) {
+            session.startSession(user._id, function(err, sessionId) {
 
                 if (err) return next(err);
 
-                res.cookie("session", session_id);
+                res.cookie("session", sessionId);
                 return res.redirect("/dashboard");
             });
         });
@@ -67,8 +67,8 @@ function SessionHandler(db) {
 
     this.displayLogoutPage = function(req, res, next) {
 
-        var session_id = req.cookies.session;
-        session.endSession(session_id, function(err) {
+        var sessionId = req.cookies.session;
+        session.endSession(sessionId, function(err) {
 
             // Even if the user wasn"t logged in, redirect to home
             res.cookie("session", "");
@@ -80,11 +80,11 @@ function SessionHandler(db) {
         res.render("signup", {
             username: "",
             password: "",
-            password_error: "",
+            passwordError: "",
             email: "",
-            username_error: "",
-            email_error: "",
-            verify_error: ""
+            usernameError: "",
+            emailError: "",
+            verifyError: ""
         });
     };
 
@@ -96,37 +96,37 @@ function SessionHandler(db) {
         var PASS_RE = /^.{1,20}$/;
         var EMAIL_RE = /^[\S]+@[\S]+\.[\S]+$/;
 
-        errors.username_error = "";
-        errors.firstname_error = "";
-        errors.lastname_error = "";
+        errors.usernameError = "";
+        errors.firstnameError = "";
+        errors.lastnameError = "";
 
-        errors.password_error = "";
-        errors.verify_error = "";
-        errors.email_error = "";
+        errors.passwordError = "";
+        errors.verifyError = "";
+        errors.emailError = "";
 
         if (!USER_RE.test(username)) {
-            errors.username_error = "invalid username.";
+            errors.usernameError = "Invalid username.";
             return false;
         }
         if (!FNAME_RE.test(firstname)) {
-            errors.firstname_error = "invalid first name.";
+            errors.firstnameError = "Invalid first name.";
             return false;
         }
         if (!LNAME_RE.test(firstname)) {
-            errors.lastname_error = "invalid last name.";
+            errors.lastnameError = "Invalid last name.";
             return false;
         }
         if (!PASS_RE.test(password)) {
-            errors.password_error = "invalid password.";
+            errors.passwordError = "Invalid password.";
             return false;
         }
         if (password != verify) {
-            errors.verify_error = "password must match";
+            errors.verifyError = "Password must match";
             return false;
         }
         if (email !== "") {
             if (!EMAIL_RE.test(email)) {
-                errors.email_error = "invalid email address";
+                errors.emailError = "Invalid email address";
                 return false;
             }
         }
@@ -154,7 +154,7 @@ function SessionHandler(db) {
                 if (err) {
                     // this was a duplicate
                     if (err.code == "11000") {
-                        errors.username_error = "Username already in use. Please choose another";
+                        errors.usernameError = "Username already in use. Please choose another";
                         return res.render("signup", errors);
                     }
                     // this was a different error
@@ -163,11 +163,11 @@ function SessionHandler(db) {
                     }
                 }
 
-                session.startSession(user._id, function(err, session_id) {
+                session.startSession(user._id, function(err, sessionId) {
 
                     if (err) return next(err);
 
-                    res.cookie("session", session_id);
+                    res.cookie("session", sessionId);
                     return res.redirect("/dashboard");
                 });
             });

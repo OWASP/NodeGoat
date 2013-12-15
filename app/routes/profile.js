@@ -10,9 +10,9 @@ function ProfileHandler(db) {
 
     this.displayProfile = function(req, res, next) {
 
-        var session_id = req.cookies.session;
+        var sessionId = req.cookies.session;
 
-        session.getUsername(session_id, function(err, username) {
+        session.getUsername(sessionId, function(err, username) {
 
             if (err) return next(err);
 
@@ -34,9 +34,9 @@ function ProfileHandler(db) {
         var dob = req.body.dob;
         var address = req.body.address;
 
-        var session_id = req.cookies.session;
+        var sessionId = req.cookies.session;
 
-        session.getUsername(session_id, function(err, username) {
+        session.getUsername(sessionId, function(err, username) {
 
             if (err) return next(err);
 
