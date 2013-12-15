@@ -1,4 +1,4 @@
-{% extends './tutorial/layout.html' %} {% block title %}A10-Unvalidated Redirects and Forwards{% endblock %} {% block content %}
+{% extends "./tutorial/layout.html" %} {% block title %}A10-Unvalidated Redirects and Forwards{% endblock %} {% block content %}
 <div class="row">
     <div class="col-lg-12">
         <div class="bs-example" style="margin-bottom: 40px;">
@@ -33,7 +33,7 @@
                 <p>The "Learning Resources" link in the application redirects to another website without validating the url at line 42 in routes/index.js.
                     <pre>
                         // Handle redirect for learning resources link
-                        app.get('/learn', function (req, res, next) {
+                        app.get("/learn", function (req, res, next) {
                             return res.redirect(req.query.url);
                         });
                     </pre>

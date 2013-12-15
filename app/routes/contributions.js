@@ -1,5 +1,5 @@
-var ContributionsDAO = require('../data/contributions-dao').ContributionsDAO;
-var SessionDAO = require('../data/session-dao').SessionDAO;
+var ContributionsDAO = require("../data/contributions-dao").ContributionsDAO;
+var SessionDAO = require("../data/session-dao").SessionDAO;
 
 /* The ContributionsHandler must be constructed with a connected db */
 function ContributionsHandler(db) {
@@ -21,7 +21,7 @@ function ContributionsHandler(db) {
 
                 if (error) return next(error);
 
-                return res.render('contributions', contrib);
+                return res.render("contributions", contrib);
             });
 
         });
@@ -44,7 +44,7 @@ function ContributionsHandler(db) {
                 if (err) return next(err);
 
                 contributions.updateSuccess = true;
-                return res.render('contributions', contributions);
+                return res.render("contributions", contributions);
             });
         });
     };

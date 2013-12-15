@@ -6,7 +6,7 @@ function ProfileDAO(db) {
     /* If this constructor is called without the "new" operator, "this" points
      * to the global object. Log a warning and call it correctly. */
     if (false === (this instanceof ProfileDAO)) {
-        console.log('Warning: ProfileDAO constructor called without "new" operator');
+        console.log("Warning: ProfileDAO constructor called without 'new' operator");
         return new ProfileDAO(db);
     }
 
@@ -16,15 +16,15 @@ function ProfileDAO(db) {
 
         // Create user document
         var user = {
-            'firstname': firstname,
-            'lastname': lastname,
-            'ssn': ssn,
-            'dob': dob,
-            'address': address
+            firstname: firstname,
+            lastname: lastname,
+            ssn: ssn,
+            dob: dob,
+            address: address
         };
 
         users.update({
-            '_id': username
+            _id: username
         }, {
             $set: user
         }, function(err, result) {
@@ -40,7 +40,7 @@ function ProfileDAO(db) {
 
     this.getByUsername = function(username, callback) {
         users.findOne({
-            '_id': username
+            _id: username
         }, function(err, user) {
 
             if (err) return callback(err, null);

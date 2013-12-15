@@ -1,4 +1,4 @@
-{% extends './layout.html' %} {% block title %}My Profile{% endblock %} {% block content %}
+{% extends "./layout.html" %} {% block title %}My Profile{% endblock %} {% block content %}
 <div class="row">
     <div class="col-lg-12">
 
@@ -43,93 +43,13 @@
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>
-                        <!-- <textarea class="form-control" id="address" value="{{address}}" placeholder="Address" rows="4"></textarea> -->
                         <input type="text" class="form-control" id="address" name="address" value="{{address}}" placeholder="Enter Address">
 
                     </div>
-                    <!-- <div class="form-group">
-                <label for="exampleInputFile">File input</label>
-                <input type="file" id="exampleInputFile">
-                <p class="help-block">Example block-level help text here.</p>
-              </div>
-              -->
                     <button type="submit" class="btn btn-default">Submit</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
-
-<!--
-
-
-  <form method="post" action="/profile">
-      <table>
-
-         <tr>
-          <td class="label">
-            First Name
-          </td>
-          <td>
-            <input type="text" name="firstname" value="{{firstname}}">
-          </td>
-
-        </tr>
-
-         <tr>
-          <td class="label">
-            Last Name
-          </td>
-          <td>
-            <input type="text" name="lastname" value="{{lastname}}">
-          </td>
-
-        </tr>
-
-
-        <tr>
-          <td class="label">
-            SSN
-          </td>
-          <td>
-            <input type="text" name="ssn" value="{{ssn}}">
-          </td>
-
-        </tr>
-
-        <tr>
-          <td class="label">
-            Date of Birth
-          </td>
-          <td>
-            <input type="text" name="dob" value="{{dob}}">
-          </td>
-
-        </tr>
-
-        <tr>
-          <td class="label">
-            Email
-          </td>
-          <td>
-            <input type="textarea" name="email" value="{{address}}">
-          </td>
-
-        </tr>
-
-      </table>
-
-      <input type="hidden" name="username" value="{{username}}">
-
-      <input type="submit">
-
-      </form>
-
-    </div>
-</div><!-- /.row -->
-
-
-
 {% endblock %}

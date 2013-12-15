@@ -1,5 +1,5 @@
-var UserDAO = require('../data/user-dao').UserDAO,
-    SessionDAO = require('../data/session-dao').SessionDAO;
+var UserDAO = require("../data/user-dao").UserDAO,
+    SessionDAO = require("../data/session-dao").SessionDAO;
 
 /* The SessionHandler must be constructed with a connected db */
 function SessionHandler(db) {
@@ -59,8 +59,8 @@ function SessionHandler(db) {
 
                 if (err) return next(err);
 
-                res.cookie('session', session_id);
-                return res.redirect('/dashboard');
+                res.cookie("session", session_id);
+                return res.redirect("/dashboard");
             });
         });
     };
@@ -70,9 +70,9 @@ function SessionHandler(db) {
         var session_id = req.cookies.session;
         session.endSession(session_id, function(err) {
 
-            // Even if the user wasn't logged in, redirect to home
-            res.cookie('session', '');
-            return res.redirect('/');
+            // Even if the user wasn"t logged in, redirect to home
+            res.cookie("session", "");
+            return res.redirect("/");
         });
     };
 
@@ -144,8 +144,8 @@ function SessionHandler(db) {
 
         // set these up in case we have an error case
         var errors = {
-            'username': username,
-            'email': email
+            "username": username,
+            "email": email
         };
 
         if (validateSignup(username, firstname, lastname, password, verify, email, errors)) {
@@ -153,7 +153,7 @@ function SessionHandler(db) {
 
                 if (err) {
                     // this was a duplicate
-                    if (err.code == '11000') {
+                    if (err.code == "11000") {
                         errors.username_error = "Username already in use. Please choose another";
                         return res.render("signup", errors);
                     }
@@ -167,8 +167,8 @@ function SessionHandler(db) {
 
                     if (err) return next(err);
 
-                    res.cookie('session', session_id);
-                    return res.redirect('/dashboard');
+                    res.cookie("session", session_id);
+                    return res.redirect("/dashboard");
                 });
             });
         } else {
@@ -180,7 +180,7 @@ function SessionHandler(db) {
     this.displayWelcomePage = function(req, res, next) {
 
         if (!req.username) {
-            console.log("welcome: can't identify user...redirecting to login");
+            console.log("welcome: Unable to identify user...redirecting to login");
             return res.redirect("/login");
         }
 
