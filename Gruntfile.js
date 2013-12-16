@@ -27,13 +27,13 @@ function configureGrunt(grunt) {
             }
         },
         jshint: {
-            all: ["test/**/*.js", "app/assets/js/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js"],
+            all: ["test/**/*.js", "config/**", "app/assets/js/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js"],
             options: {
                 jshintrc: true
             }
         },
         jsbeautifier: {
-            files: ["Gruntfile.js", "app/views/**", "app/assets/js/**", "app/assets/css/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js", "test/**/*.js"],
+            files: ["Gruntfile.js", "config/**", "app/views/**", "app/assets/js/**", "app/assets/css/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js", "test/**/*.js"],
             options: {
                 html: {
                     braceStyle: "collapse",

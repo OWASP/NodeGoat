@@ -1,4 +1,3 @@
-var devConfig = {
-};
+var devConfig = {};
 
 module.exports = devConfig;
