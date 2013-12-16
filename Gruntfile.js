@@ -27,7 +27,10 @@ function configureGrunt(grunt) {
             }
         },
         jshint: {
-            all: ["Gruntfile.js", "test/**/*.js", "app/assets/js/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js"]
+            all: ["test/**/*.js", "app/assets/js/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js"],
+            options: {
+                jshintrc: true
+            }
         },
         jsbeautifier: {
             files: ["Gruntfile.js", "app/views/**", "app/assets/js/**", "app/assets/css/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js", "test/**/*.js"],

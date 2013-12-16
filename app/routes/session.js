@@ -120,7 +120,7 @@ function SessionHandler(db) {
             errors.passwordError = "Invalid password.";
             return false;
         }
-        if (password != verify) {
+        if (password !== verify) {
             errors.verifyError = "Password must match";
             return false;
         }
@@ -153,7 +153,7 @@ function SessionHandler(db) {
 
                 if (err) {
                     // this was a duplicate
-                    if (err.code == "11000") {
+                    if (err.code === "11000") {
                         errors.usernameError = "Username already in use. Please choose another";
                         return res.render("signup", errors);
                     }

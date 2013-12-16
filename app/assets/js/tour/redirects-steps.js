@@ -11,15 +11,16 @@ redirectsTour.addSteps([{
     title: "Title of my popover1",
     content: "Content of my popover1"
 }, {
-    element: "#profile-menu-link", // string (jQuery selector) - html element next to which the step popover should be shown
-    title: "Title of my popover ", // string - title of the popover
-    content: "Content of my popover" // string - content of the popover
+    element: "#profile-menu-link",
+    title: "Title of my popover ",
+    content: "Content of my popover"
 }, {
-    element: "#logout-menu-link", // string (jQuery selector) - html element next to which the step popover should be shown
-    title: "Title of my popover lo ", // string - title of the popover
-    content: "Content of my popover oi" // string - content of the popover
+    element: "#logout-menu-link",
+    title: "Title of my popover lo ",
+    content: "Content of my popover oi"
 }]);
 
 $("#redirects-tour").on("click", function() {
+    "use strict";
     redirectsTour.start(true);
 });

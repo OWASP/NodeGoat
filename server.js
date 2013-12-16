@@ -1,13 +1,15 @@
-var express = require("express"),
-    app = express(), // Web framework to handle routing requests
-    consolidate = require("consolidate"), // Templating library adapter for Express
-    swig = require("swig"),
-    MongoClient = require("mongodb").MongoClient, // Driver for connecting to MongoDB
-    routes = require("./app/routes"),
+//Load configurations
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-    //Load configurations
-    env = process.env.NODE_ENV = process.env.NODE_ENV || "development",
-    config = require("./config/config"); // Routes for our application config
+
+var express = require("express");
+var app = express(); // Web framework to handle routing requests
+var consolidate = require("consolidate"); // Templating library adapter for Express
+var swig = require("swig");
+var MongoClient = require("mongodb").MongoClient; // Driver for connecting to MongoDB
+var routes = require("./app/routes");
+var config = require("./config/config"); // Routes for our application config
+
 
 MongoClient.connect(config.db, function(err, db) {
     "use strict";

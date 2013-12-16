@@ -5,6 +5,8 @@ var ErrorHandler = require("./error").errorHandler;
 
 var exports = function(app, db) {
 
+    "use strict";
+
     var sessionHandler = new SessionHandler(db);
     var profileHandler = new ProfileHandler(db);
     var contributionsHandler = new ContributionsHandler(db);
