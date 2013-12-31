@@ -29,10 +29,29 @@ function ContributionsHandler(db) {
 
     this.handleContributionsUpdate = function(req, res, next) {
 
-        var pretax = req.body.pretax;
-        var aftertax = req.body.aftertax;
-        var roth = req.body.roth;
+        /*
+        // Code vulnerable to serverside injection attack when used eval
+        var pretax = eval(req.body.pretax);
+        var aftertax = eval(req.body.aftertax);
+        var roth = eval(req.body.roth);
+        */
+        
+        var pretax = parseInt(req.body.pretax);
+        var aftertax = parseInt(req.body.aftertax);
+        var roth = parseInt(req.body.roth);
 
+        //validate contributions
+        if (isNaN(pretax) || isNaN(aftertax) || isNaN(roth) || pretax < 0 || aftertax < 0 || roth < 0) {
+            return res.render("contributions", {
+                "updateError": "Invalid contribution percentages"
+            });
+        }
+        // Prevent more than 30% contributions
+        if (pretax + aftertax + roth > 30) {
+            return res.render("contributions", {
+                "updateError": "Contribution percentages cannot exceed 30 %"
+            });
+        }
         var sessionId = req.cookies.session;
 
         sessionDAO.getUsername(sessionId, function(err, username) {
