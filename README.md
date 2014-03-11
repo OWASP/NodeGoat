@@ -26,11 +26,17 @@ git clone https://github.com/OWASP/NodeGoat.git
 cd NodeGoat
 npm install
 ```
-* Create and populate DB 
+* Create and populate local DB 
 
 1. Connect to [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod)
 2. From a system prompt, start [mongo](http://docs.mongodb.org/manual/reference/program/mongo/#bin.mongo) by issuing the [mongo](http://docs.mongodb.org/manual/reference/program/mongo/#bin.mongo) command
-3. Paste contents of [nodegoat_db_reset.js](https://github.com/OWASP/NodeGoat/blob/master/nodegoat_db_reset.js) on mongo console
+3. Paste contents of nodegoat_db_reset.js at root directory on mongo console
+4. Add an entry for DB path in config/env/development.js
+as
+	var devConfig = {
+    	db: "mongodb://localhost/nodegoat" // or any other path to local mongo db
+		// any other dev specific entries here
+	};
 
 * Start server
 
