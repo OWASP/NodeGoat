@@ -60,14 +60,14 @@
 
                                 <tr>
                                     <td>Employee Pre-Tax</td>
-                                    <td>{{ pretax |default(0)}} %</td>
+                                    <td>{{ preTax |default(0)}} %</td>
                                     <td>
-                                        <input type="text" name="pretax" value="0"></input>
+                                        <input type="text" name="preTax" value="0"></input>
                                         <span>%</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Roth Contribution%</td>
+                                    <td>Roth Contribution</td>
                                     <td>{{ roth |default(0)}} %</td>
                                     <td>
                                         <input type="text" name="roth" value="0"></input>
@@ -76,9 +76,9 @@
                                 </tr>
                                 <tr>
                                     <td>Employee After Tax</td>
-                                    <td>{{ aftertax |default(0)}} %</td>
+                                    <td>{{ afterTax |default(0)}} %</td>
                                     <td>
-                                        <input type="text" name="aftertax" value="0"></input>
+                                        <input type="text" name="afterTax" value="0"></input>
                                         <span>%</span>
                                     </td>
                                 </tr>

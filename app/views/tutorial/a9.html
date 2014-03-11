@@ -20,16 +20,40 @@
                 <p>Components, such as libraries, frameworks, and other software modules, almost always run with full privileges. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications using
                     components with known vulnerabilities may undermine application defenses and enable a range of possible attacks and impacts.
                 </p>
-                <p>Using insecure npm module can lead to this vulnerability. The <a href="https://nodesecurity.io/advisories">Node Security project </a> is a great resource to know about related vulnerabilities.</p>
+                <p>Using insecure npm package can lead to this vulnerability. The <a href="https://nodesecurity.io/advisories">Node Security project </a> is a great initiative and resource to know about related vulnerabilities.</p>
             </div>
         </div>
 
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">Real World Attack Incident Examples</h3>
+                <h3 class="panel-title">Attack Mechanics</h3>
             </div>
             <div class="panel-body">
-                Screencast here ...
+                The npm packages are essential part of our node application. These package could either accidentally or maliciously contain insecure code. Through insecure packages an attacker can:
+                <ul>
+                    <li>Create and run scripts at different stages during installation or usage of the package.</li>
+                    <li>Read, write, update, delete files on system</li>
+                    <li>Write and execute binary files</li>
+                    <li>Collect sensitive data send it remotely</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">How Do I Prevent It?</h3>
+            </div>
+            <div class="panel-body">
+                These are few measures we can do to protect against malicious npm packages
+                <ul>
+                    <li>Do not run application with root privileges</li>
+                    <li>Prefer packages that include static code analysis. Check JSHint/JSLint the configuration to know what rules code abide by</li>
+                    <li>Prefer packages that contain comprehensive unit tests and review tests for the functions our application uses</li>
+                    <li>Review code for any unexpected file or database access</li>
+                    <li>Research about how popular the package is, what other packages use it, if any other packages are written by the author, etc</li>
+                    <li>Lock version of packages used</li>
+                    <li>Watch Github repositories for notifications. This will inform us if any vulnerabilities are discovered in the package in future</li>
+                </ul>
             </div>
         </div>
 

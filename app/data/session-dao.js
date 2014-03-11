@@ -13,7 +13,7 @@ function SessionDAO(db) {
 
     var sessions = db.collection("sessions");
 
-    this.startSession = function(username, callback) {
+    this.startSession = function(userId, callback) {
         // Generate session id
         var currentDate = (new Date()).valueOf().toString();
         var random = Math.random().toString();
@@ -21,7 +21,7 @@ function SessionDAO(db) {
 
         // Create session document
         var session = {
-            username: username,
+            userId: userId,
             _id: sessionId
         };
 
@@ -40,7 +40,8 @@ function SessionDAO(db) {
         });
     };
 
-    this.getUsername = function(sessionId, callback) {
+
+    this.getUserId = function(sessionId, callback) {
 
         if (!sessionId) {
             callback(new Error("Session not set"), null);
@@ -58,7 +59,7 @@ function SessionDAO(db) {
                 return;
             }
 
-            callback(null, session.username);
+            callback(null, session.userId);
         });
     };
 }

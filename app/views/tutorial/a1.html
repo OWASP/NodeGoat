@@ -10,6 +10,7 @@
     </div>
 </div>
 
+
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-info">
@@ -17,64 +18,159 @@
                 <h3 class="panel-title">Description</h3>
             </div>
             <div class="panel-body">
-                Injection flaws, such as SQL, OS, and LDAP injection occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without
-                proper authorization.
+                Injection flaws occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization.
             </div>
         </div>
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">Real World Attack Incident Examples</h3>
-            </div>
-            <div class="panel-body">
-                Screencast here ...
-            </div>
-        </div>
-
+        <!-- 
+        <div class="panel panel-info"> 
+            <div class="panel-heading"> 
+                <h3 class="panel-title">Real World Attack Incident Examples</h3> 
+            </div> 
+            <div class="panel-body"> 
+                Screencast here ... 
+            </div> 
+        </div> 
+        -->
     </div>
 </div>
 
-<!-- accordions -->
 
+<!-- accordions -->
 <div class="panel-group" id="accordion">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">
             <h4 class="panel-title">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-          A1 -1 Server Side JS Injection
-        </a>
+                    <i class="fa fa-chevron-down"></i>A1 -1 Server Side JS Injection
+                </a>
             </h4>
         </div>
         <div id="collapseOne" class="panel-collapse collapse in">
             <div class="panel-body">
-                <div class="panel panel-info">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Description</h3>
                     </div>
                     <div class="panel-body">
+                        When
+                        <code>eval()</code>,
+                        <code>setTimeout()</code>,
+                        <code>setInterval()</code>,
+                        <code>Function()</code>are used to process user provided inputs, it can be exploited by an attacker to inject and execute malicious JavaScript code on server.
                     </div>
                 </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Attack Scenario Demo</h3>
-                    </div>
-                    <div class="panel-body">
-                        Screencast showing how attack can manifest in the target application ...
-                    </div>
-                </div>
-                <div class="panel panel-info">
+                <!-- 
+                <div class="panel panel-info"> 
+                    <div class="panel-heading"> 
+                        <h3 class="panel-title">Attack Scenario Demo</h3> 
+                    </div> 
+                    <div class="panel-body"> 
+                        Screencast showing how attack can manifest in the target application ... 
+                    </div> 
+                </div> 
+            -->
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Attack Mechanics</h3>
                     </div>
                     <div class="panel-body">
-                        code snippet making attack possible...
+                        <p>
+                            Web applications using the JavaScript
+                            <code>eval()</code>function to parse the incoming data without any type of input validation are vulnerable to this attack. An attacker can inject arbitrary JavaScript code that will be executed on the server side. Similarly
+                            <code>setTimeout()</code>, and
+                            <code>setInterval()</code>functions can take code in string format as a first argument causing same issues as
+                            <code>eval()</code>.
+                        </p>
+                        <p>This vulnerability can be very critical and damaging by allowing attacker to send various types of commands.</p>
+                        <p>
+                            <b>Denial of Service Attack:</b> 
+                        </p>
+                        <p>
+                            An effective denial-of-service attack can be executed simply by sending the commands below to
+                            <code>eval()</code>function:
+                        </p>
+
+
+                        <pre>while(1)</pre> 
+                        <p>
+                            This attack will cause the target server to use 100% of its processor time and unable to process any other incoming requests until process is restarted.
+                        </p>
+                        <p>
+                            An alternative DoS attack would be to simply exit or kill the running process:
+                            <pre>process.exit()</pre> or <pre>process.kill(process.pid) </pre> 
+                        </p>
+                        <p>
+                            <b>File System Access</b> 
+                            <br/>
+                        </p>
+                        <p>
+                            Another potential goal of an attacker might be to read the contents of files from the local system. The following attacks list the contents of the current directory and parent directory respectively:
+                        </p>
+                        <p>
+                            <pre>res.end(require('fs').readdirSync('.').toString())</pre> 
+                            <pre>res.end(require('fs').readdirSync('..').toString()) </pre> 
+                        </p>
+                        <p>
+                            To list the actual contents of a file, the attacker would issue the following command:
+                        </p>
+                        <p>
+                            <pre>res.end(require('fs').readFileSync(filename))</pre> 
+                        </p>
+                        <p>
+                            The attacker can also further exploit this vulnerability by writing and executing harmful binary files using
+                            <code>fs</code>and
+                            <code>child_process</code>modules.
+                        </p>
+                        </p>
                     </div>
                 </div>
-                <div class="panel panel-info">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">How Do I Prevent It?</h3>
                     </div>
                     <div class="panel-body">
-                        Fixed code Snippet + Screencast ...
+                        To prevent server-side js injection attacks:
+                        <ul>
+                            <li>Validate user inputs on server side before processing</li>
+                            <li>Forbid use of the
+                                <code>eval()</code>function to parse user inputs. Avoid using other commands with similar effect, such as
+                                <code>setTimeOut()</code>,
+                                <code>setInterval()</code>,
+                                <code>Function()</code>
+                            </li>
+                            <li>
+                                For parsing JSON input, use a safer alternative such as
+                                <code>JSON.parse()</code>. For type conversions use type related
+                                <code>parseXXX()</code>methods.
+                            </li>
+                            <li>Include
+                                <code>"use strict"</code>at the beginning of a function, which enables strict mode within the enclosing function scope.</li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Source Code Example</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>In routes/contributions.js
+                            <code>handleContributionsUpdate()</code>, the demo application uses
+                            <code>eval()</code>to covert user supplied contribution amounts to integer. This makes application vulnerable to SSJS attack. It can fixed simply by using
+                            <code>parseInt()</code>instead.
+                        </p>
+                        <p>In addition, all functions begin with
+                            <code>use strict</code>pragma.
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Further Reading</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li><a href="https://media.blackhat.com/bh-us-11/Sullivan/BH_US_11_Sullivan_Server_Side_WP.pdf">“ServerSide JavaScript Injection: Attacking NoSQL and Node.js"</a> a whitepaper by Bryan Sullivan.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -82,18 +178,20 @@
     </div>
     <!-- /ssjs -->
 
-    <div class="panel panel-default">
+    <!--
+    <div class="panel panel-info">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-          A1 - 2 NoSQL Injection
-        </a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> 
+          A1 - 2 SQL and NoSQL Injection 
+        </a> 
             </h4>
         </div>
         <div id="collapseTwo" class="panel-collapse collapse">
             <div class="panel-body">
 
-                <div class="panel panel-info">
+
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Description</h3>
                     </div>
@@ -101,7 +199,8 @@
                     </div>
                 </div>
 
-                <div class="panel panel-info">
+
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Attack Scenario Demo</h3>
                     </div>
@@ -110,7 +209,8 @@
                     </div>
                 </div>
 
-                <div class="panel panel-info">
+
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Attack Mechanics</h3>
                     </div>
@@ -119,7 +219,8 @@
                     </div>
                 </div>
 
-                <div class="panel panel-info">
+
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">How Do I Prevent It?</h3>
                     </div>
@@ -128,56 +229,12 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
-    </div>
-    <!-- /NoSQL Inhection -->
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-          A1 - 3 Command Injection
-        </a>
-            </h4>
-        </div>
-        <div id="collapseThree" class="panel-collapse collapse">
-            <div class="panel-body">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Description</h3>
-                    </div>
-                    <div class="panel-body">
-                    </div>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Attack Scenario Demo</h3>
-                    </div>
-                    <div class="panel-body">
-                        Screencast showing how attack can manifest in the target application ...
-                    </div>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Attack Mechanics</h3>
-                    </div>
-                    <div class="panel-body">
-                        code snippet making attack possible...
-                    </div>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">How Do I Prevent It?</h3>
-                    </div>
-                    <div class="panel-body">
-                        Fixed code Snippet + Screencast ...
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-    <!-- / Command Injection -->
+-->
+    <!-- /NoSQL Injection -->
 </div>
 <!-- end accordions -->
 {% endblock %}

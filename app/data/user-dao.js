@@ -2,6 +2,7 @@ var bcrypt = require("bcrypt-nodejs");
 
 /* The UserDAO must be constructed with a connected database object */
 function UserDAO(db) {
+
     "use strict";
 
     /* If this constructor is called without the "new" operator, "this" points
@@ -13,7 +14,7 @@ function UserDAO(db) {
 
     var users = db.collection("users");
 
-    this.addUser = function(username, firstname, lastname, password, email, callback) {
+    this.addUser = function(userName, firstName, lastName, password, email, callback) {
 
         // Generate password hash
         var salt = bcrypt.genSaltSync();
@@ -21,9 +22,9 @@ function UserDAO(db) {
 
         // Create user document
         var user = {
-            _id: username,
-            firstname: firstname,
-            lastname: lastname,
+            userName: userName,
+            firstName: firstName,
+            lastName: lastName,
             password: passwordHash
         };
 
@@ -32,20 +33,24 @@ function UserDAO(db) {
             user.email = email;
         }
 
-        users.insert(user, function(err, result) {
+        this.getNextSequence("userId", function(id) {
 
-            if (!err) {
-                console.log("Inserted new user");
+            user.userId = id;
 
-                // TODO: Insert 401k setup data here 
-                return callback(null, result[0]);
-            }
+            users.insert(user, function(err, result) {
 
-            return callback(err, null);
+                if (!err) {
+                    console.log("Inserted new user");
+
+                    return callback(null, result[0]);
+                }
+
+                return callback(err, null);
+            });
         });
     };
 
-    this.validateLogin = function(username, password, callback) {
+    this.validateLogin = function(userName, password, callback) {
 
         // Callback to pass to MongoDB that validates a user document
         function validateUserDoc(err, user) {
@@ -70,14 +75,36 @@ function UserDAO(db) {
         }
 
         users.findOne({
-            _id: username
+            userName: userName
         }, validateUserDoc);
     };
 
-    this.getUserById = function(_id, callback) {
+    this.getUserById = function(userId, callback) {
         users.findOne({
-            _id: _id
+            userId: userId
         }, callback);
+    };
+
+    this.getUserByUserName = function(userName, callback) {
+        users.findOne({
+            userName: userName
+        }, callback);
+    };
+
+    this.getNextSequence = function(name, callback) {
+        var ret = db.collection("counters").findAndModify({
+                _id: name
+            }, [], {
+                $inc: {
+                    seq: 1
+                }
+            }, {
+                new: true
+            },
+            function(err, object) {
+                callback(object.seq);
+            }
+        );
     };
 }
 

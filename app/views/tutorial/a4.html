@@ -22,10 +22,59 @@
         </div>
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">Real World Attack Incident Examples</h3>
+                <h3 class="panel-title">Attack Mechanics</h3>
             </div>
             <div class="panel-body">
-                Screencast here ...
+                <p>
+                    If an applications uses the actual name or key of an object when generating web pages, and doesn't verify if the user is authorized for the target object, this can result in an insecure direct object reference flaw. An attacker can exploit such flaws
+                    by manipulating parameter values. Unless object references are unpredictable, it is easy for an attacker to access all available data of that type.
+                </p>
+                <p>
+                    For example, the insure demo application, uses userid as part of the url to access the allocations (/allocations/{id}). An attacker can manipulate id value and access other user's allocation information.
+                </p>
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">How Do I Prevent It?</h3>
+            </div>
+            <div class="panel-body">
+                <ol>
+                    <li>
+                        <b>Check access: </b> Each use of a direct object reference from an untrusted source must include an access control check to ensure the user is authorized for the requested object.
+                    </li>
+                    <li>
+                        <b>Use per user or session indirect object references:</b> Instead of exposing actual database keys as part of the access links, use temporary per-user indirect reference. For example, instead of using the resource’s database key,
+                        a drop down list of six resources authorized for the current user could use the numbers 1 to 6 or unique random numbers to indicate which value the user selected. The application has to map the per-user indirect reference back
+                        to the actual database key on the server.
+                    </li>
+                    <li> <b>Testing and code analysis:</b> Testers can easily manipulate parameter values to detect such flaws. In addition, code analysis cab quickly show whether authorization is properly verified.
+                    </li>
+                    </b>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Source Code Example</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    In routes/allocations.js, the insecure application takes user id from url to access fetch the allocations.
+                    <pre>
+    var userId = parseInt(req.params.userId);
+    allocationsDAO.getByUserId(userId, function(error, allocations) {
+
+        if (error) return next(error);
+
+        return res.render("allocations", allocations);
+    });
+                </pre>
+                </p>
+                <p>
+                    A safer alternative is to always retrieve allocations for logged in user (using
+                    <code>req.session.userId</code>)instead of taking it from url.
+                </p>
             </div>
         </div>
 

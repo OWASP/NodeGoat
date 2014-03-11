@@ -1,6 +1,6 @@
 // default app configuration
 var defaultConfig = {
-    port: process.env.PORT || 5000,
+    port: process.env.PORT || 4000,
     db: "mongodb://nodegoat:owasp@widmore.mongohq.com:10000/nodegoat"
 };
 

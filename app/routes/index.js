@@ -1,6 +1,7 @@
 var SessionHandler = require("./session");
 var ProfileHandler = require("./profile");
 var ContributionsHandler = require("./contributions");
+var AllocationsHandler = require("./allocations");
 var ErrorHandler = require("./error").errorHandler;
 
 var exports = function(app, db) {
@@ -10,10 +11,13 @@ var exports = function(app, db) {
     var sessionHandler = new SessionHandler(db);
     var profileHandler = new ProfileHandler(db);
     var contributionsHandler = new ContributionsHandler(db);
-
+    var allocationsHandler = new AllocationsHandler(db);
 
     // Middleware to see if a user is logged in
-    app.use(sessionHandler.isLoggedInMiddleware);
+    var isLoggedIn = sessionHandler.isLoggedInMiddleware;
+
+    // Middleware to see if a user is logged in
+    app.use(isLoggedIn); // TODO: Eliminate need to call isLoggedIn before each route by having it called here
 
     // The main page of the app
     app.get("/", sessionHandler.displayWelcomePage);
@@ -22,26 +26,30 @@ var exports = function(app, db) {
     app.get("/login", sessionHandler.displayLoginPage);
     app.post("/login", sessionHandler.handleLoginRequest);
 
-    // Logout page
-    app.get("/logout", sessionHandler.displayLogoutPage);
-
-    // dashboard page
-    app.get("/dashboard", sessionHandler.displayWelcomePage);
-
     // Signup form
     app.get("/signup", sessionHandler.displaySignupPage);
     app.post("/signup", sessionHandler.handleSignup);
 
+    // Logout page
+    app.get("/logout", sessionHandler.displayLogoutPage);
+
+    // dashboard page
+    app.get("/dashboard", isLoggedIn, sessionHandler.displayWelcomePage);
+
+
     // Profile page
-    app.get("/profile", profileHandler.displayProfile);
-    app.post("/profile", profileHandler.handleProfileUpdate);
+    app.get("/profile", isLoggedIn, profileHandler.displayProfile);
+    app.post("/profile", isLoggedIn, profileHandler.handleProfileUpdate);
 
     // Contributions Page
-    app.get("/contributions", contributionsHandler.displayContributions);
-    app.post("/contributions", contributionsHandler.handleContributionsUpdate);
+    app.get("/contributions", isLoggedIn, contributionsHandler.displayContributions);
+    app.post("/contributions", isLoggedIn, contributionsHandler.handleContributionsUpdate);
+
+    // Allocations Page
+    app.get("/allocations/:userId", isLoggedIn, allocationsHandler.displayAllocations);
 
     // Handle redirect for learning resources link
-    app.get("/learn", function(req, res, next) {
+    app.get("/learn", isLoggedIn, function(req, res, next) {
         return res.redirect(req.query.url);
     });
 

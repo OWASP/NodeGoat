@@ -18,26 +18,24 @@
             <div class="panel-body">Web applications frequently redirect and forward users to other pages and websites, and use untrusted data to determine the destination pages. Without proper validation, attackers can redirect victims to phishing or malware sites, or use forwards
                 to access unauthorized pages.</div>
         </div>
+
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">Real World Attack Incident Examples</h3>
-            </div>
-            <div class="panel-body">Screencast here ...</div>
-        </div>
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">Attack Scenario in Demo Application</h3>
-                </p>
+                <h3 class="panel-title">Attack Mechanics</h3>
             </div>
             <div class="panel-body">
-                <p>The "Learning Resources" link in the application redirects to another website without validating the url at line 42 in routes/index.js.
+                <p>An attacker can use unvalidated redirected links as a medium to redirect user to malicious contents and tricks victims into clicking it. Attacker can exploit it to bypass security checks and make it believe trustworthy.</p>
+
+                <p>For example, the "Learning Resources" link (
+                    <code>/learn?url=...</code>) in the application redirects to another website without validating the url at line 42 in routes/index.js.
                     <pre>
-                        // Handle redirect for learning resources link
-                        app.get("/learn", function (req, res, next) {
-                            return res.redirect(req.query.url);
-                        });
+    // Handle redirect for learning resources link
+    app.get("/learn", function (req, res, next) {
+        return res.redirect(req.query.url);
+    });
                     </pre>
-                    The url should be validated before redirecting.
+                    An attacker can change the
+                    <code>url</code>query parameter to point to malicious website and share it. Victims are more likely to click on it, since the link is to a valid site.
                 </p>
             </div>
         </div>

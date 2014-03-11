@@ -1,27 +1,48 @@
-var UserDAO = require("../data/user-dao").UserDAO,
-    SessionDAO = require("../data/session-dao").SessionDAO;
+var UserDAO = require("../data/user-dao").UserDAO;
+var SessionDAO = require("../data/session-dao").SessionDAO;
+var AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
 
 /* The SessionHandler must be constructed with a connected db */
 function SessionHandler(db) {
     "use strict";
 
-    var user = new UserDAO(db);
-    var session = new SessionDAO(db);
+    var userDAO = new UserDAO(db);
+    var sessionDAO = new SessionDAO(db);
+    var allocationsDAO = new AllocationsDAO(db);
+
+    var prepareUserData = function(user, next) {
+
+        // Generate random allocations
+        var stocks = Math.floor((Math.random() * 40) + 1);
+        var funds = Math.floor((Math.random() * 40) + 1);
+        var bonds = 100 - (stocks + funds);
+
+        allocationsDAO.update(user.userId, stocks, funds, bonds, function(err, allocations) {
+            if (err) return next(err);
+        });
+    };
 
     this.isLoggedInMiddleware = function(req, res, next) {
-        var sessionId = req.cookies.session;
-        session.getUsername(sessionId, function(err, username) {
+        /*var sessionId = req.cookies.session;
+        sessionDAO.getUserId(sessionId, function(err, userId) {
 
-            if (!err && username) {
-                req.username = username;
+            if (!err && userId) {
+                req.userId = userId;
             }
             return next();
-        });
+        });*/
+        console.log("req.session.userId=" + req.session.userId);
+        if (req.session.userId) {
+            next();
+        } else {
+            console.log("redirecting to login");
+            return res.redirect("/login");
+        }
     };
 
     this.displayLoginPage = function(req, res, next) {
         return res.render("login", {
-            username: "",
+            userName: "",
             password: "",
             loginError: ""
         });
@@ -29,66 +50,57 @@ function SessionHandler(db) {
 
     this.handleLoginRequest = function(req, res, next) {
 
-        var username = req.body.username;
+        var userName = req.body.userName;
         var password = req.body.password;
 
-        console.log("user submitted username: " + username + " pass: " + password);
+        console.log("user submitted userName: " + userName + " pass: " + password);
 
-        user.validateLogin(username, password, function(err, user) {
-
+        userDAO.validateLogin(userName, password, function(err, user) {
+            var errorMessage = "Invalid username and/or password";
             if (err) {
                 if (err.noSuchUser) {
                     return res.render("login", {
-                        username: username,
+                        userName: userName,
                         password: "",
-                        loginError: "No such user"
+                        loginError: errorMessage
                     });
                 } else if (err.invalidPassword) {
                     return res.render("login", {
-                        username: username,
+                        userName: userName,
                         password: "",
-                        loginError: "Invalid password"
+                        loginError: errorMessage
                     });
                 } else {
                     // Some other kind of error
                     return next(err);
                 }
             }
-
-            session.startSession(user._id, function(err, sessionId) {
-
-                if (err) return next(err);
-
-                res.cookie("session", sessionId);
-                return res.redirect("/dashboard");
-            });
+            //req.session.regenerate(function() {
+            req.session.userId = user.userId;
+            return res.redirect("/dashboard");
+            //});
         });
     };
 
     this.displayLogoutPage = function(req, res, next) {
-
-        var sessionId = req.cookies.session;
-        session.endSession(sessionId, function(err) {
-
-            // Even if the user wasn"t logged in, redirect to home
-            res.cookie("session", "");
-            return res.redirect("/");
+        req.session.destroy(function() {
+            res.redirect("/");
         });
     };
 
     this.displaySignupPage = function(req, res, next) {
         res.render("signup", {
-            username: "",
+            userName: "",
             password: "",
             passwordError: "",
             email: "",
-            usernameError: "",
+            userNameError: "",
             emailError: "",
             verifyError: ""
         });
     };
 
-    function validateSignup(username, firstname, lastname, password, verify, email, errors) {
+    function validateSignup(userName, firstName, lastName, password, verify, email, errors) {
 
         var USER_RE = /^.{1,20}$/;
         var FNAME_RE = /^.{1,100}$/;
@@ -96,28 +108,29 @@ function SessionHandler(db) {
         var PASS_RE = /^.{1,20}$/;
         var EMAIL_RE = /^[\S]+@[\S]+\.[\S]+$/;
 
-        errors.usernameError = "";
-        errors.firstnameError = "";
-        errors.lastnameError = "";
+        errors.userNameError = "";
+        errors.firstNameError = "";
+        errors.lastNameError = "";
 
         errors.passwordError = "";
         errors.verifyError = "";
         errors.emailError = "";
 
-        if (!USER_RE.test(username)) {
-            errors.usernameError = "Invalid username.";
+        if (!USER_RE.test(userName)) {
+            errors.userNameError = "Invalid user name.";
             return false;
         }
-        if (!FNAME_RE.test(firstname)) {
-            errors.firstnameError = "Invalid first name.";
+        if (!FNAME_RE.test(firstName)) {
+            errors.firstNameError = "Invalid first name.";
             return false;
         }
-        if (!LNAME_RE.test(firstname)) {
-            errors.lastnameError = "Invalid last name.";
+        if (!LNAME_RE.test(firstName)) {
+            errors.lastNameError = "Invalid last name.";
             return false;
         }
         if (!PASS_RE.test(password)) {
-            errors.passwordError = "Invalid password.";
+            errors.passwordError = "Password must be 8 to 18 characters" +
+                " including numbers, lowercase and uppercase letters.";
             return false;
         }
         if (password !== verify) {
@@ -136,39 +149,48 @@ function SessionHandler(db) {
     this.handleSignup = function(req, res, next) {
 
         var email = req.body.email;
-        var username = req.body.username;
-        var firstname = req.body.firstname;
-        var lastname = req.body.lastname;
+        var userName = req.body.userName;
+        var firstName = req.body.firstName;
+        var lastName = req.body.lastName;
         var password = req.body.password;
         var verify = req.body.verify;
 
         // set these up in case we have an error case
         var errors = {
-            "username": username,
+            "userName": userName,
             "email": email
         };
 
-        if (validateSignup(username, firstname, lastname, password, verify, email, errors)) {
-            user.addUser(username, firstname, lastname, password, email, function(err, user) {
+        if (validateSignup(userName, firstName, lastName, password, verify, email, errors)) {
 
-                if (err) {
-                    // this was a duplicate
-                    if (err.code === "11000") {
-                        errors.usernameError = "Username already in use. Please choose another";
-                        return res.render("signup", errors);
-                    }
-                    // this was a different error
-                    else {
-                        return next(err);
-                    }
+            userDAO.getUserByUserName(userName, function(err, user) {
+
+                if (err) return next(err);
+
+                if (user) {
+                    errors.userNameError = "User name already in use. Please choose another";
+                    return res.render("signup", errors);
                 }
 
-                session.startSession(user._id, function(err, sessionId) {
+                userDAO.addUser(userName, firstName, lastName, password, email, function(err, user) {
 
                     if (err) return next(err);
 
-                    res.cookie("session", sessionId);
-                    return res.redirect("/dashboard");
+                    //prepare data for the user
+                    prepareUserData(user, next);
+                    /*
+                    sessionDAO.startSession(user.userId, function(err, sessionId) {
+
+                        if (err) return next(err);
+
+                        res.cookie("session", sessionId);
+                        return res.redirect("/dashboard");
+                    });
+                    */
+                    req.session.regenerate(function() {
+                        return res.redirect("/dashboard");
+                    });
+
                 });
             });
         } else {
@@ -179,12 +201,12 @@ function SessionHandler(db) {
 
     this.displayWelcomePage = function(req, res, next) {
 
-        if (!req.username) {
+        if (!req.session.userId) {
             console.log("welcome: Unable to identify user...redirecting to login");
             return res.redirect("/login");
         }
 
-        user.getUserById(req.username, function(err, user) {
+        userDAO.getUserById(req.session.userId, function(err, user) {
 
             if (err) return next(err);
 

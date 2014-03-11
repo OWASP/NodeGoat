@@ -10,44 +10,39 @@ function ProfileHandler(db) {
 
     this.displayProfile = function(req, res, next) {
 
-        var sessionId = req.cookies.session;
+        profile.getByUserId(req.session.userId, function(error, user) {
 
-        session.getUsername(sessionId, function(err, username) {
+            if (error) return next(error);
 
-            if (err) return next(err);
-
-            profile.getByUsername(username, function(error, user) {
-
-                if (error) return next(error);
-
-                return res.render("profile", user);
-            });
-
+            return res.render("profile", user);
         });
     };
 
     this.handleProfileUpdate = function(req, res, next) {
 
-        var firstname = req.body.firstname;
-        var lastname = req.body.lastname;
+        var firstName = req.body.firstName;
+
+        //firstName = firstName.trim();
+
+        var lastName = req.body.lastName;
         var ssn = req.body.ssn;
         var dob = req.body.dob;
         var address = req.body.address;
+        var userId = req.session.userId;
 
-        var sessionId = req.cookies.session;
-
-        session.getUsername(sessionId, function(err, username) {
+        profile.updateUser(userId, firstName, lastName, ssn, dob, address, function(err, user) {
 
             if (err) return next(err);
 
-            profile.updateUser(username, firstname, lastname, ssn, dob, address, function(err, user) {
+            //firstName = firstName.trim();
 
-                if (err) return next(err);
 
-                user.updateSuccess = true;
-                return res.render("profile", user);
-            });
+            user.updateSuccess = true;
+            user.userId = userId;
+
+            return res.render("profile", user);
         });
+
     };
 
 }

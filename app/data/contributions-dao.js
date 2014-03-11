@@ -1,3 +1,5 @@
+var UserDAO = require("./user-dao").UserDAO;
+
 /* The ContributionsDAO must be constructed with a connected database object */
 function ContributionsDAO(db) {
     "use strict";
@@ -10,38 +12,71 @@ function ContributionsDAO(db) {
     }
 
     var contributionsDB = db.collection("contributions");
+    var userDAO = new UserDAO(db);
 
-    this.update = function(username, pretax, aftertax, roth, callback) {
+    this.update = function(userId, preTax, afterTax, roth, callback) {
 
         // Create contributions document
         var contributions = {
-            _id: username,
-            pretax: pretax,
-            aftertax: aftertax,
+            userId: userId,
+            preTax: preTax,
+            afterTax: afterTax,
             roth: roth
         };
 
         contributionsDB.update({
-            _id: username
+            userId: userId
         }, contributions, {
             upsert: true
         }, function(err, result) {
 
             if (!err) {
                 console.log("Updated contributions");
-                return callback(null, contributions);
-            }
+                // add user details
+                userDAO.getUserById(userId, function(err, user) {
 
-            return callback(err, null);
+                    if (err) return callback(err, null);
+
+                    contributions.userName = user.userName;
+                    contributions.firstName = user.firstName;
+                    contributions.lastName = user.lastName;
+                    contributions.userId = userId;
+
+                    return callback(null, contributions);
+                });
+
+            } else {
+                return callback(err, null);
+            }
         });
     };
 
-    this.getByUsername = function(username, callback) {
+    this.getByUserId = function(userId, callback) {
         contributionsDB.findOne({
-            _id: username
+            userId: userId
         }, function(err, contributions) {
+
             if (err) return callback(err, null);
-            callback(null, contributions);
+
+            // Set defualt contributions if not set
+            contributions = contributions || {
+                preTax: 2,
+                afterTax: 2,
+                roth: 2
+            };
+
+            // add user details
+            userDAO.getUserById(userId, function(err, user) {
+
+                if (err) return callback(err, null);
+
+                contributions.userName = user.userName;
+                contributions.firstName = user.firstName;
+                contributions.lastName = user.lastName;
+                contributions.userId = userId;
+
+                callback(null, contributions);
+            });
         });
     };
 }

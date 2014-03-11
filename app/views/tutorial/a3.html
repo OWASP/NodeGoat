@@ -18,20 +18,177 @@
                 <h3 class="panel-title">Description</h3>
             </div>
             <div class="panel-body">
-                XSS flaws occur whenever an application takes untrusted data and sends it to a web browser without proper validation or escaping. XSS allows attackers to execute scripts in the victim’s browser which can hijack user sessions, deface web sites, or redirect
-                the user to malicious sites.
+                XSS flaws occur whenever an application takes untrusted data and sends it to a web browser without proper validation or escaping. XSS allows attackers to execute scripts in the victims' browser, which can access any cookies, session tokens, or other sensitive
+                information retained by your browser, or redirect the user to malicious sites.
             </div>
         </div>
 
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">Real World Attack Incident Examples</h3>
+                <h3 class="panel-title">Attack Mechanics</h3>
             </div>
             <div class="panel-body">
-                Screencast here ...
+                <p>
+                    There are two different types of XSS flaws:
+                </p>
+
+                <ol>
+                    <li>Reflected XSS: The malicious data is echoed back by the server in an immediate response to an HTTP request from the victim.</li>
+                    <li>Stored XSS: The malicious data is stored on the server or on browser (using HTML5 local storage, for example), and later gets embedded in HTML page provided to the victim.</li>
+                </ol>
+
+                <p>Each of reflected and stored XSS can occur on the Server or on the Client, depending on where the malicious data is actually used to inject in HTML markup.</p>
+
+                <p></p>
             </div>
         </div>
 
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">How Do I Prevent It?</h3>
+            </div>
+            <div class="panel-body">
+                <ol>
+                    <li>
+                        <p><b> Input validation and sanitization:</b> Input validation and data sanitization are the first line of defense against untrusted data. Apply white list validation wherever possible.</p>
+                    </li>
+                    <li>
+                        <p> <b> Output encoding for correct context: </b>While input validation and sanitzation can be performed to help prevent Server XSS, <i>Context-sensitive server side output encoding</i> is absolutely critical for mitigating risk of XSS.</p>
+                        <p>When a browser is rendering HTML and any other associated content like CSS, javascript, etc. it follows different rendering rules for each context.
+                            <p>Use well tested libraries for encoding output for correct output context, such as <a href="https://www.owasp.org/index.php/Category:OWASP_Enterprise_Security_API#tab=JavaScript" target="_blank">OWASP ESAPI</a> or node npm packages
+                                wrapping it. Here are the details about applying correct encoding in each context:
+                                <p>
+                                    <table class="table table-bordered table-hover tablesorter">
+                                        <tbody>
+                                            <tr>
+                                                <th>Context</th>
+                                                <th>Code Sample</th>
+                                                <th>Encoding Type</th>
+                                            </tr>
+                                            <tr>
+                                                <td>HTML Entity</td>
+                                                <td>&lt;span&gt;
+                                                    <span style="color:red;">UNTRUSTED DATA</span>&lt;/span&gt;</td>
+                                                <td>Convert &amp; to &amp;amp;
+                                                    <br>Convert &lt; to &amp;lt;
+                                                    <br>Convert &gt; to &amp;gt;
+                                                    <br>Convert " to &amp;quot;
+                                                    <br>Convert ' to &amp;#x27;
+                                                    <br>Convert / to &amp;#x2F;
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>HTML Attribute Encoding</td>
+                                                <td>&lt;input type="text" name="fname" value="
+                                                    <span style="color:red;">UNTRUSTED DATA</span>"&gt;</td>
+                                                <td>Except for alphanumeric characters, escape all characters with the HTML Entity &amp;#xHH; format, including spaces. (HH = Hex Value)
+                                                    <br/>ESAPI: encodeForHTML()
+                                                    <br/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>URI Encoding</td>
+                                                <td>&lt;a href="/site/search?value=
+                                                    <span style="color:red;">UNTRUSTED DATA</span>"&gt;clickme&lt;/a&gt;</td>
+                                                <td>Except for alphanumeric characters, escape all characters with ASCII values less than 256 with the HTML Entity &amp;#xHH; format, including spaces. (HH = Hex Value)
+                                                    <br/>ESAPI: encodeForURL()
+                                                    <br/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>JavaScript Encoding</td>
+                                                <td>&lt;script&gt;var currentValue='
+                                                    <span style="color:red;">UNTRUSTED DATA</span>';&lt;/script&gt;
+                                                    <br>&lt;script&gt;someFunction('
+                                                    <span style="color:red;">UNTRUSTED DATA</span>');&lt;/script&gt;
+                                                </td>
+                                                <td>Ensure JavaScript variables are quoted. Except for alphanumeric characters, escape all characters with ASCII values less than 256 with \uXXXX unicode escaping format (X = Integer), or in xHH (HH = HEX Value)
+                                                    encoding format. ESAPI: encodeForJavaScript()
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>CSS Encoding</td>
+                                                <td>&lt;div style="width:
+                                                    <span style="color:red;">UNTRUSTED DATA</span>;"&gt;Selection&lt;/div&gt;</td>
+                                                <td>Except for alphanumeric characters, escape all characters with ASCII values less than 256 with the \HH (HH= Hex Value) escaping format. ESAPI: encodeForCSS()
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                    </li>
+                    <li>
+                        <p><b>HTTPOnly cookie flag:</b> Preventing all XSS flaws in an application is hard. To help mitigate the impact of an XSS flaw on your site, set the HTTPOnly flag on your session cookie and any custom cookies that are not required
+                            to be accessed by any JavaScript.
+                        </p>
+                    </li>
+                    <li>
+                        <p><b>Implement Content Security Policy (CSP):</b> CSP is a browser side mechanism which allows you to create source whitelists for client side resources of your web application, e.g. JavaScript, CSS, images, etc. CSP via special HTTP
+                            header instructs the browser to only execute or render resources from those sources. For example this CSP
+                            <pre>Content-Security-Policy: default-src 'self' *.mydomain.com</pre>
+                            allow content only from site's own domain and all its subdomains.
+                        </p>
+                    </li>
+                    <li> <b>Apply encoding on both client and server side: </b> It is essential to apply encoding on both client and server side to mitigate DOM based XSS attack, in which untrusted data never leaves the browser.
+                </ol>
+                <p>Source: XSS Prevention Cheat Sheet[1]
+                </p>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Source Code Example</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    The insecure version of the application is vulnerable to stored XSS attack on profiles form. The first and last name field values are sent to server, and without any initializations, validation, or escaping presented back on the top right menu.
+                </p>
+
+                <p>The secure version of the application take two measures to mitigate XSS risk:
+
+                    <ol>
+                        <li>In server.js, the HTML Encoding is enabled by using template engine's auto escape flag.
+                            <pre>
+swig.init({
+    root: __dirname + "/app/views",
+    autoescape: true //default value
+});
+                            </pre>
+                        </li>
+                        <li>
+                            Setting HTTPOnly cookie flag is turned on while configuring express session
+                            <pre>
+// Enable session management using express middleware
+app.use(express.session({
+    secret: "s3Cur3",
+    cookie: {
+        httpOnly: true,
+        secure: true
+    }
+}));
+                            </pre>
+                        </li>
+                        <li>There were no additional contexts that needed to encoding in this application; otherwise, it is necessary to encode for correct context depending on where data will be placed at.</li>
+                    </ol>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Further Reading</h3>
+            </div>
+            <div class="panel-body">
+                <ol>
+                    <li><a href="https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet">XSS Prevention Cheat Sheet</a> 
+                    </li>
+                    <li>
+                        <a href=h ttps://www.owasp.org/index.php/Types_of_Cross-Site_Scripting#Server_XS ">Types of Cross-Site Scripting</a></li>
+                        <li><a href="https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet#STYLE_sheet ">XSS Filter Evasion Cheat Sheet</a></li>
+                        <li><a href="https://www.owasp.org/images/c/c5/Unraveling_some_Mysteries_around_DOM-based_XSS.pdf ">Unraveling some of the Mysteries around DOM-based XSS</a></li>
+                    </li>
+                    </ol>
+            </div>
+        </div>
+        
     </div>
 </div>
 {% endblock %}

@@ -11,61 +11,49 @@ function ContributionsHandler(db) {
 
     this.displayContributions = function(req, res, next) {
 
-        var sessionId = req.cookies.session;
+        var userId = req.session.userId;
 
-        sessionDAO.getUsername(sessionId, function(err, username) {
+        contributionsDAO.getByUserId(userId, function(error, contrib) {
 
-            if (err) return next(err);
+            if (error) return next(error);
 
-            contributionsDAO.getByUsername(username, function(error, contrib) {
-
-                if (error) return next(error);
-
-                return res.render("contributions", contrib);
-            });
-
+            contrib._id = userId; //set for nav menu items
+            return res.render("contributions", contrib);
         });
     };
 
     this.handleContributionsUpdate = function(req, res, next) {
-
-        /*
-        // Code vulnerable to serverside injection attack when used eval
-        var pretax = eval(req.body.pretax);
-        var aftertax = eval(req.body.aftertax);
-        var roth = eval(req.body.roth);
-        */
-        
-        var pretax = parseInt(req.body.pretax);
-        var aftertax = parseInt(req.body.aftertax);
+        // Code fixed to prevent injection attacks
+        var preTax = parseInt(req.body.preTax);
+        var afterTax = parseInt(req.body.afterTax);
         var roth = parseInt(req.body.roth);
 
+        var userId = req.session.userId;
+
+
         //validate contributions
-        if (isNaN(pretax) || isNaN(aftertax) || isNaN(roth) || pretax < 0 || aftertax < 0 || roth < 0) {
+        if (isNaN(preTax) || isNaN(afterTax) || isNaN(roth) || preTax < 0 || afterTax < 0 || roth < 0) {
             return res.render("contributions", {
-                "updateError": "Invalid contribution percentages"
+                updateError: "Invalid contribution percentages",
+                userId: userId
             });
         }
         // Prevent more than 30% contributions
-        if (pretax + aftertax + roth > 30) {
+        if (preTax + afterTax + roth > 30) {
             return res.render("contributions", {
-                "updateError": "Contribution percentages cannot exceed 30 %"
+                updateError: "Contribution percentages cannot exceed 30 %",
+                userId: userId
             });
         }
-        var sessionId = req.cookies.session;
 
-        sessionDAO.getUsername(sessionId, function(err, username) {
+        contributionsDAO.update(userId, preTax, afterTax, roth, function(err, contributions) {
 
             if (err) return next(err);
 
-            contributionsDAO.update(username, pretax, aftertax, roth, function(err, contributions) {
-
-                if (err) return next(err);
-
-                contributions.updateSuccess = true;
-                return res.render("contributions", contributions);
-            });
+            contributions.updateSuccess = true;
+            return res.render("contributions", contributions);
         });
+
     };
 
 }
