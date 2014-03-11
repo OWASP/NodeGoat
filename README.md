@@ -30,7 +30,7 @@ npm install
 
 1. Connect to [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod)
 2. From a system prompt, start [mongo](http://docs.mongodb.org/manual/reference/program/mongo/#bin.mongo) by issuing the [mongo](http://docs.mongodb.org/manual/reference/program/mongo/#bin.mongo) command
-3. Paste contents of db_reset.js on mongo console
+3. Paste contents of [nodegoat_db_reset.js](https://github.com/OWASP/NodeGoat/blob/master/nodegoat_db_reset.js) on mongo console
 
 * Start server
 
