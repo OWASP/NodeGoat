@@ -33,7 +33,8 @@ function UserDAO(db) {
             user.email = email;
         }
 
-        this.getNextSequence("userId", function(id) {
+        this.getNextSequence("userId", function(err, id) {
+            if (err) { return callback(err, null); } 
 
             user.userId = id;
 
@@ -107,7 +108,8 @@ function UserDAO(db) {
                 new: true
             },
             function(err, object) {
-                callback(object.seq);
+                if (err) { return callback(err, null); }
+                callback(null, object.seq);
             }
         );
     };
