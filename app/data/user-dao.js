@@ -92,7 +92,12 @@ function UserDAO(db) {
     };
 
     this.getNextSequence = function(name, callback) {
-        var ret = db.collection("counters").findAndModify({
+
+        if (name) {
+            name = name.toLowerCase();
+        }
+
+        db.collection("counters").findAndModify({
                 _id: name
             }, [], {
                 $inc: {
