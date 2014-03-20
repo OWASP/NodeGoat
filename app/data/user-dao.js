@@ -102,6 +102,7 @@ function UserDAO(db) {
                 new: true
             },
             function(err, object) {
+                if (err) { return callback(err); }
                 callback(object.seq);
             }
         );
