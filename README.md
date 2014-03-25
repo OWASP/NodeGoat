@@ -20,30 +20,33 @@ git clone https://github.com/OWASP/NodeGoat.git
 ```
 ### Running Your Copy of the Code
 
-* Install node modules
+0. Install node modules
 
-```
-cd NodeGoat
-npm install
-```
-* Create and populate local DB 
+  ```sh
+  cd NodeGoat
+  npm install
+  ```
 
-1. Connect to [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod)
-2. From a system prompt, start [mongo](http://docs.mongodb.org/manual/reference/program/mongo/#bin.mongo) by issuing the [mongo](http://docs.mongodb.org/manual/reference/program/mongo/#bin.mongo) command
-3. Paste contents of nodegoat_db_reset.js at root directory on mongo console
-4. Add an entry for DB path in config/env/development.js
-as
-	var devConfig = {
-    	db: "mongodb://localhost/nodegoat" // or any other path to local mongo db
-		// any other dev specific entries here
-	};
+0. Create and populate local DB 
 
-* Start server
+  0. Connect to [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod)
+  0. From a system prompt, start [mongo](http://docs.mongodb.org/manual/reference/program/mongo/#bin.mongo) by issuing the [mongo](http://docs.mongodb.org/manual/reference/program/mongo/#bin.mongo) command
+  0. Paste contents of nodegoat_db_reset.js at root directory on mongo console
+  0. Add an entry for DB path in `config/env/development.js` as
+  ```js
+  var devConfig = {
+    db: "mongodb://localhost/nodegoat" // path to local mongo db
+    // any other dev specific entries here
+  };
+  ```
 
-```
-grunt run
-```
-This starts the NodeGoat application at url http://localhost:5000/
+0. Start server
+
+  ```sh
+  grunt run
+  ```
+
+  This starts the NodeGoat application at url [http://localhost:5000/](http://localhost:5000/)
 
 ### Customizing the Default Application Configuration
 
