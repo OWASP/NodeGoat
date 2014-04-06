@@ -34,7 +34,9 @@ function UserDAO(db) {
         }
 
         this.getNextSequence("userId", function(err, id) {
-            if (err) { return callback(err, null); } 
+            if (err) {
+                return callback(err, null);
+            }
 
             user.userId = id;
 
@@ -108,7 +110,9 @@ function UserDAO(db) {
                 new: true
             },
             function(err, object) {
-                if (err) { return callback(err, null); }
+                if (err) {
+                    return callback(err, null);
+                }
                 callback(null, object.seq);
             }
         );
