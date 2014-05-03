@@ -40,6 +40,10 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <!--  side nav -->
                 <ul class="nav navbar-nav side-nav">
+                    {% if user.isAdmin %}
+                    <li><a id="benefits-menu-link" href="/benefits"><i class="fa fa-calendar"></i> Benefits</a>
+                    </li>
+                    {% else %}
                     <li><a id="dashboard-menu-link" href="/"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li><a id="contributions-menu-link" href="/contributions"><i class="fa fa-bar-chart-o"></i> Contributions</a>
@@ -50,6 +54,7 @@
                     </li>
                     <li><a id="learn-menu-link" target="_blank" href="/learn?url=https://www.khanacademy.org/economics-finance-domain/core-finance/investment-vehicles-tutorial/ira-401ks/v/traditional-iras"><i class="fa fa-edit"></i> Learning Resources</a>
                     </li>
+                    {% endif %}
                     <li><a id="logout-menu-link" href="/logout"><i class="fa fa-power-off"></i> Logout</a>
                     </li>
                 </ul>
@@ -60,9 +65,11 @@
                     <li class="dropdown user-dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{firstName}} {{lastName}} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            {% if !user.isAdmin %}
                             <li><a href="/profile"><i class="fa fa-user"></i> Profile</a>
                             </li>
                             <li class="divider"></li>
+                            {% endif %}
                             <li><a href="/logout"><i class="fa fa-power-off"></i> Log Out</a>
                             </li>
                         </ul>

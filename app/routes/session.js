@@ -7,7 +7,6 @@ function SessionHandler(db) {
     "use strict";
 
     var userDAO = new UserDAO(db);
-    var sessionDAO = new SessionDAO(db);
     var allocationsDAO = new AllocationsDAO(db);
 
     var prepareUserData = function(user, next) {
@@ -17,7 +16,7 @@ function SessionHandler(db) {
         var funds = Math.floor((Math.random() * 40) + 1);
         var bonds = 100 - (stocks + funds);
 
-        allocationsDAO.update(user.userId, stocks, funds, bonds, function(err, allocations) {
+        allocationsDAO.update(user.userId, stocks, funds, bonds, function(err) {
             if (err) return next(err);
         });
     };
@@ -77,7 +76,11 @@ function SessionHandler(db) {
             }
             //req.session.regenerate(function() {
             req.session.userId = user.userId;
-            return res.redirect("/dashboard");
+            if (user.isAdmin) {
+                return res.redirect("/benefits");
+            } else {
+                return res.redirect("/dashboard");
+            }
             //});
         });
     };
@@ -124,7 +127,7 @@ function SessionHandler(db) {
             errors.firstNameError = "Invalid first name.";
             return false;
         }
-        if (!LNAME_RE.test(firstName)) {
+        if (!LNAME_RE.test(lastName)) {
             errors.lastNameError = "Invalid last name.";
             return false;
         }
@@ -184,11 +187,13 @@ function SessionHandler(db) {
                         if (err) return next(err);
 
                         res.cookie("session", sessionId);
-                        return res.redirect("/dashboard");
+                        req.session.userId = user.userId;
+                        return res.render("dashboard", user);
                     });
                     */
                     req.session.regenerate(function() {
-                        return res.redirect("/dashboard");
+                        req.session.userId = user.userId;
+                        return res.render("dashboard", user);
                     });
 
                 });

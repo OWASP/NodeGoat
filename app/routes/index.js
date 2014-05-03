@@ -1,5 +1,6 @@
 var SessionHandler = require("./session");
 var ProfileHandler = require("./profile");
+var BenefitsHandler = require("./benefits");
 var ContributionsHandler = require("./contributions");
 var AllocationsHandler = require("./allocations");
 var ErrorHandler = require("./error").errorHandler;
@@ -10,14 +11,12 @@ var exports = function(app, db) {
 
     var sessionHandler = new SessionHandler(db);
     var profileHandler = new ProfileHandler(db);
+    var benefitsHandler = new BenefitsHandler(db);
     var contributionsHandler = new ContributionsHandler(db);
     var allocationsHandler = new AllocationsHandler(db);
 
     // Middleware to see if a user is logged in
     var isLoggedIn = sessionHandler.isLoggedInMiddleware;
-
-    // Middleware to see if a user is logged in
-    app.use(isLoggedIn); // TODO: Eliminate need to call isLoggedIn before each route by having it called here
 
     // The main page of the app
     app.get("/", sessionHandler.displayWelcomePage);
@@ -33,9 +32,8 @@ var exports = function(app, db) {
     // Logout page
     app.get("/logout", sessionHandler.displayLogoutPage);
 
-    // dashboard page
+    // The main page of the app
     app.get("/dashboard", isLoggedIn, sessionHandler.displayWelcomePage);
-
 
     // Profile page
     app.get("/profile", isLoggedIn, profileHandler.displayProfile);
@@ -45,6 +43,10 @@ var exports = function(app, db) {
     app.get("/contributions", isLoggedIn, contributionsHandler.displayContributions);
     app.post("/contributions", isLoggedIn, contributionsHandler.handleContributionsUpdate);
 
+    // Benefits Page
+    app.get("/benefits", isLoggedIn, benefitsHandler.displayBenefits);
+    app.post("/benefits", isLoggedIn, benefitsHandler.updateBenefits);
+
     // Allocations Page
     app.get("/allocations/:userId", isLoggedIn, allocationsHandler.displayAllocations);
 
@@ -53,7 +55,6 @@ var exports = function(app, db) {
         return res.redirect(req.query.url);
     });
 
-
     // Handle redirect for learning resources link
     app.get("/tutorial", function(req, res, next) {
         return res.render("tutorial/a1");
@@ -61,7 +62,6 @@ var exports = function(app, db) {
     app.get("/tutorial/:page", function(req, res, next) {
         return res.render("tutorial/" + req.params.page);
     });
-
 
     // Error handling middleware
     app.use(ErrorHandler);

@@ -25,7 +25,8 @@ function UserDAO(db) {
             userName: userName,
             firstName: firstName,
             lastName: lastName,
-            password: passwordHash
+            password: passwordHash,
+            benefitStartDate: this.getRandomFutureDate()
         };
 
         // Add email if set
@@ -51,6 +52,14 @@ function UserDAO(db) {
                 return callback(err, null);
             });
         });
+    };
+
+    this.getRandomFutureDate = function() {
+        var today = new Date();
+        var day = (Math.floor(Math.random() * 10) + today.getDay()) % 29;
+        var month = (Math.floor(Math.random() * 10) + today.getMonth()) % 12;
+        var year = Math.ceil(Math.random() * 30) + today.getFullYear();
+        return year + "-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2);
     };
 
     this.validateLogin = function(userName, password, callback) {

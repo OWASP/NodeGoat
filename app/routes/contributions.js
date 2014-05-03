@@ -1,13 +1,10 @@
 var ContributionsDAO = require("../data/contributions-dao").ContributionsDAO;
-var SessionDAO = require("../data/session-dao").SessionDAO;
 
 /* The ContributionsHandler must be constructed with a connected db */
 function ContributionsHandler(db) {
     "use strict";
 
-    var sessionDAO = new SessionDAO(db);
     var contributionsDAO = new ContributionsDAO(db);
-
 
     this.displayContributions = function(req, res, next) {
 
