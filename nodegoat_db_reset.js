@@ -41,3 +41,4 @@ db.allocations.insert([
 	{ "userId" : 3, "stocks" : 22, "funds" : 12, "bonds" : 66 },
 	{ "userId" : 1, "stocks" : 23, "funds" : 22, "bonds" : 55 }
 ]);
+

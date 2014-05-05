@@ -1,5 +1,4 @@
 var UserDAO = require("../data/user-dao").UserDAO;
-var SessionDAO = require("../data/session-dao").SessionDAO;
 var AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
 
 /* The SessionHandler must be constructed with a connected db */
@@ -21,16 +20,22 @@ function SessionHandler(db) {
         });
     };
 
-    this.isLoggedInMiddleware = function(req, res, next) {
-        /*var sessionId = req.cookies.session;
-        sessionDAO.getUserId(sessionId, function(err, userId) {
+    this.isAdminUserMiddleware = function(req, res, next) {
+        if (req.session.userId) {
+            userDAO.getUserById(req.session.userId, function(err, user) {
+                 if(user && user.isAdmin) {
+                     next();
+                 } else {
+                     return res.redirect("/login");
+                 }
+            });
+        } else {
+            console.log("redirecting to login");
+            return res.redirect("/login");
+        }
+    };
 
-            if (!err && userId) {
-                req.userId = userId;
-            }
-            return next();
-        });*/
-        console.log("req.session.userId=" + req.session.userId);
+    this.isLoggedInMiddleware = function(req, res, next) {
         if (req.session.userId) {
             next();
         } else {
