@@ -23,11 +23,11 @@ function SessionHandler(db) {
     this.isAdminUserMiddleware = function(req, res, next) {
         if (req.session.userId) {
             userDAO.getUserById(req.session.userId, function(err, user) {
-                 if(user && user.isAdmin) {
-                     next();
-                 } else {
-                     return res.redirect("/login");
-                 }
+                if (user && user.isAdmin) {
+                    next();
+                } else {
+                    return res.redirect("/login");
+                }
             });
         } else {
             console.log("redirecting to login");
@@ -61,21 +61,27 @@ function SessionHandler(db) {
 
         userDAO.validateLogin(userName, password, function(err, user) {
             var errorMessage = "Invalid username and/or password";
+            var invalidUserNameErrorMessage = "Invalid username";
+            var invalidPasswordErrorMessage = "Invalid password";
             if (err) {
                 if (err.noSuchUser) {
                     return res.render("login", {
                         userName: userName,
                         password: "",
-                        loginError: errorMessage
+                        loginError: invalidUserNameErrorMessage
+                        //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
+                        // loginError: errorMessage
                     });
                 } else if (err.invalidPassword) {
                     return res.render("login", {
                         userName: userName,
                         password: "",
-                        loginError: errorMessage
+                        loginError: invalidPasswordErrorMessage
+                        //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
+                        // loginError: errorMessage
+
                     });
                 } else {
-                    // Some other kind of error
                     return next(err);
                 }
             }
@@ -113,8 +119,13 @@ function SessionHandler(db) {
         var USER_RE = /^.{1,20}$/;
         var FNAME_RE = /^.{1,100}$/;
         var LNAME_RE = /^.{1,100}$/;
-        var PASS_RE = /^.{1,20}$/;
         var EMAIL_RE = /^[\S]+@[\S]+\.[\S]+$/;
+        var PASS_RE = /^.{1,20}$/;
+        /*
+        //Fix for A2-2 - Broken Authentication -  requires stronger password
+        //(8 to 18 character password with numbers and both lowercase and uppercase letters.)
+        var PASS_RE =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,18}$/;
+        */
 
         errors.userNameError = "";
         errors.firstNameError = "";

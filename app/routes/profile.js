@@ -1,12 +1,10 @@
 var ProfileDAO = require("../data/profile-dao").ProfileDAO;
-var SessionDAO = require("../data/session-dao").SessionDAO;
 
 /* The ProfileHandler must be constructed with a connected db */
 function ProfileHandler(db) {
     "use strict";
 
     var profile = new ProfileDAO(db);
-    var session = new SessionDAO(db);
 
     this.displayProfile = function(req, res, next) {
 
