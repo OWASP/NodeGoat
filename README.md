@@ -56,7 +56,7 @@ The default application settings (database url, http port, etc.) can be changed 
 Contributing
 =================================
 
-Contributions from community are key to make NodeGoat a high quality comprehensive resource. Make NodeGoat awesome together!
+Contributions from community are key to make NodeGoat a high quality comprehensive resource. Lets make NodeGoat awesome together!
 
 
 **New to git?** You may find these resources helpful:
@@ -66,38 +66,29 @@ Contributions from community are key to make NodeGoat a high quality comprehensi
 
 ### Ways to Contribute
 
-Depending on your preference, you can contribute in various ways:
-* Suggest a vulnerability that can be demonstrated through NodeGoat web app. Start by posting a message on [NodeGoat Google Group](https://groups.google.com/forum/#!forum/nodegoat) to initiate discussion on it.
-* Implement vulnerability in the demo web application
-* Document vulnerabilities in the tutorial guide
-* Add to the in-app tour to walk user through the steps to expose vulnerabilities
-* Add tests to failing test suite guide, which contains tests that pass as user fixes vulnerabilities
-* Create screencasts to demonstrate how to fix vulnerabilities
-
+Depending on your preference, you can contribute in various ways. Here are tasks planned for [upcoming release](https://github.com/OWASP/NodeGoat/issues/milestones).
+To begin, inform team about task you would like to contribute on, or send any other suggestions you may have using [NodeGoat Google Group](https://groups.google.com/forum/#!forum/nodegoat).
 
 ### What is the Process
 1. Assign a task from [project task list](https://github.com/OWASP/NodeGoat/issues?milestone=2&state=open) to yourself.
-2. Implement the changes. 
+2. Implement the changes in a fork.
 3. Once code is ready to commit, run command:
-  
   ```
   grunt precommit
   ```
   This command indents code using `js-beautifier` and shows any `jsHint` errors. These [coding conventions](https://github.com/OWASP/NodeGoat/blob/master/.jshintrc) are checked using `jsHint`. Resolve all `jsHint` errors before committing the code.
 
 4. Commit the changes by adding [issue number into a commit message](https://help.github.com/articles/closing-issues-via-commit-messages)
+5. Submit a pull request
 
 ### Contributors
-Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/contributors) to NodeGoat project
+Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/contributors) to the NodeGoat project.
 
 
 Report bugs, Feedback, Comments
 ====================================
 *  Contact team by posting a message on [NodeGoat Google Group](https://groups.google.com/forum/#!forum/nodegoat) 
 
-
-Troubleshooting  / FAQs
-==========================
 
 License
 ==========
