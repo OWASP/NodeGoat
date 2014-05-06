@@ -76,7 +76,7 @@
                     <div class="panel-body">
                         <p>
                             Web applications using the JavaScript
-                            <code>eval()</code>function to parse the incoming data without any type of input validation are vulnerable to this attack. An attacker can inject arbitrary JavaScript code that will be executed on the server side. Similarly
+                            <code>eval()</code>function to parse the incoming data without any type of input validation are vulnerable to this attack. An attacker can inject arbitrary JavaScript code to be executed on the server. Similarly
                             <code>setTimeout()</code>, and
                             <code>setInterval()</code>functions can take code in string format as a first argument causing same issues as
                             <code>eval()</code>.
@@ -93,7 +93,7 @@
 
                         <pre>while(1)</pre> 
                         <p>
-                            This attack will cause the target server to use 100% of its processor time and unable to process any other incoming requests until process is restarted.
+                            This attack will cause the target server's event loop to use 100% of its processor time and unable to process any other incoming requests until process is restarted.
                         </p>
                         <p>
                             An alternative DoS attack would be to simply exit or kill the running process:
@@ -104,20 +104,20 @@
                             <br/>
                         </p>
                         <p>
-                            Another potential goal of an attacker might be to read the contents of files from the local system. The following attacks list the contents of the current directory and parent directory respectively:
+                            Another potential goal of an attacker might be to read the contents of files from the server. For example, following two commands list the contents of the current directory and parent directory respectively:
                         </p>
                         <p>
                             <pre>res.end(require('fs').readdirSync('.').toString())</pre> 
                             <pre>res.end(require('fs').readdirSync('..').toString()) </pre> 
                         </p>
                         <p>
-                            To list the actual contents of a file, the attacker would issue the following command:
+                            Once file names are obtained, an attacker can issue the command below to view the actual contents of a file:
                         </p>
                         <p>
                             <pre>res.end(require('fs').readFileSync(filename))</pre> 
                         </p>
                         <p>
-                            The attacker can also further exploit this vulnerability by writing and executing harmful binary files using
+                            An attacker can further exploit this vulnerability by writing and executing harmful binary files using
                             <code>fs</code>and
                             <code>child_process</code>modules.
                         </p>
@@ -132,19 +132,21 @@
                         To prevent server-side js injection attacks:
                         <ul>
                             <li>Validate user inputs on server side before processing</li>
-                            <li>Forbid use of the
+                            <li>Do not use
                                 <code>eval()</code>function to parse user inputs. Avoid using other commands with similar effect, such as
                                 <code>setTimeOut()</code>,
-                                <code>setInterval()</code>,
-                                <code>Function()</code>
+                                <code>setInterval()</code>, and
+                                <code>Function()</code>.
                             </li>
                             <li>
-                                For parsing JSON input, use a safer alternative such as
+                                For parsing JSON input, instead of using
+                                <code>eval()</code>, use a safer alternative such as
                                 <code>JSON.parse()</code>. For type conversions use type related
                                 <code>parseXXX()</code>methods.
                             </li>
                             <li>Include
-                                <code>"use strict"</code>at the beginning of a function, which enables strict mode within the enclosing function scope.</li>
+                                <code>"use strict"</code>at the beginning of a function, which enables <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode"> strict mode </a>within
+                                the enclosing function scope.</li>
 
                         </ul>
                     </div>
@@ -154,10 +156,23 @@
                         <h3 class="panel-title">Source Code Example</h3>
                     </div>
                     <div class="panel-body">
-                        <p>In routes/contributions.js
-                            <code>handleContributionsUpdate()</code>, the demo application uses
-                            <code>eval()</code>to covert user supplied contribution amounts to integer. This makes application vulnerable to SSJS attack. It can fixed simply by using
+                        <p>In <code>routes/contributions.js</code>, the
+                            <code>handleContributionsUpdate()</code>function insecurely uses
+                            <code>eval()</code>to covert user supplied contribution amounts to integer.
+                            <pre>
+        // Insecure use of eval() to parse inputs
+        var preTax = eval(req.body.preTax);
+        var afterTax = eval(req.body.afterTax);
+        var roth = eval(req.body.roth);
+                            </pre>
+                            This makes application vulnerable to SSJS attack. It can fixed simply by using
                             <code>parseInt()</code>instead.
+                            <pre>
+        //Fix for A1 -1 SSJS Injection attacks - uses alternate method to eval
+        var preTax = parseInt(req.body.preTax);
+        var afterTax = parseInt(req.body.afterTax);
+        var roth = parseInt(req.body.roth);
+                            </pre>
                         </p>
                         <p>In addition, all functions begin with
                             <code>use strict</code>pragma.
@@ -169,7 +184,7 @@
                     </div>
                     <div class="panel-body">
                         <ul>
-                            <li><a href="https://media.blackhat.com/bh-us-11/Sullivan/BH_US_11_Sullivan_Server_Side_WP.pdf">“ServerSide JavaScript Injection: Attacking NoSQL and Node.js"</a> a whitepaper by Bryan Sullivan.</li>
+                            <li><a target="_blank" href="https://media.blackhat.com/bh-us-11/Sullivan/BH_US_11_Sullivan_Server_Side_WP.pdf">“ServerSide JavaScript Injection: Attacking NoSQL and Node.js"</a> a whitepaper by Bryan Sullivan.</li>
                         </ul>
                     </div>
                 </div>

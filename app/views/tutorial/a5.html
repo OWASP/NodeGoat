@@ -17,8 +17,9 @@
                 <h3 class="panel-title">Description</h3>
             </div>
             <div class="panel-body">
-                Good security requires having a secure configuration defined and deployed for the application, frameworks, application server, web server, database server, and platform. Secure settings should be defined, implemented, and maintained, as defaults are often
-                insecure. Additionally, software should be kept up to date.
+                <p>This vulnerability allows an attacker to accesses default accounts, unused pages, unpatched flaws, unprotected files and directories, etc. to gain unauthorized access to or knowledge of the system.</p>
+                <p>Security misconfiguration can happen at any level of an application stack, including the platform, web server, application server, database, framework, and custom code.</p>
+                <p>Developers and system administrators need to work together to ensure that the entire stack is configured properly.</p>
             </div>
         </div>
         <div class="panel panel-info">
@@ -26,18 +27,15 @@
                 <h3 class="panel-title">Attack Mechanics</h3>
             </div>
             <div class="panel-body">
-                <p>Security misconfiguration can happen at any level of an application stack, including the platform, web server, application server, database, framework, and custom code. Developers and system administrators need to work together to ensure
-                    that the entire stack is configured properly.</p>
 
-                <p>
-                    This is a broad category, but here are some ways attacker can exploit it:
-                    <ol>
-                        <li>If application server is configured to run as root, an attacker can run malicious scripts (by exploiting eval family functions) or start new child processes in server</li>
-                        <li>Read, write, delete files on file system. Create and run binary files</li>
-                        <li>If sever mis-configured to leak internal implementation details via cookie names or HTTP response headers, then attacker can use this information towards building site's risk profile and finding vulnerabilities on platform</li>
-                        <li>If request body size is not limited, an attacker can upload large size of input payload, causing server run out of memory, or make processor and event loop busy.</li>
-                    </ol>
-                </p>
+                This vulnerability encompasses a broad category of attacks, but here are some ways attacker can exploit it:
+                <ol>
+                    <li>If application server is configured to run as root, an attacker can run malicious scripts (by exploiting eval family functions) or start new child processes on server</li>
+                    <li>Read, write, delete files on file system. Create and run binary files</li>
+                    <li>If sever mis-configured to leak internal implementation details via cookie names or HTTP response headers, then attacker can use this information towards building site's risk profile and finding vulnerabilities</li>
+                    <li>If request body size is not limited, an attacker can upload large size of input payload, causing server run out of memory, or make processor and event loop busy.</li>
+                </ol>
+
             </div>
         </div>
         <div class="panel panel-info">
@@ -80,7 +78,7 @@
                 <h3 class="panel-title">Source Code Example</h3>
             </div>
             <div class="panel-body">
-                <p>The default HTTP header x-powered-by can reveal implementation details to an attacker. It can be taken out by including this code in server.js
+                <p>The default HTTP header x-powered-by can reveal implementation details to an attacker. It can be taken out by including this code in <code>server.js</code>
                     <pre>   
         app.disable("x-powered-by"); 
     </pre>
@@ -121,8 +119,6 @@
                 </p>
             </div>
         </div>
-
-
     </div>
 </div>
 {% endblock %}

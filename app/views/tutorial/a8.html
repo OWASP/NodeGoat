@@ -19,7 +19,7 @@
             </div>
             <div class="panel-body">
                 A CSRF attack forces a logged-on victim’s browser to send a forged HTTP request, including the victim’s session cookie and any other automatically included authentication information, to a vulnerable web application. This allows the attacker to force
-                the victim’s browser to generate requests the vulnerable application thinks are legitimate requests from the victim.
+                the victim’s browser to generate requests that vulnerable application processes are legitimate requests from the victim.
             </div>
         </div>
         <!--
@@ -38,9 +38,11 @@
             </div>
             <div class="panel-body">
                 <p>
-                    Because browsers send credentials like session cookies automatically, attackers can create malicious web pages which generate forged requests that are indistinguishable from legitimate ones. For example, vulnerability can be explotied on contributions
-                    form in the insecure version of the application by submitting this form in browser while a user is logged in.
-                    <pre>
+                    As browsers automatically send credentials like session cookies with HTTP requests to the server where cookies were received from, attackers can create malicious web pages which generate forged requests that are indistinguishable from legitimate ones.</p>
+                <p>For example, CSRF vulnerability can be exploited on contributions form on the target application. To exploit it:
+                    <ol>
+                        <li>An attacker would need to host a forged form like below on a malicious sever.
+                            <pre>
     &lt;html lang="en"&gt;
     &lt;head&gt;&lt;/head&gt;
     	&lt;body&gt;
@@ -55,7 +57,13 @@
     	&lt;/body&gt;
     &lt;/html&gt;
               </pre>
+                        </li>
+                        <li>Next, attacker would need to manage opening the form on logged in victim's browser and attract user to submit it. When user submits this form, it results in victim user's browser sending a malicious request to vulnerable server,
+                            causing CSRF attack.
+                        </li>
+                    </ol>
                 </p>
+
             </div>
         </div>
         <div class="panel panel-info">
@@ -63,8 +71,11 @@
                 <h3 class="panel-title">How Do I Prevent It?</h3>
             </div>
             <div class="panel-body">
-                Express csrf middleware provide a very effective way to deal with csrf attack. By default this middleware generates a token named "_csrf" which should be added to requests which mutate state (PUT, POST, DELETE), within a hidden form field, query-string
-                etc. When form is submitted, the middleware check for existence of token and validating if it matches to the one generated for the response. Otherwise rejects the request. This making it really hard for an attacker to exploit CSRF.
+                <p>Express csrf middleware provide a very effective way to deal with csrf attack. By default this middleware generates a token named "_csrf" which should be added to requests which mutate state (PUT, POST, DELETE), within a hidden form field,
+                    query-string etc.</p>
+                <p>When form is submitted, the middleware checks for existence of token and validates it by matching to the generated token for the response-request pair. If fails to match, it rejects the request. Thus making it really hard for an attacker
+                    to exploit CSRF.
+                </p>
             </div>
         </div>
         <div class="panel panel-info">
@@ -72,8 +83,9 @@
                 <h3 class="panel-title">Source Code Example</h3>
             </div>
             <div class="panel-body">
-                To use express csrf middleware, include the middleware after session is initialized. Then create a new token using
-                <code>req.csrfToken();</code>and expose it to view by setting it in
+                The
+                <code>server.js</code>includes the express CSRF middleware after session is initialized. Then creates a custom middleware to generate new token using
+                <code>req.csrfToken();</code>and exposes it to view by setting it in
                 <code>res.locals</code>
                 <pre>
         //Enable Express csrf protection
@@ -83,7 +95,8 @@
             res.locals.csrftoken = req.csrfToken(); 
             next(); 
         }); </pre>
-                Next, include the token in hidden form field or in query string.
+                Next, this token can be included in a hidden form field in
+                <code>views/contributions.html</code>as below.
                 <pre>
     &lt;input type="hidden" name="_csrf" value="{{ csrftoken } }"&gt;</pre>
             </div>

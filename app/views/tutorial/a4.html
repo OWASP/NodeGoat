@@ -30,7 +30,7 @@
                     by manipulating parameter values. Unless object references are unpredictable, it is easy for an attacker to access all available data of that type.
                 </p>
                 <p>
-                    For example, the insure demo application, uses userid as part of the url to access the allocations (/allocations/{id}). An attacker can manipulate id value and access other user's allocation information.
+                    For example, the insure demo application uses userid as part of the url to access the allocations (/allocations/{id}). An attacker can manipulate id value and access other user's allocation information.
                 </p>
             </div>
         </div>
@@ -49,9 +49,9 @@
                         a drop down list of six resources authorized for the current user could use the numbers 1 to 6 or unique random numbers to indicate which value the user selected. The application has to map the per-user indirect reference back
                         to the actual database key on the server.
                     </li>
-                    <li> <b>Testing and code analysis:</b> Testers can easily manipulate parameter values to detect such flaws. In addition, code analysis cab quickly show whether authorization is properly verified.
+                    <li> <b>Testing and code analysis:</b> Testers can easily manipulate parameter values to detect such flaws. In addition, code analysis can quickly show whether authorization is properly verified.
                     </li>
-                    </b>
+                </ol>
             </div>
         </div>
         <div class="panel panel-info">
@@ -60,7 +60,7 @@
             </div>
             <div class="panel-body">
                 <p>
-                    In routes/allocations.js, the insecure application takes user id from url to access fetch the allocations.
+                    In <code>routes/allocations.js</code>, the insecure application takes user id from url to access fetch the allocations.
                     <pre>
     var userId = parseInt(req.params.userId);
     allocationsDAO.getByUserId(userId, function(error, allocations) {

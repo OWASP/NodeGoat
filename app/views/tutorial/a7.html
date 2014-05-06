@@ -27,8 +27,8 @@
                 <h3 class="panel-title">Attack Mechanics</h3>
             </div>
             <div class="panel-body">
-                In the target application, this vulnerability is implemented in benefits module, which allows to change benefit start date for employees.
-                The link to the benefits module is visible only to the admin user (user: admin, password: Admin_123). However, an attacker can access this module simply by logging in as any non-admin user and accessing <a id="benefits-menu-link" href="/benefits">benefits url</a> directly.
+                In the target application, this vulnerability is implemented in benefits module, which allows changing benefit start date for employees. The link to the benefits module is visible only to the admin user (user: admin, password: Admin_123). However, an
+                attacker can access this module simply by logging in as any non-admin user and accessing <a id="benefits-menu-link" target="_blank" href="/benefits">benefits url</a> directly.
             </div>
         </div>
         <div class="panel panel-info">
@@ -45,42 +45,44 @@
             </div>
             <div class="panel-body">
 
-                In vulnerable application, there is no authorization check for benefits related routes
+                In vulnerable application, there is no authorization check for benefits related routes in <code>routes/index.js</code>
                 <pre>
-                 // Benefits Page
-                 app.get("/benefits", isLoggedIn, benefitsHandler.displayBenefits);
-                 app.post("/benefits", isLoggedIn, benefitsHandler.updateBenefits);
+// Benefits Page
+app.get("/benefits", isLoggedIn, benefitsHandler.displayBenefits);
+app.post("/benefits", isLoggedIn, benefitsHandler.updateBenefits);
                 </pre>
-                <p> This can be fixed by adding a middleware to verify user's role:</p>
+                <p>This can be fixed by adding a middleware to verify user's role:</p>
                 <pre>
-                // Benefits Page
-                app.get("/benefits", isLoggedIn, isAdmin, benefitsHandler.displayBenefits);
-                app.post("/benefits", isLoggedIn, isAdmin, benefitsHandler.updateBenefits);
+// Benefits Page
+app.get("/benefits", isLoggedIn, isAdmin, benefitsHandler.displayBenefits);
+app.post("/benefits", isLoggedIn, isAdmin, benefitsHandler.updateBenefits);
                 </pre>
-                <p> To implement <code>isAdmin</code> middleware, check if isAdmin flag is set for the logged in user in database. <br/>
-                    For example, here is middleware function that can be added to <code>routes\session.js</code>:</p>
+                <p>To implement
+                    <code>isAdmin</code>middleware, check if isAdmin flag is set for the logged in user in database.
+                    <br/>For example, here is middleware function that can be added to
+                    <code>routes\session.js</code>:</p>
 
                 <pre>
-                this.isAdminUserMiddleware = function(req, res, next) {
-                    if (req.session.userId) {
-                        userDAO.getUserById(req.session.userId, function(err, user) {
-                             if(user && user.isAdmin) {
-                                 next();
-                             } else {
-                                 return res.redirect("/login");
-                             }
-                        });
-                    } else {
-                        console.log("redirecting to login");
-                        return res.redirect("/login");
-                    }
-                };
+this.isAdminUserMiddleware = function(req, res, next) {
+    if (req.session.userId) {
+        userDAO.getUserById(req.session.userId, function(err, user) {
+             if(user && user.isAdmin) {
+                 next();
+             } else {
+                 return res.redirect("/login");
+             }
+        });
+    } else {
+        console.log("redirecting to login");
+        return res.redirect("/login");
+    }
+};
                 </pre>
-                It can be then made available in index.js router as:
+                It can be then made available in <code>routes/index.js</code> router as:
                 <pre>
-                var SessionHandler = require("./session");
-                //Middleware to check if user has admin rights
-                var isAdmin = sessionHandler.isAdminUserMiddleware;
+var SessionHandler = require("./session");
+//Middleware to check if user has admin rights
+var isAdmin = sessionHandler.isAdminUserMiddleware;
                 </pre>
             </div>
         </div>
