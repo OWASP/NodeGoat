@@ -45,7 +45,8 @@
             </div>
             <div class="panel-body">
 
-                In vulnerable application, there is no authorization check for benefits related routes in <code>routes/index.js</code>
+                In vulnerable application, there is no authorization check for benefits related routes in
+                <code>routes/index.js</code>
                 <pre>
 // Benefits Page
 app.get("/benefits", isLoggedIn, benefitsHandler.displayBenefits);
@@ -78,7 +79,8 @@ this.isAdminUserMiddleware = function(req, res, next) {
     }
 };
                 </pre>
-                It can be then made available in <code>routes/index.js</code> router as:
+                It can be then made available in
+                <code>routes/index.js</code>router as:
                 <pre>
 var SessionHandler = require("./session");
 //Middleware to check if user has admin rights

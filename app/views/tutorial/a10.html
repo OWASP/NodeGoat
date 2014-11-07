@@ -27,7 +27,8 @@
                 <p>An attacker can use unvalidated redirected links as a medium to redirect user to malicious contents and tricks victims into clicking it. Attacker can exploit it to bypass security checks and make it believe trustworthy.</p>
 
                 <p>For example, the "Learning Resources" link (
-                    <code>/learn?url=...</code>) in the application redirects to another website without validating the url. Here is code from <code>routes/index.js</code>,
+                    <code>/learn?url=...</code>) in the application redirects to another website without validating the url. Here is code from
+                    <code>routes/index.js</code>,
                     <pre>
     // Handle redirect for learning resources link
     app.get("/learn", function (req, res, next) {

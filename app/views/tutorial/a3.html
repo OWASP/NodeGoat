@@ -141,7 +141,8 @@
                 <p>Two measures can be taken to mitigate XSS risk:
 
                     <ol>
-                        <li>In <code>server.js</code>, enable the HTML Encoding using template engine's auto escape flag.
+                        <li>In
+                            <code>server.js</code>, enable the HTML Encoding using template engine's auto escape flag.
                             <pre>
 swig.init({
     root: __dirname + "/app/views",
@@ -162,8 +163,8 @@ app.use(express.session({
 }));
                             </pre>
                         </li>
-                  </ol>
-                There were no additional contexts that needed to encoding in this application; otherwise, it is necessary to encode for correct context depending on where data will be placed at.
+                    </ol>
+                    There were no additional contexts that needed to encoding in this application; otherwise, it is necessary to encode for correct context depending on where data will be placed at.
 
             </div>
         </div>
@@ -188,7 +189,7 @@ app.use(express.session({
                 </ol>
             </div>
         </div>
-        
+
     </div>
 </div>
 {% endblock %}
