@@ -19,21 +19,21 @@ function ProfileHandler(db) {
     this.handleProfileUpdate = function(req, res, next) {
 
         var firstName = req.body.firstName;
-
-        //firstName = firstName.trim();
-
         var lastName = req.body.lastName;
         var ssn = req.body.ssn;
         var dob = req.body.dob;
         var address = req.body.address;
+        var bankAcc = req.body.bankAcc;
+        var bankRouting = req.body.bankRouting;
+
         var userId = req.session.userId;
 
-        profile.updateUser(userId, firstName, lastName, ssn, dob, address, function(err, user) {
+        profile.updateUser(userId, firstName, lastName, ssn, dob, address, bankAcc, bankRouting, function(err, user) {
 
             if (err) return next(err);
 
+            // WARN: Applying any sting specific methods here w/o checking type of inputs could lead to DoS by HPP
             //firstName = firstName.trim();
-
 
             user.updateSuccess = true;
             user.userId = userId;

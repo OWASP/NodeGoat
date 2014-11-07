@@ -32,23 +32,41 @@ function ProfileDAO(db) {
 
     */
 
-    this.updateUser = function(userId, firstName, lastName, ssn, dob, address, callback) {
+    this.updateUser = function(userId, firstName, lastName, ssn, dob, address, bankAcc, bankRouting, callback) {
 
         // Create user document
-        var user = {
-            firstName: firstName,
-            lastName: lastName,
-            // Insecure storage of ssn and DOB
-            ssn: ssn,
-            dob: dob,
-            /*
-            // Fix for A7 - Sensitive Data Exposure
-            // Store encrypted ssn and DOB
-            ssn: encrypt(ssn),
-            dob: encrypt(dob),
-            */
-            address: address
-        };
+        var user = {};
+        if (firstName) {
+            user.firstName = firstName;
+        }
+        if (lastName) {
+            user.lastName = lastName;
+        }
+        if (address) {
+            user.address = address;
+        }
+        if (bankAcc) {
+            user.bankAcc = bankAcc;
+        }
+        if (bankRouting) {
+            user.bankRouting = bankRouting;
+        }
+        if (ssn) {
+            user.ssn = ssn;
+        }
+        if (dob) {
+            user.dob = dob;
+        }
+        /*
+        // Fix for A7 - Sensitive Data Exposure
+        // Store encrypted ssn and DOB
+        if(ssn) {
+            user.ssn = encrypt(ssn);
+        }
+        if(dob) {
+            user.dob = encrypt(dob);
+        }
+        */
 
         users.update({
             userId: userId
