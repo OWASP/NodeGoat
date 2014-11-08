@@ -47,6 +47,9 @@
                 Here are some node.js and express specific configuration measures:
                 <ul>
                     <li>
+                        Keep a watch on <a href="http://blog.nodejs.org/vulnerability/">node</a> and <a href="http://expressjs.com/advanced/security-updates.html">expressjs</a> (or other web framework used) vulnerabilities, and use latest stable version of these.
+                    </li>
+                    <li>
                         Do not run application with root privileges. It may seem necessary to run as root user to access privileged ports such as 80. However, this can achieved either by starting server as root and then downgrading the non-privileged user after listening on
                         port 80 is established, or using a separate proxy, or using port mapping.</li>
                     <li>
