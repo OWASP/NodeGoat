@@ -39,24 +39,26 @@
             <div class="panel-body">
                 <p>
                     As browsers automatically send credentials like session cookies with HTTP requests to the server where cookies were received from, attackers can create malicious web pages which generate forged requests that are indistinguishable from legitimate ones.</p>
-                <p>For example, CSRF vulnerability can be exploited on contributions form on the target application. To exploit it:
+                <p>For example, CSRF vulnerability can be exploited on profile form on the insecure demo application. </p>
+                <iframe width="560" height="315" src="//www.youtube.com/embed/vRDykS_2y3I?rel=0" frameborder="0" allowfullscreen></iframe>
+                <p> To exploit it:
                     <ol>
                         <li>An attacker would need to host a forged form like below on a malicious sever.
                             <pre>
     &lt;html lang="en"&gt;
     &lt;head&gt;&lt;/head&gt;
     	&lt;body&gt;
-    		&lt;form method="POST" action="http://TARGET_APP_URL_HERE/contributions"&gt;
-    			&lt;h1&gt; You are about to win a brand new iPad!&lt;/h1&gt;
+    		&lt;form method="POST" action="http://TARGET_APP_URL_HERE/profile"&gt;
+    			&lt;h1&gt; You are about to win a brand new iPhone!&lt;/h1&gt;
     			&lt;h2&gt; Click on the win button to claim it...&lt;/h2&gt;
-    			&lt;input type="hidden" name="pretax" value="30"/&gt;
-    			&lt;input type="hidden" name="roth" value="30"/&gt;
-    			&lt;input type="hidden" name="aftertax" value="30"/&gt;
-    			&lt;input type="submit" value="Win !!!"/&gt;
+    			&lt;input type="hidden" name="bankAcc" value="9999999"/&gt;
+    			&lt;input type="hidden" name="bankRouting" value="88888888"/&gt;
+                                &lt;input type="submit" value="Win !!!"/&gt;
     		&lt;/form&gt;
     	&lt;/body&gt;
     &lt;/html&gt;
               </pre>
+                            Note: A sample app containing form for CSRF attack on NodeGoat app is available <a target="_blank" href="https://github.com/ckarande/nodegoat-csrf-attack">here</a>.
                         </li>
                         <li>Next, attacker would need to manage opening the form on logged in victim's browser and attract user to submit it. When user submits this form, it results in victim user's browser sending a malicious request to vulnerable server,
                             causing CSRF attack.
@@ -96,7 +98,7 @@
             next(); 
         }); </pre>
                 Next, this token can be included in a hidden form field in
-                <code>views/contributions.html</code>as below.
+                <code>views/profile.html</code>as below.
                 <pre>
     &lt;input type="hidden" name="_csrf" value="{{ csrftoken } }"&gt;</pre>
             </div>

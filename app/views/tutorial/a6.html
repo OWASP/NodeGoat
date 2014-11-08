@@ -52,7 +52,7 @@
                 <h3 class="panel-title">Source Code Example</h3>
             </div>
             <div class="panel-body">
-                <p>1.The vulnerable application uses HTTP connection to communicate with server. A secure HTTPS sever can be set using https module. This would need a private key and certificate. Here are source code examples from
+                <p>1.The insecure demo application uses HTTP connection to communicate with server. A secure HTTPS sever can be set using https module. This would need a private key and certificate. Here are source code examples from
                     <code>/server.js</code>
                     <pre>
 // Load keys for establishing secure HTTPS connection
@@ -74,7 +74,7 @@ https.createServer(httpsOptions, app).listen(config.port, function() {
                 </pre>
                 </p>
                 <p>
-                    3. The insecure target application stores users personal sensitive information in plain text. To fix it, The
+                    3. The insecure demo application stores users personal sensitive information in plain text. To fix it, The
                     <code>data/profile-dao.js</code>can be modified to use crypto module to encrypt and decrypt sensitive information as below:
                     <pre>
 // Include crtpto module
