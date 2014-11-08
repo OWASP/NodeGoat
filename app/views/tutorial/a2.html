@@ -88,7 +88,7 @@
                         <ul>
                             <li>User authentication credentials should be protected when stored using hashing or encryption.</li>
                             <li>Session IDs should not be exposed in the URL (e.g., URL rewriting).</li>
-                            <li>Session IDs should timeout. User sessions or authentication tokens are properly invalidated during logout.</li>
+                            <li>Session IDs should timeout. User sessions or authentication tokens should get properly invalidated during logout.</li>
                             <li>Session IDs should be recreated after successful login.</li>
                             <li>Passwords, session IDs, and other credentials should not be sent over unencrypted connections.</li>
                         </ul>
@@ -100,9 +100,9 @@
                         <h3 class="panel-title">Source Code Examples</h3>
                     </div>
                     <div class="panel-body">
-
-                        <b>Protecting user credentials</b>
-                        <p>The insecure version of the demo app, password gets stored in database in plain text . Here is related code in
+                        <p>In the insecure demo app, following issues exists:</p>
+                        <h3>1. Protecting user credentials</h3>
+                        <p>password gets stored in database in plain text . Here is related code in
                             <code>data/user-dao.js</code>
                             <code>addUser()</code>method:
                             <pre>
@@ -114,7 +114,7 @@ var user = {
     password: password //received from request param
 };
                         </pre>
-                            The secure version of the app handles password storage in a safer way by using one way encryption using salt hashing as below:</p>
+                            To secure it, handle password storage in a safer way by using one way encryption using salt hashing as below:</p>
                         <pre>
 // Generate password hash
 var salt = bcrypt.genSaltSync();
@@ -128,7 +128,7 @@ var user = {
     password: passwordHash
 };
                         </pre>
-                        This hash password can not be decrypted, hence more secure. To compare the password when user logs in, the user entered password gets converted to hash and compared with hash in storage.
+                        This hash password can not be decrypted, hence more secure. To compare the password when user logs in, the user entered password gets converted to hash and compared with the hash in storage.
 
                         <pre>
 if (bcrypt.compareSync(password, user.password)) {
@@ -140,18 +140,22 @@ if (bcrypt.compareSync(password, user.password)) {
                         Note: The bcrypt module also provides asynchronous methods for creating and comparing hash.
                         <br/>
                         <br/>
-                        <b>Session timeout and protecting cookies in transit</b>
+                        <h3>2. Session timeout and protecting cookies in transit</h3>
 
-                        <p>The insecure version of the demo application does not contain any provision to timeout user session. The session stays active until user explicitly logs out.</p>
+                        <p>The insecure demo application does not contain any provision to timeout user session. The session stays active until user explicitly logs out.</p>
 
-                        <p>The insecure version of the demo application does not prevent cookies being accessed in script, making application vulnerable to Cross Site Scripting (XSS) attacks. Also cookies are allowed to send on insecure HTTP connection.</p>
+                        <p>Also, the app does not prevent cookies being accessed in script, making application vulnerable to Cross Site Scripting (XSS) attacks. Also cookies are not prevented to get sent on insecure HTTP connection.</p>
 
-                        <p>The secure version of the application fixes these issues using session based timeouts, terminating session when browser closes. Also, sets
-                            <code>HTTPOnly</code>HTTP header preventing cookie being accessed in script. The application used HTTPS secure connections, and cookies are configured to be sent only on Secure HTTPS connections by setting
-                            <code>Secure</code>flag.
-                            <pre>
+                        <p>To secure the application:</p>
+                        <p>1. Use session based timeouts, terminate session when browser closes.</p>
+                        <pre>
 // Enable session management using express middleware
 app.use(express.cookieParser());
+ </pre>
+                        <p>2. In addition, sets
+                            <code>HTTPOnly</code>HTTP header preventing cookies being accessed by scripts. The application used HTTPS secure connections, and cookies are configured to be sent only on Secure HTTPS connections by setting
+                            <code>Secure</code>flag.
+                            <pre>
 app.use(express.session({
     secret: "s3Cur3",
     cookie: {
@@ -160,7 +164,9 @@ app.use(express.session({
     }
 }));
                         </pre>
-                            When user clicks logout, the session and session cookie is destroyed
+                        </p>
+                        <p>
+                            3. When user clicks logout, destroy the session and session cookie
                             <pre>
 req.session.destroy(function() {
     res.redirect("/");
