@@ -39,9 +39,9 @@
             <div class="panel-body">
                 <p>
                     As browsers automatically send credentials like session cookies with HTTP requests to the server where cookies were received from, attackers can create malicious web pages which generate forged requests that are indistinguishable from legitimate ones.</p>
-                <p>For example, CSRF vulnerability can be exploited on profile form on the insecure demo application. </p>
+                <p>For example, CSRF vulnerability can be exploited on profile form on the insecure demo application.</p>
                 <iframe width="560" height="315" src="//www.youtube.com/embed/vRDykS_2y3I?rel=0" frameborder="0" allowfullscreen></iframe>
-                <p> To exploit it:
+                <p>To exploit it:
                     <ol>
                         <li>An attacker would need to host a forged form like below on a malicious sever.
                             <pre>
@@ -75,7 +75,8 @@
             <div class="panel-body">
                 <p>Express csrf middleware provide a very effective way to deal with csrf attack. By default this middleware generates a token named "_csrf" which should be added to requests which mutate state (PUT, POST, DELETE), within a hidden form field,
                     or query-string, or header fields.</p>
-                <p> If using method-override middleware, it is very important that it is used before any middleware that needs to know the method of the request, including CSRF middleware. Otherwise an attacker can use non-state mutating methods (such as GET) to bypass the CSRF middleware checks, and use method override header to convert request to desired method.</p>
+                <p>If using method-override middleware, it is very important that it is used before any middleware that needs to know the method of the request, including CSRF middleware. Otherwise an attacker can use non-state mutating methods (such as
+                    GET) to bypass the CSRF middleware checks, and use method override header to convert request to desired method.</p>
                 <p>When form is submitted, the middleware checks for existence of token and validates it by matching to the generated token for the response-request pair. If fails to match, it rejects the request. Thus making it really hard for an attacker
                     to exploit CSRF.
                 </p>

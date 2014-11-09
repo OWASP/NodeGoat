@@ -47,7 +47,8 @@
                 Here are some node.js and express specific configuration measures:
                 <ul>
                     <li>
-                        Use latest stable version of node.js and express (or other web framework you are using). Keep a watch on published vulnerabilities of these. The vulnerabilities for node.js and express.js can be found <a href="http://blog.nodejs.org/vulnerability/">here</a> and <a href="http://expressjs.com/advanced/security-updates.html">here</a>, respectively.
+                        Use latest stable version of node.js and express (or other web framework you are using). Keep a watch on published vulnerabilities of these. The vulnerabilities for node.js and express.js can be found <a href="http://blog.nodejs.org/vulnerability/">here</a> and
+                        <a href="http://expressjs.com/advanced/security-updates.html">here</a>, respectively.
                     </li>
                     <li>
                         Do not run application with root privileges. It may seem necessary to run as root user to access privileged ports such as 80. However, this can achieved either by starting server as root and then downgrading the non-privileged user after listening on
@@ -82,7 +83,9 @@
                 <h3 class="panel-title">Source Code Example</h3>
             </div>
             <div class="panel-body">
-                <div><iframe width="560" height="315" src="//www.youtube.com/embed/lCpnVrD2Neg?rel=0" frameborder="0" allowfullscreen></iframe></div>
+                <div>
+                    <iframe width="560" height="315" src="//www.youtube.com/embed/lCpnVrD2Neg?rel=0" frameborder="0" allowfullscreen></iframe>
+                </div>
                 <p>The default HTTP header x-powered-by can reveal implementation details to an attacker. It can be taken out by including this code in
                     <code>server.js</code>
                     <pre>   
