@@ -41,7 +41,7 @@
         <div class="panel-heading">
             <h4 class="panel-title">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                    <i class="fa fa-chevron-down"></i>A1 -1 Server Side JS Injection
+                    <i class="fa fa-chevron-down"></i>A1 - 1 Server Side JS Injection
                 </a>
             </h4>
         </div>
@@ -59,16 +59,7 @@
                         <code>Function()</code>are used to process user provided inputs, it can be exploited by an attacker to inject and execute malicious JavaScript code on server.
                     </div>
                 </div>
-                <!-- 
-                <div class="panel panel-info"> 
-                    <div class="panel-heading"> 
-                        <h3 class="panel-title">Attack Scenario Demo</h3> 
-                    </div> 
-                    <div class="panel-body"> 
-                        Screencast showing how attack can manifest in the target application ... 
-                    </div> 
-                </div> 
-            -->
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Attack Mechanics</h3>
@@ -196,16 +187,16 @@
     </div>
     <!-- /ssjs -->
 
-    <!--
+    <!-- DB Injection -->
     <div class="panel panel-info">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> 
-          A1 - 2 SQL and NoSQL Injection 
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                    <i class="fa fa-chevron-down"></i> A1 - 2 SQL and NoSQL Injection
         </a> 
             </h4>
         </div>
-        <div id="collapseTwo" class="panel-collapse collapse">
+        <div id="collapseTwo" class="panel-collapse">
             <div class="panel-body">
 
 
@@ -214,26 +205,38 @@
                         <h3 class="panel-title">Description</h3>
                     </div>
                     <div class="panel-body">
+                        <p>
+                            SQL and NoSQL injections enable an attacker to inject code into the query that would be executed by the database.
+                            These flaws are introduced when software developers create dynamic database queries that include user supplied input.
+                        </p>
                     </div>
                 </div>
-
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Attack Scenario Demo</h3>
-                    </div>
-                    <div class="panel-body">
-                        Screencast showing how attack can manifest in the target application ...
-                    </div>
-                </div>
-
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Attack Mechanics</h3>
                     </div>
                     <div class="panel-body">
-                        code snippet making attack possible...
+                        <p>Both SQL and NoSQL databases are vulnerable to injection attack. Here is an example of equivalent attack in both cases, where attacker manages to retrieve admin user's record without knowing password:</p>
+                        <h5>1. SQL Injection</h5>
+                        <p>Lets consider an example SQL statement used to authenticate the user with username and password</p>
+                            <pre>SELECT * FROM accounts WHERE username = '$username' AND password = '$password'</pre>
+                        <p>If this statement is not prepared or properly handled when constructed, an attacker may be able to supply <code>admin' --</code> in the username field to access the admin user's account bypassing the condition that checks for the password.
+                            The resultant SQL query would looks like:</p>
+                            <pre>SELECT * FROM accounts WHERE username = 'admin' -- AND password = ''</pre>
+                        <br/>
+                        <h5>2. NoSQL Injection</h5>
+                        <p>The equivalent of above query for NoSQL MongoDB database is: </p>
+                        <pre>db.accounts.find({username: username, password: password});</pre>
+                        <p>While here we are no longer dealing with query language, an attacker can still achieve the same results as SQL injection by supplying JSON input object as below: </p>
+                        <pre>
+{
+    "username": "admin",
+    "password": {$gt: ""}
+}
+                        </pre>
+                        <p>In MongoDB, <code>$gt</code> selects those documents where the value of the field is greater than (i.e. >) the specified value. Thus above statement compares password in database with empty string for greatness, which returns <code>true</code>.</p>
+                        <p> The same results can be achieved using other comparison operator such as <code>$ne</code>.</p>
                     </div>
                 </div>
 
@@ -243,15 +246,17 @@
                         <h3 class="panel-title">How Do I Prevent It?</h3>
                     </div>
                     <div class="panel-body">
-                        Fixed code Snippet + Screencast ...
+                        Here are some measures to prevent SQL / NoSQL injection attacks, or minimize impact if it happens:
+                        <ul>
+                            <li>Prepared Statements: For SQL calls, use prepared statements instead of building dynamic queries using string concatenation. Stored procedures have the same effect as the use of prepared statements when implemented safely</li>
+                            <li>Input Validation: Validate inputs to detect malicious values. For NoSQL databases, also validate input types against expected types</li>
+                            <li>Least Privilege: To minimize the potential damage of a successful injection attack, do not assign DBA or admin type access rights to your application accounts. Similarly minimize the privileges of the operating system account that the database process runs under.</li>
+                        </ul>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
--->
     <!-- /NoSQL Injection -->
 </div>
 <!-- end accordions -->
