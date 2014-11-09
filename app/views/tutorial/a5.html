@@ -32,7 +32,8 @@
                 <ol>
                     <li>If application server is configured to run as root, an attacker can run malicious scripts (by exploiting eval family functions) or start new child processes on server</li>
                     <li>Read, write, delete files on file system. Create and run binary files</li>
-                    <li>If sever mis-configured to leak internal implementation details via cookie names or HTTP response headers, then attacker can use this information towards building site's risk profile and finding vulnerabilities</li>
+                    <li>If sever mis-configured to leak internal implementation details via cookie names or HTTP response headers, then attacker can use this information towards building site's risk profile and finding vulnerabilities
+                    </li>
                     <li>If request body size is not limited, an attacker can upload large size of input payload, causing server run out of memory, or make processor and event loop busy.</li>
                 </ol>
 
@@ -45,6 +46,9 @@
             <div class="panel-body">
                 Here are some node.js and express specific configuration measures:
                 <ul>
+                    <li>
+                        Use latest stable version of node.js and express (or other web framework you are using). Keep a watch on published vulnerabilities of these. The vulnerabilities for node.js and express.js can be found <a href="http://blog.nodejs.org/vulnerability/">here</a> and <a href="http://expressjs.com/advanced/security-updates.html">here</a>, respectively.
+                    </li>
                     <li>
                         Do not run application with root privileges. It may seem necessary to run as root user to access privileged ports such as 80. However, this can achieved either by starting server as root and then downgrading the non-privileged user after listening on
                         port 80 is established, or using a separate proxy, or using port mapping.</li>
@@ -78,7 +82,9 @@
                 <h3 class="panel-title">Source Code Example</h3>
             </div>
             <div class="panel-body">
-                <p>The default HTTP header x-powered-by can reveal implementation details to an attacker. It can be taken out by including this code in <code>server.js</code>
+                <div><iframe width="560" height="315" src="//www.youtube.com/embed/lCpnVrD2Neg?rel=0" frameborder="0" allowfullscreen></iframe></div>
+                <p>The default HTTP header x-powered-by can reveal implementation details to an attacker. It can be taken out by including this code in
+                    <code>server.js</code>
                     <pre>   
         app.disable("x-powered-by"); 
     </pre>

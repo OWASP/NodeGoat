@@ -31,6 +31,7 @@
                 </p>
                 <p>
                     For example, the insure demo application uses userid as part of the url to access the allocations (/allocations/{id}). An attacker can manipulate id value and access other user's allocation information.
+                    <iframe width="560" height="315" src="//www.youtube.com/embed/KFTRMw5F_eg?rel=0" frameborder="0" allowfullscreen></iframe>
                 </p>
             </div>
         </div>
@@ -60,7 +61,8 @@
             </div>
             <div class="panel-body">
                 <p>
-                    In <code>routes/allocations.js</code>, the insecure application takes user id from url to access fetch the allocations.
+                    In
+                    <code>routes/allocations.js</code>, the insecure application takes user id from url to access fetch the allocations.
                     <pre>
     var userId = parseInt(req.params.userId);
     allocationsDAO.getByUserId(userId, function(error, allocations) {
