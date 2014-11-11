@@ -18,9 +18,9 @@
             </div>
             <div class="panel-body">
                 <p>
-                    In this attack, an attacker (who can be anonymous external attacker, a user with own account who may attempt to steal accounts from others, or an insider wanting to disguise his or her actions) uses leaks or flaws in the authentication or session management
-                    functions (e.g., exposed accounts, passwords, session IDs) to impersonate other users. Application functions related to authentication and session management are often not implemented correctly, allowing attackers to compromise passwords,
-                    keys, or session tokens, or to exploit other implementation flaws to assume other users’ identities.
+                    In this attack, an attacker (who can be anonymous external attacker, a user with own account who may attempt to steal data from accounts, or an insider wanting to disguise his or her actions) uses leaks or flaws in the authentication or session management
+                    functions to impersonate other users. Application functions related to authentication and session management are often not implemented correctly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other
+                    implementation flaws to assume other users’ identities.
                 </p>
                 <p>
                     Developers frequently build custom authentication and session management schemes, but building these correctly is hard. As a result, these custom schemes frequently have flaws in areas such as logout, password management, timeouts, remember me, secret
@@ -144,7 +144,7 @@ if (bcrypt.compareSync(password, user.password)) {
 
                         <p>The insecure demo application does not contain any provision to timeout user session. The session stays active until user explicitly logs out.</p>
 
-                        <p>Also, the app does not prevent cookies being accessed in script, making application vulnerable to Cross Site Scripting (XSS) attacks. Also cookies are not prevented to get sent on insecure HTTP connection.</p>
+                        <p>In addition to that, the app does not prevent cookies being accessed in script, making application vulnerable to Cross Site Scripting (XSS) attacks. Also cookies are not prevented to get sent on insecure HTTP connection.</p>
 
                         <p>To secure the application:</p>
                         <p>1. Use session based timeouts, terminate session when browser closes.</p>
@@ -275,8 +275,8 @@ req.session.destroy(function() {
                             <code>validateSignup()</code>method, the regex for password enforcement is simply <pre>var PASS_RE = /^.{1,20}$/;</pre>
                         </p>
                         <p>
-                            A stronger password can be enforced using the regex below, which requires 8 to 18 character password with numbers and both lowercase and uppercase letters.
-                            <pre>var PASS_RE =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,18}$/;</pre>
+                            A stronger password can be enforced using the regex below, which requires at least 8 character password with numbers and both lowercase and uppercase letters.
+                            <pre>var PASS_RE =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;</pre>
                         </p>
                         <p>
                             Another issue, in routes/session.js, the

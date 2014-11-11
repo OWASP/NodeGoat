@@ -121,8 +121,8 @@ function SessionHandler(db) {
         var PASS_RE = /^.{1,20}$/;
         /*
         //Fix for A2-2 - Broken Authentication -  requires stronger password
-        //(8 to 18 character password with numbers and both lowercase and uppercase letters.)
-        var PASS_RE =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,18}$/;
+        //(at least 8 characters with numbers and both lowercase and uppercase letters.)
+        var PASS_RE =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         */
 
         errors.userNameError = "";
