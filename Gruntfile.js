@@ -103,10 +103,20 @@ function configureGrunt(grunt) {
             test: {
                 NODE_ENV: "test"
             }
+        },
+        retire : {
+            js      : [],
+            node    : ["./"],
+            options : {
+                verbose        : true,
+                packageOnly    : true,
+                jsRepository   : "https://raw.github.com/bekk/retire.js/master/repository/jsrepository.json",
+                nodeRepository : "https://raw.github.com/bekk/retire.js/master/repository/npmrepository.json",
+            }
         }
     });
 
-    // Load NPM tasks 
+    // Load NPM tasks
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-mocha-test");
@@ -114,6 +124,7 @@ function configureGrunt(grunt) {
     grunt.loadNpmTasks("grunt-concurrent");
     grunt.loadNpmTasks("grunt-env");
     grunt.loadNpmTasks("grunt-jsbeautifier");
+    grunt.loadNpmTasks("grunt-retire");
 
     // Making grunt default to force in order not to break the project.
     grunt.option("force", true);
