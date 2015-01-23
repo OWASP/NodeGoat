@@ -3,16 +3,20 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 
 var express = require("express");
-var app = express(); // Web framework to handle routing requests
+var favicon = require('serve-favicon');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var consolidate = require("consolidate"); // Templating library adapter for Express
 var swig = require("swig");
 var helmet = require("helmet");
 var MongoClient = require("mongodb").MongoClient; // Driver for connecting to MongoDB
+var http = require("http");
 
+var app = express(); // Web framework to handle routing requests
 var routes = require("./app/routes");
 var config = require("./config/config"); // Application config properties
 
-var http = require("http");
 
 /*
 // Fix for A6-Sensitive Data Exposure
@@ -32,42 +36,19 @@ MongoClient.connect(config.db, function(err, db) {
 
     if (err) throw err;
 
-    /*
-     //Fix for A5 - Security MisConfig
-     // Remove default x-powered-by response header
-     app.disable("x-powered-by");
-
-     // Prevent opening page in frame or iframe to protect from clickjacking
-     app.use(helmet.xframe());
-
-     // Prevents browser from caching and storing page
-     app.use(helmet.cacheControl());
-
-     // Allow loading resources only from white-listed domains
-     app.use(helmet.csp());
-
-     // Allow communication only on HTTPS
-     app.use(helmet.hsts());
-
-     // Enable XSS filter in IE (On by default)
-     app.use(helmet.iexss());
-
-     // Forces browser to only use the Content-Type set in the response header instead of sniffing or guessing it
-     app.use(helmet.contentTypeOptions());
-     */
-
-    // Adding/ remove HTTP Headers for security
-    app.use(express.favicon());
-
     // Express middleware to populate "req.body" so we can access POST variables
-    app.use(express.json());
-    app.use(express.urlencoded());
+    // parse application/json
+    app.use(bodyParser.json());
+    // parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded({extended: false}));
 
     // Express middleware to populate "req.cookies" so we can access cookies
-    app.use(express.cookieParser());
+    app.use(cookieParser());
 
     // Enable session management using express middleware
-    app.use(express.session({
+    app.use(session({
+        resave: true,
+        saveUninitialized: true,
         secret: config.cookieSecret
         /*
         //Fix for A5 - Security MisConfig
@@ -97,9 +78,9 @@ MongoClient.connect(config.db, function(err, db) {
     app.set("view engine", "html");
     app.set("views", __dirname + "/app/views");
     app.use(express.static(__dirname + "/app/assets"));
+    app.use(favicon(__dirname + "/app/assets/favicon.ico"));
 
     // Application routes
-    app.use(app.router);
     routes(app, db);
 
     swig.init({

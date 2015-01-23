@@ -1,3 +1,9 @@
+0.1.16 / 2013-12-01
+-------------------
+
+* Maintenance release. Updated dependencies and docs.
+
+
 0.1.15 / 2013-05-13
 -------------------
 

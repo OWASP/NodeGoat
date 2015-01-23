@@ -23,6 +23,8 @@ if ('completion' in options) {
   completion.print(options.completion);
 } else if (options.version) {
   info.version();
+} else if (options.base && !options.gruntfile) {
+  basedir = path.resolve(options.base);
 } else if (options.gruntfile) {
   basedir = path.resolve(path.dirname(options.gruntfile));
 }

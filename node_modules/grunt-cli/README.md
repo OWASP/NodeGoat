@@ -25,6 +25,6 @@ eval "$(grunt --completion=zsh)"
 ```
 
 ## Installing grunt-cli locally
-If you don't have administrator rights, you may need to install grunt-cli locally to your project using `npm install grunt-cli --save-dev`.  Unfortunately, this will not put the `grunt` executable in your PATH.  You'll need to specify its explicit location when executing it, eg: `./node_modules/.bin/grunt`,
+If you prefer the idiomatic Node.js method to get started with a project (`npm install && npm test`) then install grunt-cli locally with `npm install grunt-cli --save-dev`. Then add a script to your `package.json` to run the associated grunt command: `"scripts": { "test": "grunt test" } `. Now `npm test` will use the locally installed `./node_modules/.bin/grunt` executable to run your Grunt commands.
 
-Note: Using grunt-cli in this way is unsupported.
+To read more about npm scripts, please visit the npm docs: [https://npmjs.org/doc/misc/npm-scripts.html](https://npmjs.org/doc/misc/npm-scripts.html).
