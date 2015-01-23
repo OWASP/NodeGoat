@@ -67,16 +67,16 @@ function SessionHandler(db) {
                         userName: userName,
                         password: "",
                         loginError: invalidUserNameErrorMessage
-                        //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
-                        // loginError: errorMessage
+                            //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
+                            // loginError: errorMessage
                     });
                 } else if (err.invalidPassword) {
                     return res.render("login", {
                         userName: userName,
                         password: "",
                         loginError: invalidPasswordErrorMessage
-                        //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
-                        // loginError: errorMessage
+                            //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
+                            // loginError: errorMessage
 
                     });
                 } else {

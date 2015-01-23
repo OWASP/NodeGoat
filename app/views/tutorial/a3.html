@@ -18,8 +18,7 @@
                 <h3 class="panel-title">Description</h3>
             </div>
             <div class="panel-body">
-                XSS flaws occur whenever an application takes untrusted data and sends it to a web browser without proper validation or escaping. XSS allows attackers to execute scripts in the victims' browser, which can access any cookies, session tokens, or other sensitive
-                information retained by the browser, or redirect user to malicious sites.
+                XSS flaws occur whenever an application takes untrusted data and sends it to a web browser without proper validation or escaping. XSS allows attackers to execute scripts in the victims' browser, which can access any cookies, session tokens, or other sensitive information retained by the browser, or redirect user to malicious sites.
             </div>
         </div>
 
@@ -51,8 +50,7 @@
                         <p><b> Input validation and sanitization:</b> Input validation and data sanitization are the first line of defense against untrusted data. Apply white list validation wherever possible.</p>
                     </li>
                     <li>
-                        <p> <b> Output encoding for correct context: </b>When a browser is rendering HTML and any other associated content like CSS, javascript etc., it follows different rendering rules for each context. Hence <i>Context-sensitive output encoding</i> is
-                            absolutely critical for mitigating risk of XSS.</p>
+                        <p> <b> Output encoding for correct context: </b>When a browser is rendering HTML and any other associated content like CSS, javascript etc., it follows different rendering rules for each context. Hence <i>Context-sensitive output encoding</i> is absolutely critical for mitigating risk of XSS.</p>
                         Here are the details about applying correct encoding in each context:
                         <table class="table table-bordered table-hover">
                             <tbody>
@@ -96,8 +94,7 @@
                                         <br>&lt;script&gt;someFunction('
                                         <span style="color:red;">UNTRUSTED DATA</span>');&lt;/script&gt;
                                     </td>
-                                    <td>Ensure JavaScript variables are quoted. Except for alphanumeric characters, escape all characters with ASCII values less than 256 with \uXXXX unicode escaping format (X = Integer), or in xHH (HH = HEX Value) encoding
-                                        format.
+                                    <td>Ensure JavaScript variables are quoted. Except for alphanumeric characters, escape all characters with ASCII values less than 256 with \uXXXX unicode escaping format (X = Integer), or in xHH (HH = HEX Value) encoding format.
                                     </td>
                                 </tr>
                                 <tr>
@@ -111,13 +108,11 @@
                         </table>
                     </li>
                     <li>
-                        <p><b>HTTPOnly cookie flag:</b> Preventing all XSS flaws in an application is hard. To help mitigate the impact of an XSS flaw on your site, set the HTTPOnly flag on session cookie and any custom cookies that are not required to be
-                            accessed by JavaScript.
+                        <p><b>HTTPOnly cookie flag:</b> Preventing all XSS flaws in an application is hard. To help mitigate the impact of an XSS flaw on your site, set the HTTPOnly flag on session cookie and any custom cookies that are not required to be accessed by JavaScript.
                         </p>
                     </li>
                     <li>
-                        <p><b>Implement Content Security Policy (CSP):</b> CSP is a browser side mechanism which allows creating whitelists for client side resources used by the web application, e.g. JavaScript, CSS, images, etc. CSP via special HTTP header
-                            instructs the browser to only execute or render resources from those sources. For example, the CSP header below allows content only from example site's own domain (mydomain.com) and all its sub domains.
+                        <p><b>Implement Content Security Policy (CSP):</b> CSP is a browser side mechanism which allows creating whitelists for client side resources used by the web application, e.g. JavaScript, CSS, images, etc. CSP via special HTTP header instructs the browser to only execute or render resources from those sources. For example, the CSP header below allows content only from example site's own domain (mydomain.com) and all its sub domains.
                             <pre>Content-Security-Policy: default-src 'self' *.mydomain.com</pre>
 
                         </p>
@@ -134,8 +129,7 @@
             </div>
             <div class="panel-body">
                 <p>
-                    The demo web application is vulnerable to stored XSS attack on profiles form. On form submit, the first and last name field values are submitted to the server, and without any validation get saved in database. The values are then sent back to the browser
-                    without proper escaping to be shown at the top right menu.
+                    The demo web application is vulnerable to stored XSS attack on profiles form. On form submit, the first and last name field values are submitted to the server, and without any validation get saved in database. The values are then sent back to the browser without proper escaping to be shown at the top right menu.
                 </p>
                 <iframe width="560" height="315" src="//www.youtube.com/embed/KvZ5jdg083M?rel=0" frameborder="0" allowfullscreen></iframe>
 

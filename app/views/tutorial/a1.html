@@ -74,7 +74,7 @@
                         </p>
                         <p>This vulnerability can be very critical and damaging by allowing attacker to send various types of commands.</p>
                         <p>
-                            <b>Denial of Service Attack:</b> 
+                            <b>Denial of Service Attack:</b>
                         </p>
                         <iframe width="560" height="315" src="//www.youtube.com/embed/krOx9QWwcYw?rel=0" frameborder="0" allowfullscreen></iframe>
                         <p>
@@ -83,16 +83,16 @@
                         </p>
 
 
-                        <pre>while(1)</pre> 
+                        <pre>while(1)</pre>
                         <p>
                             This input will cause the target server's event loop to use 100% of its processor time and unable to process any other incoming requests until process is restarted.
                         </p>
                         <p>
                             An alternative DoS attack would be to simply exit or kill the running process:
-                            <pre>process.exit()</pre> or <pre>process.kill(process.pid) </pre> 
+                            <pre>process.exit()</pre> or <pre>process.kill(process.pid) </pre>
                         </p>
                         <p>
-                            <b>File System Access</b> 
+                            <b>File System Access</b>
                             <br/>
                         </p>
                         <iframe width="560" height="315" src="//www.youtube.com/embed/Mr-Jh9bjSLo?rel=0" frameborder="0" allowfullscreen></iframe>
@@ -100,14 +100,14 @@
                             Another potential goal of an attacker might be to read the contents of files from the server. For example, following two commands list the contents of the current directory and parent directory respectively:
                         </p>
                         <p>
-                            <pre>res.end(require('fs').readdirSync('.').toString())</pre> 
-                            <pre>res.end(require('fs').readdirSync('..').toString()) </pre> 
+                            <pre>res.end(require('fs').readdirSync('.').toString())</pre>
+                            <pre>res.end(require('fs').readdirSync('..').toString()) </pre>
                         </p>
                         <p>
                             Once file names are obtained, an attacker can issue the command below to view the actual contents of a file:
                         </p>
                         <p>
-                            <pre>res.end(require('fs').readFileSync(filename))</pre> 
+                            <pre>res.end(require('fs').readFileSync(filename))</pre>
                         </p>
                         <p>
                             An attacker can further exploit this vulnerability by writing and executing harmful binary files using
@@ -138,8 +138,7 @@
                                 <code>parseXXX()</code>methods.
                             </li>
                             <li>Include
-                                <code>"use strict"</code>at the beginning of a function, which enables <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode"> strict mode </a>within
-                                the enclosing function scope.</li>
+                                <code>"use strict"</code>at the beginning of a function, which enables <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode"> strict mode </a>within the enclosing function scope.</li>
 
                         </ul>
                     </div>
@@ -158,8 +157,7 @@
         var preTax = eval(req.body.preTax);
         var afterTax = eval(req.body.afterTax);
         var roth = eval(req.body.roth);
-                            </pre>
-                            This makes application vulnerable to SSJS attack. It can fixed simply by using
+                            </pre> This makes application vulnerable to SSJS attack. It can fixed simply by using
                             <code>parseInt()</code>instead.
                             <pre>
         //Fix for A1 -1 SSJS Injection attacks - uses alternate method to eval
@@ -252,8 +250,7 @@
                         <ul>
                             <li>Prepared Statements: For SQL calls, use prepared statements instead of building dynamic queries using string concatenation.</li>
                             <li>Input Validation: Validate inputs to detect malicious values. For NoSQL databases, also validate input types against expected types</li>
-                            <li>Least Privilege: To minimize the potential damage of a successful injection attack, do not assign DBA or admin type access rights to your application accounts. Similarly minimize the privileges of the operating system account
-                                that the database process runs under.</li>
+                            <li>Least Privilege: To minimize the potential damage of a successful injection attack, do not assign DBA or admin type access rights to your application accounts. Similarly minimize the privileges of the operating system account that the database process runs under.</li>
                         </ul>
                     </div>
                 </div>

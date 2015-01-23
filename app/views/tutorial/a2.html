@@ -18,13 +18,10 @@
             </div>
             <div class="panel-body">
                 <p>
-                    In this attack, an attacker (who can be anonymous external attacker, a user with own account who may attempt to steal data from accounts, or an insider wanting to disguise his or her actions) uses leaks or flaws in the authentication or session management
-                    functions to impersonate other users. Application functions related to authentication and session management are often not implemented correctly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other
-                    implementation flaws to assume other users’ identities.
+                    In this attack, an attacker (who can be anonymous external attacker, a user with own account who may attempt to steal data from accounts, or an insider wanting to disguise his or her actions) uses leaks or flaws in the authentication or session management functions to impersonate other users. Application functions related to authentication and session management are often not implemented correctly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users’ identities.
                 </p>
                 <p>
-                    Developers frequently build custom authentication and session management schemes, but building these correctly is hard. As a result, these custom schemes frequently have flaws in areas such as logout, password management, timeouts, remember me, secret
-                    question, account update, etc. Finding such flaws can sometimes be difficult, as each implementation is unique.
+                    Developers frequently build custom authentication and session management schemes, but building these correctly is hard. As a result, these custom schemes frequently have flaws in areas such as logout, password management, timeouts, remember me, secret question, account update, etc. Finding such flaws can sometimes be difficult, as each implementation is unique.
                 </p>
             </div>
 
@@ -70,8 +67,7 @@
                         <h3 class="panel-title">Attack Mechanics</h3>
                     </div>
                     <div class="panel-body">
-                        <p><b>Scenario #1:</b> Application timeouts aren't set properly. User uses a public computer to access site. Instead of selecting “logout” the user simply closes the browser tab and walks away. Attacker uses the same browser an hour
-                            later, and that browser is still authenticated.</p>
+                        <p><b>Scenario #1:</b> Application timeouts aren't set properly. User uses a public computer to access site. Instead of selecting “logout” the user simply closes the browser tab and walks away. Attacker uses the same browser an hour later, and that browser is still authenticated.</p>
 
                         <p><b>Scenario #2: </b>Attacker acts as a man-in-middle and acquires user's session id from network traffic. Then uses this authenticated session id to connect to application without needing to enter user name and password.</p>
 
@@ -113,8 +109,7 @@ var user = {
     lastName: lastName,
     password: password //received from request param
 };
-                        </pre>
-                            To secure it, handle password storage in a safer way by using one way encryption using salt hashing as below:</p>
+                        </pre> To secure it, handle password storage in a safer way by using one way encryption using salt hashing as below:</p>
                         <pre>
 // Generate password hash
 var salt = bcrypt.genSaltSync();
@@ -127,8 +122,7 @@ var user = {
     lastName: lastName,
     password: passwordHash
 };
-                        </pre>
-                        This hash password can not be decrypted, hence more secure. To compare the password when user logs in, the user entered password gets converted to hash and compared with the hash in storage.
+                        </pre> This hash password can not be decrypted, hence more secure. To compare the password when user logs in, the user entered password gets converted to hash and compared with the hash in storage.
 
                         <pre>
 if (bcrypt.compareSync(password, user.password)) {
@@ -136,8 +130,7 @@ if (bcrypt.compareSync(password, user.password)) {
 } else {
     callback(invalidPasswordError, null);
 }
-                        </pre>
-                        Note: The bcrypt module also provides asynchronous methods for creating and comparing hash.
+                        </pre> Note: The bcrypt module also provides asynchronous methods for creating and comparing hash.
                         <br/>
                         <br/>
                         <h3>2. Session timeout and protecting cookies in transit</h3>
@@ -171,10 +164,8 @@ app.use(express.session({
 req.session.destroy(function() {
     res.redirect("/");
 });
-                        </pre>
-                            Note: The example code uses
-                            <code>MemoryStore</code>to manage session data, which is not designed for production environment, as it will leak memory, and will not scale past a single process. Use database based storage MongoStore or RedisStore for production.
-                            Alternatively, sessions can be managed using popular passport module.
+                        </pre> Note: The example code uses
+                            <code>MemoryStore</code>to manage session data, which is not designed for production environment, as it will leak memory, and will not scale past a single process. Use database based storage MongoStore or RedisStore for production. Alternatively, sessions can be managed using popular passport module.
                     </div>
                 </div>
                 <div class="panel panel-default">
@@ -249,19 +240,15 @@ req.session.destroy(function() {
                         <p>Password characters should be a combination of alphanumeric characters. Alphanumeric characters consist of letters, numbers, punctuation marks, mathematical and other conventional symbols.</p>
                         <p><b>Username/Password Enumeration</b>
                         </p>
-                        <p>Authentication failure responses should not indicate which part of the authentication data was incorrect. For example, instead of "Invalid username" or "Invalid password", just use "Invalid username and/or password" for both. Error
-                            responses must be truly identical in both display and source code</p>
+                        <p>Authentication failure responses should not indicate which part of the authentication data was incorrect. For example, instead of "Invalid username" or "Invalid password", just use "Invalid username and/or password" for both. Error responses must be truly identical in both display and source code</p>
 
                         <p><b>Additional Measures</b>
                         </p>
                         <p>
                             <ul>
-                                <li>For additional protection against brute forcing, enforce account disabling after an established number of invalid login attempts (e.g., five attempts is common). The account must be disabled for a period of time sufficient
-                                    to discourage brute force guessing of credentials, but not so long as to allow for a denial-of-service attack to be performed.</li>
-                                <li>Authentication failure responses should not indicate which part of the authentication data was incorrect. For example, instead of "Invalid username" or "Invalid password", just use "Invalid username and/or password" for
-                                    both. Error responses must be truly identical in both display and source code</li>
-                                <li>Only send non-temporary passwords over an encrypted connection or as encrypted data, such as in an encrypted email. Temporary passwords associated with email resets may be an exception. Enforce the changing of temporary
-                                    passwords on the next use. Temporary passwords and links should have a short expiration time.</li>
+                                <li>For additional protection against brute forcing, enforce account disabling after an established number of invalid login attempts (e.g., five attempts is common). The account must be disabled for a period of time sufficient to discourage brute force guessing of credentials, but not so long as to allow for a denial-of-service attack to be performed.</li>
+                                <li>Authentication failure responses should not indicate which part of the authentication data was incorrect. For example, instead of "Invalid username" or "Invalid password", just use "Invalid username and/or password" for both. Error responses must be truly identical in both display and source code</li>
+                                <li>Only send non-temporary passwords over an encrypted connection or as encrypted data, such as in an encrypted email. Temporary passwords associated with email resets may be an exception. Enforce the changing of temporary passwords on the next use. Temporary passwords and links should have a short expiration time.</li>
                             </ul>
                     </div>
                 </div>
@@ -280,8 +267,7 @@ req.session.destroy(function() {
                         </p>
                         <p>
                             Another issue, in routes/session.js, the
-                            <code>handleLoginRequest()</code>enumerated whether password was incorrect or user doesn't exist.This information can be valuable to an attacker with brute forcing attempts. This can be easily fixed using a generic error message
-                            such as "Invalid username and/or password".
+                            <code>handleLoginRequest()</code>enumerated whether password was incorrect or user doesn't exist.This information can be valuable to an attacker with brute forcing attempts. This can be easily fixed using a generic error message such as "Invalid username and/or password".
                         </p>
                     </div>
                 </div>
