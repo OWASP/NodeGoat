@@ -722,20 +722,15 @@ HelpFormatter.prototype._formatArgs = function (action, metavarDefault) {
 };
 
 HelpFormatter.prototype._expandHelp = function (action) {
-  var actionProperty;
-  var actionValue;
+  var params = { prog: this._prog };
 
-  var params = {prog: this._prog};
+  Object.keys(action).forEach(function (actionProperty) {
+    var actionValue = action[actionProperty];
 
-  for (actionProperty in action) {
-    if (action.hasOwnProperty(actionProperty)) {
-      actionValue = action[actionProperty];
-
-      if (actionValue !== $$.SUPPRESS) {
-        params[actionProperty] = actionValue;
-      }
+    if (actionValue !== $$.SUPPRESS) {
+      params[actionProperty] = actionValue;
     }
-  }
+  });
 
   if (!!params.choices) {
     if (_.isString(params.choices)) {
