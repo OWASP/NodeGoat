@@ -104,14 +104,14 @@ function configureGrunt(grunt) {
                 NODE_ENV: "test"
             }
         },
-        retire : {
-            js      : [],
-            node    : ["./"],
-            options : {
-                verbose        : true,
-                packageOnly    : true,
-                jsRepository   : "https://raw.github.com/bekk/retire.js/master/repository/jsrepository.json",
-                nodeRepository : "https://raw.github.com/bekk/retire.js/master/repository/npmrepository.json",
+        retire: {
+            js: [],
+            node: ["./"],
+            options: {
+                verbose: true,
+                packageOnly: true,
+                jsRepository: "https://raw.github.com/bekk/retire.js/master/repository/jsrepository.json",
+                nodeRepository: "https://raw.github.com/bekk/retire.js/master/repository/npmrepository.json",
             }
         }
     });
@@ -124,7 +124,7 @@ function configureGrunt(grunt) {
     grunt.loadNpmTasks("grunt-concurrent");
     grunt.loadNpmTasks("grunt-env");
     grunt.loadNpmTasks("grunt-jsbeautifier");
-    grunt.loadNpmTasks("grunt-retire");
+    grunt.loadNpmTasks("grunt-retire"); // run as: grunt retire
 
     // Making grunt default to force in order not to break the project.
     grunt.option("force", true);

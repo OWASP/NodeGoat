@@ -3,10 +3,10 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 
 var express = require("express");
-var favicon = require('serve-favicon');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
+var favicon = require("serve-favicon");
+var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
+var session = require("express-session");
 var consolidate = require("consolidate"); // Templating library adapter for Express
 var swig = require("swig");
 var helmet = require("helmet");
@@ -16,7 +16,6 @@ var http = require("http");
 var app = express(); // Web framework to handle routing requests
 var routes = require("./app/routes");
 var config = require("./config/config"); // Application config properties
-
 
 /*
  // Fix for A6-Sensitive Data Exposure
@@ -40,7 +39,9 @@ MongoClient.connect(config.db, function(err, db) {
     // parse application/json
     app.use(bodyParser.json());
     // parse application/x-www-form-urlencoded
-    app.use(bodyParser.urlencoded({extended: false}));
+    app.use(bodyParser.urlencoded({
+        extended: false
+    }));
 
     // Express middleware to populate "req.cookies" so we can access cookies
     app.use(cookieParser());
@@ -50,17 +51,17 @@ MongoClient.connect(config.db, function(err, db) {
         resave: true,
         saveUninitialized: true,
         secret: config.cookieSecret
-        /*
-         //Fix for A5 - Security MisConfig
-         // Use generic cookie name
-         key: "sessionId",
+            /*
+             //Fix for A5 - Security MisConfig
+             // Use generic cookie name
+             key: "sessionId",
 
-         //Fix for A3 - XSS
-         cookie: {
-         httpOnly: true,
-         secure: true
-         }
-         */
+             //Fix for A3 - XSS
+             cookie: {
+             httpOnly: true,
+             secure: true
+             }
+             */
     }));
     /* Fix for A8 - CSRF
      //Enable Express csrf protection
@@ -87,10 +88,10 @@ MongoClient.connect(config.db, function(err, db) {
         root: __dirname + "/app/views",
         // Autoescape disabled
         autoescape: false
-        /*
-         // Fix for A3 - XSS, enable auto escaping
-         autoescape: true //default value
-         */
+            /*
+             // Fix for A3 - XSS, enable auto escaping
+             autoescape: true //default value
+             */
     });
 
     // Insecure HTTP connection

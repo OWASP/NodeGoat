@@ -15,8 +15,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Description</h3>
             </div>
-            <div class="panel-body">Web applications frequently redirect and forward users to other pages and websites, and use untrusted data to determine the destination pages. Without proper validation, attackers can redirect victims to phishing or malware sites, or use forwards
-                to access unauthorized pages.</div>
+            <div class="panel-body">Web applications frequently redirect and forward users to other pages and websites, and use untrusted data to determine the destination pages. Without proper validation, attackers can redirect victims to phishing or malware sites, or use forwards to access unauthorized pages.</div>
         </div>
 
         <div class="panel panel-info">
@@ -37,8 +36,7 @@
     app.get("/learn", function (req, res, next) {
         return res.redirect(req.query.url);
     });
-                    </pre>
-                    An attacker can change the
+                    </pre> An attacker can change the
                     <code>url</code>query parameter to point to malicious website and share it. Victims are more likely to click on it, as the initial part of the link (before query parameters) points to a trusted site.
                 </p>
             </div>
