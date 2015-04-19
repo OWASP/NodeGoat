@@ -1,12 +1,14 @@
-use nodegoat;
+conn = new Mongo();
+
+db = conn.getDB("nodegoat");
 
 //remove existing data
-db.users.remove();
-db.allocations.remove();
-db.contributions.remove();
-db.counters.remove();
+db.users.remove({});
+db.allocations.remove({});
+db.contributions.remove({});
+db.counters.remove({});
 
-//reset unique id counter 
+//reset unique id counter
 db.counters.insert({_id: "userid", seq: 3});
 
 //insert admin and test users
@@ -40,8 +42,7 @@ db.users.insert([{
 
 // Add seed allocations
 db.allocations.insert([
-	{ "userId" : 2, "stocks" : 40, "funds" : 9, "bonds" : 51 },
-	{ "userId" : 3, "stocks" : 22, "funds" : 12, "bonds" : 66 },
-	{ "userId" : 1, "stocks" : 23, "funds" : 22, "bonds" : 55 }
+    { "userId" : 2, "stocks" : 40, "funds" : 9, "bonds" : 51 },
+    { "userId" : 3, "stocks" : 22, "funds" : 12, "bonds" : 66 },
+    { "userId" : 1, "stocks" : 23, "funds" : 22, "bonds" : 55 }
 ]);
-
