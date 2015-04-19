@@ -15,7 +15,7 @@ How to Install and Run NodeGoat
 
 Open a command prompt / terminal window and run the command below from the parent directory inside which you would like the NodeGoat code copied.
 
-```
+```sh
 git clone https://github.com/OWASP/NodeGoat.git
 ```
 ### Running Your Copy of the Code
@@ -31,7 +31,10 @@ git clone https://github.com/OWASP/NodeGoat.git
 
   0. Connect to [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod)
   0. From a system prompt, start [mongo](http://docs.mongodb.org/manual/reference/program/mongo/#bin.mongo) by issuing the [mongo](http://docs.mongodb.org/manual/reference/program/mongo/#bin.mongo) command
-  0. Paste contents of nodegoat_db_reset.js at root directory on mongo console
+  0. Run the "nodegoat_db_reset.js" Mongo shell script to create your "nodegoat" database
+  ```sh
+  mongo localhost:27017 nodegoat_db_reset.js
+  ```
   0. Add an entry for DB path in `config/env/development.js` as
   ```js
   var devConfig = {

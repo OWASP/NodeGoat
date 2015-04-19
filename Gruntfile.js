@@ -104,14 +104,14 @@ function configureGrunt(grunt) {
                 NODE_ENV: "test"
             }
         },
-        retire : {
-            js      : [],
-            node    : ["./"],
-            options : {
-                verbose        : true,
-                packageOnly    : true,
-                jsRepository   : "https://raw.github.com/bekk/retire.js/master/repository/jsrepository.json",
-                nodeRepository : "https://raw.github.com/bekk/retire.js/master/repository/npmrepository.json",
+        retire: {
+            js: [],
+            node: ["./"],
+            options: {
+                verbose: true,
+                packageOnly: true,
+                jsRepository: "https://raw.github.com/bekk/retire.js/master/repository/jsrepository.json",
+                nodeRepository: "https://raw.github.com/bekk/retire.js/master/repository/npmrepository.json",
             }
         }
     });
