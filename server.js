@@ -3,6 +3,10 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 
 var express = require("express");
+var favicon = require("serve-favicon");
+var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
+var session = require("express-session");
 var app = express(); // Web framework to handle routing requests
 var consolidate = require("consolidate"); // Templating library adapter for Express
 var swig = require("swig");
@@ -57,29 +61,35 @@ MongoClient.connect(config.db, function(err, db) {
      */
 
     // Adding/ remove HTTP Headers for security
-    app.use(express.favicon());
+    app.use(favicon(__dirname + "/app/assets/images/owasplogo.png"));
 
     // Express middleware to populate "req.body" so we can access POST variables
-    app.use(express.json());
-    app.use(express.urlencoded());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+        // Mandatory in Express v4
+        extended: false
+    }));
 
     // Express middleware to populate "req.cookies" so we can access cookies
-    app.use(express.cookieParser());
+    app.use(cookieParser());
 
     // Enable session management using express middleware
-    app.use(express.session({
-        secret: config.cookieSecret
-        /*
-        //Fix for A5 - Security MisConfig
-        // Use generic cookie name
-        key: "sessionId",
+    app.use(session({
+        secret: config.cookieSecret,
+        // Both mandatory in Express v4
+        saveUninitialized: true,
+        resave: true
+            /*
+            //Fix for A5 - Security MisConfig
+            // Use generic cookie name
+            key: "sessionId",
 
-        //Fix for A3 - XSS
-        cookie: {
-            httpOnly: true,
-            secure: true
-        }
-        */
+            //Fix for A3 - XSS
+            cookie: {
+                httpOnly: true,
+                secure: true
+            }
+            */
     }));
     /* Fix for A8 - CSRF
     //Enable Express csrf protection
@@ -99,18 +109,18 @@ MongoClient.connect(config.db, function(err, db) {
     app.use(express.static(__dirname + "/app/assets"));
 
     // Application routes
-    app.use(app.router);
     routes(app, db);
 
-    swig.init({
-        root: __dirname + "/app/views",
-        // Autoescape disabled
-        autoescape: false
-        /*
-        // Fix for A3 - XSS, enable auto escaping
-        autoescape: true //default value
-        */
-    });
+    // TODO: Not needed, but we need "autoscape" to show the vuln
+    //    swig.init({
+    //        root: __dirname + "/app/views",
+    //        // Autoescape disabled
+    //        autoescape: false
+    //            /*
+    //            // Fix for A3 - XSS, enable auto escaping
+    //            autoescape: true //default value
+    //            */
+    //    });
 
     // Insecure HTTP connection
     http.createServer(app).listen(config.port, function() {
