@@ -1,5 +1,3 @@
-var devConfig = {
-    //db: "mongodb://localhost/nodegoat"
+module.exports = {
+    db: "mongodb://localhost/nodegoat"
 };
-
-module.exports = devConfig;

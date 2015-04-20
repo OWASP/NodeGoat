@@ -1,5 +1,3 @@
-var testConfig = {
+module.exports = {
     port: 5051
 };
-
-module.exports = testConfig;

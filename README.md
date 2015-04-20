@@ -31,13 +31,7 @@ git clone https://github.com/OWASP/NodeGoat.git
   ```sh
   mongo localhost:27017 nodegoat_db_reset.js
   ```
-3. Add an entry for DB path in `config/env/development.js` as
-  ```js
-  var devConfig = {
-    db: "mongodb://localhost/nodegoat" // path to local mongo db
-    // any other dev specific entries here
-  };
-  ```
+3. Upgrathe the file `config/env/development.js` to reflect your DB setup
 4. Start server, this starts the NodeGoat application at url [http://localhost:5000/](http://localhost:5000/)
 
   ```sh
