@@ -35,7 +35,12 @@ var httpsOptions = {
 MongoClient.connect(config.db, function(err, db) {
     "use strict";
 
-    if (err) throw err;
+    if (err) {
+        console.log('Error: DB: connect');
+        console.log(err);
+
+        process.exit(1);
+    }
 
     /*
     // Fix for A5 - Security MisConfig
