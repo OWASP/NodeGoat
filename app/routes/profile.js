@@ -7,17 +7,17 @@ function ProfileHandler(db) {
     var profile = new ProfileDAO(db);
 
     this.displayProfile = function(req, res, next) {
+        var userId = req.session.userId;
 
-        profile.getByUserId(req.session.userId, function(error, user) {
+        profile.getByUserId(userId, function(err, docs) {
+            docs.userId = userId;
+            if (err) return next(err);
 
-            if (error) return next(error);
-
-            return res.render("profile", user);
+            return res.render("profile", docs);
         });
     };
 
     this.handleProfileUpdate = function(req, res, next) {
-
         var firstName = req.body.firstName;
         var lastName = req.body.lastName;
         var ssn = req.body.ssn;
@@ -28,17 +28,15 @@ function ProfileHandler(db) {
 
         var userId = req.session.userId;
 
-        profile.updateUser(userId, firstName, lastName, ssn, dob, address, bankAcc, bankRouting, function(err, user) {
-
+        profile.updateUser(userId, firstName, lastName, ssn, dob, address, bankAcc, bankRouting, function(err, doc) {
             if (err) return next(err);
 
             // WARN: Applying any sting specific methods here w/o checking type of inputs could lead to DoS by HPP
             //firstName = firstName.trim();
+            doc.updateSuccess = true;
+            doc.userId = userId;
 
-            user.updateSuccess = true;
-            user.userId = userId;
-
-            return res.render("profile", user);
+            return res.render("profile", doc);
         });
 
     };

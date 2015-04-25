@@ -1,54 +1,45 @@
-NodeGoat
-==========
+# NodeGoat
 
 Being lightweight, fast, and scalable, Node.js is becoming a widely adopted platform for developing web applications. This project provides an environment to learn how OWASP Top 10 security risks apply to web applications developed using Node.js and how to effectively address them.
 
-How to Install and Run NodeGoat
-=================================
+
+## How to Install and Run NodeGoat
 
 ### Requirements
-
 1.  Install [Node.js](http://nodejs.org/) - NodeGoat requires **Node v0.10.***
 2.  Git command line tools - follow the setup instructions [on GitHub](https://help.github.com/articles/set-up-git) or download [here](http://git-scm.com/downloads)
 
 ### Getting a Copy of the Code
-
 Open a command prompt / terminal window and run the command below from the parent directory inside which you would like the NodeGoat code copied.
-
 ```sh
 git clone https://github.com/OWASP/NodeGoat.git
 ```
+
 ### Running Your Copy of the Code
-
 1. Install node modules
+```sh
+cd NodeGoat
+npm install
+```
 
-  ```sh
-  cd NodeGoat
-  npm install
-  ```
+2. Create and populate local DB. You should pass the desired environment, if not "development" is used.
+```sh
+grunt resetdb:development
+```
 
-2. Create and populate local DB
-  ```sh
-  mongo localhost:27017 nodegoat_db_reset.js
-  ```
 3. Upgrathe the file `config/env/development.js` to reflect your DB setup
+
 4. Start server, this starts the NodeGoat application at url [http://localhost:5000/](http://localhost:5000/)
-
-  ```sh
-  grunt run
-  ```
-
+```sh
+grunt run
+```
 
 ### Customizing the Default Application Configuration
-
 The default application settings (database url, http port, etc.) can be changed by updating the [config file] (https://github.com/OWASP/NodejsGoat/blob/master/config/env/all.js).
 
 
-Contributing
-=================================
-
+## Contributing
 Contributions from community are key to make NodeGoat a high quality comprehensive resource. Lets make NodeGoat awesome together!
-
 
 **New to git?** You may find these resources helpful:
 * [GitHub's git tutorial](http://try.github.io/)
@@ -56,7 +47,6 @@ Contributions from community are key to make NodeGoat a high quality comprehensi
 * [git tutorials and workflows](https://www.atlassian.com/git/tutorial)
 
 ### Ways to Contribute
-
 Depending on your preference, you can contribute in various ways. Here are tasks planned for [upcoming release](https://github.com/OWASP/NodeGoat/issues/milestones).
 To begin, inform team about task you would like to contribute on, or send any other suggestions you may have using [NodeGoat Google Group](https://groups.google.com/forum/#!forum/nodegoat).
 
@@ -76,11 +66,9 @@ To begin, inform team about task you would like to contribute on, or send any ot
 Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/contributors) to the NodeGoat project.
 
 
-Report bugs, Feedback, Comments
-====================================
+## Report bugs, Feedback, Comments
 *  Contact team by posting a message on [NodeGoat Google Group](https://groups.google.com/forum/#!forum/nodegoat) 
 
 
-License
-==========
+## License
 Code licensed under the [Apache License v2.0.](http://www.apache.org/licenses/LICENSE-2.0)

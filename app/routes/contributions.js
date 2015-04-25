@@ -7,15 +7,13 @@ function ContributionsHandler(db) {
     var contributionsDAO = new ContributionsDAO(db);
 
     this.displayContributions = function(req, res, next) {
-
         var userId = req.session.userId;
 
-        contributionsDAO.getByUserId(userId, function(error, contrib) {
-
+        contributionsDAO.getByUserId(userId, function(error, doc) {
             if (error) return next(error);
 
-            contrib._id = userId; //set for nav menu items
-            return res.render("contributions", contrib);
+            doc.userId = userId; //set for nav menu items
+            return res.render("contributions", doc);
         });
     };
 
@@ -51,12 +49,11 @@ function ContributionsHandler(db) {
             });
         }
 
-        contributionsDAO.update(userId, preTax, afterTax, roth, function(err, contributions) {
-
+        contributionsDAO.update(userId, preTax, afterTax, roth, function(err, doc) {
             if (err) return next(err);
 
-            contributions.updateSuccess = true;
-            return res.render("contributions", contributions);
+            doc.updateSuccess = true;
+            return res.render("contributions", doc);
         });
 
     };

@@ -7,12 +7,12 @@ function BenefitsHandler(db) {
 
     this.displayBenefits = function(req, res, next) {
 
-        benefitsDAO.getAllNonAdminUsers(function(error, users) {
+        benefitsDAO.getAllNonAdminUsers(function(error, docs) {
 
             if (error) return next(error);
 
             return res.render("benefits", {
-                users: users,
+                users: docs,
                 user: {
                     isAdmin: true
                 }
@@ -21,28 +21,25 @@ function BenefitsHandler(db) {
     };
 
     this.updateBenefits = function(req, res, next) {
-
-        var userId = parseInt(req.body.userId);
+        var userId = req.body.userId;
         var benefitStartDate = req.body.benefitStartDate;
-
 
         benefitsDAO.updateBenefits(userId, benefitStartDate, function(error) {
 
             if (error) return next(error);
 
-            benefitsDAO.getAllNonAdminUsers(function(error, users) {
-
+            benefitsDAO.getAllNonAdminUsers(function(error, docs) {
                 if (error) return next(error);
 
-                var data = {
-                    users: users,
+                docs = {
+                    users: docs,
                     user: {
                         isAdmin: true
                     },
                     updateSuccess: true
                 };
 
-                return res.render("benefits", data);
+                return res.render("benefits", docs);
             });
         });
     };

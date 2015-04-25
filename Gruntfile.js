@@ -1,6 +1,34 @@
-function configureGrunt(grunt) {
+"use strict";
 
-    "use strict";
+var MongoClient = require("mongodb").MongoClient;
+var _ = require("underscore");
+var ObjectID = require("mongodb").ObjectID;
+
+var USERS_TO_INSERT = [{
+    "userName": "admin",
+    "firstName": "Node Goat",
+    "lastName": "Admin ",
+    "password": "Admin_123",
+    //"password" : "$2a$10$8Zo/1e8KM8QzqOKqbDlYlONBOzukWXrM.IiyzqHRYDXqwB3gzDsba", // Admin_123
+    "isAdmin": true
+}, {
+    "userName": "user1",
+    "firstName": "John",
+    "lastName": "Doe",
+    "benefitStartDate": "2030-01-10",
+    "password": "User1_123"
+        // "password" : "$2a$10$RNFhiNmt2TTpVO9cqZElb.LQM9e1mzDoggEHufLjAnAKImc6FNE86",// User1_123
+}, {
+    "userName": "user2",
+    "firstName": "Will",
+    "lastName": "Smith",
+    "benefitStartDate": "2025-11-30",
+    "password": "User2_123"
+        //"password" : "$2a$10$Tlx2cNv15M0Aia7wyItjsepeA8Y6PyBYaNdQqvpxkIUlcONf1ZHyq", // User2_123
+}];
+
+
+module.exports = function(grunt) {
 
     // Project Configuration
     grunt.initConfig({
@@ -129,6 +157,9 @@ function configureGrunt(grunt) {
     // Making grunt default to force in order not to break the project.
     grunt.option("force", true);
 
+    grunt.registerTask('resetDb', '(Re)init the database.', function() {
+        require("./nodegoat_db_reset")();
+    });
 
     // Code Validation, beautification task(s).
     grunt.registerTask("precommit", ["jsbeautifier", "jshint"]);
@@ -139,8 +170,97 @@ function configureGrunt(grunt) {
     // start server.
     grunt.registerTask("run", ["precommit", "concurrent"]);
 
+    grunt.registerTask("resetdb", "Restore the default values info the database", function(arg) {
+        var finalEnv = 'development';
+        var config, done;
+
+        function parseResponse(err, res, comm) {
+            if (err) {
+                grunt.log.error(comm);
+                grunt.log.error(JSON.stringify(err));
+
+                return;
+            }
+            grunt.log.ok(comm);
+            grunt.log.ok(JSON.stringify(res));
+        }
+
+        if (arg) {
+            finalEnv = arg;
+        }
+        // Changing the env variable programatically
+        process.env.NODE_ENV = finalEnv;
+        // We need to do it in run time
+        config = require("./config/config");
+
+        // Doing Mongo stuff
+        done = this.async();
+        MongoClient.connect(config.db, function(err, db) {
+            var usersCol = db.collection('users');
+            var allocationsCol = db.collection('allocations');
+            var contributionsCol = db.collection('contributions');
+
+            if (err) {
+                grunt.log.error('Database:');
+                grunt.log.error(JSON.stringify(err));
+
+                return;
+            }
+            grunt.log.ok('Connected to the database');
+
+            // remove existing data
+            usersCol.deleteMany({}, {}, function(err, db) {
+                parseResponse(err, db.result, 'db.users.deleteMany');
+            });
+            allocationsCol.deleteMany({}, {}, function(err, db) {
+                parseResponse(err, db.result, 'db.allocations.deleteMany');
+            });
+            contributionsCol.deleteMany({}, {}, function(err, db) {
+                parseResponse(err, db.result, 'db.contributions.deleteMany');
+            });
+
+            // insert admin and test users
+            grunt.log.ok('Users to insert:');
+            _.each(USERS_TO_INSERT, function(user) {
+                grunt.log.ok(JSON.stringify(user));
+            });
+
+            usersCol.insertMany(USERS_TO_INSERT, function(err, data) {
+                var finalAllocations = [];
+                var ids;
+
+                parseResponse(err, data, 'users.insertMany')
+
+                // We can't continue if error here
+                if (err) {
+                    done();
+                }
+
+                _.each(data.ops, function(user) {
+                    finalAllocations.push({
+                        userId: new ObjectID(user._id),
+                        stocks: _.random(0, 100),
+                        funds: _.random(0, 100),
+                        bonds: _.random(0, 100)
+                    });
+                });
+
+                grunt.log.ok('Allocations to insert:');
+                _.each(finalAllocations, function(allocation) {
+                    grunt.log.ok(JSON.stringify(allocation));
+                });
+
+                allocationsCol.insertMany(finalAllocations, function(err, data) {
+                    parseResponse(err, data, 'allocations.insertMany');
+                    done();
+                });
+
+            });
+
+        });
+
+    });
+
     // Default task(s).
     grunt.registerTask("default", ["precommit", "concurrent"]);
-}
-
-module.exports = configureGrunt;
+};

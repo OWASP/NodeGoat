@@ -1,4 +1,5 @@
 var UserDAO = require("./user-dao").UserDAO;
+var ObjectID = require("mongodb").ObjectID;
 
 
 /* The AllocationsDAO must be constructed with a connected database object */
@@ -13,7 +14,7 @@ function AllocationsDAO(db) {
         return new AllocationsDAO(db);
     }
 
-    var allocationsDB = db.collection("allocations");
+    var allocationsCol = db.collection("allocations");
     var userDAO = new UserDAO(db);
 
 
@@ -21,14 +22,14 @@ function AllocationsDAO(db) {
 
         // Create allocations document
         var allocations = {
-            userId: userId,
+            userId: new ObjectID(userId),
             stocks: stocks,
             funds: funds,
             bonds: bonds
         };
 
-        allocationsDB.update({
-            userId: userId
+        allocationsCol.update({
+            userId: new ObjectID(userId)
         }, allocations, {
             upsert: true
         }, function(err, result) {
@@ -57,14 +58,12 @@ function AllocationsDAO(db) {
 
 
     this.getByUserId = function(userId, callback) {
-        allocationsDB.findOne({
-            userId: userId
+        allocationsCol.findOne({
+            userId: new ObjectID(userId)
         }, function(err, allocations) {
-
             if (err) return callback(err, null);
 
             userDAO.getUserById(userId, function(err, user) {
-
                 if (err) return callback(err, null);
 
                 // add user details

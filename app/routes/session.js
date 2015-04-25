@@ -1,5 +1,6 @@
 var UserDAO = require("../data/user-dao").UserDAO;
 var AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
+var ObjectID = require("mongodb").ObjectID;
 
 /* The SessionHandler must be constructed with a connected db */
 function SessionHandler(db) {
@@ -15,7 +16,7 @@ function SessionHandler(db) {
         var funds = Math.floor((Math.random() * 40) + 1);
         var bonds = 100 - (stocks + funds);
 
-        allocationsDAO.update(user.userId, stocks, funds, bonds, function(err) {
+        allocationsDAO.update(new ObjectID(user._id), stocks, funds, bonds, function(err) {
             if (err) return next(err);
         });
     };
@@ -67,30 +68,32 @@ function SessionHandler(db) {
                         userName: userName,
                         password: "",
                         loginError: invalidUserNameErrorMessage
-                        //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
-                        // loginError: errorMessage
+                            //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
+                            // loginError: errorMessage
                     });
                 } else if (err.invalidPassword) {
                     return res.render("login", {
                         userName: userName,
                         password: "",
                         loginError: invalidPasswordErrorMessage
-                        //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
-                        // loginError: errorMessage
+                            //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
+                            // loginError: errorMessage
 
                     });
                 } else {
                     return next(err);
                 }
             }
-            //req.session.regenerate(function() {
-            req.session.userId = user.userId;
-            if (user.isAdmin) {
-                return res.redirect("/benefits");
-            } else {
-                return res.redirect("/dashboard");
-            }
-            //});
+            // Regenerating in each login
+            // TODO: Add another vulnerability related with not to do it
+            req.session.regenerate(function() {
+                req.session.userId = user._id;
+                if (user.isAdmin) {
+                    return res.redirect("/benefits");
+                } else {
+                    return res.redirect("/dashboard");
+                }
+            });
         });
     };
 
@@ -193,20 +196,20 @@ function SessionHandler(db) {
 
                     if (err) return next(err);
 
-                    //prepare data for the user
+                    // prepare data for the user
                     prepareUserData(user, next);
                     /*
-                    sessionDAO.startSession(user.userId, function(err, sessionId) {
+                    sessionDAO.startSession(user._id, function(err, sessionId) {
 
                         if (err) return next(err);
 
                         res.cookie("session", sessionId);
-                        req.session.userId = user.userId;
+                        req.session.userId = user._id;
                         return res.render("dashboard", user);
                     });
                     */
                     req.session.regenerate(function() {
-                        req.session.userId = user.userId;
+                        req.session.userId = user._id;
                         return res.render("dashboard", user);
                     });
 
@@ -219,17 +222,19 @@ function SessionHandler(db) {
     };
 
     this.displayWelcomePage = function(req, res, next) {
+		var userId = req.session.userId;
 
         if (!req.session.userId) {
             console.log("welcome: Unable to identify user...redirecting to login");
             return res.redirect("/login");
         }
-
-        userDAO.getUserById(req.session.userId, function(err, user) {
+        userDAO.getUserById(userId, function(err, doc) {
 
             if (err) return next(err);
 
-            return res.render("dashboard", user);
+			doc.userId = userId;
+
+			return res.render("dashboard", doc);
         });
 
     };

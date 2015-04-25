@@ -1,3 +1,5 @@
+var ObjectID = require("mongodb").ObjectID;
+
 /* The BenefitsDAO must be constructed with a connected database object */
 function BenefitsDAO(db) {
 
@@ -10,10 +12,10 @@ function BenefitsDAO(db) {
         return new BenefitsDAO(db);
     }
 
-    var usersCollection = db.collection("users");
+    var usersCol = db.collection("users");
 
     this.getAllNonAdminUsers = function(callback) {
-        usersCollection.find({
+        usersCol.find({
             "isAdmin": {
                 $ne: true
             }
@@ -23,9 +25,8 @@ function BenefitsDAO(db) {
     };
 
     this.updateBenefits = function(userId, startDate, callback) {
-
-        usersCollection.update({
-            userId: userId
+        usersCol.update({
+            _id: new ObjectID(userId)
         }, {
             $set: {
                 benefitStartDate: startDate

@@ -5,7 +5,6 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 var express = require("express");
 var favicon = require("serve-favicon");
 var bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser");
 var session = require("express-session");
 var app = express(); // Web framework to handle routing requests
 var consolidate = require("consolidate"); // Templating library adapter for Express
@@ -69,9 +68,6 @@ MongoClient.connect(config.db, function(err, db) {
         // Mandatory in Express v4
         extended: false
     }));
-
-    // Express middleware to populate "req.cookies" so we can access cookies
-    app.use(cookieParser());
 
     // Enable session management using express middleware
     app.use(session({

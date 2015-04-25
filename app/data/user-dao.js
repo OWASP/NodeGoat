@@ -1,4 +1,5 @@
 var bcrypt = require("bcrypt-nodejs");
+var ObjectID = require("mongodb").ObjectID;
 
 /* The UserDAO must be constructed with a connected database object */
 function UserDAO(db) {
@@ -12,7 +13,7 @@ function UserDAO(db) {
         return new UserDAO(db);
     }
 
-    var users = db.collection("users");
+    var usersCol = db.collection("users");
 
     this.addUser = function(userName, firstName, lastName, password, email, callback) {
 
@@ -23,11 +24,11 @@ function UserDAO(db) {
             lastName: lastName,
             benefitStartDate: this.getRandomFutureDate(),
             password: password //received from request param
-            /*
-            // Fix for A2-1 - Broken Auth
-            // Stores password  in a safer way using one way encryption and salt hashing
-            password: bcrypt.hashSync(password, bcrypt.genSaltSync())
-            */
+                /*
+                // Fix for A2-1 - Broken Auth
+                // Stores password  in a safer way using one way encryption and salt hashing
+                password: bcrypt.hashSync(password, bcrypt.genSaltSync())
+                */
 
         };
 
@@ -36,23 +37,14 @@ function UserDAO(db) {
             user.email = email;
         }
 
-        this.getNextSequence("userId", function(err, id) {
-            if (err) {
-                return callback(err, null);
+        usersCol.insert(user, function(err, result) {
+            if (!err) {
+                console.log("Inserted new user");
+
+                return callback(null, result.ops[0]);
             }
 
-            user.userId = id;
-
-            users.insert(user, function(err, result) {
-
-                if (!err) {
-                    console.log("Inserted new user");
-
-                    return callback(null, result[0]);
-                }
-
-                return callback(err, null);
-            });
+            return callback(err, null);
         });
     };
 
@@ -99,47 +91,24 @@ function UserDAO(db) {
 
         }
 
-        users.findOne({
+        usersCol.findOne({
             userName: userName
         }, validateUserDoc);
     };
 
 
     this.getUserById = function(userId, callback) {
-        users.findOne({
-            userId: userId
+        usersCol.findOne({
+            _id: new ObjectID(userId)
         }, callback);
     };
 
     this.getUserByUserName = function(userName, callback) {
-        users.findOne({
+        usersCol.findOne({
             userName: userName
         }, callback);
     };
 
-    this.getNextSequence = function(name, callback) {
-
-        if (name) {
-            name = name.toLowerCase();
-        }
-
-        db.collection("counters").findAndModify({
-                _id: name
-            }, [], {
-                $inc: {
-                    seq: 1
-                }
-            }, {
-                new: true
-            },
-            function(err, object) {
-                if (err) {
-                    return callback(err, null);
-                }
-                callback(null, object.seq);
-            }
-        );
-    };
 }
 
 module.exports.UserDAO = UserDAO;

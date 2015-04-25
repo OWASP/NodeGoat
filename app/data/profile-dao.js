@@ -1,3 +1,5 @@
+var ObjectID = require("mongodb").ObjectID;
+
 /* The ProfileDAO must be constructed with a connected database object */
 function ProfileDAO(db) {
 
@@ -10,7 +12,7 @@ function ProfileDAO(db) {
         return new ProfileDAO(db);
     }
 
-    var users = db.collection("users");
+    var usersCol = db.collection("users");
 
     /* Fix for A6 - Sensitive Data Exposure
 
@@ -67,25 +69,26 @@ function ProfileDAO(db) {
             user.dob = encrypt(dob);
         }
         */
+        usersCol.update({
+                _id: new ObjectID(userId)
+            }, {
+                $set: user
+            },
+            function(err, result) {
 
-        users.update({
-            userId: userId
-        }, {
-            $set: user
-        }, function(err, result) {
+                if (!err) {
+                    console.log("Updated user profile");
+                    return callback(null, user);
+                }
 
-            if (!err) {
-                console.log("Updated user profile");
-                return callback(null, user);
+                return callback(err, null);
             }
-
-            return callback(err, null);
-        });
+        );
     };
 
     this.getByUserId = function(userId, callback) {
-        users.findOne({
-            userId: userId
+        usersCol.findOne({
+            _id: new ObjectID(userId)
         }, function(err, user) {
 
             if (err) return callback(err, null);

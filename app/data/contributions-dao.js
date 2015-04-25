@@ -1,4 +1,5 @@
 var UserDAO = require("./user-dao").UserDAO;
+var ObjectID = require("mongodb").ObjectID;
 
 /* The ContributionsDAO must be constructed with a connected database object */
 function ContributionsDAO(db) {
@@ -11,49 +12,51 @@ function ContributionsDAO(db) {
         return new ContributionsDAO(db);
     }
 
-    var contributionsDB = db.collection("contributions");
+    var contributionsCol = db.collection("contributions");
     var userDAO = new UserDAO(db);
 
     this.update = function(userId, preTax, afterTax, roth, callback) {
 
         // Create contributions document
         var contributions = {
-            userId: userId,
+            userId: new ObjectID(userId),
             preTax: preTax,
             afterTax: afterTax,
             roth: roth
         };
 
-        contributionsDB.update({
-            userId: userId
-        }, contributions, {
-            upsert: true
-        }, function(err, result) {
+        contributionsCol.update({
+                userId: new ObjectID(userId)
+            },
+            contributions, {
+                upsert: true
+            },
+            function(err, result) {
+                if (!err) {
+                    console.log("Updated contributions");
+                    // add user details
+                    userDAO.getUserById(userId, function(err, user) {
 
-            if (!err) {
-                console.log("Updated contributions");
-                // add user details
-                userDAO.getUserById(userId, function(err, user) {
+                        if (err) return callback(err, null);
 
-                    if (err) return callback(err, null);
+                        contributions.userName = user.userName;
+                        contributions.firstName = user.firstName;
+                        contributions.lastName = user.lastName;
+                        contributions.userId = userId;
 
-                    contributions.userName = user.userName;
-                    contributions.firstName = user.firstName;
-                    contributions.lastName = user.lastName;
-                    contributions.userId = userId;
+                        return callback(null, contributions);
+                    });
 
-                    return callback(null, contributions);
-                });
-
-            } else {
-                return callback(err, null);
+                } else {
+                    return callback(err, null);
+                }
             }
-        });
+        );
     };
 
     this.getByUserId = function(userId, callback) {
-        contributionsDB.findOne({
-            userId: userId
+        contributionsCol.findOne({
+            userId: new ObjectID(userId)
         }, function(err, contributions) {
 
             if (err) return callback(err, null);
