@@ -5,6 +5,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 var express = require("express");
 var favicon = require("serve-favicon");
 var bodyParser = require("body-parser");
+//var cookieParser = require("cookie-parser");
 var session = require("express-session");
 var app = express(); // Web framework to handle routing requests
 var consolidate = require("consolidate"); // Templating library adapter for Express
@@ -17,17 +18,17 @@ var config = require("./config/config"); // Application config properties
 
 var http = require("http");
 
-/*
+
 // Fix for A6-Sensitive Data Exposure
 // Load keys for establishing secure HTTPS connection
 var fs = require("fs");
 var https = require("https");
 var path = require("path");
 var httpsOptions = {
-    key: fs.readFileSync(path.resolve(__dirname, "./app/cert/key.pem")),
-    cert: fs.readFileSync(path.resolve(__dirname, "./app/cert/cert.pem"))
+    key: fs.readFileSync(path.resolve(__dirname, "./app/cert/server.key")),
+    cert: fs.readFileSync(path.resolve(__dirname, "./app/cert/server.crt"))
 };
-*/
+
 
 MongoClient.connect(config.db, function(err, db) {
 
@@ -69,23 +70,39 @@ MongoClient.connect(config.db, function(err, db) {
         extended: false
     }));
 
+    // TODO: Add another vuln and comments to the tutorial
+    // http://stackoverflow.com/a/29075986
+    // Express middleware to populate "req.cookies" so we can access cookies
+//    app.use(cookieParser({
+//        secret: config.cookieSecret
+//    }));
+
     // Enable session management using express middleware
     app.use(session({
+        // TODO: Add another vuln
+//        genid: function(req) {
+//            return genuuid() // use UUIDs for session IDs
+//        },
         secret: config.cookieSecret,
         // Both mandatory in Express v4
         saveUninitialized: true,
         resave: true
-            /*
-            //Fix for A5 - Security MisConfig
-            // Use generic cookie name
-            key: "sessionId",
 
-            //Fix for A3 - XSS
-            cookie: {
-                httpOnly: true,
-                secure: true
-            }
-            */
+        // Fix for A5 - Security MisConfig
+        // Use generic cookie name
+//        key: "sessionId",
+
+        /*
+        // Fix for A3 - XSS
+        // TODO: Add another vuln
+        // maxAge
+        cookie: {
+            httpOnly: true,
+            // Remember to start an HTTPS server to get this
+            // option working
+            secure: true
+        }
+        */
     }));
     /* Fix for A8 - CSRF
     //Enable Express csrf protection
@@ -122,6 +139,7 @@ MongoClient.connect(config.db, function(err, db) {
     http.createServer(app).listen(config.port, function() {
         console.log("Express http server listening on port " + config.port);
     });
+
     /*
     // Fix for A6-Sensitive Data Exposure
     // Use secure HTTPS protocol
