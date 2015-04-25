@@ -7,6 +7,8 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.12.3",
     "consolidate": "^0.9.1",
+    "csurf": "^1.8.0",
+    "dont-sniff-mimetype": "^0.1.0",
     "express": "^4.12.3",
     "express-session": "^1.11.1",
     "forever": "^0.10.9",

@@ -29,7 +29,6 @@ function UserDAO(db) {
                 // Stores password  in a safer way using one way encryption and salt hashing
                 password: bcrypt.hashSync(password, bcrypt.genSaltSync())
                 */
-
         };
 
         // Add email if set
@@ -84,11 +83,10 @@ function UserDAO(db) {
         function comparePassword(fromDB, fromUser) {
             return fromDB === fromUser;
             /*
-             // Fix for A2-Broken Auth
-             // compares decrypted password stored in this.addUser()
-             return bcrypt.compareSync(fromDB, fromUser);
-             */
-
+            // Fix for A2-Broken Auth
+            // compares decrypted password stored in this.addUser()
+            return bcrypt.compareSync(fromDB, fromUser);
+            */
         }
 
         usersCol.findOne({

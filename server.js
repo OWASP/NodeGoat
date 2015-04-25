@@ -5,12 +5,13 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 var express = require("express");
 var favicon = require("serve-favicon");
 var bodyParser = require("body-parser");
-//var cookieParser = require("cookie-parser");
 var session = require("express-session");
+//var csrf = require('csurf');
 var app = express(); // Web framework to handle routing requests
 var consolidate = require("consolidate"); // Templating library adapter for Express
 var swig = require("swig");
-var helmet = require("helmet");
+//var helmet = require("helmet");
+//var nosniff = require('dont-sniff-mimetype');
 var MongoClient = require("mongodb").MongoClient; // Driver for connecting to MongoDB
 
 var routes = require("./app/routes");
@@ -19,6 +20,7 @@ var config = require("./config/config"); // Application config properties
 var http = require("http");
 
 
+/*
 // Fix for A6-Sensitive Data Exposure
 // Load keys for establishing secure HTTPS connection
 var fs = require("fs");
@@ -28,37 +30,41 @@ var httpsOptions = {
     key: fs.readFileSync(path.resolve(__dirname, "./app/cert/server.key")),
     cert: fs.readFileSync(path.resolve(__dirname, "./app/cert/server.crt"))
 };
-
+*/
 
 MongoClient.connect(config.db, function(err, db) {
-
     "use strict";
 
     if (err) throw err;
 
     /*
-     //Fix for A5 - Security MisConfig
-     // Remove default x-powered-by response header
-     app.disable("x-powered-by");
+    // Fix for A5 - Security MisConfig
+    // TODO: Review the rest of helmet options, like "xssFilter"
+    // Remove default x-powered-by response header
+    app.disable("x-powered-by");
 
-     // Prevent opening page in frame or iframe to protect from clickjacking
-     app.use(helmet.xframe());
+    // Prevent opening page in frame or iframe to protect from clickjacking
+    app.use(helmet.xframe());
 
-     // Prevents browser from caching and storing page
-     app.use(helmet.cacheControl());
+    // Prevents browser from caching and storing page
+    app.use(helmet.noCache());
 
-     // Allow loading resources only from white-listed domains
-     app.use(helmet.csp());
+    // Allow loading resources only from white-listed domains
+    app.use(helmet.csp());
 
-     // Allow communication only on HTTPS
-     app.use(helmet.hsts());
+    // Allow communication only on HTTPS
+    app.use(helmet.hsts());
 
-     // Enable XSS filter in IE (On by default)
-     app.use(helmet.iexss());
+    // TODO: Add another vuln: https://github.com/helmetjs/helmet/issues/26
+    // Enable XSS filter in IE (On by default)
+    // app.use(helmet.iexss());
+    // Now it should be used in hit way, but the README alerts that could be
+    // dangerous, like specified in the issue.
+    // app.use(helmet.xssFilter({ setOnOldIE: true }));
 
-     // Forces browser to only use the Content-Type set in the response header instead of sniffing or guessing it
-     app.use(helmet.contentTypeOptions());
-     */
+    // Forces browser to only use the Content-Type set in the response header instead of sniffing or guessing it
+    app.use(nosniff());
+    */
 
     // Adding/ remove HTTP Headers for security
     app.use(favicon(__dirname + "/app/assets/images/owasplogo.png"));
@@ -70,44 +76,38 @@ MongoClient.connect(config.db, function(err, db) {
         extended: false
     }));
 
-    // TODO: Add another vuln and comments to the tutorial
-    // http://stackoverflow.com/a/29075986
-    // Express middleware to populate "req.cookies" so we can access cookies
-//    app.use(cookieParser({
-//        secret: config.cookieSecret
-//    }));
-
     // Enable session management using express middleware
     app.use(session({
-        // TODO: Add another vuln
-//        genid: function(req) {
-//            return genuuid() // use UUIDs for session IDs
-//        },
+        // TODO: Add another vuln?
+        // genid: function(req) {
+        //    return genuuid() // use UUIDs for session IDs
+        //},
         secret: config.cookieSecret,
         // Both mandatory in Express v4
         saveUninitialized: true,
         resave: true
-
-        // Fix for A5 - Security MisConfig
-        // Use generic cookie name
-//        key: "sessionId",
+            /*
+            // Fix for A5 - Security MisConfig
+            // Use generic cookie name
+            key: "sessionId",
+            */
 
         /*
         // Fix for A3 - XSS
-        // TODO: Add another vuln
-        // maxAge
+        // TODO: Add "maxAge"
         cookie: {
-            httpOnly: true,
-            // Remember to start an HTTPS server to get this
-            // option working
-            secure: true
+            httpOnly: true
+            // Remember to start an HTTPS server to get this working
+            // secure: true
         }
         */
-    }));
-    /* Fix for A8 - CSRF
-    //Enable Express csrf protection
-    app.use(express.csrf());
 
+    }));
+
+    /*
+    // Fix for A8 - CSRF
+    // Enable Express csrf protection
+    app.use(csrf());
     // Make csrf token available in templates
     app.use(function(req, res, next) {
         res.locals.csrftoken = req.csrfToken();
@@ -124,16 +124,15 @@ MongoClient.connect(config.db, function(err, db) {
     // Application routes
     routes(app, db);
 
-    // TODO: Not needed, but we need "autoscape" to show the vuln
-    //    swig.init({
-    //        root: __dirname + "/app/views",
-    //        // Autoescape disabled
-    //        autoescape: false
-    //            /*
-    //            // Fix for A3 - XSS, enable auto escaping
-    //            autoescape: true //default value
-    //            */
-    //    });
+    // Template system setup
+    swig.setDefaults({
+        // Autoescape disabled
+        autoescape: false
+            /*
+            // Fix for A3 - XSS, enable auto escaping
+            autoescape: true // default value
+            */
+    });
 
     // Insecure HTTP connection
     http.createServer(app).listen(config.port, function() {

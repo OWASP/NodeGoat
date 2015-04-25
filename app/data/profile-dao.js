@@ -14,7 +14,8 @@ function ProfileDAO(db) {
 
     var usersCol = db.collection("users");
 
-    /* Fix for A6 - Sensitive Data Exposure
+    /*
+    // Fix for A6 - Sensitive Data Exposure
 
     // Use crypto module to save sensitive data such as ssn, dob in encrypted format
     var crypto = require("crypto");
@@ -31,7 +32,6 @@ function ProfileDAO(db) {
         var decipher = crypto.createDecipher(config.cryptoAlgo, config.cryptoKey);
         return decipher.update(toDecrypt, "hex", "utf8") + decipher.final("utf8");
     };
-
     */
 
     this.updateUser = function(userId, firstName, lastName, ssn, dob, address, bankAcc, bankRouting, callback) {

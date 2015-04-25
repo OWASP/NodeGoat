@@ -68,16 +68,16 @@ function SessionHandler(db) {
                         userName: userName,
                         password: "",
                         loginError: invalidUserNameErrorMessage
-                            //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
-                            // loginError: errorMessage
+                        // Fix for A2-2 Broken Auth - Uses identical error for both username, password error
+                        // loginError: errorMessage
                     });
                 } else if (err.invalidPassword) {
                     return res.render("login", {
                         userName: userName,
                         password: "",
                         loginError: invalidPasswordErrorMessage
-                            //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
-                            // loginError: errorMessage
+                        // Fix for A2-2 Broken Auth - Uses identical error for both username, password error
+                        // loginError: errorMessage
 
                     });
                 } else {
@@ -222,7 +222,7 @@ function SessionHandler(db) {
     };
 
     this.displayWelcomePage = function(req, res, next) {
-		var userId = req.session.userId;
+        var userId = req.session.userId;
 
         if (!req.session.userId) {
             console.log("welcome: Unable to identify user...redirecting to login");
@@ -232,9 +232,9 @@ function SessionHandler(db) {
 
             if (err) return next(err);
 
-			doc.userId = userId;
+            doc.userId = userId;
 
-			return res.render("dashboard", doc);
+            return res.render("dashboard", doc);
         });
 
     };

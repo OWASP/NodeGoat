@@ -17,8 +17,7 @@
                 <h3 class="panel-title">Description</h3>
             </div>
             <div class="panel-body">
-                This vulnerability allows an attacker to access sensitive data such as credit cards, tax IDs, authentication credentials, etc to conduct credit card fraud, identity theft, or other crimes. Losing such data can cause severe business impact and damage to
-                the reputation. Sensitive data deserves extra protection such as encryption at rest or in transit, as well as special precautions when exchanged with the browser.
+                This vulnerability allows an attacker to access sensitive data such as credit cards, tax IDs, authentication credentials, etc to conduct credit card fraud, identity theft, or other crimes. Losing such data can cause severe business impact and damage to the reputation. Sensitive data deserves extra protection such as encryption at rest or in transit, as well as special precautions when exchanged with the browser.
             </div>
         </div>
 
@@ -27,8 +26,7 @@
                 <h3 class="panel-title">Attack Mechanics</h3>
             </div>
             <div class="panel-body">
-                <p>If a site doesn’t use SSL/TLS for all authenticated pages, an attacker can monitor network traffic (such as on open wireless network), and steals user's session cookie. Attacker can then replay this cookie and hijacks the user's session,
-                    accessing the user's private data.</p>
+                <p>If a site doesn’t use SSL/TLS for all authenticated pages, an attacker can monitor network traffic (such as on open wireless network), and steals user's session cookie. Attacker can then replay this cookie and hijacks the user's session, accessing the user's private data.</p>
                 <p>If an attacker gets access the application database, he or she can steal the sensitive information not encrypted, or encrypted with weak encryption algorithm</p>
 
             </div>
@@ -60,10 +58,9 @@ var fs = require("fs");
 var https = require("https");
 var path = require("path");
 var httpsOptions = {
-    key: fs.readFileSync(path.resolve(__dirname, "./app/cert/key.pem")),
-    cert: fs.readFileSync(path.resolve(__dirname, "./app/cert/cert.pem"))
-};
-               </pre>
+    key: fs.readFileSync(path.resolve(__dirname, "./app/cert/server.key")),
+    cert: fs.readFileSync(path.resolve(__dirname, "./app/cert/server.crt"))
+};               </pre>
                 </p>
                 <p>2. Start secure HTTPS sever
                     <pre>
