@@ -8,7 +8,7 @@ How to Install and Run NodeGoat
 
 ### Requirements
 
-1.  Install [Node.js](http://nodejs.org/) - NodeGoat requires **Node v0.10.***
+1.  Install [Node.js](http://nodejs.org/) - NodeGoat requires Node v0.10 or above
 2.  Git command line tools - follow the setup instructions [on GitHub](https://help.github.com/articles/set-up-git) or download [here](http://git-scm.com/downloads)
 
 ### Getting a Copy of the Code
@@ -66,11 +66,11 @@ Contributions from community are key to make NodeGoat a high quality comprehensi
 
 ### Ways to Contribute
 
-Depending on your preference, you can contribute in various ways. Here are tasks planned for [upcoming release](https://github.com/OWASP/NodeGoat/issues/milestones).
-To begin, inform team about task you would like to contribute on, or send any other suggestions you may have using [NodeGoat Google Group](https://groups.google.com/forum/#!forum/nodegoat).
+Depending on your preference, you can contribute in various ways. Here are tasks planned for [upcoming release](https://github.com/OWASP/NodeGoat/milestones).
+To begin, inform team about task you would like to contribute on by opening an issue, sending a PR, or on [Gitter Chat](https://gitter.im/OWASP/NodeGoat)
 
 ### What is the Process
-1. Assign a task from [project task list](https://github.com/OWASP/NodeGoat/issues?milestone=2&state=open) to yourself.
+1. Assign a task from [project task list](https://github.com/OWASP/NodeGoat/issues?q=is%3Aopen) to yourself.
 2. Implement the changes in a fork.
 3. Once code is ready to commit, run command:
   ```
@@ -87,7 +87,7 @@ Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/con
 
 Report bugs, Feedback, Comments
 ====================================
-*  Contact team by posting a message on [NodeGoat Google Group](https://groups.google.com/forum/#!forum/nodegoat) 
+*  Open a new [issue](https://github.com/OWASP/NodeGoat/issues) or contact team by joining chat at [![Join the chat at https://gitter.im/OWASP/NodeGoat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OWASP/NodeGoat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 
 
 License
