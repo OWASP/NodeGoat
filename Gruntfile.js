@@ -1,13 +1,20 @@
-function configureGrunt(grunt) {
+"use strict";
 
-    "use strict";
+var exec = require("child_process").exec;
+var sys = require("sys");
 
+var JS_FILES = ["Gruntfile.js", "app/assets/js/**", "config/config.js", "app/data/**/*.js",
+    "app/routes/**/*.js", "server.js", "test/**/*.js"
+];
+
+
+module.exports = function(grunt) {
     // Project Configuration
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         watch: {
             js: {
-                files: ["app/assets/js/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js", "test/**/*.js"],
+                files: JS_FILES,
                 tasks: ["jshint"],
                 options: {
                     livereload: true
@@ -27,13 +34,13 @@ function configureGrunt(grunt) {
             }
         },
         jshint: {
-            all: ["test/**/*.js", "config/**", "app/assets/js/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js"],
+            all: JS_FILES,
             options: {
                 jshintrc: true
             }
         },
         jsbeautifier: {
-            files: ["Gruntfile.js", "config/**", "app/views/**", "app/assets/js/**", "app/assets/css/**", "app/data/**/*.js", "app/routes/**/*.js", "server.js", "test/**/*.js"],
+            files: JS_FILES.concat(["app/views/**", "app/assets/css/**"]),
             options: {
                 html: {
                     braceStyle: "collapse",
@@ -114,6 +121,7 @@ function configureGrunt(grunt) {
                 nodeRepository: "https://raw.github.com/bekk/retire.js/master/repository/npmrepository.json",
             }
         }
+
     });
 
     // Load NPM tasks
@@ -129,6 +137,25 @@ function configureGrunt(grunt) {
     // Making grunt default to force in order not to break the project.
     grunt.option("force", true);
 
+    grunt.registerTask("db-reset", "(Re)init the database.", function(arg) {
+        var finalEnv = arg || "development";
+        var done;
+
+        done = this.async();
+        exec(
+            "NODE_ENV=" + finalEnv + " node artifacts/db-reset.js",
+            function(err, stdout, stderr) {
+                if (err) {
+                    grunt.log.error("db-reset:");
+                    grunt.log.error(err);
+                    grunt.log.error(stderr);
+                } else {
+                    grunt.log.ok(stdout);
+                }
+                done();
+            }
+        );
+    });
 
     // Code Validation, beautification task(s).
     grunt.registerTask("precommit", ["jsbeautifier", "jshint"]);
@@ -141,6 +168,4 @@ function configureGrunt(grunt) {
 
     // Default task(s).
     grunt.registerTask("default", ["precommit", "concurrent"]);
-}
-
-module.exports = configureGrunt;
+};
