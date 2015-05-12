@@ -69,35 +69,37 @@ function ProfileDAO(db) {
         */
 
         users.update({
-            userId: userId
-        }, {
-            $set: user
-        }, function(err, result) {
+                _id: parseInt(userId)
+            }, {
+                $set: user
+            },
+            function(err, result) {
+                if (!err) {
+                    console.log("Updated user profile");
+                    return callback(null, user);
+                }
 
-            if (!err) {
-                console.log("Updated user profile");
-                return callback(null, user);
+                return callback(err, null);
             }
-
-            return callback(err, null);
-        });
+        );
     };
 
     this.getByUserId = function(userId, callback) {
         users.findOne({
-            userId: userId
-        }, function(err, user) {
+                _id: parseInt(userId)
+            },
+            function(err, user) {
+                if (err) return callback(err, null);
+                /*
+                // Fix for A7 - Sensitive Data Exposure
+                // Decrypt ssn and DOB values to display to user
+                user.ssn = user.ssn ? decrypt(user.ssn) : "";
+                user.dob = user.dob ? decrypt(user.dob) : "";
+                */
 
-            if (err) return callback(err, null);
-            /*
-            // Fix for A7 - Sensitive Data Exposure
-            // Decrypt ssn and DOB values to display to user
-            user.ssn = user.ssn ? decrypt(user.ssn) : "";
-            user.dob = user.dob ? decrypt(user.dob) : "";
-            */
-
-            callback(null, user);
-        });
+                callback(null, user);
+            }
+        );
     };
 }
 

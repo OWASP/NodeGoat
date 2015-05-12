@@ -9,13 +9,12 @@ function SessionHandler(db) {
     var allocationsDAO = new AllocationsDAO(db);
 
     var prepareUserData = function(user, next) {
-
         // Generate random allocations
         var stocks = Math.floor((Math.random() * 40) + 1);
         var funds = Math.floor((Math.random() * 40) + 1);
         var bonds = 100 - (stocks + funds);
 
-        allocationsDAO.update(user.userId, stocks, funds, bonds, function(err) {
+        allocationsDAO.update(user._id, stocks, funds, bonds, function(err) {
             if (err) return next(err);
         });
     };
@@ -53,7 +52,6 @@ function SessionHandler(db) {
     };
 
     this.handleLoginRequest = function(req, res, next) {
-
         var userName = req.body.userName;
         var password = req.body.password;
 
@@ -83,14 +81,17 @@ function SessionHandler(db) {
                     return next(err);
                 }
             }
-            //req.session.regenerate(function() {
-            req.session.userId = user.userId;
-            if (user.isAdmin) {
-                return res.redirect("/benefits");
-            } else {
-                return res.redirect("/dashboard");
-            }
-            //});
+            // Regenerating in each login
+            // TODO: Add another vulnerability related with not to do it
+            req.session.regenerate(function() {
+                req.session.userId = user._id;
+
+                if (user.isAdmin) {
+                    return res.redirect("/benefits");
+                } else {
+                    return res.redirect("/dashboard");
+                }
+            });
         });
     };
 
@@ -196,17 +197,18 @@ function SessionHandler(db) {
                     //prepare data for the user
                     prepareUserData(user, next);
                     /*
-                    sessionDAO.startSession(user.userId, function(err, sessionId) {
+                    sessionDAO.startSession(user._id, function(err, sessionId) {
 
                         if (err) return next(err);
 
                         res.cookie("session", sessionId);
-                        req.session.userId = user.userId;
+                        req.session.userId = user._id;
                         return res.render("dashboard", user);
                     });
                     */
                     req.session.regenerate(function() {
-                        req.session.userId = user.userId;
+                        req.session.userId = user._id;
+
                         return res.render("dashboard", user);
                     });
 
@@ -219,17 +221,22 @@ function SessionHandler(db) {
     };
 
     this.displayWelcomePage = function(req, res, next) {
+        var userId;
 
         if (!req.session.userId) {
             console.log("welcome: Unable to identify user...redirecting to login");
+
             return res.redirect("/login");
         }
 
-        userDAO.getUserById(req.session.userId, function(err, user) {
+        userId = req.session.userId;
 
+        userDAO.getUserById(userId, function(err, doc) {
             if (err) return next(err);
 
-            return res.render("dashboard", user);
+            doc.userId = userId;
+
+            return res.render("dashboard", doc);
         });
 
     };
