@@ -28,7 +28,8 @@
   },
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt",
-    "test": "node node_modules/grunt-cli/bin/grunt test"
+    "test": "node node_modules/grunt-cli/bin/grunt test",
+    "resetdb": "mongo nodegoat_db_reset.js"
   },
   "devDependencies": {
     "grunt-contrib-watch": "0.5.3",

@@ -14,8 +14,8 @@ var MongoClient = require("mongodb").MongoClient; // Driver for connecting to Mo
 var http = require("http");
 
 var app = express(); // Web framework to handle routing requests
-var routes = require("./app/routes");
-var config = require("./config/config"); // Application config properties
+var routes = require("./server/app/routes");
+var config = require("./server/config/config"); // Application config properties
 
 /*
  // Fix for A6-Sensitive Data Exposure
@@ -77,22 +77,13 @@ MongoClient.connect(config.db, function(err, db) {
     // Register templating engine
     app.engine(".html", consolidate.swig);
     app.set("view engine", "html");
-    app.set("views", __dirname + "/app/views");
-    app.use(express.static(__dirname + "/app/assets"));
-    app.use(favicon(__dirname + "/app/assets/favicon.ico"));
+    app.set("views", __dirname + "/public/app/views");
+    app.use(express.static(__dirname + "/public"));
+    app.use(favicon(__dirname + "/public/assets/favicon.ico"));
 
     // Application routes
     routes(app, db);
 
-    swig.init({
-        root: __dirname + "/app/views",
-        // Autoescape disabled
-        autoescape: false
-            /*
-             // Fix for A3 - XSS, enable auto escaping
-             autoescape: true //default value
-             */
-    });
 
     // Insecure HTTP connection
     http.createServer(app).listen(config.port, function() {

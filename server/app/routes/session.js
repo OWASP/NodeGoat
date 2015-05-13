@@ -40,16 +40,12 @@ function SessionHandler(db) {
             next();
         } else {
             console.log("redirecting to login");
-            return res.redirect("/login");
+            return res.render("/login");
         }
     };
 
     this.displayLoginPage = function(req, res, next) {
-        return res.render("login", {
-            userName: "",
-            password: "",
-            loginError: ""
-        });
+        return res.render("login.html");
     };
 
     this.handleLoginRequest = function(req, res, next) {
@@ -221,7 +217,7 @@ function SessionHandler(db) {
     this.displayWelcomePage = function(req, res, next) {
 
         if (!req.session.userId) {
-            console.log("welcome: Unable to identify user...redirecting to login");
+            console.log("Unable to identify user...redirecting to login");
             return res.redirect("/login");
         }
 
