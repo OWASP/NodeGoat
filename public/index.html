@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OWASP NodeGoat Project: Insecure App">
+    <meta name="version" content="v2.0">
+
+    <title>OWASP NodeGoat Project</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/external/bootstrap/bootstrap.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="/assets/external/theme/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/external/theme/font-awesome/css/font-awesome.min.css">
+    <!--[if lt IE 9]>
+    <script src="/assets/external/html5shiv.js"><![endif]-->
+
+    <style type="text/css">
+        #wrapper {
+            padding-left: 0;
+        }
+    </style>
+</head>
+
+<body ng-app="nodeGoat">
+<div id="wrapper">
+    <!-- top/left nav here -->
+    {% block nav %}{% endblock %}
+    <div id="page-wrapper">
+        <!-- page contents here-->
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li class="active"><i class="fa"></i> {% block title %}{% endblock %}</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div ui-view="pageContents">
+            {% block content %}{% endblock %}
+        </div>
+
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- External Libraries -->
+<script src="/assets/external/jquery.min.js"></script>
+<script src="/assets/external/angularJS/angular.min.js"></script>
+<script src="/assets/external/angularJS/angular-ui-router.min.js"></script>
+<script src="/assets/external/bootstrap/bootstrap.js"></script>
+<script src="/assets/external/chart/raphael-min.js"></script>
+<script src="/assets/external/chart/morris-0.4.3.min.js"></script>
+<!-- Home page Chart data -->
+<script src="/assets/chart/chart-data-morris.js"></script>
+
+<!-- Application Specific Scripts -->
+<script src="app/app.js"></script>
+
+<!-- Load live reload script -->
+<script>
+    document.write("<script src='//" + (location.host || "localhost").split(":")[0] + ":35729/livereload.js'></" + "script>");
+</script>
+
+
+<script type="text/javascript">
+    function areCookiesEnabled() {
+        var cookieEnabled = navigator.cookieEnabled;
+
+        // When cookieEnabled flag is present and false then cookies are disabled.
+        if (cookieEnabled === false) {
+            return false;
+        }
+
+        // try to set a test cookie if we can't see any cookies and we're using
+        // either a browser that doesn't support navigator.cookieEnabled
+        // or IE (which always returns true for navigator.cookieEnabled)
+        if (!document.cookie && (cookieEnabled === null || /*@cc_on!@*/ false)) {
+            document.cookie = "testcookie=1";
+
+            if (!document.cookie) {
+                return false;
+            } else {
+                document.cookie = "testcookie=; expires=" + new Date(0).toUTCString();
+            }
+        }
+
+        return true;
+    }
+
+    $(document).ready(function () {
+        if (!areCookiesEnabled()) {
+            $("#page-wrapper").prepend("<div class=\"row\"><div class=\"col-lg-12\"><div class=\"alert alert-danger\">Cookies are not enabled on your browser. Please enable cookies in your browser preferences to continue.</div></div></div>");
+        }
+    });
+</script>
+
+</body>
+
+</html>

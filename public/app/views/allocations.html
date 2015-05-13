@@ -1,0 +1,24 @@
+{% extends "./layout.html" %} {% block title %}Allocations{% endblock %} {% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Asset Allocations for {{firstName}} {{lastName}}</strong>
+            </div>
+            <div class="panel-body">
+                <p>Domestic Stocks :
+                    <strong>{{stocks}} %</strong>
+                </p>
+                <p>Funds:
+                    <strong>{{funds}} %</strong>
+                </p>
+                <p>Bonds:
+                    <strong>{{bonds}} %</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
