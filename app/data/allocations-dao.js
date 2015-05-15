@@ -63,6 +63,8 @@ function AllocationsDAO(db) {
             userId: finalId
         }, function(err, allocations) {
             if (err) return callback(err, null);
+            if (!allocations) return callback("ERROR: No allocations found for the user", null);
+
             userDAO.getUserById(finalId, function(err, user) {
                 if (err) return callback(err, null);
 
