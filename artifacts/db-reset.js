@@ -3,8 +3,8 @@
 "use strict";
 
 // This script initializes the database. You can set the environment variable
-// before runnin it (devault: development). ie:
-// NODE_ENV=production node artifacts/db.reset.js
+// before running it (default: development). ie:
+// NODE_ENV=production node artifacts/db-reset.js
 
 var _ = require("underscore");
 var MongoClient = require("mongodb").MongoClient;
