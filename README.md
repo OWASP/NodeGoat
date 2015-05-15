@@ -21,7 +21,7 @@ npm install
 ```
 2. Create and populate local DB (You should pass the desired environment, if not "development" is the default.)
 ```
-grunt db-reset:development`
+grunt db-reset:development
 ```
 3. Upgrade the file `config/env/development.js` to reflect your DB setup.
 4. Start server, this starts the NodeGoat application at url [http://localhost:4000/](http://localhost:4000/)
@@ -51,9 +51,8 @@ To begin, inform team about task you would like to contribute on by opening an i
 3. Once code is ready to commit, run: 
 ```
 grunt precommit
-```.
-This command uses `js-beautifier` to indent code and shows any `jsHint` errors. 
-These [coding conventions](https://github.com/OWASP/NodeGoat/blob/master/.jshintrc) are checked using `jsHint`. Resolve all `jsHint` errors before committing the code.
+```
+This command uses `js-beautifier` to indent the code and verifies these [coding standards](https://github.com/OWASP/NodeGoat/blob/master/.jshintrc) using `jsHint`. Resolve all `jsHint` errors before committing the code.
 
 4. Commit the changes by adding [issue number into a commit message](https://help.github.com/articles/closing-issues-via-commit-messages)
 5. Submit a pull request.
