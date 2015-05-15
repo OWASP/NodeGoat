@@ -22,8 +22,8 @@ var fs = require("fs");
 var https = require("https");
 var path = require("path");
 var httpsOptions = {
-    key: fs.readFileSync(path.resolve(__dirname, "./artifacs/certs/server.key")),
-    cert: fs.readFileSync(path.resolve(__dirname, "./artifacs/certs/server.crt"))
+    key: fs.readFileSync(path.resolve(__dirname, "./artifacts/cert/server.key")),
+    cert: fs.readFileSync(path.resolve(__dirname, "./artifacts/cert/server.crt"))
 };
 */
 
@@ -126,11 +126,11 @@ MongoClient.connect(config.db, function(err, db) {
     // Template system setup
     swig.setDefaults({
         // Autoescape disabled
-        //        autoescape: false
-        /*
-        // Fix for A3 - XSS, enable auto escaping
-        autoescape: true // default value
-        */
+        autoescape: false
+            /*
+            // Fix for A3 - XSS, enable auto escaping
+            autoescape: true // default value
+            */
     });
 
     // Insecure HTTP connection
