@@ -14,17 +14,17 @@ Open a command prompt / terminal window and run the command below from the paren
 `git clone https://github.com/OWASP/NodeGoat.git`
 
 ### Running Your Copy of the Code
-1. Install node modules
+* Install node modules
 ```sh
 cd NodeGoat
-npm install
+npm install 
 ```
-2. Create and populate local DB (You should pass the desired environment, if not "development" is the default.)
+* Create and populate local DB (Pass the desired environment, if not the default "development".)
 ```
 grunt db-reset:development
 ```
-3. Upgrade the file `config/env/development.js` to reflect your DB setup.
-4. Start server, this starts the NodeGoat application at url [http://localhost:4000/](http://localhost:4000/)
+* Upgrade the file `config/env/development.js` to reflect your DB setup.
+* Start server, this starts the NodeGoat application at url [http://localhost:4000/](http://localhost:4000/)
 ```
 npm start
 ```
