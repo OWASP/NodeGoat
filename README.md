@@ -57,13 +57,16 @@ This command uses `js-beautifier` to indent the code and verifies these [coding 
 4. Commit the changes by adding [issue number into a commit message](https://help.github.com/articles/closing-issues-via-commit-messages)
 5. Submit a pull request.
 
-### Contributors
-Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/contributors) to the NodeGoat project.
-
-
 ## Report bugs, Feedback, Comments
 *  Open a new [issue](https://github.com/OWASP/NodeGoat/issues) or contact team by joining chat at [![Join the chat at https://gitter.im/OWASP/NodeGoat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OWASP/NodeGoat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
 ## License
 Code licensed under the [Apache License v2.0.](http://www.apache.org/licenses/LICENSE-2.0)
+
+## Contributors
+Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/contributors) to the NodeGoat project.
+
+## Supports
+[![JetBrains](https://www.jetbrains.com/company/docs/logo_jetbrains.png?raw=true)](https://www.jetbrains.com/webstorm/)
+- Thanks to JetBrains for providing licenses to fantastic webStrom IDE to build this project.
