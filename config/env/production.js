@@ -1,3 +1,1 @@
-var prodConfig = {};
-
-module.exports = prodConfig;
+module.exports = {};

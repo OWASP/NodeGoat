@@ -1,4 +1,4 @@
-{% extends "./tutorial/layout.html" %} {% block title %}A5-Security Misconfiguration{% endblock %} {% block content %}
+{% extends "./layout.html" %} {% block title %}A5-Security Misconfiguration{% endblock %} {% block content %}
 <div class="row">
     <div class="col-lg-12">
         <div class="bs-example" style="margin-bottom: 40px;">
@@ -106,24 +106,24 @@
                 <p>The security related HTTP Headers can be added using helmet middleware as below
                     <pre>
         // Prevent opening page in frame or iframe to protect from clickjacking
-        app.use(helmet.xframe()); 
+        app.disable("x-powered-by");
 
-        // Prevents browser from caching and storing page 
-        app.use(helmet.cacheControl());
-        
+        // Prevent opening page in frame or iframe to protect from clickjacking
+        app.use(helmet.xframe());
+
+        // Prevents browser from caching and storing page
+        app.use(helmet.noCache());
+
         // Allow loading resources only from white-listed domains
         app.use(helmet.csp());
-        
-        // Allow communication only on HTTPS
-        app.use(helmet.hsts()); 
-        
-        // Enable XSS filter in IE (On by default)
-        app.use(helmet.iexss()); 
-        
-        // Forces browser to only use the Content-Type set in the response header instead of sniffing or guessing it
-        app.use(helmet.contentTypeOptions()); 
 
-    </pre>
+        // Allow communication only on HTTPS
+        app.use(helmet.hsts());
+
+        // Forces browser to only use the Content-Type set in the response header instead of sniffing or guessing it
+        app.use(nosniff());
+
+</pre>
                 </p>
             </div>
         </div>

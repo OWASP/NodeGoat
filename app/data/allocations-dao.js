@@ -1,6 +1,5 @@
 var UserDAO = require("./user-dao").UserDAO;
 
-
 /* The AllocationsDAO must be constructed with a connected database object */
 function AllocationsDAO(db) {
 
@@ -13,11 +12,12 @@ function AllocationsDAO(db) {
         return new AllocationsDAO(db);
     }
 
-    var allocationsDB = db.collection("allocations");
+    var allocationsCol = db.collection("allocations");
     var userDAO = new UserDAO(db);
 
 
     this.update = function(userId, stocks, funds, bonds, callback) {
+        var finalId = parseInt(userId);
 
         // Create allocations document
         var allocations = {
@@ -27,8 +27,8 @@ function AllocationsDAO(db) {
             bonds: bonds
         };
 
-        allocationsDB.update({
-            userId: userId
+        allocationsCol.update({
+            userId: finalId
         }, allocations, {
             upsert: true
         }, function(err, result) {
@@ -55,16 +55,15 @@ function AllocationsDAO(db) {
         });
     };
 
-
+    // This is the good implementation, respect the last one
     this.getByUserId = function(userId, callback) {
-        allocationsDB.findOne({
-            userId: userId
+        var finalId = parseInt(userId);
+
+        allocationsCol.findOne({
+            userId: finalId
         }, function(err, allocations) {
-
             if (err) return callback(err, null);
-
-            userDAO.getUserById(userId, function(err, user) {
-
+            userDAO.getUserById(finalId, function(err, user) {
                 if (err) return callback(err, null);
 
                 // add user details

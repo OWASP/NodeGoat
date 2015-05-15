@@ -7,14 +7,12 @@ function ContributionsHandler(db) {
     var contributionsDAO = new ContributionsDAO(db);
 
     this.displayContributions = function(req, res, next) {
-
         var userId = req.session.userId;
 
         contributionsDAO.getByUserId(userId, function(error, contrib) {
-
             if (error) return next(error);
 
-            contrib._id = userId; //set for nav menu items
+            contrib.userId = userId; //set for nav menu items
             return res.render("contributions", contrib);
         });
     };
@@ -34,7 +32,6 @@ function ContributionsHandler(db) {
         var roth = parseInt(req.body.roth);
         */
         var userId = req.session.userId;
-
 
         //validate contributions
         if (isNaN(preTax) || isNaN(afterTax) || isNaN(roth) || preTax < 0 || afterTax < 0 || roth < 0) {

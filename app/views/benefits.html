@@ -47,13 +47,13 @@
                     {% for user in users %}
 
                     <tr>
-                        <td>{{user.userId}}</td>
+                        <td>{{user._id.toString()}}</td>
                         <td>{{user.firstName}}</td>
                         <td>{{user.lastName}}</td>
                         <td>
                             <form method="POST" action="/benefits">
                                 <div class="input-group">
-                                    <input type="hidden" name="userId" value="{{user.userId}}"></input>
+                                    <input type="hidden" name="userId" value="{{user._id.toString()}}"></input>
                                     <input type="date" class="form-control" name="benefitStartDate" value="{{user.benefitStartDate}}"></input>
                                     <span class="input-group-btn">
                                         <button type="submit" class="btn btn-default">Save</button>

@@ -10,10 +10,10 @@ function BenefitsDAO(db) {
         return new BenefitsDAO(db);
     }
 
-    var usersCollection = db.collection("users");
+    var usersCol = db.collection("users");
 
     this.getAllNonAdminUsers = function(callback) {
-        usersCollection.find({
+        usersCol.find({
             "isAdmin": {
                 $ne: true
             }
@@ -23,22 +23,22 @@ function BenefitsDAO(db) {
     };
 
     this.updateBenefits = function(userId, startDate, callback) {
+        usersCol.update({
+                _id: parseInt(userId)
+            }, {
+                $set: {
+                    benefitStartDate: startDate
+                }
+            },
+            function(err, result) {
+                if (!err) {
+                    console.log("Updated benefits");
+                    return callback(null, result);
+                }
 
-        usersCollection.update({
-            userId: userId
-        }, {
-            $set: {
-                benefitStartDate: startDate
+                return callback(err, null);
             }
-        }, function(err, result) {
-
-            if (!err) {
-                console.log("Updated benefits");
-                return callback(null, result);
-            }
-
-            return callback(err, null);
-        });
+        );
     };
 }
 

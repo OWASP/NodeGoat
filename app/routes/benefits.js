@@ -21,20 +21,19 @@ function BenefitsHandler(db) {
     };
 
     this.updateBenefits = function(req, res, next) {
-
-        var userId = parseInt(req.body.userId);
+        var userId = req.body.userId;
         var benefitStartDate = req.body.benefitStartDate;
-
 
         benefitsDAO.updateBenefits(userId, benefitStartDate, function(error) {
 
             if (error) return next(error);
 
             benefitsDAO.getAllNonAdminUsers(function(error, users) {
+                var data;
 
                 if (error) return next(error);
 
-                var data = {
+                data = {
                     users: users,
                     user: {
                         isAdmin: true

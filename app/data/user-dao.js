@@ -12,7 +12,7 @@ function UserDAO(db) {
         return new UserDAO(db);
     }
 
-    var users = db.collection("users");
+    var usersCol = db.collection("users");
 
     this.addUser = function(userName, firstName, lastName, password, email, callback) {
 
@@ -28,7 +28,6 @@ function UserDAO(db) {
                 // Stores password  in a safer way using one way encryption and salt hashing
                 password: bcrypt.hashSync(password, bcrypt.genSaltSync())
                 */
-
         };
 
         // Add email if set
@@ -40,15 +39,14 @@ function UserDAO(db) {
             if (err) {
                 return callback(err, null);
             }
+            console.log(typeof(id));
 
-            user.userId = id;
+            user._id = id;
 
-            users.insert(user, function(err, result) {
+            usersCol.insert(user, function(err, result) {
 
                 if (!err) {
-                    console.log("Inserted new user");
-
-                    return callback(null, result[0]);
+                    return callback(null, result.ops[0]);
                 }
 
                 return callback(err, null);
@@ -92,37 +90,31 @@ function UserDAO(db) {
         function comparePassword(fromDB, fromUser) {
             return fromDB === fromUser;
             /*
-             // Fix for A2-Broken Auth
-             // compares decrypted password stored in this.addUser()
-             return bcrypt.compareSync(fromDB, fromUser);
-             */
-
+            // Fix for A2-Broken Auth
+            // compares decrypted password stored in this.addUser()
+            return bcrypt.compareSync(fromDB, fromUser);
+            */
         }
 
-        users.findOne({
+        usersCol.findOne({
             userName: userName
         }, validateUserDoc);
     };
 
-
+    // This is the good one, see the next function
     this.getUserById = function(userId, callback) {
-        users.findOne({
-            userId: userId
+        usersCol.findOne({
+            _id: parseInt(userId)
         }, callback);
     };
 
     this.getUserByUserName = function(userName, callback) {
-        users.findOne({
+        usersCol.findOne({
             userName: userName
         }, callback);
     };
 
     this.getNextSequence = function(name, callback) {
-
-        if (name) {
-            name = name.toLowerCase();
-        }
-
         db.collection("counters").findAndModify({
                 _id: name
             }, [], {
@@ -132,11 +124,11 @@ function UserDAO(db) {
             }, {
                 new: true
             },
-            function(err, object) {
+            function(err, data) {
                 if (err) {
                     return callback(err, null);
                 }
-                callback(null, object.seq);
+                callback(null, data.value.seq);
             }
         );
     };
