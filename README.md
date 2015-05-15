@@ -23,7 +23,7 @@ npm install
 ```
 grunt db-reset:development
 ```
-* Upgrade the file `config/env/development.js` to reflect your DB setup.
+* Update the file `config/env/development.js` to reflect your DB setup.
 * Start server, this starts the NodeGoat application at url [http://localhost:4000/](http://localhost:4000/)
 ```
 npm start
