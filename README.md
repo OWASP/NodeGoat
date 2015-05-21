@@ -19,15 +19,18 @@ Open a command prompt / terminal window and run the command below from the paren
 cd NodeGoat
 npm install 
 ```
-* Create and populate local DB (Pass the desired environment, if not the default "development".)
+* Create and populate local DB 
+  * Connect to [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod)
+  * Update the file `config/env/development.js` to reflect your DB setup.
+  * Populate seed data required for the application (pass the desired environment, if not passed, the default is "development")
 ```
 grunt db-reset:development
 ```
-* Update the file `config/env/development.js` to reflect your DB setup.
 * Start server, this starts the NodeGoat application at url [http://localhost:4000/](http://localhost:4000/)
 ```
 npm start
 ```
+* Login by creating a new user or using accounts created as part of the seed data (u:user1 p:User1_123, u:admin p:Admin_123)
 
 ### Customizing the Default Application Configuration
 The default application settings (database url, http port, etc.) can be changed by updating the [config file] (https://github.com/OWASP/NodejsGoat/blob/master/config/env/all.js).
