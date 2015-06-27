@@ -1,5 +1,5 @@
 {
-  "name": "OWASP NodeGoat Project",
+  "name": "OWASP NodeGoat",
   "description": "Educational tool to learn about OWASP Top 10 for node.js apps.",
   "keywords": [
     "security",
