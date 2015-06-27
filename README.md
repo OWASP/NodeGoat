@@ -3,26 +3,46 @@
 Being lightweight, fast, and scalable, Node.js is becoming a widely adopted platform for developing web applications. This project provides an environment to learn how OWASP Top 10 security risks apply to web applications developed using Node.js and how to effectively address them.
 
 
-## How to Install and Run NodeGoat
+## How to Setup Your Copy of NodeGoat
 
-### Requirements
-1. Install [Node.js](http://nodejs.org/) - NodeGoat requires Node v0.10 or above
-2. Git command line tools - follow the setup instructions [on GitHub](https://help.github.com/articles/set-up-git) or download [here](http://git-scm.com/downloads)
+### OPTION 1 - One click install on Heroku
+The the quickest way to get running with NodeGoat is to click the button below to deploy it on Heroku.
 
-### Getting a Copy of the Code
-Open a command prompt / terminal window and run the command below from the parent directory inside which you would like the NodeGoat code copied.
-`git clone https://github.com/OWASP/NodeGoat.git`
+Even though it is not necessary, it is recommended that you fork this repository, and deploy the forked repo.
+This would allow you to fix the OWASP Top 10 vulnerabilities demonstarted in the app, in your fork and deploy it on heroku mutiple times.
 
-### Running Your Copy of the Code
-* Install node modules
-```sh
-cd NodeGoat
-npm install 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+This Heroku instance uses Free ($0/month) node server and MongoLab add-on.
+
+### OPTION 2 - Run NodeGoat on your machine
+
+If you do not wish to run NodeGoat on Heroku, please follow these steps to setup and run it locally - 
+* Install [Node.js](http://nodejs.org/) - NodeGoat requires Node v0.10 or above
+
+* Clone the github repository
 ```
-* Create and populate Mongo DB 
-  * If using local Mongo DB instance, start [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod). If using a remote DB, skip to the next step.
-  * Update the file `config/env/development.js` to reflect your DB setup.
-  * Run grunt task below to create `nodegoat` DB and populate it with seed data required for the application. Pass the desired environment as argument. If not passed, "development" is the default:
+git clone https://github.com/OWASP/NodeGoat.git
+```
+
+* Install node modules
+```
+npm install
+``` 
+
+* Create Mongo DB: 
+    You can create a remote MongoDB instance or use local mongod installation
+    * A. Using Remote MongoDB
+        * Create a sandbox mongoDB instance (free) at [MongoLab](https://mongolab.com/plans/pricing/)
+        * Create a new database. 
+        * Create a user.
+        * Update the `db` property in file `config/env/development.js` to reflect your DB setup. (in format: `mongodb://<username>:<password>@<databasename>`)
+    * OR B.Using local MongoDB 
+        * If using local Mongo DB instance, start [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod). 
+        * Update the `db` property in file `config/env/development.js` to reflect your DB setup. (in format: `mongodb://localhost:27017/<databasename>`)
+
+* Populate MongoDB with seed data required for the app
+    * Run grunt task below to populate the DB with seed data required for the application. Pass the desired environment as argument. If not passed, "development" is the default:
 ```
 grunt db-reset:development
 ```
@@ -30,10 +50,25 @@ grunt db-reset:development
 ```
 npm start
 ```
-* Login by creating a new user or using accounts created as part of the seed data (u:user1 p:User1_123, u:user2 p:User2_123, u:admin p:Admin_123)
-
-### Customizing the Default Application Configuration
+#### Customizing the Default Application Configuration
 The default application settings (database url, http port, etc.) can be changed by updating the [config file] (https://github.com/OWASP/NodejsGoat/blob/master/config/env/all.js).
+
+
+## How to use NodeGoat
+
+It is recommended to go over the tutorial first (link to the tutorial is on the login page, just above the login box), and then exploit the vulnerabilities yourself.
+The tutorial explains each vulnerability in detail including -
+* Short Description of the vulnerability
+* Attack mechanics: explaining how each vulnerability can be exploited in the app using video screencasts
+* How do I prevent it: explaining how to address the vulnerability
+* Source code example: showing the actual fix required. The source code of the app also comes with comments and TODO statements at the place where fix should be applied.
+
+### Default user accounts
+
+The database comes pre-populated with these user accounts created as part of the seed data -
+* Admin Account - u:admin p:Admin_123
+* User Accounts (u:user1 p:User1_123), (u:user2 p:User2_123)
+* New users can also be added using the sign-up page.
 
 
 ## Contributing

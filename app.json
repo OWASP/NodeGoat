@@ -1,0 +1,23 @@
+{
+  "name": "OWASP NodeGoat",
+  "description": "Educational tool to learn about OWASP Top 10 for node.js apps.",
+  "keywords": [
+    "security",
+    "node.js",
+    "OWASP Top 10"
+  ],
+  "website": "https://www.owasp.org/index.php/Projects/OWASP_Node_js_Goat_Project",
+  "logo": "https://www.owasp.org/skins/owasplogo.png",
+  "success_url": "/login",
+  "scripts": {
+    "postdeploy": "node artifacts/db-reset.js"
+  },
+  "env": {
+    "NODE_ENV": {
+      "value": "PRODUCTION"
+    }
+  },
+  "addons": [
+    "mongolab:sandbox"
+  ]
+}
