@@ -46,7 +46,7 @@ grunt db-reset:development
 ```
 npm start
 ```
-### Customizing the Default Application Configuration
+#### Customizing the Default Application Configuration
 The default application settings (database url, http port, etc.) can be changed by updating the [config file] (https://github.com/OWASP/NodejsGoat/blob/master/config/env/all.js).
 
 
