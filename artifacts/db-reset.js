@@ -59,8 +59,6 @@ MongoClient.connect(config.db, function(err, db) {
     if (err) {
         console.log("ERROR: connect");
         console.log(JSON.stringify(err));
-
-        // process.exit(1);
     }
     console.log("Connected to the database: " + config.db);
 
