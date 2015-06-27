@@ -6,10 +6,10 @@ Being lightweight, fast, and scalable, Node.js is becoming a widely adopted plat
 ## How to Setup Your Copy of NodeGoat
 
 ### OPTION 1 - One click install on Heroku
-The the quickest way to get running with NodeGoat is deploy it on Heroku.
+The the quickest way to get running with NodeGoat is to click the button below to deploy it on Heroku.
 
 Even though it is not necessary, it is recommended that you fork this repository, and deploy the forked repo.
-This would allow you to fix the OWASP Top 10 vulnerabilities in your fork and deploy it on heroku mutiple times.
+This would allow you to fix the OWASP Top 10 vulnerabilities demonstarted in the app, in your fork and deploy it on heroku mutiple times.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
@@ -24,16 +24,14 @@ If you do not wish to run NodeGoat on Heroku, please follow these steps to setup
 `git clone https://github.com/OWASP/NodeGoat.git`
 
 * Install node modules
-```sh
-npm install 
-```
+`npm install` 
+
 * Create Mongo DB: 
     You can create a remote MongoDB instance or use local mongod installation
     * A. Using Remote MongoDB
         * Create a sandbox mongoDB instance (free) at [MongoLab](https://mongolab.com/plans/pricing/)
-        * Create new database. 
+        * Create a new database. 
         * Create a user.
-        * Update the file `config/env/development.js` to reflect your DB setup.
         * Update the `db` property in file `config/env/development.js` to reflect your DB setup. (in format: `mongodb://<username>:<password>@<databasename>`)
     * OR B.Using local MongoDB 
         * If using local Mongo DB instance, start [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod). 
@@ -57,7 +55,7 @@ The default application settings (database url, http port, etc.) can be changed 
 It is recommended to go over the tutorial first (link to the tutorial is on the login page, just above the login box), and then exploit the vulnerabilities yourself.
 The tutorial explains each vulnerability in detail including -
 * Short Description of the vulnerability
-* Attack mechanics: explaining how each vulnerability can be exploited in the app using video screen-casts
+* Attack mechanics: explaining how each vulnerability can be exploited in the app using video screencasts
 * How do I prevent it: explaining how to address the vulnerability
 * Source code example: showing the actual fix required. The source code of the app also comes with comments and TODO statements at the place where fix should be applied.
 
