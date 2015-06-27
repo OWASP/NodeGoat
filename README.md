@@ -21,10 +21,14 @@ If you do not wish to run NodeGoat on Heroku, please follow these steps to setup
 * Install [Node.js](http://nodejs.org/) - NodeGoat requires Node v0.10 or above
 
 * Clone the github repository
-`git clone https://github.com/OWASP/NodeGoat.git`
+```
+git clone https://github.com/OWASP/NodeGoat.git
+```
 
 * Install node modules
-`npm install` 
+```
+npm install
+``` 
 
 * Create Mongo DB: 
     You can create a remote MongoDB instance or use local mongod installation
