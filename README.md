@@ -3,7 +3,10 @@
 Being lightweight, fast, and scalable, Node.js is becoming a widely adopted platform for developing web applications. This project provides an environment to learn how OWASP Top 10 security risks apply to web applications developed using Node.js and how to effectively address them.
 
 
-## How to Install and Run NodeGoat
+## How to use NodeGoat
+
+### Heroku
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ### Requirements
 1. Install [Node.js](http://nodejs.org/) - NodeGoat requires Node v0.10 or above
