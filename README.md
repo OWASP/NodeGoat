@@ -2,6 +2,19 @@
 
 Being lightweight, fast, and scalable, Node.js is becoming a widely adopted platform for developing web applications. This project provides an environment to learn how OWASP Top 10 security risks apply to web applications developed using Node.js and how to effectively address them.
 
+## Getting Started
+OWASP Top 10 for Node.js web applications: 
+
+### Know it! 
+[Tutorial Guide](http://nodegoat.herokuapp.com/tutorial) explaining how each of the OWASP Top 10 vulnerabilities can manifest in Node.js web apps and how to prevent it.
+
+### Do it!
+[A Vulnerable Node.js App for Ninjas](http://nodegoat.herokuapp.com/) to exploit, toast, and fix. You may like to [set up your own copy](#how-to-setup-your-copy-of-nodegoat) of the app to fix and test vulnerabilities. Hint: Look for comments in source code.
+##### Default user accounts
+The database comes pre-populated with these user accounts created as part of the seed data -
+* Admin Account - u:admin p:Admin_123
+* User Accounts (u:user1 p:User1_123), (u:user2 p:User2_123)
+* New users can also be added using the sign-up page.
 
 ## How to Setup Your Copy of NodeGoat
 
@@ -53,54 +66,21 @@ npm start
 #### Customizing the Default Application Configuration
 The default application settings (database url, http port, etc.) can be changed by updating the [config file] (https://github.com/OWASP/NodejsGoat/blob/master/config/env/all.js).
 
-
-## How to use NodeGoat
-
-It is recommended to go over the tutorial first (link to the tutorial is on the login page, just above the login box), and then exploit the vulnerabilities yourself.
-The tutorial explains each vulnerability in detail including -
-* Short Description of the vulnerability
-* Attack mechanics: explaining how each vulnerability can be exploited in the app using video screencasts
-* How do I prevent it: explaining how to address the vulnerability
-* Source code example: showing the actual fix required. The source code of the app also comes with comments and TODO statements at the place where fix should be applied.
-
-### Default user accounts
-
-The database comes pre-populated with these user accounts created as part of the seed data -
-* Admin Account - u:admin p:Admin_123
-* User Accounts (u:user1 p:User1_123), (u:user2 p:User2_123)
-* New users can also be added using the sign-up page.
-
+## Report bugs, Feedback, Comments
+*  Open a new [issue](https://github.com/OWASP/NodeGoat/issues) or contact team by joining chat at [Slack](https://owasp.slack.com/messages/project-nodegoat/) or [![Join the chat at https://gitter.im/OWASP/NodeGoat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OWASP/NodeGoat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Contributing
 Contributions from community are key to make NodeGoat a high quality comprehensive resource. Lets make NodeGoat awesome together!
 
-**New to git?** You may find these resources helpful:
-* [GitHub's git tutorial](http://try.github.io/)
-* [git - the simple guide](http://rogerdudler.github.io/git-guide/)
-* [git tutorials and workflows](https://www.atlassian.com/git/tutorial)
-
 ### Ways to Contribute
 Depending on your preference, you can contribute in various ways. Here are tasks planned for [upcoming release](https://github.com/OWASP/NodeGoat/milestones).
-To begin, inform team about task you would like to contribute on by opening an issue, sending a PR, or on [Gitter Chat](https://gitter.im/OWASP/NodeGoat)
+You can also open an issue, sending a PR, or get in touch on [Gitter Chat](https://gitter.im/OWASP/NodeGoat) or [Slack](https://owasp.slack.com/messages/project-nodegoat/) 
 
-### What is the Process
-1. Assign a task from [project task list](https://github.com/OWASP/NodeGoat/issues?q=is%3Aopen) to yourself.
-2. Implement changes in a fork.
-3. Once code is ready to commit, run: 
+If sending PR, once code is ready to commit, run: 
 ```
 grunt precommit
 ```
-This command uses `js-beautifier` to indent the code and verifies these [coding standards](https://github.com/OWASP/NodeGoat/blob/master/.jshintrc) using `jsHint`. Resolve all `jsHint` errors before committing the code.
-
-4. Commit the changes by adding [issue number into a commit message](https://help.github.com/articles/closing-issues-via-commit-messages)
-5. Submit a pull request.
-
-## Report bugs, Feedback, Comments
-*  Open a new [issue](https://github.com/OWASP/NodeGoat/issues) or contact team by joining chat at [Slack](https://owasp.slack.com/messages/project-nodegoat/) or [![Join the chat at https://gitter.im/OWASP/NodeGoat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OWASP/NodeGoat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-
-## License
-Code licensed under the [Apache License v2.0.](http://www.apache.org/licenses/LICENSE-2.0)
+This command uses `js-beautifier` to indent the code and verifies these [coding standards](https://github.com/OWASP/NodeGoat/blob/master/.jshintrc) using `jsHint`. Please resolve all `jsHint` errors before committing the code.
 
 ## Contributors
 Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/contributors) to the NodeGoat project.
@@ -108,3 +88,6 @@ Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/con
 ## Supports
 [![JetBrains](https://www.jetbrains.com/company/docs/logo_jetbrains.png?raw=true)](https://www.jetbrains.com/webstorm/)
 - Thanks to JetBrains for providing licenses to fantastic webStrom IDE to build this project.
+
+## License
+Code licensed under the [Apache License v2.0.](http://www.apache.org/licenses/LICENSE-2.0)
