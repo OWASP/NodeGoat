@@ -142,8 +142,12 @@ module.exports = function(grunt) {
         var done;
 
         done = this.async();
+        var cmd = process.platform === "win32"
+            ? "NODE_ENV=" + finalEnv + " & "
+            : "NODE_ENV=" + finalEnv + " ";
+            
         exec(
-            "NODE_ENV=" + finalEnv + " node artifacts/db-reset.js",
+            cmd + "node artifacts/db-reset.js",
             function(err, stdout, stderr) {
                 if (err) {
                     grunt.log.error("db-reset:");
