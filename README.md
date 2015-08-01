@@ -9,7 +9,7 @@ OWASP Top 10 for Node.js web applications:
 [Tutorial Guide](http://nodegoat.herokuapp.com/tutorial) explaining how each of the OWASP Top 10 vulnerabilities can manifest in Node.js web apps and how to prevent it.
 
 ### Do it!
-[A Vulnerable Node.js App for Ninjas](http://nodegoat.herokuapp.com/) to exploit, toast, and fix. You may like to [set up your own copy](#how-to-setup-your-copy-of-nodegoat) of the app to fix and test vulnerabilities. Hint: Look for comments in source code.
+[A Vulnerable Node.js App for Ninjas](http://nodegoat.herokuapp.com/) to exploit, toast, and fix. You may like to [set up your own copy](#how-to-setup-your-copy-of-nodegoat) of the app to fix and test vulnerabilities. Hint: Look for comments in the source code.
 ##### Default user accounts
 The database comes pre-populated with these user accounts created as part of the seed data -
 * Admin Account - u:admin p:Admin_123
@@ -21,8 +21,8 @@ The database comes pre-populated with these user accounts created as part of the
 ### OPTION 1 - One click install on Heroku
 The the quickest way to get running with NodeGoat is to click the button below to deploy it on Heroku.
 
-Even though it is not necessary, it is recommended that you fork this repository, and deploy the forked repo.
-This would allow you to fix the OWASP Top 10 vulnerabilities demonstarted in the app, in your fork and deploy it on heroku mutiple times.
+Even though it is not necessary, it is recommended that you fork this repository and deploy the forked repo.
+This would allow you to fix the OWASP Top 10 vulnerabilities demonstarted in the app in your fork and deploy it on heroku mutiple times.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
