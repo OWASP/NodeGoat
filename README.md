@@ -87,15 +87,9 @@ The default application settings (database url, http port, etc.) can be changed 
 
 ### Optional Security Regression Testing with Zap API
 
-<img style="float: left;" src="app/assets/images/Zap128x128.png">
-
-&nbsp;
+![Zapping NodeGoat](app/assets/images/Zap128x128.png)
 
 The Zap API should work with any of the above [setup options](#how-to-setup-your-copy-of-nodegoat), although these details are specific to [Option 2 - Run NodeGoat on your machine](#option-2---run-nodegoat-on-your-machine). Following are the details used to get OWASP Zap API regression testing NodeGoat. Specifically only the applications profile page at this stage.
-
-&nbsp;
-
-&nbsp;
 
 #### Zap Installed on Another Machine.
 
