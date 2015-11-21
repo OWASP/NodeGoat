@@ -104,7 +104,12 @@ module.exports = function(grunt) {
             options: {
                 reporter: "spec"
             },
-            src: ["test/**/*.js"]
+            unit: {
+                src: ["test/unit/*.js"],
+            },
+            security: {               
+                src: ["test/security/*.js"]    
+            }
         },
         env: {
             test: {
@@ -165,7 +170,10 @@ module.exports = function(grunt) {
     grunt.registerTask("precommit", ["jsbeautifier", "jshint"]);
 
     // Test task.
-    grunt.registerTask("test", ["env:test", "mochaTest"]);
+    grunt.registerTask("test", ["env:test", "mochaTest:unit"]);
+
+    // Security test task.
+    grunt.registerTask("testsecurity", ["env:test", "mochaTest:security"]);
 
     // start server.
     grunt.registerTask("run", ["precommit", "concurrent"]);
