@@ -218,7 +218,7 @@ test.describe(zapTargetAppRoute + " regression test suite", function () {
                         });                    
                         
                      }
-                  }, 10000);
+                  }, config.zapApiFeedbackSpeed);
 
             });
          }
