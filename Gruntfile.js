@@ -107,8 +107,8 @@ module.exports = function(grunt) {
             unit: {
                 src: ["test/unit/*.js"],
             },
-            security: {               
-                src: ["test/security/*.js"]    
+            security: {
+                src: ["test/security/*.js"]
             }
         },
         env: {
@@ -147,10 +147,8 @@ module.exports = function(grunt) {
         var done;
 
         done = this.async();
-        var cmd = process.platform === "win32"
-            ? "NODE_ENV=" + finalEnv + " & "
-            : "NODE_ENV=" + finalEnv + " ";
-            
+        var cmd = process.platform === "win32" ? "NODE_ENV=" + finalEnv + " & " : "NODE_ENV=" + finalEnv + " ";
+
         exec(
             cmd + "node artifacts/db-reset.js",
             function(err, stdout, stderr) {
