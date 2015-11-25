@@ -117,7 +117,7 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                     zapTargetAppRoute +
                     "\" to see the " +
                     (numberOfAlerts - alertThreshold) +
-                    " vulnerabilities that exceed the user defined threshhold of: " +
+                    " vulnerabilities that exceed the user defined threshold of: " +
                     alertThreshold
                 );
             }
@@ -226,7 +226,7 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                                         scanId +
                                         " is " +
                                         statusValue +
-                                        "% complet with " +
+                                        "% complete with " +
                                         numberOfAlerts +
                                         " alerts."
                                     );
@@ -235,11 +235,11 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                         }
                         zapInProgressIntervalId = setInterval(function() {
                             status();
-                            if (zapError && statusValue != 100) { // == coercion intended.
+                            if (zapError && statusValue !== String(100)) {
                                 console.log("Canceling test. Zap API is unreachible.");
                                 clearInterval(zapInProgressIntervalId);
                                 activeScanDone(zapError);
-                            } else if (statusValue == 100) { // == coercion intended.
+                            } else if (statusValue === String(100)) {
                                 console.log(
                                     "We are finishing scan " +
                                     scanId +
