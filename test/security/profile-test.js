@@ -85,6 +85,7 @@ test.after(function() {
     "use strict";
     this.timeout(10000);
     webDriver.quit();
+    zaproxy.core.shutdown();
 });
 
 
