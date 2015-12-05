@@ -21,8 +21,8 @@ The database comes pre-populated with these user accounts created as part of the
 ### OPTION 1 - One click install on Heroku
 The the quickest way to get running with NodeGoat is to click the button below to deploy it on Heroku.
 
-Even though it is not necessary, it is recommended that you fork this repository and deploy the forked repo.
-This would allow you to fix the OWASP Top 10 vulnerabilities demonstarted in the app in your fork and deploy it on heroku mutiple times.
+Even though it is not must, but recommended that you fork this repository and deploy the forked repo.
+This would allow you to fix vulnerabilities in your own forked version, and deploy and test it on heroku.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
