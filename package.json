@@ -28,6 +28,8 @@
     "test": "node node_modules/grunt-cli/bin/grunt test"
   },
   "devDependencies": {
+    "async": "^1.5.0",
+    "chromedriver": "^2.19.0",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-concurrent": "^1.0.0",
@@ -38,7 +40,10 @@
     "grunt-mocha-test": "^0.12.7",
     "grunt-nodemon": "^0.4.0",
     "grunt-retire": "^0.3.10",
-    "mocha": "^2.2.4"
+    "mocha": "^2.2.4",
+    "selenium-webdriver": "2.47.0",
+    "should": "^7.1.1",
+    "zaproxy": "^0.2.0"
   },
   "repository": "https://github.com/OWASP/NodejsGoat",
   "license": "Apache 2.0"

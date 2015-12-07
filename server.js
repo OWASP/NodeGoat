@@ -134,14 +134,14 @@ MongoClient.connect(config.db, function(err, db) {
     });
 
     // Insecure HTTP connection
-    http.createServer(app).listen(config.port, function() {
+    http.createServer(app).listen(config.port, config.hostName, function() {
         console.log("Express http server listening on port " + config.port);
     });
 
     /*
     // Fix for A6-Sensitive Data Exposure
     // Use secure HTTPS protocol
-    https.createServer(httpsOptions, app).listen(config.port, function() {
+    https.createServer(httpsOptions, app).listen(config.port, config.hostName, function() {
         console.log("Express https server listening on port " + config.port);
     });
     */
