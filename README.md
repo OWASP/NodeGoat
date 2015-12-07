@@ -35,7 +35,7 @@ If you do not wish to run NodeGoat on Heroku, please follow these steps to setup
 
 * Clone the github repository
 ```
-git clone https://github.com/OWASP/NodeGoat.git
+git clone https://github.com/binarymist/NodeGoat.git
 ```
 
 * Install node modules
