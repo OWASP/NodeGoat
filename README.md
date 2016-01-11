@@ -3,9 +3,9 @@
 Being lightweight, fast, and scalable, Node.js is becoming a widely adopted platform for developing web applications. This project provides an environment to learn how OWASP Top 10 security risks apply to web applications developed using Node.js and how to effectively address them.
 
 ## Getting Started
-OWASP Top 10 for Node.js web applications: 
+OWASP Top 10 for Node.js web applications:
 
-### Know it! 
+### Know it!
 [Tutorial Guide](http://nodegoat.herokuapp.com/tutorial) explaining how each of the OWASP Top 10 vulnerabilities can manifest in Node.js web apps and how to prevent it.
 
 ### Do it!
@@ -30,7 +30,7 @@ This Heroku instance uses Free ($0/month) node server and MongoLab add-on.
 
 ### OPTION 2 - Run NodeGoat on your machine
 
-If you do not wish to run NodeGoat on Heroku, please follow these steps to setup and run it locally - 
+If you do not wish to run NodeGoat on Heroku, please follow these steps to setup and run it locally -
 * Install [Node.js](http://nodejs.org/) - NodeGoat requires Node v0.10 or above
 
 * Clone the github repository
@@ -41,17 +41,17 @@ git clone https://github.com/OWASP/NodeGoat.git
 * Install node modules
 ```
 npm install
-``` 
+```
 
-* Create Mongo DB: 
+* Create Mongo DB:
     You can create a remote MongoDB instance or use local mongod installation
     * A. Using Remote MongoDB
         * Create a sandbox mongoDB instance (free) at [MongoLab](https://mongolab.com/plans/pricing/)
-        * Create a new database. 
+        * Create a new database.
         * Create a user.
         * Update the `db` property in file `config/env/development.js` to reflect your DB setup. (in format: `mongodb://<username>:<password>@<databasename>`)
-    * OR B.Using local MongoDB 
-        * If using local Mongo DB instance, start [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod). 
+    * OR B.Using local MongoDB
+        * If using local Mongo DB instance, start [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod).
         * Update the `db` property in file `config/env/development.js` to reflect your DB setup. (in format: `mongodb://localhost:27017/<databasename>`)
 
 * Populate MongoDB with seed data required for the app
@@ -70,6 +70,10 @@ npm start
 
 The repo includes the Dockerfile and docker-compose.yml necessary to setup the app and the db instance then connect them together.
 
+* Change the db config in `config/env/development.js` to point to the respective Docker container.
+```
+db: "mongodb://mongo:27017/nodegoat",
+```
 * Build the images:
 ```
 docker-compose build
@@ -91,9 +95,9 @@ Contributions from community are key to make NodeGoat a high quality comprehensi
 
 ### Ways to Contribute
 Depending on your preference, you can contribute in various ways. Here are tasks planned for [upcoming release](https://github.com/OWASP/NodeGoat/milestones).
-You can also open an issue, sending a PR, or get in touch on [Gitter Chat](https://gitter.im/OWASP/NodeGoat) or [Slack](https://owasp.slack.com/messages/project-nodegoat/) 
+You can also open an issue, sending a PR, or get in touch on [Gitter Chat](https://gitter.im/OWASP/NodeGoat) or [Slack](https://owasp.slack.com/messages/project-nodegoat/)
 
-If sending PR, once code is ready to commit, run: 
+If sending PR, once code is ready to commit, run:
 ```
 grunt precommit
 ```
