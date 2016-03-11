@@ -9,4 +9,5 @@ cache:
 before_script:
   - npm install -g grunt-cli
   - grunt db-reset:development
+  - chmod +x .travis-script.sh
 script: ./.travis-script.sh
