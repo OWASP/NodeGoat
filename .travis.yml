@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - '0.12'
+services: 
+  - mongodb
+cache:
+  directories:
+    - node_modules
+before_script:
+  - npm install -g grunt-cli
+  - grunt db-reset:development
+script:
+  - npm start
+  - curl http://localhost:4000
