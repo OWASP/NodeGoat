@@ -9,6 +9,4 @@ cache:
 before_script:
   - npm install -g grunt-cli
   - grunt db-reset:development
-script:
-  - npm start
-  - curl http://localhost:4000
+script: ./.travis-script.sh
