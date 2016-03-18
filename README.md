@@ -104,7 +104,7 @@ Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/con
 
 ## Supports
 [![JetBrains](https://www.jetbrains.com/company/docs/logo_jetbrains.png?raw=true)](https://www.jetbrains.com/webstorm/)
-- Thanks to JetBrains for providing licenses to fantastic webStrom IDE to build this project.
+- Thanks to JetBrains for providing licenses to fantastic WebStorm IDE to build this project.
 
 ## License
 Code licensed under the [Apache License v2.0.](http://www.apache.org/licenses/LICENSE-2.0)
