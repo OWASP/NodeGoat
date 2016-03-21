@@ -1,6 +1,6 @@
 web:
   build: .
-  command: npm start
+  command: bash -c 'node artifacts/db-reset.js && npm start'
   ports:
     - "4000:4000"
   links:
