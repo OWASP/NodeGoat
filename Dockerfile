@@ -1,3 +1,3 @@
 FROM node:0.12-onbuild
 
-ONBUILD RUN grunt db-reset:development
+RUN node artifacts/db-reset.js

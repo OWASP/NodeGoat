@@ -1,11 +1,14 @@
-web:
-  build: .
-  command: npm start
-  ports:
-    - "4000:4000"
-  links:
-    - mongo
-mongo:
-  image: mongo:latest
-  expose:
-    - "27017"
+version: "2.0"
+
+services:
+  web:
+    build: .
+    command: npm start
+    ports:
+      - "4000:4000"
+    links:
+      - mongo
+  mongo:
+    image: mongo:latest
+    expose:
+      - "27017"
