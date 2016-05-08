@@ -1,7 +1,6 @@
 "use strict";
 
 var exec = require("child_process").exec;
-// Removed sys. Not being used, depricated and producing warnings.
 
 var JS_FILES = ["Gruntfile.js", "app/assets/js/**", "config/config.js", "app/data/**/*.js",
     "app/routes/**/*.js", "server.js", "test/**/*.js"
