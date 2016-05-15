@@ -1,3 +1,5 @@
-FROM node:0.12-onbuild
+FROM node:4.4
+
+#RUN npm install
 
 RUN node artifacts/db-reset.js
