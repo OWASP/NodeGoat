@@ -18,6 +18,3 @@ Icon?
 
 # Zap output
 report*.html
-
-*.sublime*
-server-*
