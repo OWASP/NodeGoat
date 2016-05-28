@@ -5,10 +5,6 @@ var async = require("async");
 var By = require("selenium-webdriver").By;
 var chromeDriver = require("chromedriver");
 
-// Any selenium-webdirver after 2.47.0 requires ES6 features.
-// grunt-cli-babel along with several other tricks were tried. None of which worked.
-// Until we update to Node 4 we're stuck on 2.47.0 of selenium-webdriver.
-
 // Documentation for the selenium JS webdriver: https://code.google.com/p/selenium/wiki/WebDriverJs
 var seleniumWebdriver = require("selenium-webdriver");
 var webDriver;
