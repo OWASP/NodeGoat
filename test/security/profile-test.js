@@ -5,10 +5,6 @@ var async = require("async");
 var By = require("selenium-webdriver").By;
 var chromeDriver = require("chromedriver");
 
-// Any selenium-webdirver after 2.47.0 requires ES6 features.
-// grunt-cli-babel along with several other tricks were tried. None of which worked.
-// Until we update to Node 4 we're stuck on 2.47.0 of selenium-webdriver.
-
 // Documentation for the selenium JS webdriver: https://code.google.com/p/selenium/wiki/WebDriverJs
 var seleniumWebdriver = require("selenium-webdriver");
 var webDriver;
@@ -29,6 +25,7 @@ var ZapClient = require("zaproxy");
 var zaproxy = new ZapClient(zapOptions);
 var zapTargetAppRoute = "profile";
 var zapTargetAppAndRoute = zapTargetApp + zapTargetAppRoute;
+var zapApiKey = config.zapApiKey;
 var fs = require("fs");
 
 var state = {
@@ -61,6 +58,7 @@ test.before(function() {
         .build();
     webDriver.getWindowHandle();
     webDriver.get(zapTargetApp);
+    webDriver.sleep(1000);
     webDriver.findElement(By.name("userName")).sendKeys(sutUserName);
     webDriver.findElement(By.name("password")).sendKeys(sutUserPassword);
     webDriver.sleep(1000);
@@ -83,9 +81,11 @@ test.before(function() {
 });
 test.after(function() {
     "use strict";
+    var overWrite = true;
     this.timeout(10000);
     webDriver.quit();
-    zaproxy.core.shutdown();
+    zaproxy.core.newSession("new NodeGoat session", overWrite, zapApiKey, function () {});
+    //zaproxy.core.shutdown(zapApiKey, function () {});
 });
 
 
@@ -129,13 +129,13 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
         async.series([
 
             function spider(spiderDone) {
-                zaproxy.spider.scan(zapTargetApp, maxChildren, function(err, resp) {
+                zaproxy.spider.scan(zapTargetApp, maxChildren, zapApiKey, function(err, resp) {
                     spiderDone(state.error, state);
                 });
             },
             function includeInZapContext(includeInZapContextDone) {
                 // Inform Zap how to authenticate itself.
-                zaproxy.context.includeInContext("Default Context", "\\Q" + zapTargetApp + "\E.*", function(err, resp) {
+                zaproxy.context.includeInContext("Default Context", "\\Q" + zapTargetApp + "\E.*", zapApiKey, function(err, resp) {
                     includeInZapContextDone(state.error);
                 });
             },
@@ -147,6 +147,7 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                     "loginUrl=" +
                     zapTargetApp +
                     "login&loginRequestData=userName%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D%26_csrf%3D",
+                    zapApiKey,
                     function(err, resp) {
                         setAuthenticationMethodDone(state.error);
 
@@ -158,6 +159,7 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                 zaproxy.authentication.setLoggedInIndicator(
                     contextId,
                     "\Q<p>Moved Temporarily. Redirecting to <a href='/dashboard'>/dashboard</a></p>\E",
+                    zapApiKey,
                     function(err, resp) {
                         setLoggedInIndicatorDone(state.error);
                     }
@@ -165,18 +167,18 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
             },
             function setForcedUserModeEnabled(setForcedUserModeEnabledDone) {
                 var enabled = true;
-                zaproxy.forcedUser.setForcedUserModeEnabled(enabled, function(err, resp) {
+                zaproxy.forcedUser.setForcedUserModeEnabled(enabled, zapApiKey, function(err, resp) {
                     setForcedUserModeEnabledDone(state.error);
                 });
             },
             function newUser(newUserDone) {
-                zaproxy.users.newUser(contextId, sutUserName, function(err, resp) {
+                zaproxy.users.newUser(contextId, sutUserName, zapApiKey, function(err, resp) {
                     userId = resp.userId;
                     newUserDone(state.error);
                 });
             },
             function setForcedUser(setForcedUserDone) {
-                zaproxy.forcedUser.setForcedUser(contextId, userId, function(err, resp) {
+                zaproxy.forcedUser.setForcedUser(contextId, userId, zapApiKey, function(err, resp) {
                     setForcedUserDone(state.error);
                 });
             },
@@ -184,7 +186,8 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                 zaproxy.users.setAuthenticationCredentials(
                     contextId,
                     userId,
-                    "username=" + sutUserName + "password=" + sutUserPassword,
+                    "username=" + sutUserName + "&" + "password=" + sutUserPassword,
+                    zapApiKey,
                     function(err, resp) {
                         setAuthenticationCredentialsDone(state.error);
                     }
@@ -192,12 +195,12 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
             },
             function setUserEnabled(setUserEnabledDone) { // User should already be enabled?
                 var enabled = true;
-                zaproxy.users.setUserEnabled(contextId, userId, enabled, function(err, resp) {
+                zaproxy.users.setUserEnabled(contextId, userId, enabled, zapApiKey, function(err, resp) {
                     setUserEnabledDone(state.error);
                 });
             },
             function spiderAsUserForRoot(spiderAsUserForDone) {
-                zaproxy.spider.scanAsUser(zapTargetApp, contextId, userId, maxChildren, function(err, resp) {
+                zaproxy.spider.scanAsUser(zapTargetApp, contextId, userId, maxChildren, zapApiKey, function(err, resp) {
                     spiderAsUserForDone(state.error);
                 });
             },
@@ -209,6 +212,7 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                     "",
                     "POST",
                     "firstName=JohnseleniumJohn&lastName=DoeseleniumDoe&ssn=seleniumSSN&dob=12/23/5678&bankAcc=seleniumBankAcc&bankRouting=seleniumBankRouting&address=seleniumAddress&_csrf=&submit=",
+                    zapApiKey,
                     function(err, resp) {
                         var statusValue;
                         var zapError;
@@ -249,7 +253,7 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                                 clearInterval(zapInProgressIntervalId);
                                 status();
                                 console.log("About to write report.");
-                                zaproxy.core.htmlreport(function(err, resp) {
+                                zaproxy.core.htmlreport(zapApiKey, function(err, resp) {
                                     var date = new Date();
                                     var reportPath = __dirname +
                                         "/report_" +
