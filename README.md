@@ -31,7 +31,7 @@ This Heroku instance uses Free ($0/month) node server and MongoLab add-on.
 ### OPTION 2 - Run NodeGoat on your machine
 
 If you do not wish to run NodeGoat on Heroku, please follow these steps to setup and run it locally -
-* Install [Node.js](http://nodejs.org/) - NodeGoat requires Node v0.10 or above
+* Install [Node.js](http://nodejs.org/) - NodeGoat requires Node v4.4 or above
 
 * Clone the github repository
 ```
