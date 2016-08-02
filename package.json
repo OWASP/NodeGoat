@@ -12,7 +12,7 @@
     "express": "^4.12.3",
     "express-session": "^1.11.2",
     "forever": "^0.14.1",
-    "helmet": "^0.9.0",
+    "helmet": "0.11.0",
     "mongodb": "^2.0.31",
     "serve-favicon": "^2.2.0",
     "swig": "^1.4.2",
