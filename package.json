@@ -29,7 +29,6 @@
   },
   "devDependencies": {
     "async": "^2.0.0-rc.4",
-    "chromedriver": "^2.21.2",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-concurrent": "^2.3.0",
@@ -39,6 +38,8 @@
     "grunt-jsbeautifier": "^0.2.12",
     "grunt-mocha-test": "^0.12.7",
     "grunt-nodemon": "^0.4.2",
+    "grunt-if": "^0.1.5",
+    "grunt-npm-install": "^0.3.0",
     "grunt-retire": "^0.3.12",
     "mocha": "^2.4.5",
     "selenium-webdriver": "^2.53.2",

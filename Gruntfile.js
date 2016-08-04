@@ -99,6 +99,27 @@ module.exports = function(grunt) {
                 logConcurrentOutput: true
             }
         },
+        if: {
+            testSecurityDependenciesInstalled: {
+                options: {
+                    test: function() {
+                        console.log("Checking to see if chromedriver is installed.");
+                        try {
+                            return require.resolve("chromedriver");
+                        } catch (e) {
+                            console.log(e);
+                            console.log("We will now try to install it.");
+                            console.log("If this fails, please try installing manually,");
+                            console.log("there may be some help here:");
+                            console.log("https://github.com/vuejs/vue-router/issues/261#issuecomment-218618180");
+                            throw e;
+                        }
+                    }
+                },
+                ifTrue: ["mochaTest:security"],
+                ifFalse: ["npm-install:chromedriver@^2.21.2", "mochaTest:security"]
+            }
+        },
         mochaTest: {
             options: {
                 reporter: "spec"
@@ -137,6 +158,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-env");
     grunt.loadNpmTasks("grunt-jsbeautifier");
     grunt.loadNpmTasks("grunt-retire"); // run as: grunt retire
+    grunt.loadNpmTasks("grunt-if");
+    grunt.loadNpmTasks("grunt-npm-install");
 
     // Making grunt default to force in order not to break the project.
     grunt.option("force", true);
@@ -170,7 +193,7 @@ module.exports = function(grunt) {
     grunt.registerTask("test", ["env:test", "mochaTest:unit"]);
 
     // Security test task.
-    grunt.registerTask("testsecurity", ["env:test", "mochaTest:security"]);
+    grunt.registerTask("testsecurity", ["env:test", "if:testSecurityDependenciesInstalled"]);
 
     // start server.
     grunt.registerTask("run", ["precommit", "concurrent"]);
