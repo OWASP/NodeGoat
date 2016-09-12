@@ -101,7 +101,7 @@ If sending PR, once code is ready to commit, run:
 ```
 grunt precommit
 ```
-This command uses `js-beautifier` to indent the code and verifies these [coding standards](https://github.com/OWASP/NodeGoat/blob/master/.jshintrc) using `jsHint`. Please resolve all `jsHint` errors before committing the code.
+This command uses `js-beautifier` to indent the code and verifies these [coding standards](https://github.com/binarymist/NodeGoat/blob/master/.jshintrc) using `jsHint`. Please resolve all `jsHint` errors before committing the code.
 
 ## Contributors
 Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/contributors) to the NodeGoat project.
