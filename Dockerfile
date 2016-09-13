@@ -3,8 +3,6 @@ FROM node:4.4
 ENV user nodegoat_docker
 ENV workdir /usr/src/app/
 
-RUN useradd --create-home --system --shell /bin/false nodegoat_docker_compose
-
 # Home is required for npm install. System account with no ability to login to shell
 RUN useradd --create-home --system --shell /bin/false $user
 
