@@ -6,7 +6,7 @@ ENV workdir /usr/src/app/
 # Home is required for npm install. System account with no ability to login to shell
 RUN useradd --create-home --system --shell /bin/false $user
 
-RUN mkdir -p $workdir
+RUN mkdir --parents $workdir
 WORKDIR $workdir
 COPY package.json $workdir
 
@@ -18,7 +18,7 @@ USER $user
 RUN npm install
 COPY . $workdir
 
-# Permissions need to be reaplied, due to how docker applies root to new files.
+# Permissions need to be reapplied, due to how docker applies root to new files.
 USER root
 RUN chown $user:$user --recursive $workdir
 RUN chmod --recursive o-wrx $workdir
