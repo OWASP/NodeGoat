@@ -10,13 +10,22 @@ RUN mkdir -p $workdir
 WORKDIR $workdir
 COPY package.json $workdir
 
-# chown is required by npm install.
-RUN chown $user --recursive $workdir
+# chown is required by npm install as a non-root user.
+RUN chown $user:$user --recursive $workdir
+
 # Then all further actions including running the containers should be done under non-root user.
 USER $user
-
 RUN npm install
 COPY . $workdir
+
+# Permissions need to be reaplied, due to how docker applies root to new files.
+USER root
+RUN chown $user:$user --recursive $workdir
+RUN chmod --recursive o-wrx $workdir
+
+RUN ls -liah
+RUN ls ../ -liah
+USER $user
 
 # Neither of the following work, because the mongo container isn't yet running.
 #RUN node artifacts/db-reset.js
