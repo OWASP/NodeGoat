@@ -10,5 +10,6 @@ services:
       - mongo
   mongo:
     image: mongo:latest
+    user: mongodb
     expose:
       - "27017"
