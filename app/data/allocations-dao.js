@@ -79,6 +79,40 @@ function AllocationsDAO(db) {
 
         });
     };
+
+    this.getThresholdByUserId = function(userId, threshold, callback) {
+        var finalId = parseInt(userId);
+
+        /*
+        // Fix for A1 - 2 NoSQL Injection - escape the threshold parameter properly
+        Fix this SQL Injection which doesn't sanitze the input parameter 'threshold' and allows attackers
+        to inject arbitrary javascript code into the NoSQL query:
+        1. 0';while(true){}'
+        2. 1'; return 1 == 1
+        */
+        var whereClause = "this.userId == '" + finalId + "' && " + "this.stocks > " + "'" + threshold + "'";
+
+        allocationsCol.findOne({
+            $where: whereClause
+        }, function(err, allocations) {
+
+            if (err) return callback(err, null);
+            if (!allocations) return callback("ERROR: No allocations found for the user", null);
+
+            userDAO.getUserById(finalId, function(err, user) {
+                if (err) return callback(err, null);
+
+                // add user details
+                allocations.userId = userId;
+                allocations.userName = user.userName;
+                allocations.firstName = user.firstName;
+                allocations.lastName = user.lastName;
+
+                callback(null, allocations);
+            });
+
+        });
+    };
 }
 
 module.exports.AllocationsDAO = AllocationsDAO;

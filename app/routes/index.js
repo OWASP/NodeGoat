@@ -56,6 +56,7 @@ var exports = function(app, db) {
 
     // Allocations Page
     app.get("/allocations/:userId", isLoggedIn, allocationsHandler.displayAllocations);
+    app.get("/allocations/threshold/:threshold", isLoggedIn, allocationsHandler.displayAllocationsThreshold);
 
     // Handle redirect for learning resources link
     app.get("/learn", isLoggedIn, function(req, res, next) {
