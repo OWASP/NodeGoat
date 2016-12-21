@@ -25,7 +25,7 @@ function AllocationsHandler(db) {
     this.displayAllocationsThreshold = function(req, res, next) {
 
         var userId = req.session.userId;
-        var threshold = req.params.threshold;
+        var threshold = req.query.threshold || 0;
 
         allocationsDAO.getThresholdByUserId(userId, threshold, function(err, docs) {
 
