@@ -90,7 +90,7 @@ function AllocationsDAO(db) {
         1. 0';while(true){}'
         2. 1'; return 1 == 1
         */
-        var whereClause = "this.userId == '" + finalId + "' && " + "(this.stocks > " + "'" + threshold + "')";
+        var whereClause = "this.userId == '" + finalId + "' && " + "this.stocks > " + "'" + threshold + "'";
 
         allocationsCol.findOne({
             $where: whereClause
