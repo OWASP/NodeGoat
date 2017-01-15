@@ -38,6 +38,11 @@ If you do not wish to run NodeGoat on Heroku, please follow these steps to setup
 git clone https://github.com/binarymist/NodeGoat.git
 ```
 
+*go to the directory
+```
+cd NodeGoat
+```
+
 * Install node modules
 ```
 npm install

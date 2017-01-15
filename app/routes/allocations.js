@@ -21,6 +21,21 @@ function AllocationsHandler(db) {
             return res.render("allocations", docs);
         });
     };
+
+    this.displayAllocationsThreshold = function(req, res, next) {
+
+        var userId = req.session.userId;
+        var threshold = req.query.threshold || 0;
+
+        allocationsDAO.getThresholdByUserId(userId, threshold, function(err, docs) {
+
+            if (err) return next(err);
+
+            docs.userId = userId; //set for nav menu items
+
+            return res.render("allocations", docs);
+        });
+    };
 }
 
 module.exports = AllocationsHandler;

@@ -75,7 +75,7 @@ https.createServer(httpsOptions, app).listen(config.port, function() {
                     3. The insecure demo application stores users personal sensitive information in plain text. To fix it, The
                     <code>data/profile-dao.js</code>can be modified to use crypto module to encrypt and decrypt sensitive information as below:
                     <pre>
-// Include crtpto module
+// Include crypto module
 var crypto = require("crypto");
 
 //Set keys config object
