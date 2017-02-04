@@ -10,6 +10,7 @@ var swig = require("swig");
 // var helmet = require("helmet");
 var MongoClient = require("mongodb").MongoClient; // Driver for connecting to MongoDB
 var http = require("http");
+var marked = require('marked');
 //var helmet = require("helmet");
 //var nosniff = require('dont-sniff-mimetype');
 var app = express(); // Web framework to handle routing requests
@@ -119,6 +120,12 @@ MongoClient.connect(config.db, function(err, db) {
     app.set("view engine", "html");
     app.set("views", __dirname + "/app/views");
     app.use(express.static(__dirname + "/app/assets"));
+
+
+    // Initializing marked library
+    // Fix for A9 - Insecure Dependencies
+    marked.setOptions({ sanitize: true });
+    app.locals.marked = marked;
 
     // Application routes
     routes(app, db);

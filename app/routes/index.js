@@ -3,6 +3,8 @@ var ProfileHandler = require("./profile");
 var BenefitsHandler = require("./benefits");
 var ContributionsHandler = require("./contributions");
 var AllocationsHandler = require("./allocations");
+var MemosHandler = require("./memos");
+
 var ErrorHandler = require("./error").errorHandler;
 
 var exports = function(app, db) {
@@ -14,6 +16,7 @@ var exports = function(app, db) {
     var benefitsHandler = new BenefitsHandler(db);
     var contributionsHandler = new ContributionsHandler(db);
     var allocationsHandler = new AllocationsHandler(db);
+    var memosHandler = new MemosHandler(db);
 
     // Middleware to check if a user is logged in
     var isLoggedIn = sessionHandler.isLoggedInMiddleware;
@@ -57,6 +60,10 @@ var exports = function(app, db) {
     // Allocations Page
     app.get("/allocations/:userId", isLoggedIn, allocationsHandler.displayAllocations);
     app.get("/allocations-threshold", isLoggedIn, allocationsHandler.displayAllocationsThreshold);
+
+    // Memos Page
+    app.get("/memos", isLoggedIn, memosHandler.displayMemos);
+    app.post("/memos", isLoggedIn, memosHandler.addMemos);
 
     // Handle redirect for learning resources link
     app.get("/learn", isLoggedIn, function(req, res, next) {

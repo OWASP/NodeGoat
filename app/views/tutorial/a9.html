@@ -19,7 +19,17 @@
             <div class="panel-body">
                 <p>Components, such as libraries, frameworks, and other software modules, almost always run with full privileges. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications using components with known vulnerabilities may undermine application defenses and enable a range of possible attacks and impacts.
                 </p>
-                <p>Using insecure npm packages can lead to this vulnerability. The <a href="https://nodesecurity.io/advisories">Node Security project </a> is a great initiative and resource to know about related vulnerabilities.</p>
+                <p>Using insecure npm packages can lead to this vulnerability. Some projects today help test and alert on insecure dependencies:
+                    <ol>
+                        <li>
+                            The <a href="https://nodesecurity.io/advisories">Node Security project </a> is a great initiative and resource to know about related vulnerabilities.
+                        </li>
+                        <li>
+                            <a href="https://snyk.io/">Snyk.io </a> is another Node.js CLI tool and Platform to scan and detect vulnerable packages
+                        </li>
+                    </ol>
+
+                    </p>
             </div>
         </div>
 
@@ -53,6 +63,80 @@
                     <li>Lock version of packages used</li>
                     <li>Watch Github repositories for notifications. This will inform us if any vulnerabilities are discovered in the package in future</li>
                 </ul>
+            </div>
+        </div>
+
+        <div id="source-code-example" class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Insecure Dependencies Example</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Description</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <p>
+                            The demo web application is using a popular library called <a href="https://github.com/chjj/marked"> Marked </a> which is a Markdown parser in JavaScript and provides an easy way to integrate markdown syntax for rich text to a website, replacing the need to build WYSIWYG editors.
+                        </p>
+
+                        <p>
+                            This library is so popular that it has been downloaded almost <strong> 3 million </strong> times in the last month and received more than <strong> 11,000 </strong> stars on GitHub.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Attach Mechanics</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <p>
+                            In this demo project we are using an insecure version of the Marked library that is vulnerable to XSS exploits.
+                        </p>
+
+                        <p>
+                            <strong>Scenario: </strong> A form on a page allows free text user input which is later parsed using the Marked library to markdown format and compiled in a dedicated view to show the rich text version. An attacker can exploit this form to insert malicious XSS strings which the Markdown library isn't filtering very well, resulting in an XSS attack.
+
+                        </p>
+
+                        <p>
+                        Try sending one of the following markdown syntax strings in the Memos section to exploit it and see which one succeeds:
+
+
+
+
+                        <ol>
+
+                            <li>
+                                <code>
+                                    <xmp>
+                                        [Nice try](javascript:alert(1))
+                                    </xmp>
+                                </code>
+                            </li>
+                            <li>
+                                <code>
+                                    <xmp>
+                                        [Hi there](javascript&#58;alert(1&#41;)
+                                    </xmp>
+                                </code>
+                            </li>
+                            <li>
+                                <code>
+                                    <xmp>
+                                        [I'm here!](javascript&#58this;alert(1&#41;)
+                                    </xmp>
+                                </code>
+                            </li>
+                        </ol>
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </div>
 
