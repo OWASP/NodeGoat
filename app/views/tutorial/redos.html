@@ -46,4 +46,32 @@
             </div>
         </div>
     </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Source Code Example</h3>
+        </div>
+        <div class="panel-body">
+            <p>
+                Even simple regex patterns are vulnerable to ReDoS.
+                The NodeGoat project uses the following source code to validate text format from the user based on a regex
+                pattern:
+
+                <pre>
+// Allow only numbers with a suffix of the letter C, for example: 'XXXXXXC'
+var regexPattern = /([0-9]+)+C/;
+var testComplyWithRequirements = regexPattern.test(bankRouting)
+                </pre>
+
+                If a long enough input is provided it will stall the Node.js process and render it useless (in the background
+                the Node.js process will take 100% cpu until stopped or the regex yields a result (true or false)).
+
+                Try to input the following string in the Bank Routing number in the Profile form:
+                <pre>
+91762612117612121123123123123121
+                </pre>
+
+            </p>
+        </div>
+    </div>
+</div>
 </div>{% endblock %}
