@@ -31,8 +31,8 @@ function ProfileHandler(db) {
         // The following regexPattern that is used to validate the bankRouting number is insecure and vulnerable to
         // catastrophic backtracking which means that specific type of input may cause it to consume all CPU resources
         // with an exponential time until it completes
-        var regexPattern = /([0-9]+)+C/;
-        // Allow only numbers with a suffix of the letter C, for example: 'XXXXXXC'
+        var regexPattern = /([0-9]+)+\#/;
+        // Allow only numbers with a suffix of the letter #, for example: 'XXXXXX#'
         var testComplyWithRequirements = regexPattern.test(bankRouting)
         // if the regex test fails we do not allow saving
         if (testComplyWithRequirements !== true) {
