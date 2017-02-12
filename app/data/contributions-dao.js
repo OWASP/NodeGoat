@@ -15,11 +15,11 @@ function ContributionsDAO(db) {
     var userDAO = new UserDAO(db);
 
     this.update = function(userId, preTax, afterTax, roth, callback) {
-        var finalId = parseInt(userId);
+        var parsedUserId = parseInt(userId);
 
         // Create contributions document
         var contributions = {
-            userId: finalId,
+            userId: parsedUserId,
             preTax: preTax,
             afterTax: afterTax,
             roth: roth
@@ -35,7 +35,7 @@ function ContributionsDAO(db) {
                 if (!err) {
                     console.log("Updated contributions");
                     // add user details
-                    userDAO.getUserById(finalId, function(err, user) {
+                    userDAO.getUserById(parsedUserId, function(err, user) {
 
                         if (err) return callback(err, null);
 

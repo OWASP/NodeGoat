@@ -251,26 +251,37 @@
 
                         <h5>$where operator</h5>
                         <p>
-                            MongoDB's <code>$where</code> operator performs JavaScript expression evaluation on the MongoDB server. If the user is able to inject direct code into such queries then such an attack can take place
+                            MongoDB's
+                            <code>$where</code> operator performs JavaScript expression evaluation on the MongoDB server. If the user is able to inject direct code into such queries then such an attack can take place
                         </p>
 
                         <p>
                             Lets consider an example query:
                         </p>
-                        <pre> db.usersCollection.find({ $where: "this.country == '" + req.body.country + '" }); </pre>
+                        <pre> db.allocationsCollection.find({ $where: "this.userId == '" + parsedUserId + "' && " + "this.stocks > " + "'" + threshold + "'" }); </pre>
 
                         <p>
-                            The code will match all documents which have a country field as specified by the user. The problem is that this code is un-sanitized and vulnerable to an SSJS Injection.
+                            The code will match all documents which have a
+                            <code>userId</code> field as specified by
+                            <code>parsedUserId</code> and a
+                            <code>stocks</code> field as specified by
+                            <code>threshold</code>. The problem is that these parameters are not validated, filtered, or sanitised, and vulnerable to SSJS Injection.
                         </p>
 
 
                         <br/>
                         <h5>2. NoSQL SSJS Injection</h5>
                         <p>
-                            An attacker can send the following input for the country field in the request's body which will create a valid JavaScript expression and satisfy the <code> $where</code> query as well, resulting in a DoS attack on the MongoDB server:
+                            An attacker can send the following input for the
+                            <code>threshold</code> field in the requests query, which will create a valid JavaScript expression and satisfy the
+                            <code> $where</code> query as well, resulting in a DoS attack on the MongoDB server:
                         </p>
 
-                        <pre> curl http://localhost/users?country=IL';while(true){};' </pre>
+                        <pre>http://localhost:4000/allocations/2?threshold=5';while(true){};' </pre>
+                        <p>
+                            You can also just drop the following into the Stocks Threshold input box:
+                        </p>
+                        <pre>';while(true){};'</pre>
 
                     </div>
                 </div>
@@ -287,6 +298,9 @@
                             <li>Input Validation: Validate inputs to detect malicious values. For NoSQL databases, also validate input types against expected types</li>
                             <li>Least Privilege: To minimize the potential damage of a successful injection attack, do not assign DBA or admin type access rights to your application accounts. Similarly minimize the privileges of the operating system account that the database process runs under.</li>
                         </ul>
+                        For the above NoSQL vulnerability, bare minimum fixes can be found in
+                        <code>allocations.html</code> and
+                        <code>allocations-dao.js</code>
                     </div>
                 </div>
             </div>
