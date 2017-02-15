@@ -35,7 +35,7 @@ If you do not wish to run NodeGoat on Heroku, please follow these steps to setup
 
 * Clone the github repository
 ```
-git clone https://github.com/binarymist/NodeGoat.git
+git clone https://github.com/OWASP/NodeGoat.git
 ```
 
 *go to the directory
@@ -90,7 +90,7 @@ docker-compose up
 
 
 #### Customizing the Default Application Configuration
-The default application settings (database url, http port, etc.) can be changed by updating the [config file] (https://github.com/binarymist/NodeGoat/blob/master/config/env/all.js).
+The default application settings (database url, http port, etc.) can be changed by updating the [config file] (https://github.com/OWASP/NodeGoat/blob/master/config/env/all.js).
 
 ## Report bugs, Feedback, Comments
 *  Open a new [issue](https://github.com/OWASP/NodeGoat/issues) or contact team by joining chat at [Slack](https://owasp.slack.com/messages/project-nodegoat/) or [![Join the chat at https://gitter.im/OWASP/NodeGoat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OWASP/NodeGoat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -106,7 +106,7 @@ If sending PR, once code is ready to commit, run:
 ```
 grunt precommit
 ```
-This command uses `js-beautifier` to indent the code and verifies these [coding standards](https://github.com/binarymist/NodeGoat/blob/master/.jshintrc) using `jsHint`. Please resolve all `jsHint` errors before committing the code.
+This command uses `js-beautifier` to indent the code and verifies these [coding standards](https://github.com/OWASP/NodeGoat/blob/master/.jshintrc) using `jsHint`. Please resolve all `jsHint` errors before committing the code.
 
 ## Contributors
 Here are the amazing [contributors](https://github.com/OWASP/NodeGoat/graphs/contributors) to the NodeGoat project.
