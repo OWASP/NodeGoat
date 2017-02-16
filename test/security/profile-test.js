@@ -74,7 +74,7 @@ test.before(function() {
     webDriver.findElement(By.name("ssn")).sendKeys("seleniumSSN");
     webDriver.findElement(By.name("dob")).sendKeys("12/23/5678");
     webDriver.findElement(By.name("bankAcc")).sendKeys("seleniumBankAcc");
-    webDriver.findElement(By.name("bankRouting")).sendKeys("seleniumBankRouting");
+    webDriver.findElement(By.name("bankRouting")).sendKeys("0198212#");
     webDriver.findElement(By.name("address")).sendKeys("seleniumAddress");
     webDriver.findElement(By.name("submit")).click();
     webDriver.sleep(1000);
@@ -211,7 +211,7 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                     false,
                     "",
                     "POST",
-                    "firstName=JohnseleniumJohn&lastName=DoeseleniumDoe&ssn=seleniumSSN&dob=12/23/5678&bankAcc=seleniumBankAcc&bankRouting=seleniumBankRouting&address=seleniumAddress&_csrf=&submit=",
+                    "firstName=JohnseleniumJohn&lastName=DoeseleniumDoe&ssn=seleniumSSN&dob=12/23/5678&bankAcc=seleniumBankAcc&bankRouting=0198212#&address=seleniumAddress&_csrf=&submit=",
                     zapApiKey,
                     function(err, resp) {
                         var statusValue;
