@@ -51,6 +51,54 @@ function SessionHandler(db) {
         });
     };
 
+    this.handleApiLoginRequest = function(req, res, next) {
+        var userName = req.body.userName;
+        var password = req.body.password;
+
+        userDAO.validateApiLogin(userName, password, function(err, user) {
+            var invalidUserNameErrorMessage = "Invalid username";
+            var invalidPasswordErrorMessage = "Invalid password";
+
+            if ((err && err.noSuchUser) || user === null) {
+              return res.render("login", {
+                userName: userName,
+                password: "",
+                loginError: invalidUserNameErrorMessage
+                //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
+                // loginError: errorMessage
+              });
+            }
+
+            if (err) {
+              if (err.invalidPassword) {
+                return res.render("login", {
+                  userName: userName,
+                  password: "",
+                  loginError: invalidPasswordErrorMessage
+                  //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
+                  // loginError: errorMessage
+
+                });
+              } else {
+                return next(err);
+              }
+            }
+
+            // Regenerating in each login
+            // TODO: Add another vulnerability related with not to do it
+            req.session.regenerate(function() {
+              req.session.userId = user._id;
+
+              if (user.isAdmin) {
+                return res.redirect("/benefits");
+              } else {
+                return res.redirect("/dashboard");
+              }
+            });
+
+        });
+    }
+
     this.handleLoginRequest = function(req, res, next) {
         var userName = req.body.userName;
         var password = req.body.password;

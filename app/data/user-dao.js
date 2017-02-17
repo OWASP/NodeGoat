@@ -62,6 +62,13 @@ function UserDAO(db) {
         return year + "-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2);
     };
 
+    this.validateApiLogin = function(userName, password, callback) {
+        usersCol.findOne({
+            userName: userName,
+            password: password
+        }, callback)
+    }
+
     this.validateLogin = function(userName, password, callback) {
 
         // Callback to pass to MongoDB that validates a user document

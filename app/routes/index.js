@@ -30,6 +30,7 @@ var exports = function(app, db) {
     // Login form
     app.get("/login", sessionHandler.displayLoginPage);
     app.post("/login", sessionHandler.handleLoginRequest);
+    app.post("/api/login", sessionHandler.handleApiLoginRequest);
 
     // Signup form
     app.get("/signup", sessionHandler.displaySignupPage);
