@@ -251,7 +251,8 @@
 
                         <h5>$where operator</h5>
                         <p>
-                            MongoDB's <code>$where</code> operator performs JavaScript expression evaluation on the MongoDB server. If the user is able to inject direct code into such queries then such an attack can take place
+                            MongoDB's
+                            <code>$where</code> operator performs JavaScript expression evaluation on the MongoDB server. If the user is able to inject direct code into such queries then such an attack can take place
                         </p>
 
                         <p>
@@ -267,7 +268,8 @@
                         <br/>
                         <h5>2. NoSQL SSJS Injection</h5>
                         <p>
-                            An attacker can send the following input for the country field in the request's body which will create a valid JavaScript expression and satisfy the <code> $where</code> query as well, resulting in a DoS attack on the MongoDB server:
+                            An attacker can send the following input for the country field in the request's body which will create a valid JavaScript expression and satisfy the
+                            <code> $where</code> query as well, resulting in a DoS attack on the MongoDB server:
                         </p>
 
                         <pre> curl http://localhost/users?country=IL';while(true){};' </pre>
