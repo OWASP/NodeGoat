@@ -17,7 +17,7 @@ function AllocationsDAO(db) {
 
 
     this.update = function(userId, stocks, funds, bonds, callback) {
-        var finalId = parseInt(userId);
+        var parsedUserId = parseInt(userId);
 
         // Create allocations document
         var allocations = {
@@ -28,7 +28,7 @@ function AllocationsDAO(db) {
         };
 
         allocationsCol.update({
-            userId: finalId
+            userId: parsedUserId
         }, allocations, {
             upsert: true
         }, function(err, result) {
@@ -55,17 +55,42 @@ function AllocationsDAO(db) {
         });
     };
 
-    // This is the good implementation, respect the last one
-    this.getByUserId = function(userId, callback) {
-        var finalId = parseInt(userId);
+    this.getByUserIdAndThreshold = function(userId, threshold, callback) {
+        var parsedUserId = parseInt(userId);
 
-        allocationsCol.findOne({
-            userId: finalId
-        }, function(err, allocations) {
+        function searchCriteria() {
+
+            if (threshold) {
+                /*
+                // Fix for A1 - 2 NoSQL Injection - escape the threshold parameter properly
+                // Fix this NoSQL Injection which doesn't sanitze the input parameter 'threshold' and allows attackers
+                // to inject arbitrary javascript code into the NoSQL query:
+                // 1. 0';while(true){}'
+                // 2. 1'; return 1 == 1
+                // Also implement fix in allocations.html for UX.                             
+                const parsedThreshold = parseInt(threshold, 10);
+                
+                if (parsedThreshold >= 0 && parsedThreshold <= 99) {
+                    return {$where: `this.userId == ${parsedUserId} && this.stocks > ${threshold}`};
+                }
+                throw `The user supplied threshold: ${parsedThreshold} was not valid.`;
+                */
+                return {
+                    $where: `this.userId == ${parsedUserId} && this.stocks > '${threshold}'`
+                };
+            }
+            return {
+                userId: parsedUserId
+            };
+        }
+
+
+        allocationsCol.findOne(searchCriteria(), function(err, allocations) {
+
             if (err) return callback(err, null);
             if (!allocations) return callback("ERROR: No allocations found for the user", null);
 
-            userDAO.getUserById(finalId, function(err, user) {
+            userDAO.getUserById(parsedUserId, function(err, user) {
                 if (err) return callback(err, null);
 
                 // add user details
@@ -80,39 +105,6 @@ function AllocationsDAO(db) {
         });
     };
 
-    this.getThresholdByUserId = function(userId, threshold, callback) {
-        var finalId = parseInt(userId);
-
-        /*
-        // Fix for A1 - 2 NoSQL Injection - escape the threshold parameter properly
-        Fix this SQL Injection which doesn't sanitze the input parameter 'threshold' and allows attackers
-        to inject arbitrary javascript code into the NoSQL query:
-        1. 0';while(true){}'
-        2. 1'; return 1 == 1
-        */
-        var whereClause = "this.userId == '" + finalId + "' && " + "this.stocks > " + "'" + threshold + "'";
-
-        allocationsCol.findOne({
-            $where: whereClause
-        }, function(err, allocations) {
-
-            if (err) return callback(err, null);
-            if (!allocations) return callback("ERROR: No allocations found for the user", null);
-
-            userDAO.getUserById(finalId, function(err, user) {
-                if (err) return callback(err, null);
-
-                // add user details
-                allocations.userId = userId;
-                allocations.userName = user.userName;
-                allocations.firstName = user.firstName;
-                allocations.lastName = user.lastName;
-
-                callback(null, allocations);
-            });
-
-        });
-    };
 }
 
 module.exports.AllocationsDAO = AllocationsDAO;

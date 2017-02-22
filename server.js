@@ -86,11 +86,11 @@ MongoClient.connect(config.db, function(err, db) {
         // Both mandatory in Express v4
         saveUninitialized: true,
         resave: true
-            /*
-            // Fix for A5 - Security MisConfig
-            // Use generic cookie name
-            key: "sessionId",
-            */
+        /*
+        // Fix for A5 - Security MisConfig
+        // Use generic cookie name
+        key: "sessionId",
+        */
 
         /*
         // Fix for A3 - XSS
@@ -134,10 +134,10 @@ MongoClient.connect(config.db, function(err, db) {
     swig.setDefaults({
         // Autoescape disabled
         autoescape: false
-            /*
-            // Fix for A3 - XSS, enable auto escaping
-            autoescape: true // default value
-            */
+        /*
+        // Fix for A3 - XSS, enable auto escaping
+        autoescape: true // default value
+        */
     });
 
     // Insecure HTTP connection

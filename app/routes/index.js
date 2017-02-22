@@ -59,7 +59,6 @@ var exports = function(app, db) {
 
     // Allocations Page
     app.get("/allocations/:userId", isLoggedIn, allocationsHandler.displayAllocations);
-    app.get("/allocations-threshold", isLoggedIn, allocationsHandler.displayAllocationsThreshold);
 
     // Memos Page
     app.get("/memos", isLoggedIn, memosHandler.displayMemos);
