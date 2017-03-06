@@ -10,7 +10,7 @@ var swig = require("swig");
 // var helmet = require("helmet");
 var MongoClient = require("mongodb").MongoClient; // Driver for connecting to MongoDB
 var http = require("http");
-var marked = require('marked');
+var marked = require("marked");
 //var helmet = require("helmet");
 //var nosniff = require('dont-sniff-mimetype');
 var app = express(); // Web framework to handle routing requests
@@ -86,11 +86,11 @@ MongoClient.connect(config.db, function(err, db) {
         // Both mandatory in Express v4
         saveUninitialized: true,
         resave: true
-            /*
-            // Fix for A5 - Security MisConfig
-            // Use generic cookie name
-            key: "sessionId",
-            */
+        /*
+        // Fix for A5 - Security MisConfig
+        // Use generic cookie name
+        key: "sessionId",
+        */
 
         /*
         // Fix for A3 - XSS
@@ -124,7 +124,9 @@ MongoClient.connect(config.db, function(err, db) {
 
     // Initializing marked library
     // Fix for A9 - Insecure Dependencies
-    marked.setOptions({ sanitize: true });
+    marked.setOptions({
+        sanitize: true
+    });
     app.locals.marked = marked;
 
     // Application routes
@@ -134,10 +136,10 @@ MongoClient.connect(config.db, function(err, db) {
     swig.setDefaults({
         // Autoescape disabled
         autoescape: false
-            /*
-            // Fix for A3 - XSS, enable auto escaping
-            autoescape: true // default value
-            */
+        /*
+        // Fix for A3 - XSS, enable auto escaping
+        autoescape: true // default value
+        */
     });
 
     // Insecure HTTP connection

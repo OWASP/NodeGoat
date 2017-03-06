@@ -84,7 +84,7 @@ test.after(function() {
     var overWrite = true;
     this.timeout(10000);
     webDriver.quit();
-    zaproxy.core.newSession("new NodeGoat session", overWrite, zapApiKey, function () {});
+    zaproxy.core.newSession("new NodeGoat session", overWrite, zapApiKey, function() {});
     //zaproxy.core.shutdown(zapApiKey, function () {});
 });
 
