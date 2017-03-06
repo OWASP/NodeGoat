@@ -66,6 +66,7 @@ MongoClient.connect(config.db, function(err, db) {
     db.dropCollection("users");
     db.dropCollection("allocations");
     db.dropCollection("contributions");
+    db.dropCollection("memos");
     db.dropCollection("counters");
 
     usersCol = db.collection("users");
