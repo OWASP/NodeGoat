@@ -1,32 +1,33 @@
 var MemosDAO = require("../data/memos-dao").MemosDAO;
 
 function MemosHandler(db) {
-  "use strict";
+    "use strict";
 
-  var memosDAO = new MemosDAO(db);
+    var memosDAO = new MemosDAO(db);
 
-  this.addMemos = function(req, res, next) {
-    memosDAO.insert(req.body.memo, function(err, docs) {
-      if (err) return next(err);
+    var self = this;
+    this.addMemos = function(req, res, next) {
 
-      memosDAO.getAllMemos(function(err, docs) {
-        if (err) return next(err);
-        return res.render("memos", {
-          memosList: docs
+        memosDAO.insert(req.body.memo, function(err, docs) {
+            if (err) return next(err);
+
+            self.displayMemos(req, res, next);
+
         });
-      });
+    };
 
-    });
-  };
+    this.displayMemos = function(req, res, next) {
 
-  this.displayMemos = function(req, res, next) {
-    memosDAO.getAllMemos(function(err, docs) {
-      if (err) return next(err);
-      return res.render("memos", {
-        memosList: docs
-      });
-    });
-  };
+        var userId = req.session.userId;
+
+        memosDAO.getAllMemos(function(err, docs) {
+            if (err) return next(err);
+            return res.render("memos", {
+                memosList: docs,
+                userId: userId
+            });
+        });
+    };
 
 }
 
