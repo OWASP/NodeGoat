@@ -62,7 +62,7 @@ npm install
 * Populate MongoDB with seed data required for the app
     * Run grunt task below to populate the DB with seed data required for the application. Pass the desired environment as argument. If not passed, "development" is the default:
 ```
-grunt db-reset:development
+npm run db:seed
 ```
 * Start server, this starts the NodeGoat application at url [http://localhost:4000/](http://localhost:4000/)
 ```

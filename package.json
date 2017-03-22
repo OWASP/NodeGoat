@@ -32,7 +32,6 @@
   "scripts": {
     "start": "node server.js",
     "test": "node node_modules/grunt-cli/bin/grunt test",
-    "db:reset": "grunt db-reset",
     "db:seed": "grunt db-reset:development"
   },
   "devDependencies": {
