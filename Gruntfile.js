@@ -165,7 +165,7 @@ module.exports = function(grunt) {
     grunt.option("force", true);
 
     grunt.registerTask("db-reset", "(Re)init the database.", function(arg) {
-        var finalEnv = arg || "development";
+        var finalEnv = process.env.NODE_ENV || arg || "development";
         var done;
 
         done = this.async();

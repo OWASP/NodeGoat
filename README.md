@@ -60,9 +60,9 @@ npm install
         * Update the `db` property in file `config/env/development.js` to reflect your DB setup. (in format: `mongodb://localhost:27017/<databasename>`)
 
 * Populate MongoDB with seed data required for the app
-    * Run grunt task below to populate the DB with seed data required for the application. Pass the desired environment as argument. If not passed, "development" is the default:
+    * Run the npm-script below to populate the DB with seed data required for the application. Pass the desired environment as argument. If not passed, "development" is the default:
 ```
-grunt db-reset:development
+npm run db:seed
 ```
 * Start server, this starts the NodeGoat application at url [http://localhost:4000/](http://localhost:4000/)
 ```
@@ -104,7 +104,7 @@ You can also open an issue, sending a PR, or get in touch on [Gitter Chat](https
 
 If sending PR, once code is ready to commit, run:
 ```
-grunt precommit
+npm run precommit
 ```
 This command uses `js-beautifier` to indent the code and verifies these [coding standards](https://github.com/OWASP/NodeGoat/blob/master/.jshintrc) using `jsHint`. Please resolve all `jsHint` errors before committing the code.
 
