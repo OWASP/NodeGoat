@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - '0.12'
+services: 
+  - mongodb
+  - docker
+cache:
+  directories:
+    - node_modules
+before_script:
+  - npm install -g grunt-cli
+  - grunt db-reset:development
+  - chmod +x .travis-script.sh
+script: ./.travis-script.sh
