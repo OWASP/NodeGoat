@@ -1,5 +1,6 @@
 "use strict";
 
+var opn = require("opn");
 var express = require("express");
 var favicon = require("serve-favicon");
 var bodyParser = require("body-parser");
@@ -155,4 +156,5 @@ MongoClient.connect(config.db, function(err, db) {
     });
     */
 
+    opn("http://localhost:" + config.port);
 });
