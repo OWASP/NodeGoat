@@ -237,6 +237,7 @@
                             <code>true</code>.</p>
                         <p>The same results can be achieved using other comparison operator such as
                             <code>$ne</code>.</p>
+                        <p>The demo application is vulnerable to the NoSQL Injection. For example, on the Allocations page, running a search with a malicious input `1'; return 1 == '1` retrieves allocations for all the users in the database.</p>
                     </div>
                 </div>
 
