@@ -66,7 +66,7 @@ function AllocationsDAO(db) {
                 // Fix this NoSQL Injection which doesn't sanitze the input parameter 'threshold' and allows attackers
                 // to inject arbitrary javascript code into the NoSQL query:
                 // 1. 0';while(true){}'
-                // 2. 1'; return 1 == 1
+                // 2. 1'; return 1 == '1
                 // Also implement fix in allocations.html for UX.                             
                 const parsedThreshold = parseInt(threshold, 10);
                 
@@ -84,24 +84,29 @@ function AllocationsDAO(db) {
             };
         }
 
-
-        allocationsCol.findOne(searchCriteria(), function(err, allocations) {
-
+        allocationsCol.find(searchCriteria()).toArray(function(err, allocations) {
             if (err) return callback(err, null);
-            if (!allocations) return callback("ERROR: No allocations found for the user", null);
+            if (!allocations.length) return callback("ERROR: No allocations found for the user", null);
 
-            userDAO.getUserById(parsedUserId, function(err, user) {
-                if (err) return callback(err, null);
+            var doneCounter = 0;
+            var userAllocations = [];
 
-                // add user details
-                allocations.userId = userId;
-                allocations.userName = user.userName;
-                allocations.firstName = user.firstName;
-                allocations.lastName = user.lastName;
+            allocations.forEach(function (alloc) {
+                userDAO.getUserById(alloc.userId, function(err, user) {
+                    if (err) return callback(err, null);
 
-                callback(null, allocations);
+                    alloc.userName = user.userName;
+                    alloc.firstName = user.firstName;
+                    alloc.lastName = user.lastName;
+
+                    doneCounter += 1;
+                    userAllocations.push(alloc);
+
+                    if (doneCounter === allocations.length) {
+                        callback(null, userAllocations);
+                    }
+                });
             });
-
         });
     };
 
