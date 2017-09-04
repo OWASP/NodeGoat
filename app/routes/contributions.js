@@ -29,7 +29,7 @@ function ContributionsHandler(db) {
         
        
         //Fix for A1 -1 SSJS Injection attacks - uses alternate method to eval
-       // var preTax = parseInt(req.body.preTax);
+        var preTax = parseInt(req.body.preTax);
         var afterTax = parseInt(req.body.afterTax);
         var roth = parseInt(req.body.roth);
         
