@@ -63,9 +63,9 @@ function SessionHandler(db) {
             if (err) {
                 if (err.noSuchUser) {
                     tcellHooks.sendExpressLoginEventFailure(
+                      req,
                       userName,
                       req.sessionID,
-                      req,
                       false);
                     return res.render("login", {
                         userName: userName,
@@ -76,9 +76,9 @@ function SessionHandler(db) {
                     });
                 } else if (err.invalidPassword) {
                     tcellHooks.sendExpressLoginEventFailure(
+                      req,
                       userName,
                       req.sessionID,
-                      req,
                       true);
                     return res.render("login", {
                         userName: userName,
@@ -96,9 +96,9 @@ function SessionHandler(db) {
             // TODO: Add another vulnerability related with not to do it
             req.session.regenerate(function() {
                 tcellHooks.sendExpressLoginEventSuccess(
+                  req,
                   userName,
-                  req.sessionID,
-                  req);
+                  req.sessionID);
 
                 req.session.userId = user._id;
 
