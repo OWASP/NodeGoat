@@ -3,8 +3,8 @@ exports = module.exports = {}
 var v1SendLoginEventSuccess = function (userId, sessionId, userAgent, referrer, remoteAddress, headerKeys, documentUri, userValid) {}
 var v1SendLoginEventFailure = function (userId, sessionId, userAgent, referrer, remoteAddress, headerKeys, documentUri, userValid) {}
 
-var v1SendExpressLoginEventSuccess = function (userId, sessionId, request, userValid) {}
-var v1SendExpressLoginEventFailure = function (userId, sessionId, request, userValid) {}
+var v1SendExpressLoginEventSuccess = function (request, userId, sessionId, userValid) {}
+var v1SendExpressLoginEventFailure = function (request, userId, sessionId, userValid) {}
 
 exports.v1 = {
   'sendLoginEventSuccess': v1SendLoginEventSuccess,
