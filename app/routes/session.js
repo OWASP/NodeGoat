@@ -1,5 +1,6 @@
 var UserDAO = require("../data/user-dao").UserDAO;
 var AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
+var tcellHooks = require('tcell-hooks').v1;
 
 /* The SessionHandler must be constructed with a connected db */
 function SessionHandler(db) {
@@ -61,6 +62,11 @@ function SessionHandler(db) {
             var invalidPasswordErrorMessage = "Invalid password";
             if (err) {
                 if (err.noSuchUser) {
+                    tcellHooks.sendExpressLoginEventFailure(
+                      userName,
+                      req.sessionID,
+                      req,
+                      false);
                     return res.render("login", {
                         userName: userName,
                         password: "",
@@ -69,6 +75,11 @@ function SessionHandler(db) {
                         // loginError: errorMessage
                     });
                 } else if (err.invalidPassword) {
+                    tcellHooks.sendExpressLoginEventFailure(
+                      userName,
+                      req.sessionID,
+                      req,
+                      true);
                     return res.render("login", {
                         userName: userName,
                         password: "",
@@ -84,6 +95,11 @@ function SessionHandler(db) {
             // Regenerating in each login
             // TODO: Add another vulnerability related with not to do it
             req.session.regenerate(function() {
+                tcellHooks.sendExpressLoginEventSuccess(
+                  userName,
+                  req.sessionID,
+                  req);
+
                 req.session.userId = user._id;
 
                 if (user.isAdmin) {

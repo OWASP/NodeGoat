@@ -1,0 +1,36 @@
+{
+  "name": "tcell-hooks",
+  "version": "1.0.0",
+  "description": "Hooks library for TCell node agent",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tcellio/nodehooks-tcell.git"
+  },
+  "keywords": [
+    "agent",
+    "security",
+    "instrumentation"
+  ],
+  "author": "Matteus Klich <matteus@tcell.io> (https://www.tcell.io)",
+  "licenses": [
+    {
+      "type": "No License",
+      "url": "https://github.com/tcellio/nodehooks-tcell/blob/master/LICENSE"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/tcellio/nodehooks-tcell/issues"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-standard": "^4.4.0",
+    "eslint-plugin-standard": "^1.3.1",
+    "standard": "^5.4.1"
+  },
+  "dependencies": {},
+  "standard": { }
+}
