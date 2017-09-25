@@ -6,7 +6,7 @@ services:
 
   web:
     build: .
-    command: bash -c "npm install tcell-agent && npm install tcell/tcell-hooks && node artifacts/db-reset.js && npm start"
+    command: bash -c "node artifacts/db-reset.js && npm start"
     ports:
       - "3000:3000"
     links:
