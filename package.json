@@ -18,7 +18,9 @@
     "mongodb": "^2.1.18",
     "serve-favicon": "^2.3.0",
     "swig": "^1.4.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "tcell-hooks": "^1.0.0",
+    "tcell-agent": "^0.2.10"
   },
   "comments": {
     "//": "do not upgrade the marked package version it is set by purpose",

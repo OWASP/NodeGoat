@@ -1,15 +1,13 @@
 version: "2.0"
 
 services:
+  mongodbhost:
+    image: mongo:latest
+
   web:
     build: .
     command: bash -c "node artifacts/db-reset.js && npm start"
     ports:
-      - "4000:4000"
+      - "3000:3000"
     links:
-      - mongo
-  mongo:
-    image: mongo:latest
-    user: mongodb
-    expose:
-      - "27017"
+      - mongodbhost
