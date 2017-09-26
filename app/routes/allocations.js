@@ -13,12 +13,13 @@ function AllocationsHandler(db) {
         */
         var userId = req.params.userId;
 
-        allocationsDAO.getByUserIdAndThreshold(userId, req.query.threshold, function(err, docs) {
+        allocationsDAO.getByUserIdAndThreshold(userId, req.query.threshold, function(err, allocations) {
             if (err) return next(err);
 
-            docs.userId = userId; //set for nav menu items
-
-            return res.render("allocations", docs);
+            return res.render("allocations", {
+                userId: userId,
+                allocations: allocations
+            });
         });
     };
 }
