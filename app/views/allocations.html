@@ -29,22 +29,24 @@
             </div>
         </div>
 
+        {% for allocation in allocations %}
         <div class="panel panel-info">
             <div class="panel-heading">
-                <strong>Asset Allocations for {{firstName}} {{lastName}}</strong>
+                <strong>Asset Allocations for {{allocation.firstName}} {{allocation.lastName}}</strong>
             </div>
             <div class="panel-body">
                 <p>Domestic Stocks :
-                    <strong>{{stocks}} %</strong>
+                    <strong>{{allocation.stocks}} %</strong>
                 </p>
                 <p>Funds:
-                    <strong>{{funds}} %</strong>
+                    <strong>{{allocation.funds}} %</strong>
                 </p>
                 <p>Bonds:
-                    <strong>{{bonds}} %</strong>
+                    <strong>{{allocation.bonds}} %</strong>
                 </p>
             </div>
         </div>
+        {% endfor %}
 
     </div>
 </div>
