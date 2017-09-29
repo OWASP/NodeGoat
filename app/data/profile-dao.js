@@ -23,7 +23,7 @@ function ProfileDAO(db) {
     var createIV = function() {
         // create a random salt for the PBKDF2 function - 16 bytes is the minimum length according to NIST
         var salt = crypto.randomBytes(16);
-        return crypto.pbkdf2Sync(config.cryptoKey, salt, 100000, 512, 'sha512');
+        return crypto.pbkdf2Sync(config.cryptoKey, salt, 100000, 512, "sha512");
     }
 
     // Helper methods to encryt / decrypt
@@ -98,7 +98,7 @@ function ProfileDAO(db) {
             function(err, user) {
                 if (err) return callback(err, null);
                 /*
-                // Fix for A7 - Sensitive Data Exposure
+                // Fix for A6 - Sensitive Data Exposure
                 // Decrypt ssn and DOB values to display to user
                 user.ssn = user.ssn ? decrypt(user.ssn) : "";
                 user.dob = user.dob ? decrypt(user.dob) : "";
