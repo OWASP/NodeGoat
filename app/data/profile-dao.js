@@ -24,7 +24,7 @@ function ProfileDAO(db) {
         // create a random salt for the PBKDF2 function - 16 bytes is the minimum length according to NIST
         var salt = crypto.randomBytes(16);
         return crypto.pbkdf2Sync(config.cryptoKey, salt, 100000, 512, "sha512");
-    }
+    };
 
     // Helper methods to encryt / decrypt
     var encrypt = function(toEncrypt) {
