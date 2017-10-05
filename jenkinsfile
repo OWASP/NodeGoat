@@ -1,7 +1,7 @@
 pipeline {
 agent any
 stages {
- stage ('scan') {
+ stage ('cx scan') {
   steps {
     step([$class: 'CxScanBuilder', comment: '', excludeFolders: '', excludeOpenSourceFolders: '', filterPattern: '', fullScanCycle: 10, groupId: '00000000-1111-1111-b111-989c9070eb11', includeOpenSourceFolders: '*', osaEnabled: true, password: '{AQAAABAAAAAQ1suIIBd0srAzRTiMyRo64s4sr4kI7WOrQ89sLFkcBIg=}', preset: '36', projectName: 'Pipeline with Cx', serverUrl: 'http://192.168.0.6', sourceEncoding: '1', thresholdSettings: 'global', username: 'CxAdmin', vulnerabilityThresholdResult: 'FAILURE', waitForResultsEnabled: true])
     }
