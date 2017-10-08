@@ -61,6 +61,7 @@ function SessionHandler(db) {
             var invalidPasswordErrorMessage = "Invalid password";
             if (err) {
                 if (err.noSuchUser) {
+                    console.log('Error: attempt to login with invalid user: ' + userName);
                     return res.render("login", {
                         userName: userName,
                         password: "",
