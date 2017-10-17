@@ -83,15 +83,15 @@ function SessionHandler(db) {
             }
             // Regenerating in each login
             // TODO: Add another vulnerability related with not to do it
-            req.session.regenerate(function() {
-                req.session.userId = user._id;
-
-                if (user.isAdmin) {
-                    return res.redirect("/benefits");
-                } else {
-                    return res.redirect("/dashboard");
-                }
-            });
+            // @FIXME fix this problem which doesnt regenerate a session id
+            // upon user login by wrapping the below code within a function
+            // callback for `req.session.regenerate(function() {})`
+            req.session.userId = user._id;
+            if (user.isAdmin) {
+              return res.redirect("/benefits");
+            } else {
+              return res.redirect("/dashboard");
+            }
         });
     };
 
