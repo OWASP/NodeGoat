@@ -48,6 +48,12 @@ cd NodeGoat
 npm install
 ```
 
+or
+
+```
+yarn
+```
+
 * Create Mongo DB:
     You can create a remote MongoDB instance or use local mongod installation
     * A. Using Remote MongoDB
@@ -67,6 +73,10 @@ npm run db:seed
 * Start server, this starts the NodeGoat application at url [http://localhost:4000/](http://localhost:4000/)
 ```
 npm start
+```
+or
+```
+yarn start
 ```
 
 ### OPTION 3 - Run NodeGoat on Docker
@@ -105,6 +115,10 @@ You can also open an issue, sending a PR, or get in touch on [Gitter Chat](https
 If sending PR, once code is ready to commit, run:
 ```
 npm run precommit
+```
+or 
+```
+yarn run precommit
 ```
 This command uses `js-beautifier` to indent the code and verifies these [coding standards](https://github.com/OWASP/NodeGoat/blob/master/.jshintrc) using `jsHint`. Please resolve all `jsHint` errors before committing the code.
 
