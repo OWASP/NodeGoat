@@ -78,7 +78,6 @@ MongoClient.connect(config.db, function(err, db) {
 
     // Enable session management using express middleware
     app.use(session({
-        // TODO: Add another vuln?
         // genid: function(req) {
         //    return genuuid() // use UUIDs for session IDs
         //},
