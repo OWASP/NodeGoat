@@ -14,7 +14,7 @@
     "express-session": "^1.13.0",
     "forever": "^0.15.1",
     "helmet": "^2.0.0",
-    "marked": "0.3.5",
+    "marked": "0.3.9",
     "mongodb": "^2.1.18",
     "node-esapi": "0.0.1",
     "serve-favicon": "^2.3.0",
@@ -22,8 +22,6 @@
     "underscore": "^1.8.3"
   },
   "comments": {
-    "//": "do not upgrade the marked package version it is set by purpose",
-    "//": "to be a vulnerable package to demonstrate an xss introduced through",
     "//": "a9 insecure components"
   },
   "engines": {
