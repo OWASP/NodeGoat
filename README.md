@@ -51,7 +51,7 @@ npm install
 * Create Mongo DB:
     You can create a remote MongoDB instance or use local mongod installation
     * A. Using Remote MongoDB
-        * Create a sandbox mongoDB instance (free) at [MongoLab](https://mongolab.com/plans/pricing/)
+        * Create a sandbox mongoDB instance (free) at [mLab](https://mlab.com/plans/pricing/#plan-sandbox)
         * Create a new database.
         * Create a user.
         * Update the `db` property in file `config/env/development.js` to reflect your DB setup. (in format: `mongodb://<username>:<password>@<databasename>`)
