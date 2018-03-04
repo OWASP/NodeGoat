@@ -112,25 +112,34 @@ var user = {
                         </pre> To secure it, handle password storage in a safer way by using one way encryption using salt hashing as below:</p>
                         <pre>
 // Generate password hash
-var salt = bcrypt.genSaltSync();
-var passwordHash = bcrypt.hashSync(password, salt);
+bcrypt.genSalt(10, function(err, salt) {
+    if(err) {
+        return callback(err);
+    }
+    bcrypt.hash(password, salt, function(err, passwordHash) {
+        // Create user document
+        var user = {
+            userName: userName,
+            firstName: firstName,
+            lastName: lastName,
+            password: passwordHash
+        }
 
-// Create user document
-var user = {
-    userName: userName,
-    firstName: firstName,
-    lastName: lastName,
-    password: passwordHash
-};
+        // the rest of the function
+    });
+});
                         </pre> This hash password can not be decrypted, hence more secure. To compare the password when user logs in, the user entered password gets converted to hash and compared with the hash in storage.
 
                         <pre>
-if (bcrypt.compareSync(password, user.password)) {
-    callback(null, user);
-} else {
-    callback(invalidPasswordError, null);
-}
-                        </pre> Note: The bcrypt module also provides asynchronous methods for creating and comparing hash.
+bcrypt.compare(password, user.password, function(err, result) {
+    if(err) {
+        callback(err);
+    } else if(result) {
+        callback(null, user);
+    } else {
+        callback(invalidPasswordError, null);
+    }
+});
                         <br/>
                         <br/>
                         <h3>2. Session timeout and protecting cookies in transit</h3>
@@ -166,22 +175,18 @@ req.session.destroy(function() {
 });
                         </pre> Note: The example code uses
                             <code>MemoryStore</code>to manage session data, which is not designed for production environment, as it will leak memory, and will not scale past a single process. Use database based storage MongoStore or RedisStore for production. Alternatively, sessions can be managed using popular passport module.
-                        <br/>
-                        <br/>
-                        <h3>3. Session hijacking</h3>
+                            <br/>
+                            <br/>
+                            <h3>3. Session hijacking</h3>
 
-                        <p>The insecure demo application does not regenerate a new session id upon user's login, therefore rendering a vulnerability of session hijacking if an attacker is able to somehow steal the cookie with the session id and use it.
+                            <p>The insecure demo application does not regenerate a new session id upon user's login, therefore rendering a vulnerability of session hijacking if an attacker is able to somehow steal the cookie with the session id and use it.
 
-                        <p>Upon login, a security best practice with regards to cookies session management would be to regenerate the session id so that if an id was already created for a user on an insecure medium (i.e: non-HTTPS website or otherwise), or if an attacker was able to get their hands on the cookie id before the user logged-in, then the old session id will render useless as the logged-in user with new privileges holds a new session id now.
-                    </p>
+                                <p>Upon login, a security best practice with regards to cookies session management would be to regenerate the session id so that if an id was already created for a user on an insecure medium (i.e: non-HTTPS website or otherwise), or if an attacker was able to get their hands on the cookie id before the user logged-in, then the old session id will render useless as the logged-in user with new privileges holds a new session id now.
+                                </p>
 
-                        <p>To secure the application:</p>
-                        <p>1. Re-generate a new session id upon login (and best practice is to keep regenerating them
-upon requests or at least upon sensitive actions like a user's password reset.
-
-                            Re-generate a session id as follows:
-                            By wrapping the below code as a function callback for the method req.session.regenerate()
-                            <pre>
+                                <p>To secure the application:</p>
+                                <p>1. Re-generate a new session id upon login (and best practice is to keep regenerating them upon requests or at least upon sensitive actions like a user's password reset. Re-generate a session id as follows: By wrapping the below code as a function callback for the method req.session.regenerate()
+                                    <pre>
 req.session.regenerate(function() {
 
   req.session.userId = user._id;
@@ -194,7 +199,7 @@ req.session.regenerate(function() {
 
 })
                         </pre>
-                        </p>
+                                </p>
                     </div>
                 </div>
                 <div class="panel panel-default">
