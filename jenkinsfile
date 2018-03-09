@@ -13,7 +13,9 @@ pipeline {
      } //close stage
    
    stage('Scan') {
-   
+     steps {
+       echo 'checkmarx scan'
+     } //close steps
   
     } // end stage
    } //end stages
