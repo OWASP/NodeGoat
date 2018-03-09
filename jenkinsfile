@@ -15,7 +15,7 @@ pipeline {
    stage('Scan') {
      steps {
        echo 'checkmarx scan'
-       [$class: 'CxScanBuilder', comment: '', credentialsId: '', excludeFolders: '*test*,*vagrant*', excludeOpenSourceFolders: '', exclusionsSetting: 'job', failBuildOnNewResults: true, failBuildOnNewSeverity: 'HIGH', filterPattern: '''!**/_cvs/**/*, !**/.svn/**/*,   !**/.hg/**/*,   !**/.git/**/*,  !**/.bzr/**/*, !**/bin/**/*,
+       step([$class: 'CxScanBuilder', comment: '', credentialsId: '', excludeFolders: '*test*,*vagrant*', excludeOpenSourceFolders: '', exclusionsSetting: 'job', failBuildOnNewResults: true, failBuildOnNewSeverity: 'HIGH', filterPattern: '''!**/_cvs/**/*, !**/.svn/**/*,   !**/.hg/**/*,   !**/.git/**/*,  !**/.bzr/**/*, !**/bin/**/*,
 !**/obj/**/*,  !**/backup/**/*, !**/.idea/**/*, !**/*.DS_Store, !**/*.ipr,     !**/*.iws,
 !**/*.bak,     !**/*.tmp,       !**/*.aac,      !**/*.aif,      !**/*.iff,     !**/*.m3u, !**/*.mid, !**/*.mp3,
 !**/*.mpa,     !**/*.ra,        !**/*.wav,      !**/*.wma,      !**/*.3g2,     !**/*.3gp, !**/*.asf, !**/*.asx,
@@ -25,7 +25,7 @@ pipeline {
 !**/*.tar.gz,  !**/*.tar,       !**/*.gz,       !**/*.ahtm,     !**/*.ahtml,   !**/*.fhtml, !**/*.hdm,
 !**/*.hdml,    !**/*.hsql,      !**/*.ht,       !**/*.hta,      !**/*.htc,     !**/*.htd, !**/*.war, !**/*.ear,
 !**/*.htmls,   !**/*.ihtml,     !**/*.mht,      !**/*.mhtm,     !**/*.mhtml,   !**/*.ssi, !**/*.stm,
-!**/*.stml,    !**/*.ttml,      !**/*.txn,      !**/*.xhtm,     !**/*.xhtml,   !**/*.class, !**/*.iml, !Checkmarx/Reports/*.*''', fullScanCycle: 10, groupId: '00000000-1111-1111-b111-989c9070eb11', includeOpenSourceFolders: '!*test.war', osaArchiveIncludePatterns: '*.zip, *.war, *.ear, *.tgz', osaEnabled: true, password: '{AQAAABAAAAAQS/HTbxNM48dZlMv9Q/0o4Z9pxd+YdPRaCn01IYBWfqA=}', preset: '100005', projectName: 'NodeGoat', serverUrl: 'http://192.168.56.102', sourceEncoding: '1', thresholdSettings: 'global', username: '', vulnerabilityThresholdEnabled: true, vulnerabilityThresholdResult: 'FAILURE', waitForResultsEnabled: true]
+!**/*.stml,    !**/*.ttml,      !**/*.txn,      !**/*.xhtm,     !**/*.xhtml,   !**/*.class, !**/*.iml, !Checkmarx/Reports/*.*''', fullScanCycle: 10, groupId: '00000000-1111-1111-b111-989c9070eb11', includeOpenSourceFolders: '!*test.war', osaArchiveIncludePatterns: '*.zip, *.war, *.ear, *.tgz', osaEnabled: true, password: '{AQAAABAAAAAQS/HTbxNM48dZlMv9Q/0o4Z9pxd+YdPRaCn01IYBWfqA=}', preset: '100005', projectName: 'NodeGoat', serverUrl: 'http://192.168.56.102', sourceEncoding: '1', thresholdSettings: 'global', username: '', vulnerabilityThresholdEnabled: true, vulnerabilityThresholdResult: 'FAILURE', waitForResultsEnabled: true])
      } //close steps
   
     } // end stage
