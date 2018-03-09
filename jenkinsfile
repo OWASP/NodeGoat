@@ -1,13 +1,14 @@
 pipeline {
 agent any
- node {
   
    stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
       git 'https://github.com/susanstdemos/NodeGoat.git'
+      echo 'getting code'
      
    }
    stage('Scan') {
+   echo 'checkmarx scan'
      step([$class: 'CxScanBuilder', comment: '', credentialsId: '', excludeFolders: '*test*,*vagrant*', excludeOpenSourceFolders: '', exclusionsSetting: 'job', failBuildOnNewResults: true, failBuildOnNewSeverity: 'HIGH', filterPattern: '''!**/_cvs/**/*, !**/.svn/**/*,   !**/.hg/**/*,   !**/.git/**/*,  !**/.bzr/**/*, !**/bin/**/*,
 !**/obj/**/*,  !**/backup/**/*, !**/.idea/**/*, !**/*.DS_Store, !**/*.ipr,     !**/*.iws,
 !**/*.bak,     !**/*.tmp,       !**/*.aac,      !**/*.aif,      !**/*.iff,     !**/*.m3u, !**/*.mid, !**/*.mp3,
