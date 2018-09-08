@@ -38,7 +38,7 @@
                 <form role="form" method="post" action="/profile">
                     <div class="form-group">
                         <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" value="{{firstName}}" placeholder="Enter first name">
+                        <input type="text" class="form-control" id="firstName" name="firstName" value="{{firstNameSafeString}}" placeholder="Enter first name">
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last Name</label>
@@ -68,7 +68,7 @@
                     <input type="hidden" name="_csrf" value="{{csrftoken}}" />
                     <button type="submit" class="btn btn-default" name="submit">Submit</button>
 
-                    <a href="{{firstName}}">Google search this profile by name</a>
+                    <a href="{{firstNameSafeString}}">Google search this profile by name</a>
                 </form>
             </div>
         </div>
