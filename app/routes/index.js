@@ -4,6 +4,7 @@ var BenefitsHandler = require("./benefits");
 var ContributionsHandler = require("./contributions");
 var AllocationsHandler = require("./allocations");
 var MemosHandler = require("./memos");
+var ResearchHandler = require("./research");
 
 var ErrorHandler = require("./error").errorHandler;
 
@@ -17,6 +18,7 @@ var exports = function(app, db) {
     var contributionsHandler = new ContributionsHandler(db);
     var allocationsHandler = new AllocationsHandler(db);
     var memosHandler = new MemosHandler(db);
+    var researchHandler = new ResearchHandler(db);
 
     // Middleware to check if a user is logged in
     var isLoggedIn = sessionHandler.isLoggedInMiddleware;
@@ -77,6 +79,9 @@ var exports = function(app, db) {
     app.get("/tutorial/:page", function(req, res, next) {
         return res.render("tutorial/" + req.params.page);
     });
+
+    // Research Page
+    app.get("/research", isLoggedIn, researchHandler.displayResearch);
 
     // Error handling middleware
     app.use(ErrorHandler);
