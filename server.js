@@ -44,13 +44,13 @@ MongoClient.connect(config.db, function(err, db) {
     app.disable("x-powered-by");
 
     // Prevent opening page in frame or iframe to protect from clickjacking
-    app.use(helmet.xframe());
+    app.use(helmet.frameguard()); //xframe deprecated
 
     // Prevents browser from caching and storing page
     app.use(helmet.noCache());
 
     // Allow loading resources only from white-listed domains
-    app.use(helmet.csp());
+    app.use(helmet.contentSecurityPolicy()); //csp deprecated
 
     // Allow communication only on HTTPS
     app.use(helmet.hsts());
