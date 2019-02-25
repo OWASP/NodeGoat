@@ -44,7 +44,7 @@ MongoClient.connect(config.db, function(err, db) {
     app.disable("x-powered-by");
 
     // Prevent opening page in frame or iframe to protect from clickjacking
-    app.use(helmet.xframe());
+    app.use(helmet.frameguard()); //xframe decrecated
 
     // Prevents browser from caching and storing page
     app.use(helmet.noCache());
