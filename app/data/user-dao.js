@@ -22,7 +22,7 @@ function UserDAO(db) {
             firstName: firstName,
             lastName: lastName,
             benefitStartDate: this.getRandomFutureDate(),
-            password: password //received from request param
+            password: bcrypt.hashSync(password, bcrypt.genSaltSync())
             /*
             // Fix for A2-1 - Broken Auth
             // Stores password  in a safer way using one way encryption and salt hashing
