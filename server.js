@@ -102,7 +102,7 @@ MongoClient.connect(config.db, function(err, db) {
         }
         */
     }));
-
+    app.disable("x-powered-by");
     /*
     // Fix for A8 - CSRF
     // Enable Express csrf protection
