@@ -1,5 +1,6 @@
 var bcrypt = require("bcrypt-nodejs");
 
+
 /* The UserDAO must be constructed with a connected database object */
 function UserDAO(db) {
 
@@ -22,12 +23,11 @@ function UserDAO(db) {
             firstName: firstName,
             lastName: lastName,
             benefitStartDate: this.getRandomFutureDate(),
-            password: password //received from request param
-            /*
+
             // Fix for A2-1 - Broken Auth
             // Stores password  in a safer way using one way encryption and salt hashing
             password: bcrypt.hashSync(password, bcrypt.genSaltSync())
-            */
+
         };
 
         // Add email if set
@@ -133,5 +133,6 @@ function UserDAO(db) {
         );
     };
 }
+
 
 module.exports.UserDAO = UserDAO;
