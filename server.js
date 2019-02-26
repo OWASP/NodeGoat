@@ -91,15 +91,15 @@ MongoClient.connect(config.db, function(err, db) {
         key: "sessionId",
         */
 
-        /*
+    
         // Fix for A3 - XSS
         // TODO: Add "maxAge"
         cookie: {
             httpOnly: true
             // Remember to start an HTTPS server to get this working
-            // secure: true
+            secure: true
         }
-        */
+        
 
     }));
 
@@ -135,10 +135,10 @@ MongoClient.connect(config.db, function(err, db) {
     swig.setDefaults({
         // Autoescape disabled
         autoescape: false
-        /*
+        
         // Fix for A3 - XSS, enable auto escaping
         autoescape: true // default value
-        */
+        
     });
 
     // Insecure HTTP connection
