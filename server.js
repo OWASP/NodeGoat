@@ -81,7 +81,8 @@ MongoClient.connect(config.db, function(err, db) {
         // genid: function(req) {
         //    return genuuid() // use UUIDs for session IDs
         //},
-        secret: config.cookieSecret,
+        //secret: config.cookieSecret,
+        secret: "s3Cur3",
         // Both mandatory in Express v4
         saveUninitialized: true,
         resave: true,
@@ -95,7 +96,7 @@ MongoClient.connect(config.db, function(err, db) {
         // Fix for A3 - XSS
         // TODO: Add "maxAge"
         cookie: {
-            httpOnly: true
+            httpsOnly: true
             // Remember to start an HTTPS server to get this working
             // secure: true
         }
