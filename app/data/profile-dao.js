@@ -64,7 +64,7 @@ function ProfileDAO(db) {
         if (dob) {
             user.dob = dob;
         }
-        /*
+
         // Fix for A7 - Sensitive Data Exposure
         // Store encrypted ssn and DOB
         if(ssn) {
@@ -73,7 +73,7 @@ function ProfileDAO(db) {
         if(dob) {
             user.dob = encrypt(dob);
         }
-        */
+        
 
         users.update({
                 _id: parseInt(userId)
@@ -102,7 +102,7 @@ function ProfileDAO(db) {
                 // Decrypt ssn and DOB values to display to user
                 user.ssn = user.ssn ? decrypt(user.ssn) : "";
                 user.dob = user.dob ? decrypt(user.dob) : "";
-                
+
 
                 callback(null, user);
             }
