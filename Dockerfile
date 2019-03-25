@@ -1,32 +1,17 @@
 FROM node:4.4
+ENV WORKDIR /usr/src/app/
+WORKDIR $WORKDIR
+COPY package*.json $WORKDIR
+RUN npm install --production --no-cache
 
-ENV user nodegoat_docker
-ENV workdir /usr/src/app/
-
-# Home is required for npm install. System account with no ability to login to shell
-RUN useradd --create-home --system --shell /bin/false $user
-
-RUN mkdir --parents $workdir
-WORKDIR $workdir
-COPY package.json $workdir
-
-# chown is required by npm install as a non-root user.
-RUN chown $user:$user --recursive $workdir
-
+FROM node:4-alpine
+ENV USER node
+ENV WORKDIR /home/$USER/app
+WORKDIR $WORKDIR
+COPY --from=0 /usr/src/app/node_modules node_modules
+COPY . $WORKDIR
+# chown is required to run the project with a non-root user
+RUN chown -R $USER:$USER /home/$USER && chmod -R g-s /home/$USER && chmod -R o-wrx $WORKDIR
 # Then all further actions including running the containers should be done under non-root user.
-USER $user
-RUN npm install
-COPY . $workdir
-
-# Permissions need to be reapplied, due to how docker applies root to new files.
-USER root
-RUN chown $user:$user --recursive $workdir
-RUN chmod --recursive o-wrx $workdir
-
-RUN ls -liah
-RUN ls ../ -liah
-USER $user
-
-# Neither of the following work, because the mongo container isn't yet running.
-#RUN node artifacts/db-reset.js
-#ONBUILD RUN node artifacts/db-reset.js
+USER $USER
+EXPOSE 4000

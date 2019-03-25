@@ -3,13 +3,12 @@ version: "2.0"
 services:
   web:
     build: .
-    command: bash -c "node artifacts/db-reset.js && npm start"
+    command: sh -c "until nc -z -w 2 mongo 27017 && echo 'mongo is ready for connections' && node artifacts/db-reset.js && npm start; do sleep 2; done"
     ports:
       - "4000:4000"
-    links:
-      - mongo
+
   mongo:
     image: mongo:latest
     user: mongodb
     expose:
-      - "27017"
+      - 27017
