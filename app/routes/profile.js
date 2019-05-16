@@ -46,7 +46,7 @@ function ProfileHandler(db) {
         // --
         // The Fix: Instead of using greedy quantifiers the same regex will work if we omit the second quantifier +
         // var regexPattern = /([0-9]+)\#/;
-        var regexPattern = /([0-9]+)+\#/;
+        var regexPattern = /([0-9]+)\#/;
         // Allow only numbers with a suffix of the letter #, for example: 'XXXXXX#'
         var testComplyWithRequirements = regexPattern.test(bankRouting);
         // if the regex test fails we do not allow saving
@@ -60,7 +60,7 @@ function ProfileHandler(db) {
 
         profile.updateUser(
             parseInt(userId),
-            firstName,
+            firstName = firstName.trim(),
             lastName,
             ssn,
             dob,
