@@ -25,7 +25,6 @@
   "comments": {
     "//": "a9 insecure components"
   },
-  
   "scripts": {
     "start": "node server.js",
     "test": "node node_modules/grunt-cli/bin/grunt test",
