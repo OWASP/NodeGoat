@@ -1,5 +1,6 @@
 
 const {port, hostName} = require('../../config/env/all')
+const {user, admin} = require('../../config/env/e2e_test').users
 describe('/login behaviour', () => {
   
   beforeEach(function () {
@@ -23,22 +24,22 @@ describe('/login behaviour', () => {
 
 
   it('should have admin user able to login', () => {
-    cy.get("#userName").type("admin")
-    cy.get("#password").type("Admin_123")
+    cy.get("#userName").type(admin.user)
+    cy.get("#password").type(admin.pass)
     cy.get('[type="submit"]').click()
     cy.url().should('eq', 'http://localhost:4000/benefits')
   })
 
   it('should have non-admin user able to login', () => {
-    cy.get("#userName").type("user1")
-    cy.get("#password").type("User1_123")
+    cy.get("#userName").type(user.user)
+    cy.get("#password").type(user.pass)
     cy.get('[type="submit"]').click()
     cy.url().should('eq', 'http://localhost:4000/dashboard')
   }) 
   
   
   it('should reject wrong password', () => {
-    cy.get("#userName").type("user1")
+    cy.get("#userName").type(user.user)
     cy.get("#password").type("TO BE REJECTED")
     cy.get('[type="submit"]').click()
     cy.url().should('eq', 'http://localhost:4000/login')
@@ -49,7 +50,7 @@ describe('/login behaviour', () => {
 
   it('should reject wrong username', () => {
     cy.get("#userName").type("INVENTED")
-    cy.get("#password").type("User1_123")
+    cy.get("#password").type(user.pass)
     cy.get('[type="submit"]').click()
     cy.url().should('eq', 'http://localhost:4000/login')
     cy.get(".alert-danger")
