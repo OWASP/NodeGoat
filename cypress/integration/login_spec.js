@@ -27,14 +27,14 @@ describe('/login behaviour', () => {
     cy.get("#userName").type(admin.user)
     cy.get("#password").type(admin.pass)
     cy.get('[type="submit"]').click()
-    cy.url().should('eq', 'http://localhost:4000/benefits')
+    cy.url().should('eq', `http://${hostName}:${port}/benefits`)
   })
 
   it('should have non-admin user able to login', () => {
     cy.get("#userName").type(user.user)
     cy.get("#password").type(user.pass)
     cy.get('[type="submit"]').click()
-    cy.url().should('eq', 'http://localhost:4000/dashboard')
+    cy.url().should('eq', `http://${hostName}:${port}/dashboard`)
   }) 
   
   
@@ -42,7 +42,7 @@ describe('/login behaviour', () => {
     cy.get("#userName").type(user.user)
     cy.get("#password").type("TO BE REJECTED")
     cy.get('[type="submit"]').click()
-    cy.url().should('eq', 'http://localhost:4000/login')
+    cy.url().should('eq', `http://${hostName}:${port}/login`)
     cy.get(".alert-danger")
       .contains('Invalid password') 
       .and('be.visible')
@@ -52,7 +52,7 @@ describe('/login behaviour', () => {
     cy.get("#userName").type("INVENTED")
     cy.get("#password").type(user.pass)
     cy.get('[type="submit"]').click()
-    cy.url().should('eq', 'http://localhost:4000/login')
+    cy.url().should('eq', `http://${hostName}:${port}/login`)
     cy.get(".alert-danger")
     .contains('Invalid username') 
     .and('be.visible')
@@ -65,8 +65,7 @@ describe('/login behaviour', () => {
 
   it('Should redirect to the signup', () => {
     cy.get("a[href='/signup']" ).click()
-    cy.url().should('eq', 'http://localhost:4000/signup')
+    cy.url().should('eq', `http://${hostName}:${port}/signup`)
   })
-
 
 })
