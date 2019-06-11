@@ -4,6 +4,7 @@ const {user, admin} = require('../../config/env/e2e_test').users
 describe('/profile behaviour', () => {
 
     it('Should redirect if the user has not logged in', () => {
+        cy.visit(`http://${hostName}:${port}/profile`)
         cy.url().should('include', 'login')
     })
 
