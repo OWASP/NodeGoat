@@ -1,54 +1,61 @@
-const {port, hostName} = require('../../config/env/all')
-const {user, admin} = require('../../config/env/e2e_test').users
-
 describe('/contributions behaviour', () => {
+  before(() => {
+    cy.dbReset()
+  })
 
-    it('Should redirect if the user has not logged in', () => {
-        cy.visit(`http://${hostName}:${port}/contributions`)
-        cy.url().should('include', 'login')
-    })
+  after(() => {
+    cy.dbReset()
+  })
 
-    it('Should be accesible if the user is an admin', () => {
-        cy.signIn(admin.user, admin.pass)
-        cy.visit(`http://${hostName}:${port}/contributions`)
-        cy.url().should('include', 'contributions')
-    })
+  afterEach(() => {
+    cy.visitPage('/logout')
+  })
 
-    it('Should be accesible if the user is not an admin', () => {
-        cy.signIn(user.user, user.pass)
-        cy.visit(`http://${hostName}:${port}/contributions`)
-        cy.url().should('include', 'contributions')
-    })
+  it('Should redirect if the user has not logged in', () => {
+    cy.visitPage('/contributions')
+    cy.url().should('include', 'login')
+  })
 
-    it('Should be a table with several inputs', () => {
-        cy.signIn(admin.user, admin.pass)
-        cy.visit(`http://${hostName}:${port}/contributions`)
-        cy.get('table')
-        .find('input')
-        .should('have.length', 3)
-    })
+  it('Should be accesible if the user is an admin', () => {
+    cy.adminSignIn()
+    cy.visitPage('/contributions')
+    cy.url().should('include', 'contributions')
+  })
 
-    it('Should input be modified', ()=>{
-        const value = "12";
-        cy.signIn(admin.user, admin.pass)
-        cy.visit(`http://${hostName}:${port}/contributions`)
-        cy.get('table')
-        .find('input')
-        .first()
-        .clear()
-        .type(value)
+  it('Should be accesible if the user is not an admin', () => {
+    cy.userSignIn()
+    cy.visitPage('/contributions')
+    cy.url().should('include', 'contributions')
+  })
 
-        cy.get('button[type="submit"]')
-        .click()
+  it('Should be a table with several inputs', () => {
+    cy.adminSignIn()
+    cy.visitPage('/contributions')
+    cy.get('table')
+      .find('input')
+      .should('have.length', 3)
+  })
 
-        cy.get('tbody > tr > td')
-        .eq(1) 
-        .contains(`${value} %`)
-        
-        cy.get('.alert-success')
-        .should('be.visible')
+  it('Should input be modified', () => {
+    const value = '12'
+    cy.adminSignIn()
+    cy.visitPage('/contributions')
+    cy.get('table')
+      .find('input')
+      .first()
+      .clear()
+      .type(value)
 
-        cy.url().should('eq', `http://${hostName}:${port}/contributions`)
-    })
+    cy.get('button[type="submit"]')
+      .click()
 
+    cy.get('tbody > tr > td')
+      .eq(1)
+      .contains(`${value} %`)
+
+    cy.get('.alert-success')
+      .should('be.visible')
+
+    cy.url().should('include', 'contributions')
+  })
 })

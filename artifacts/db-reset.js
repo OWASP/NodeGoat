@@ -117,6 +117,7 @@ MongoClient.connect(config.db, function(err, db) {
 
         allocationsCol.insertMany(finalAllocations, function(err, data) {
             parseResponse(err, data, "allocations.insertMany");
+            console.log("Database reset performed successfully")
             process.exit(0);
         });
 
