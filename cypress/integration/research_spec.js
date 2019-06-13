@@ -28,7 +28,7 @@ describe('/research behaviour', () => {
           .find('input')
     })
 
-    it.skip('Should have an input text as a valid stock symbol', () => {
+    it('Should have an input text as a valid stock symbol', () => {
         const stockSymbol = "AAPL"
         cy.adminSignIn()
         cy.visitPage('/research')
@@ -36,27 +36,15 @@ describe('/research behaviour', () => {
           .clear()
           .type(stockSymbol)
   
-
-        cy.get('form').then(form$ => {
-            form$.on('submit', e => {
-                e.preventDefault()
-            })
-        })
+        cy.get('form')
+          .should('have.attr', 'action', '/research')
+          .invoke('attr', 'action', '/skip')
 
         cy.get('button[type="submit"]')
           .first()
           .click()
 
-        cy.get('form')
-          .should('have.attr', 'method', 'get')
-          .should('have.attr', 'action', '/research')
-        
-        cy.get('input[name="url"]')
-          .should('have.attr', 'value', 'https://finance.yahoo.com/quote/')
-
-        cy.get('input[name="symbol"]')
-          .should('have.attr', 'value', stockSymbol)
-
+        cy.url().should('include', 'https%3A%2F%2Ffinance.yahoo.com%2Fquote%2F&symbol=AAPL')
       })
 })
 
