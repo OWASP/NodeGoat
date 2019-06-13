@@ -44,7 +44,6 @@ function parseResponse(err, res, comm) {
         console.log("ERROR:");
         console.log(comm);
         console.log(JSON.stringify(err));
-
         process.exit(1);
     }
     console.log(comm);
@@ -59,6 +58,7 @@ MongoClient.connect(config.db, function(err, db) {
     if (err) {
         console.log("ERROR: connect");
         console.log(JSON.stringify(err));
+        process.exit(1);
     }
     console.log("Connected to the database: " + config.db);
 
