@@ -10,13 +10,7 @@ describe('/research behaviour', () => {
     cy.url().should('include', 'login')
   })
 
-  it('Should be accesible if the user is an admin', () => {
-    cy.adminSignIn()
-    cy.visitPage('/research')
-    cy.url().should('include', 'research')
-  })
-
-  it('Should be accesible if the user is not an admin', () => {
+  it('Should be accesible for a logged user', () => {
     cy.userSignIn()
     cy.visitPage('/research')
     cy.url().should('include', 'research')
@@ -31,7 +25,7 @@ describe('/research behaviour', () => {
 
   it('Should have an input text as a valid stock symbol', () => {
     const stockSymbol = 'AAPL'
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/research')
     cy.get('.form-control')
       .clear()

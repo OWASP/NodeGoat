@@ -18,20 +18,14 @@ describe('/contributions behaviour', () => {
     cy.url().should('include', 'login')
   })
 
-  it('Should be accesible if the user is an admin', () => {
-    cy.adminSignIn()
-    cy.visitPage('/contributions')
-    cy.url().should('include', 'contributions')
-  })
-
-  it('Should be accesible if the user is not an admin', () => {
+  it('Should be accesible for a logged user', () => {
     cy.userSignIn()
     cy.visitPage('/contributions')
     cy.url().should('include', 'contributions')
   })
 
   it('Should be a table with several inputs', () => {
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/contributions')
     cy.get('table')
       .find('input')
@@ -40,7 +34,7 @@ describe('/contributions behaviour', () => {
 
   it('Should input be modified', () => {
     const value = '12'
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/contributions')
     cy.get('table')
       .find('input')

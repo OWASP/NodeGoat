@@ -18,27 +18,21 @@ describe('/allocations behaviour', () => {
     cy.url().should('include', 'login')
   })
 
-  it('Should be accesible if the user is an admin', () => {
-    cy.adminSignIn()
-    cy.visitPage('/allocations/1')
-    cy.url().should('include', 'allocations')
-  })
-
-  it('Should be accesible if the user is not an admin', () => {
+  it('Should be accesible for a logged user', () => {
     cy.userSignIn()
     cy.visitPage('/allocations/1')
     cy.url().should('include', 'allocations')
   })
 
   it('Should be an input', () => {
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/allocations/1')
     cy.get('input[name="threshold"]')
   })
 
   it('Should redirect the user', () => {
     const threshold = 2
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/allocations/1')
 
     cy.get('input[name="threshold"]')

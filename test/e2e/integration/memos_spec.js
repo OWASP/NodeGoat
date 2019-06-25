@@ -18,20 +18,14 @@ describe('/memos behaviour', () => {
     cy.url().should('include', 'login')
   })
 
-  it('Should be accesible if the user is an admin', () => {
-    cy.adminSignIn()
-    cy.visitPage('/memos')
-    cy.url().should('include', 'memos')
-  })
-
-  it('Should be accesible if the user is not an admin', () => {
+  it('Should be accesible for a logged user', () => {
     cy.userSignIn()
     cy.visitPage('/memos')
     cy.url().should('include', 'memos')
   })
 
   it('Should exists a textarea', () => {
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/memos')
     cy.get('textarea[name="memo"]')
   })
@@ -39,7 +33,7 @@ describe('/memos behaviour', () => {
   it('Should memo be generated', () => {
     const text = 'Hello World!'
 
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/memos')
     cy.get('textarea[name="memo"]')
       .clear()
