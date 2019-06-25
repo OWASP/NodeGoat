@@ -1,3 +1,5 @@
+/// <reference types="Cypress" />
+
 describe('/profile behaviour', () => {
   before(() => {
     cy.dbReset()

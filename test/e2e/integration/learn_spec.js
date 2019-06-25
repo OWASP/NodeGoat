@@ -1,3 +1,5 @@
+/// <reference types="Cypress" />
+
 describe('/learn behaviour', () => {
   afterEach(() => {
     cy.visitPage('/logout')

@@ -1,3 +1,5 @@
+/// <reference types="Cypress" />
+
 describe('/contributions behaviour', () => {
   before(() => {
     cy.dbReset()

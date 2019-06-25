@@ -1,3 +1,5 @@
+/// <reference types="Cypress" />
+
 describe('/allocations behaviour', () => {
   before(() => {
     cy.dbReset()
