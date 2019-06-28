@@ -54,7 +54,13 @@ function ProfileHandler(db) {
             const firstNameSafeString = firstName
             return res.render("profile", {
                 updateError: "Bank Routing number does not comply with requirements for format specified",
-                firstNameSafeString, ...req.body
+                firstNameSafeString,
+                lastName,
+                ssn,
+                dob,
+                address,
+                bankAcc,
+                bankRouting
             });
         }
 
