@@ -70,7 +70,6 @@ describe('/profile behaviour', () => {
     cy.get('form[role="form"] a')
       .should('be.visible')
       .should('have.attr', 'href')
-      .and('include', 'google')
       .should('have.attr', 'target', '_blank')
   })
 })
