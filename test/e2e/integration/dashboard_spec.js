@@ -1,3 +1,5 @@
+/// <reference types="Cypress" />
+
 describe('/dashboard behaviour', () => {
   afterEach(() => {
     cy.visitPage('/logout')
@@ -8,20 +10,14 @@ describe('/dashboard behaviour', () => {
     cy.url().should('include', 'login')
   })
 
-  it('Should be accesible if the user is an admin', () => {
-    cy.adminSignIn()
-    cy.visitPage('/dashboard')
-    cy.url().should('include', 'dashboard')
-  })
-
-  it('Should be accesible if the user is not an admin', () => {
+  it('Should be accesible for a logged user', () => {
     cy.userSignIn()
     cy.visitPage('/dashboard')
     cy.url().should('include', 'dashboard')
   })
 
   it('Should display information', () => {
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/dashboard')
     cy.url().should('include', 'dashboard')
     cy.get('.panel')
@@ -30,7 +26,7 @@ describe('/dashboard behaviour', () => {
   })
 
   it('Should have a link to /contributions', () => {
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/dashboard')
     cy.url().should('include', 'dashboard')
     cy.get('.panel a')
