@@ -1,3 +1,5 @@
+/// <reference types="Cypress" />
+
 describe('/profile behaviour', () => {
   before(() => {
     cy.dbReset()
@@ -16,20 +18,14 @@ describe('/profile behaviour', () => {
     cy.url().should('include', 'login')
   })
 
-  it('Should be accesible if the user is an admin', () => {
-    cy.adminSignIn()
-    cy.visitPage('/profile')
-    cy.url().should('include', 'profile')
-  })
-
-  it('Should be accesible if the user is not an admin', () => {
+  it('Should be accesible for logged user', () => {
     cy.userSignIn()
     cy.visitPage('/profile')
     cy.url().should('include', 'profile')
   })
 
   it('Should be a form with inputs', () => {
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/profile')
     cy.get('form[role="form"]')
       .find('input')
@@ -39,7 +35,7 @@ describe('/profile behaviour', () => {
   it('Should first name be modified', () => {
     const newName = 'My new name!'
     const bankRouting = '0198212#'
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/profile')
     cy.get('#firstName')
       .clear()
@@ -64,12 +60,11 @@ describe('/profile behaviour', () => {
   })
 
   it('Google search this profile by name', () => {
-    cy.adminSignIn()
+    cy.userSignIn()
     cy.visitPage('/profile')
 
     cy.get('form[role="form"] a')
       .should('be.visible')
       .should('have.attr', 'href')
-      .and('include', 'google')
   })
 })

@@ -1,4 +1,4 @@
-const { port, hostName } = require('../../config/env/all')
+const { port, hostName } = require('../../../config/env/all')
 
 Cypress.Commands.add('signIn', (usr, pw) => {
   cy.visit(`http://${hostName}:${port}/login`)

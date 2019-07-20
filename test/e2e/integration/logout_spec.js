@@ -1,3 +1,5 @@
+/// <reference types="Cypress" />
+
 describe('/logout behaviour', () => {
   before(() => {
     cy.dbReset()
