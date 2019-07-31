@@ -8,4 +8,6 @@ var config = _.extend(
     require(path.resolve(__dirname + "/../config/env/" + finalEnv.toLowerCase() + ".js") || {})
 );
 
+console.log("Current Config:", config)
+
 module.exports = config;
