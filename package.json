@@ -26,9 +26,9 @@
     "//": "a9 insecure components"
   },
   "scripts": {
-    "start": "MONGODB_URI=mongodb://localhost:27017/nodegoat node server.js",
-    "test:e2e": "cypress open",
-    "test:ci": "MONGODB_URI=mongodb://localhost:27017/nodegoat cypress run",
+    "start": "node server.js",
+    "test:e2e": "NODE_ENV=test cypress open",
+    "test:ci": "NODE_ENV=test cypress run",
     "test": "node node_modules/grunt-cli/bin/grunt test",
     "db:seed": "grunt db-reset",
     "precommit": "grunt precommit",
