@@ -23,9 +23,8 @@ before_script:
   ## else it would block execution and hang travis
   - docker run -d -p 27017:27017 mongo:4.0
   - docker ps -a
-  - npm start -- --silent &
-env:
-  - MONGODB_URI=mongodb://localhost:27017/nodegoat
+  - NODE_ENV=test npm start -- --silent &
+
 script:
   - npm run test:ci
 

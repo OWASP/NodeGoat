@@ -26,11 +26,8 @@ Cypress.Commands.add('visitPage', (path = '/', config = {}) => {
 })
 
 Cypress.Commands.add('dbReset', () => {
-  //@see: https://github.com/topheman/react-fiber-experiments/blame/master/cypress/integration/about.spec.js#L34
   cy.exec('npm run db:seed', {
     timeout: 6000,
     failOnNonZeroExit: false
   })
-  // @TODO: Just commented for CI, this MUST be improved
-  //.its('stdout').should('contain', 'Database reset performed successfully')
 })
