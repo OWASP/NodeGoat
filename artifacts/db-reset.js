@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env nodejs
 
 "use strict";
 
@@ -93,7 +93,6 @@ MongoClient.connect(config.db, function(err, db) {
         if (err) {
             console.log("ERROR: insertMany");
             console.log(JSON.stringify(err));
-
             process.exit(1);
         }
         parseResponse(err, data, "users.insertMany");
