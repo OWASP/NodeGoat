@@ -69,6 +69,11 @@ npm run db:seed
 npm start
 ```
 
+* Start server with nodemon, this starts the NodeGoat application at url [http://localhost:5000/](http://localhost:5000/)
+```
+npm run dev
+```
+
 ### OPTION 3 - Run NodeGoat on Docker
 
 **You need to install [docker](https://docs.docker.com/installation/) and [docker compose](https://docs.docker.com/compose/install/) to be able to use this option**
