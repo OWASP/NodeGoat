@@ -26,6 +26,7 @@
   },
   "scripts": {
     "start": "node server.js",
+    "dev": "PORT=5000 nodemon --watch server.js",
     "test:e2e": "NODE_ENV=test cypress open",
     "test:ci": "NODE_ENV=test cypress run",
     "test": "node node_modules/grunt-cli/bin/grunt test",
@@ -52,6 +53,7 @@
     "grunt-npm-install": "^0.3.0",
     "grunt-retire": "^0.3.12",
     "mocha": "^2.4.5",
+    "nodemon": "^1.19.1",
     "selenium-webdriver": "^2.53.2",
     "should": "^8.3.1",
     "zaproxy": "^0.2.0"
