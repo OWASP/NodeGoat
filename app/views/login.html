@@ -146,7 +146,7 @@
     document.write("<script src='http://" + (location.host || "localhost").split(":")[0] + ":35729/livereload.js'></" + "script>");
 
     function areCookiesEnabled() {
-        var cookieEnabled = navigator.cookieEnabled;
+        const cookieEnabled = navigator.cookieEnabled;
 
         // When cookieEnabled flag is present and false then cookies are disabled.
         if (cookieEnabled === false) {
