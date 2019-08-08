@@ -145,7 +145,7 @@
     <script type="application/javascript">
     document.write("<script src='http://" + (location.host || "localhost").split(":")[0] + ":35729/livereload.js'></" + "script>");
 
-    function areCookiesEnabled() {
+    const areCookiesEnabled = () => {
         const cookieEnabled = navigator.cookieEnabled;
 
         // When cookieEnabled flag is present and false then cookies are disabled.
@@ -169,7 +169,7 @@
         return true;
     }
 
-    $(document).ready(function() {
+    $(document).ready(() => {
         if (!areCookiesEnabled()) {
             $("#page-wrapper").prepend("<div class=\"row\"><div class=\"col-lg-12\"><div class=\"alert alert-danger\">Cookies are not enabled on your browser. Please enable cookies in your browser preferences to continue.</div></div></div>");
         }
