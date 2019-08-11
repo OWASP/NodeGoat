@@ -76,23 +76,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-        nodemon: {
-            dev: {
-                options: {
-                    file: "server.js",
-                    args: [],
-                    ignoredFiles: ["README.md", "node_modules/**"],
-                    watchedExtensions: ["js", "html", "css"],
-                    watchedFolders: ["app/data", "app/routes", "app/assets", "app/views", "app/views/tutorial"],
-                    debug: true,
-                    delayTime: 1,
-                    env: {
-                        PORT: 5000
-                    },
-                    cwd: __dirname
-                }
-            }
-        },
         concurrent: {
             tasks: ["nodemon", "watch"],
             options: {
