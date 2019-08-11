@@ -1,4 +1,4 @@
-FROM node:4.4
+FROM node:12.7.0
 ENV WORKDIR /usr/src/app/
 WORKDIR $WORKDIR
 COPY package*.json $WORKDIR
