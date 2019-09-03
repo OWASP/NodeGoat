@@ -52,7 +52,7 @@ function parseResponse(err, res, comm) {
 
 
 // Starting here
-MongoClient.connect(config.db, function(err, db) {
+MongoClient.connect(config.db, function(err, client) {
     var usersCol, allocationsCol, countersCol;
 
     if (err) {
@@ -61,7 +61,8 @@ MongoClient.connect(config.db, function(err, db) {
         process.exit(1);
     }
     console.log("Connected to the database: " + config.db);
-
+    db = client.db(); // Getting the database from client
+    
     // remove existing data (if any), we don't want to look for errors here
     db.dropCollection("users");
     db.dropCollection("allocations");
