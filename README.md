@@ -88,6 +88,25 @@ docker-compose build
 docker-compose up
 ```
 
+#### List of dependencies:
+```
+bcrypt-nodejs
+body-parser
+consolidate
+csurf
+dont-sniff-mimetype
+express
+express-session
+forever
+helmet
+marked
+mongodb
+needle
+node-esapi
+serve-favicon
+swig
+underscore
+```
 
 #### Customizing the Default Application Configuration
 The default application settings (database url, http port, etc.) can be changed by updating the [config file] (https://github.com/OWASP/NodeGoat/blob/master/config/env/all.js).
