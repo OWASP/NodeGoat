@@ -20,11 +20,11 @@ function ContributionsDAO(db) {
         // Create contributions document
         const contributions = {
             userId: parsedUserId,
-            preTax: preTax,
-            afterTax: afterTax,
-            roth: roth
+            preTax,
+            afterTax,
+            roth
         };
-
+        const {} = contributions;
         contributionsDB.update({
                 userId: userId
             },
