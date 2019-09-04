@@ -28,7 +28,7 @@ var httpsOptions = {
 };
 */
 
-MongoClient.connect(config.db, function(err, db) {
+MongoClient.connect(config.db, function(err, client) {
     if (err) {
         console.log("Error: DB: connect");
         console.log(err);
@@ -36,7 +36,7 @@ MongoClient.connect(config.db, function(err, db) {
         process.exit(1);
     }
     console.log("Connected to the database: " + config.db);
-
+    var db = client.db();
     /*
     // Fix for A5 - Security MisConfig
     // TODO: Review the rest of helmet options, like "xssFilter"
