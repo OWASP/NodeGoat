@@ -14,7 +14,6 @@ module.exports = function(grunt) {
         watch: {
             js: {
                 files: JS_FILES,
-                tasks: ["jshint"],
                 options: {
                     livereload: true
                 }
@@ -30,12 +29,6 @@ module.exports = function(grunt) {
                 options: {
                     livereload: true
                 }
-            }
-        },
-        jshint: {
-            all: JS_FILES,
-            options: {
-                jshintrc: true
             }
         },
         jsbeautifier: {
@@ -134,7 +127,6 @@ module.exports = function(grunt) {
 
     // Load NPM tasks
     grunt.loadNpmTasks("grunt-contrib-watch");
-    grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-mocha-test");
     grunt.loadNpmTasks("grunt-nodemon");
     grunt.loadNpmTasks("grunt-concurrent");
@@ -170,7 +162,7 @@ module.exports = function(grunt) {
     });
 
     // Code Validation, beautification task(s).
-    grunt.registerTask("precommit", ["jsbeautifier", "jshint"]);
+    grunt.registerTask("precommit", ["jsbeautifier"]);
 
     // Test task.
     grunt.registerTask("test", ["env:test", "mochaTest:unit"]);
