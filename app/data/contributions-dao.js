@@ -1,4 +1,4 @@
-var UserDAO = require("./user-dao").UserDAO;
+const UserDAO = require("./user-dao").UserDAO;
 
 /* The ContributionsDAO must be constructed with a connected database object */
 function ContributionsDAO(db) {
@@ -11,31 +11,31 @@ function ContributionsDAO(db) {
         return new ContributionsDAO(db);
     }
 
-    var contributionsDB = db.collection("contributions");
-    var userDAO = new UserDAO(db);
+    const contributionsDB = db.collection("contributions");
+    const userDAO = new UserDAO(db);
 
-    this.update = function(userId, preTax, afterTax, roth, callback) {
-        var parsedUserId = parseInt(userId);
+    this.update = (userId, preTax, afterTax, roth, callback) => {
+        const parsedUserId = parseInt(userId);
 
         // Create contributions document
-        var contributions = {
+        const contributions = {
             userId: parsedUserId,
-            preTax: preTax,
-            afterTax: afterTax,
-            roth: roth
+            preTax,
+            afterTax,
+            roth
         };
-
+        const {} = contributions;
         contributionsDB.update({
                 userId: userId
             },
             contributions, {
                 upsert: true
             },
-            function(err, result) {
+            (err, result) => {
                 if (!err) {
                     console.log("Updated contributions");
                     // add user details
-                    userDAO.getUserById(parsedUserId, function(err, user) {
+                    userDAO.getUserById(parsedUserId, (err, user) => {
 
                         if (err) return callback(err, null);
 
@@ -53,11 +53,11 @@ function ContributionsDAO(db) {
         );
     };
 
-    this.getByUserId = function(userId, callback) {
+    this.getByUserId = (userId, callback) => {
         contributionsDB.findOne({
                 userId: userId
             },
-            function(err, contributions) {
+            (err, contributions) => {
                 if (err) return callback(err, null);
 
                 // Set defualt contributions if not set
@@ -68,7 +68,7 @@ function ContributionsDAO(db) {
                 };
 
                 // add user details
-                userDAO.getUserById(userId, function(err, user) {
+                userDAO.getUserById(userId, (err, user) => {
 
                     if (err) return callback(err, null);
 
