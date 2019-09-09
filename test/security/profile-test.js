@@ -1,6 +1,4 @@
 var config = require("../../config/config");
-var assert = require("assert");
-var should = require("should");
 var async = require("async");
 var By = require("selenium-webdriver").By;
 var chromeDriver = require("chromedriver");

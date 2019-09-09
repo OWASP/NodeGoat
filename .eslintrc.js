@@ -4,7 +4,10 @@ module.exports = {
         "es6": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+      "eslint:recommended",
+      "plugin:cypress/recommended"
+    ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -12,6 +15,11 @@ module.exports = {
     "parserOptions": {
         "ecmaVersion": 2018
     },
+    "plugins": [
+      "cypress"
+    ],
     "rules": {
+      "no-unused-vars":"off",
+      "no-console":"off"
     }
 };
