@@ -10,7 +10,7 @@ function ProfileDAO(db) {
         return new ProfileDAO(db);
     }
 
-    const users = db.collection("users");
+    var users = db.collection("users");
 
     /* Fix for A6 - Sensitive Data Exposure
 
@@ -39,10 +39,10 @@ function ProfileDAO(db) {
     };
     */
 
-    this.updateUser = (userId, firstName, lastName, ssn, dob, address, bankAcc, bankRouting, callback) => {
+    this.updateUser = function(userId, firstName, lastName, ssn, dob, address, bankAcc, bankRouting, callback) {
 
         // Create user document
-        const user = {};
+        var user = {};
         if (firstName) {
             user.firstName = firstName;
         }
@@ -80,7 +80,7 @@ function ProfileDAO(db) {
             }, {
                 $set: user
             },
-            (err, result) => {
+            function(err, result) {
                 if (!err) {
                     console.log("Updated user profile");
                     return callback(null, user);
@@ -91,11 +91,11 @@ function ProfileDAO(db) {
         );
     };
 
-    this.getByUserId = (userId, callback) => {
+    this.getByUserId = function(userId, callback) {
         users.findOne({
                 _id: parseInt(userId)
             },
-            (err, user) => {
+            function(err, user) {
                 if (err) return callback(err, null);
                 /*
                 // Fix for A6 - Sensitive Data Exposure

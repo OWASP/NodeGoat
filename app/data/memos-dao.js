@@ -10,17 +10,17 @@ function MemosDAO(db) {
         return new MemosDAO(db);
     }
 
-    const memosCol = db.collection("memos");
+    var memosCol = db.collection("memos");
 
-    this.insert = (memo, callback) => {
+    this.insert = function(memo, callback) {
 
         // Create allocations document
-        const memos = {
+        var memos = {
             memo: memo,
             timestamp: new Date()
         };
 
-        memosCol.insert(memos, (err, result) => {
+        memosCol.insert(memos, function(err, result) {
 
             if (!err) {
                 return callback(null, result);
@@ -30,11 +30,11 @@ function MemosDAO(db) {
         });
     };
 
-    this.getAllMemos = (callback) => {
+    this.getAllMemos = function(callback) {
 
         memosCol.find({}).sort({
             timestamp: -1
-        }).toArray((err, memos) => {
+        }).toArray(function(err, memos) {
             if (err) return callback(err, null);
             if (!memos) return callback("ERROR: No memos found", null);
 

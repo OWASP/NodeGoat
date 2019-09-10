@@ -10,9 +10,9 @@ function ResearchDAO(db) {
         return new ResearchDAO(db);
     }
 
-    this.getBySymbol= (symbol, callback) =>{
+    this.getBySymbol= function(symbol, callback) {
 
-        const searchCriteria = () => {
+        function searchCriteria() {
 
             if (symbol) {
                 console.log("in if symbol");
@@ -21,8 +21,6 @@ function ResearchDAO(db) {
                 };
             }
         }
-
-        return searchCriteria;
     }
 }
 
