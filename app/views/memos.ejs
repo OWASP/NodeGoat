@@ -1,4 +1,4 @@
-{% extends "./layout.html" %} {% block title %}Memos{% endblock %} {% block content %}
+<% include ('layout.ejs') %> <%= block title%>Memos<%= endblock%> <%= block content%>
 
 <div class="row">
     <div class="col-lg-12">
@@ -25,14 +25,14 @@
             </div>
         </div>
 
-        {% for doc in memosList %}
+        <% memosList.forEach(function(doc){ %>
         <div class="panel panel-info">
             <div class="panel-body">
-                {{ marked(doc.memo) }}
+                <% marked(doc.memo) %>
             </div>
         </div>
-        {% endfor %}
+        <% }); %>
 
     </div>
 </div>
-{% endblock %}
+<%= endblock%>

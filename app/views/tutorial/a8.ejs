@@ -1,4 +1,4 @@
-{% extends "./layout.html" %} {% block title %}A8-Cross-Site Request Forgery (CSRF) {% endblock %} {% block content %}
+<h1>A8-Cross-Site Request Forgery (CSRF)</h1>
 <div class="row">
     <div class="col-lg-12">
         <div class="bs-example" style="margin-bottom: 40px;">
@@ -93,11 +93,11 @@
             res.locals.csrftoken = req.csrfToken(); 
             next(); 
         }); </pre> Next, this token can be included in a hidden form field in
-                <code>views/profile.html</code>as below.
+                <code>views/profile.ejs</code>as below.
                 <pre>
     &lt;input type="hidden" name="_csrf" value="{{ csrftoken } }"&gt;</pre>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
+<%= endblock%>

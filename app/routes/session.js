@@ -126,12 +126,17 @@ function SessionHandler(db) {
     this.displaySignupPage = function(req, res, next) {
         res.render("signup", {
             userName: "",
+            firstName: "",
+            lastName: "",
             password: "",
             passwordError: "",
             email: "",
+            verify: "",
             userNameError: "",
             emailError: "",
-            verifyError: ""
+            verifyError: "",
+            firstNameError: "",
+            lastNameError: ""
         });
     };
 

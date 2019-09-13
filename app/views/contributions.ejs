@@ -1,8 +1,8 @@
-{% extends "./layout.html" %} {% block title %}Contributions{% endblock %} {% block content %}
+<h1>Contributions</h1>
 <div class="row">
     <div class="col-lg-12">
 
-        {% if updateSuccess %}
+        <% if (updateSuccess) { %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-dismissable alert-success">
@@ -12,17 +12,18 @@
             </div>
         </div>
         <!-- /.row -->
-        {% endif %} {% if updateError %}
+        <% } %> 
+        <% if (updateError) { %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-dismissable alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    {{updateError}}
+                    <%= updateError %>
                 </div>
             </div>
         </div>
         <!-- /.row -->
-        {% endif %}
+        <% } %>
     </div>
 </div>
 
@@ -39,8 +40,6 @@
                 </h3>
             </div>
             <div class="panel-body">
-
-
 
                 <div class="table-responsive">
                     <form method="POST" action="/contributions">
@@ -62,7 +61,7 @@
 
                                 <tr>
                                     <td>Employee Pre-Tax</td>
-                                    <td>{{ preTax |default(0)}} %</td>
+                                    <td><%= preTax %> %</td>
                                     <td>
                                         <input type="text" name="preTax" value="0"></input>
                                         <span>%</span>
@@ -70,7 +69,7 @@
                                 </tr>
                                 <tr>
                                     <td>Roth Contribution</td>
-                                    <td>{{ roth |default(0)}} %</td>
+                                    <td><%= roth %> %</td>
                                     <td>
                                         <input type="text" name="roth" value="0"></input>
                                         <span>%</span>
@@ -78,7 +77,7 @@
                                 </tr>
                                 <tr>
                                     <td>Employee After Tax</td>
-                                    <td>{{ afterTax |default(0)}} %</td>
+                                    <td><%= afterTax %> %</td>
                                     <td>
                                         <input type="text" name="afterTax" value="0"></input>
                                         <span>%</span>
@@ -130,5 +129,3 @@
 
     </div>
 </div>
-
-{% endblock %}

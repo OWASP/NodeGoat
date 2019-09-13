@@ -76,13 +76,13 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>{% block title %}{% endblock %}
-                        <small>{% block subtitle %}{% endblock %}</small>
+                    <h1><% block title%><% endblock%>
+                        <small><% block subtitle%><% endblock%></small>
                     </h1>
                 </div>
             </div>
             <!-- /.row -->
-            {% block content %}{% endblock %}
+            <% block content%><% endblock%>
         </div>
         <!-- /#page-wrapper -->
 

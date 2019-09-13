@@ -1,4 +1,4 @@
-{% extends "./layout.html" %} {% block title %}Server-Side Request Forgery (SSRF){% endblock %} {% block content %}
+<%- include ('layout') %> <%= block title%>Server-Side Request Forgery (SSRF)<%= endblock%> <%= block content%>
 
 <div class="row">
     <div class="col-lg-12">
@@ -47,4 +47,4 @@
             </div>
         </div>
     </div>
-</div>{% endblock %}
+</div><%= endblock%>

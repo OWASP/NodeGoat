@@ -13,6 +13,8 @@ function ContributionsHandler(db) {
             if (error) return next(error);
 
             contrib.userId = userId; //set for nav menu items
+            contrib.updateSuccess = false;
+            contrib.updateError = false;
             return res.render("contributions", contrib);
         });
     };
@@ -53,6 +55,7 @@ function ContributionsHandler(db) {
             if (err) return next(err);
 
             contributions.updateSuccess = true;
+            contributions.updateError = false;
             return res.render("contributions", contributions);
         });
 
