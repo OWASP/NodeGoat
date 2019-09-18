@@ -1,12 +1,3 @@
-<% const block = (name, def = '') => {
-    const fn = locals[name];
-    if(!fn) return def;
-    if(typeof(fn)==='string') return fn;
-    const arr = [];
-    fn(txt=>arr.push(txt));
-    return arr.join('');
- }-%>
-
 <!DOCTYPE html>
 <html lang="en">
 

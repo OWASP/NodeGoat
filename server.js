@@ -116,7 +116,7 @@ MongoClient.connect(config.db, function (err, db) {
 
     // Register templating engine
     app.set("view engine", "ejs");
-    app.set("views", __dirname + "/app/views");
+    app.set('views', path.join(__dirname, '/app/views'));
     app.use(express.static(__dirname + "/app/assets"));
 
 
