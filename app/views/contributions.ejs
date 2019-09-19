@@ -1,8 +1,7 @@
+<%- include layout.ejs %>
 <h1>Contributions</h1>
 <div class="row">
     <div class="col-lg-12">
-
-        <% if (updateSuccess) { %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-dismissable alert-success">
@@ -12,18 +11,14 @@
             </div>
         </div>
         <!-- /.row -->
-        <% } %> 
-        <% if (updateError) { %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-dismissable alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <%= updateError %>
                 </div>
             </div>
         </div>
         <!-- /.row -->
-        <% } %>
     </div>
 </div>
 
