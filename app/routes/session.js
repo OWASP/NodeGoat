@@ -264,8 +264,11 @@ function SessionHandler(db) {
             if (err) return next(err);
 
             doc.userId = userId;
-
-            return res.render("dashboard", doc);
+            return res.render("layout", {
+                doc,
+                title: 'Dashboard',
+                content: 'dashboard'
+            });
         });
 
     };

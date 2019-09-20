@@ -11,11 +11,15 @@ function BenefitsHandler(db) {
 
             if (error) return next(error);
 
-            return res.render("benefits", {
+            return res.render("layout", {
                 users: users,
                 user: {
                     isAdmin: true
-                }
+                },
+                title: 'Benefits Start Date',
+                content: 'benefits',
+                updateSuccess: false,
+                updateError: false
             });
         });
     };
@@ -29,19 +33,17 @@ function BenefitsHandler(db) {
             if (error) return next(error);
 
             benefitsDAO.getAllNonAdminUsers(function(error, users) {
-                var data;
-
                 if (error) return next(error);
 
-                data = {
+                return res.render("layout", {
                     users: users,
                     user: {
                         isAdmin: true
                     },
+                    title: 'Benefits Start Date',
+                    content: 'benefits',
                     updateSuccess: true
-                };
-
-                return res.render("benefits", data);
+                });
             });
         });
     };

@@ -1,7 +1,6 @@
-<%- include layout.ejs %>
-<h1>Benefits Start Date</h1>
 <div class="row">
     <div class="col-lg-12">
+        <% if (updateSuccess) { %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-dismissable alert-success">
@@ -11,14 +10,18 @@
             </div>
         </div>
         <!-- /.row -->
+        <% } %>
+        <% if (updateError) { %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-dismissable alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <%= updateError %>
                 </div>
             </div>
         </div>
         <!-- /.row -->
+        <% } %>
     </div>
 </div>
 
@@ -36,16 +39,16 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                    <% users.forEach((user) => { %>
                     <tr>
-                        <td>user._id</td>
-                        <td>user.firstName</td>
-                        <td>user.lastName</td>
+                        <td><%= user._id %></td>
+                        <td><%= user.firstName %></td>
+                        <td><%= user.lastName %></td>
                         <td>
                             <form method="POST" action="/benefits">
                                 <div class="input-group">
-                                    <input type="hidden" name="userId" value="user._id.toString()"></input>
-                                    <input type="date" class="form-control" name="benefitStartDate" value="user.benefitStartDate"></input>
+                                    <input type="hidden" name="userId" value="<%= user._id %>"></input>
+                                    <input type="date" class="form-control" name="benefitStartDate" value="<%= user.benefitStartDate %>"></input>
                                     <span class="input-group-btn">
                                         <button type="submit" class="btn btn-default">Save</button>
                                     </span>
@@ -54,6 +57,7 @@
                             </form>
                         </td>
                     </tr>
+                    <% }); %>
                 </tbody>
             </table>
 
