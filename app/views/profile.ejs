@@ -1,7 +1,6 @@
-<%- include layout.ejs %>
-<h1>My Profile</h1>
 <div class="row">
     <div class="col-lg-12">
+        <% if (updateSuccess) { %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-dismissable alert-success">
@@ -11,9 +10,10 @@
             </div>
         </div>
         <!-- /.row -->
+        <% } %>
     </div>
 </div>
-
+<% if (updateError) { %>
 <div class="row">
     <div class="col-lg-12">
         <div class="alert alert-dismissable alert-danger">
@@ -22,6 +22,7 @@
     </div>
 </div>
 <!-- /.row -->
+<% } %>
 
 <div class="row">
     <div class="col-lg-12">

@@ -18,7 +18,10 @@ function ResearchHandler(db) {
                     res.write(newResponse.body);
                     return res.end();
             });
-        } else return res.render("research");
+        } else return res.render("layout", {
+            content: 'research',
+            title: 'Research'
+        });
     };
 
 }

@@ -1,6 +1,3 @@
-<%- include layout.ejs %>
-<h1>Allocations</h1>
-
 <div class="row">
     <div class="col-lg-12">
 
@@ -13,7 +10,7 @@
 
             <div class="panel-body">
 
-                <form action="/allocations/" method="get" role="search">
+                <form action="/allocations/<%=userId %>" method="get" role="search">
                     <div class="form-group">
                         <!--Fix for A1 - 2 NoSQL Injection - Provide validation for input.
                         Adhering to defence in depth, on the front-end mostly for UX.
@@ -30,22 +27,24 @@
             </div>
         </div>
 
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <strong>Asset Allocations for </strong>
+        <% allocations.forEach((allocation) => { %>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <strong>Asset Allocations for <%=allocation.firstName%> <%=allocation.lastName%></strong>
+                </div>
+                <div class="panel-body">
+                    <p>Domestic Stocks :
+                        <strong><%=allocation.stocks%> %</strong>
+                    </p>
+                    <p>Funds:
+                        <strong><%=allocation.funds%> %</strong>
+                    </p>
+                    <p>Bonds:
+                        <strong><%=allocation.bonds%> %</strong>
+                    </p>
+                </div>
             </div>
-            <div class="panel-body">
-                <p>Domestic Stocks :
-                    <strong>10 %</strong>
-                </p>
-                <p>Funds:
-                    <strong>15 %</strong>
-                </p>
-                <p>Bonds:
-                    <strong>20 %</strong>
-                </p>
-            </div>
-        </div>
+            <% }); %>
 
     </div>
 </div>

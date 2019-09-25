@@ -15,7 +15,7 @@ function ContributionsHandler(db) {
             contrib.userId = userId; //set for nav menu items
             contrib.updateSuccess = false;
             contrib.updateError = false;
-            return res.render("contributions", {
+            return res.render("layout", {
                 contrib,
                 title: 'Contributions',
                 content: 'contributions',
@@ -53,8 +53,9 @@ function ContributionsHandler(db) {
         }
         // Prevent more than 30% contributions
         if (preTax + afterTax + roth > 30) {
-            return res.render("contributions", {
+            return res.render("layout", {
                 updateError: "Contribution percentages cannot exceed 30 %",
+                updateSuccess: false,
                 userId: userId,
                 preTax: preTax,
                 afterTax: afterTax,
@@ -67,13 +68,13 @@ function ContributionsHandler(db) {
         contributionsDAO.update(userId, preTax, afterTax, roth, function(err, contributions) {
 
             if (err) return next(err);
-
-            contributions.updateSuccess = true;
-            contributions.updateError = false;
-            return res.render("contributions", {
+            
+            return res.render("layout", {
                 contributions,
                 title: 'Contributions',
-                content: 'contributions'
+                content: 'contributions',
+                updateError: false,
+                updateSuccess: true,
             });
         });
 

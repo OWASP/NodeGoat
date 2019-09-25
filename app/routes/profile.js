@@ -9,9 +9,6 @@ function ProfileHandler(db) {
 
     this.displayProfile = function (req, res, next) {
         var userId = req.session.userId;
-
-
-
         profile.getByUserId(parseInt(userId), function (err, doc) {
             if (err) return next(err);
             doc.userId = userId;
@@ -25,7 +22,20 @@ function ProfileHandler(db) {
             // the context of a URL in a link header
             // doc.doc.firstNameSafeURLString = ESAPI.encoder().encodeForURL(urlInput)
 
-            return res.render("profile", doc);
+            return res.render("layout", {
+                content: 'profile',
+                firstName: '',
+                lastName: '',
+                ssn: '',
+                dob: '',
+                address: '',
+                bankAcc: '',
+                bankRouting: '',
+                doc,
+                title: 'My Profile',
+                updateSuccess: false,
+                updateError: false
+            });
         });
     };
 
@@ -81,10 +91,15 @@ function ProfileHandler(db) {
 
                 // WARN: Applying any sting specific methods here w/o checking type of inputs could lead to DoS by HPP
                 //firstName = firstName.trim();
-                user.updateSuccess = true;
                 user.userId = userId;
 
-                return res.render("profile", user);
+                return res.render("layout", {
+                    user,
+                    content: 'profile',
+                    title: 'My Profile',
+                    updateSuccess: true,
+                    updateError: false
+                });
             }
         );
 

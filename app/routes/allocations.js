@@ -16,9 +16,11 @@ function AllocationsHandler(db) {
         allocationsDAO.getByUserIdAndThreshold(userId, req.query.threshold, function(err, allocations) {
             if (err) return next(err);
 
-            return res.render("allocations", {
+            return res.render("layout", {
                 userId: userId,
-                allocations: allocations
+                allocations: allocations,
+                title: 'Allocations',
+                content: 'allocations'
             });
         });
     };

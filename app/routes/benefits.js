@@ -42,7 +42,8 @@ function BenefitsHandler(db) {
                     },
                     title: 'Benefits Start Date',
                     content: 'benefits',
-                    updateSuccess: true
+                    updateSuccess: true,
+                    updateError: false
                 });
             });
         });
