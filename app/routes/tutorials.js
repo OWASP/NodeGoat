@@ -4,8 +4,7 @@ function TutorialsHandler() {
     this.displayA1 = function(req, res, next) {
         return res.render("tutorial/layout", {
             title: 'A1 - Injection',
-            content: 'a1',
-            subtitle: ''
+            content: 'a1'
         });
     };
 
