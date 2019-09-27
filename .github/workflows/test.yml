@@ -1,0 +1,14 @@
+
+name: Test Stuff
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: npm install, build, and test
+      run: |
+        echo "token: $BLACKDUCK_API_TOKEN"
+        echo "URL  : $BLACKDUCK_URL"
