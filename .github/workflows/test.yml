@@ -12,3 +12,4 @@ jobs:
       run: |
         echo "token: $BLACKDUCK_API_TOKEN"
         echo "URL  : $BLACKDUCK_URL"
+        echo "(secret)URL  : ${{ secrets.BLACKDUCK_URL}}"
