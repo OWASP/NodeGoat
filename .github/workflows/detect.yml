@@ -1,27 +1,16 @@
 name: Run Synopsys Detect
-
 on: [push]
 
 jobs:
-  build:
-
+  synopsys_detect_blackduck:
+    name: Synopsys Black Duck
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-        # node-version: [8.x, 10.x, 12.x]
 
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
+    - uses: actions/setup-node@v1      
+    - name: npm install
       run: npm install        
-      env:
-        CI: true
         
     - name: Synopsys Detect Action
       uses: blackducksoftware/github-action@1.0.1
