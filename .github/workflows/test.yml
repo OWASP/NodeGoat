@@ -11,7 +11,10 @@ jobs:
     - name: npm install, build, and test
       env:
         BLACKDUCK_URL: ${{ secrets.BLACKDUCK_URL}}
+        BLACKDUCK_API_TOKEN: ${{ secrets.BLACKDUCK_API_TOKEN}}
       run: |
         echo "token: $BLACKDUCK_API_TOKEN"
         echo "URL  : $BLACKDUCK_URL"
+        echo "(secret)Token  : ${{ secrets.BLACKDUCK_API_TOKEN}}"
         echo "(secret)URL  : ${{ secrets.BLACKDUCK_URL}}"
+        
