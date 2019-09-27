@@ -1,6 +1,6 @@
 name: Run Synopsys Detect
 
-on: [pull_request]
+on: [push]
 
 jobs:
   build:
@@ -25,4 +25,7 @@ jobs:
         
     - name: Synopsys Detect Action
       uses: blackducksoftware/github-action@1.0.1
+      env:
+        BLACKDUCK_URL: ${{ secrets.BLACKDUCK_URL}}
+        BLACKDUCK_API_TOKEN: ${{ secrets.BLACKDUCK_API_TOKEN}}
 
