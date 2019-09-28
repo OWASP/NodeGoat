@@ -1,5 +1,5 @@
 var ProfileDAO = require("../data/profile-dao").ProfileDAO;
-var ESAPI = require('node-esapi')
+var ESAPI = require("node-esapi")
 
 /* The ProfileHandler must be constructed with a connected db */
 function ProfileHandler(db) {
@@ -7,9 +7,9 @@ function ProfileHandler(db) {
 
     var profile = new ProfileDAO(db);
 
-    this.displayProfile = function (req, res, next) {
+    this.displayProfile = function(req, res, next) {
         var userId = req.session.userId;
-        profile.getByUserId(parseInt(userId), function (err, doc) {
+        profile.getByUserId(parseInt(userId), function(err, doc) {
             if (err) return next(err);
             doc.userId = userId;
 
@@ -23,23 +23,23 @@ function ProfileHandler(db) {
             // doc.doc.firstNameSafeURLString = ESAPI.encoder().encodeForURL(urlInput)
 
             return res.render("layout", {
-                content: 'profile',
-                firstName: '',
-                lastName: '',
-                ssn: '',
-                dob: '',
-                address: '',
-                bankAcc: '',
-                bankRouting: '',
+                content: "profile",
+                firstName: "",
+                lastName: "",
+                ssn: "",
+                dob: "",
+                address: "",
+                bankAcc: "",
+                bankRouting: "",
                 doc,
-                title: 'My Profile',
+                title: "My Profile",
                 updateSuccess: false,
                 updateError: false
             });
         });
     };
 
-    this.handleProfileUpdate = function (req, res, next) {
+    this.handleProfileUpdate = function(req, res, next) {
 
         var firstName = req.body.firstName;
         var lastName = req.body.lastName;
@@ -57,7 +57,7 @@ function ProfileHandler(db) {
         // The Fix: Instead of using greedy quantifiers the same regex will work if we omit the second quantifier +
         // var regexPattern = /([0-9]+)\#/;
         var regexPattern = /([0-9]+)+\#/;
-        // Allow only numbers with a suffix of the letter #, for example: 'XXXXXX#'
+        // Allow only numbers with a suffix of the letter #, for example: "XXXXXX#"
         var testComplyWithRequirements = regexPattern.test(bankRouting);
         // if the regex test fails we do not allow saving
         if (testComplyWithRequirements !== true) {
@@ -85,7 +85,7 @@ function ProfileHandler(db) {
             address,
             bankAcc,
             bankRouting,
-            function (err, user) {
+            function(err, user) {
 
                 if (err) return next(err);
 
@@ -95,8 +95,8 @@ function ProfileHandler(db) {
 
                 return res.render("layout", {
                     user,
-                    content: 'profile',
-                    title: 'My Profile',
+                    content: "profile",
+                    title: "My Profile",
                     updateSuccess: true,
                     updateError: false
                 });

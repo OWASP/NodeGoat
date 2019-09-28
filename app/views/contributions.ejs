@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-       <% if (updateSuccess) { %>
+        <% if (updateSuccess) { %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-dismissable alert-success">
@@ -59,7 +59,8 @@
 
                                 <tr>
                                     <td>Employee Pre-Tax</td>
-                                    <td><%=preTax %> %</td>
+                                    <td>
+                                        <%=preTax %> %</td>
                                     <td>
                                         <input type="text" name="preTax" value="0"></input>
                                         <span>%</span>
@@ -67,7 +68,8 @@
                                 </tr>
                                 <tr>
                                     <td>Roth Contribution</td>
-                                    <td><%=roth %> %</td>
+                                    <td>
+                                        <%=roth %> %</td>
                                     <td>
                                         <input type="text" name="roth" value="0"></input>
                                         <span>%</span>
@@ -75,7 +77,8 @@
                                 </tr>
                                 <tr>
                                     <td>Employee After Tax</td>
-                                    <td><%=afterTax %> %</td>
+                                    <td>
+                                        <%=afterTax %> %</td>
                                     <td>
                                         <input type="text" name="afterTax" value="0"></input>
                                         <span>%</span>

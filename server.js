@@ -28,7 +28,7 @@ var httpsOptions = {
 };
 */
 
-MongoClient.connect(config.db, function (err, db) {
+MongoClient.connect(config.db, function(err, db) {
     if (err) {
         console.log("Error: DB: connect");
         console.log(err);
@@ -116,7 +116,7 @@ MongoClient.connect(config.db, function (err, db) {
 
     // Register templating engine
     app.set("view engine", "ejs");
-    app.set('views', path.join(__dirname, '/app/views'));
+    app.set("views", path.join(__dirname, "/app/views"));
     app.use(express.static(__dirname + "/app/assets"));
 
 
@@ -131,7 +131,7 @@ MongoClient.connect(config.db, function (err, db) {
     routes(app, db);
 
     // Insecure HTTP connection
-    http.createServer(app).listen(config.port, function () {
+    http.createServer(app).listen(config.port, function() {
         console.log("Express http server listening on port " + config.port);
     });
 

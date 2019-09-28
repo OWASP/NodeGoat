@@ -61,19 +61,19 @@ function SessionHandler(db) {
             var invalidPasswordErrorMessage = "Invalid password";
             if (err) {
                 if (err.noSuchUser) {
-                    console.log('Error: attempt to login with invalid user: ', userName);
+                    console.log("Error: attempt to login with invalid user: ", userName);
 
                     // Fix for A1 - 3 Log Injection - encode/sanitize input for CRLF Injection
                     // that could result in log forging:
                     // - Step 1: Require a module that supports encoding
-                    // var ESAPI = require('node-esapi');
+                    // var ESAPI = require("node-esapi");
                     // - Step 2: Encode the user input that will be logged in the correct context
                     // following are a few examples:
-                    // console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().encodeForHTML(userName));
-                    // console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().encodeForJavaScript(userName));
-                    // console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().encodeForURL(userName));
+                    // console.log("Error: attempt to login with invalid user: %s", ESAPI.encoder().encodeForHTML(userName));
+                    // console.log("Error: attempt to login with invalid user: %s", ESAPI.encoder().encodeForJavaScript(userName));
+                    // console.log("Error: attempt to login with invalid user: %s", ESAPI.encoder().encodeForURL(userName));
                     // or if you know that this is a CRLF vulnerability you can target this specifically as follows:
-                    // console.log('Error: attempt to login with invalid user: %s', userName.replace(/(\r\n|\r|\n)/g, '_'));
+                    // console.log("Error: attempt to login with invalid user: %s", userName.replace(/(\r\n|\r|\n)/g, "_"));
 
                     return res.render("login", {
                         userName: userName,
@@ -110,9 +110,9 @@ function SessionHandler(db) {
             // `req.session.regenerate(function() {})`
             req.session.userId = user._id;
             if (user.isAdmin) {
-              return res.redirect("/benefits");
+                return res.redirect("/benefits");
             } else {
-              return res.redirect("/dashboard");
+                return res.redirect("/dashboard");
             }
         });
     };
@@ -266,8 +266,8 @@ function SessionHandler(db) {
             doc.userId = userId;
             return res.render("layout", {
                 doc,
-                title: 'Dashboard',
-                content: 'dashboard'
+                title: "Dashboard",
+                content: "dashboard"
             });
         });
 

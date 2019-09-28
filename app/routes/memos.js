@@ -23,9 +23,9 @@ function MemosHandler(db) {
         memosDAO.getAllMemos(function(err, docs) {
             if (err) return next(err);
             return res.render("layout", {
-                content: 'memos',
+                content: "memos",
                 memosList: docs,
-                title: 'Memos',
+                title: "Memos",
                 userId: userId
             });
         });

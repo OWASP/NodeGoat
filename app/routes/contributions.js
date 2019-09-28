@@ -17,8 +17,8 @@ function ContributionsHandler(db) {
             contrib.updateError = false;
             return res.render("layout", {
                 contrib,
-                title: 'Contributions',
-                content: 'contributions',
+                title: "Contributions",
+                content: "contributions",
                 updateSuccess: false,
                 updateError: false,
                 preTax: 0,
@@ -60,19 +60,19 @@ function ContributionsHandler(db) {
                 preTax: preTax,
                 afterTax: afterTax,
                 roth: roth,
-                title: 'Contributions',
-                content: 'contributions'
+                title: "Contributions",
+                content: "contributions"
             });
         }
 
         contributionsDAO.update(userId, preTax, afterTax, roth, function(err, contributions) {
 
             if (err) return next(err);
-            
+
             return res.render("layout", {
                 contributions,
-                title: 'Contributions',
-                content: 'contributions',
+                title: "Contributions",
+                content: "contributions",
                 updateError: false,
                 updateSuccess: true,
             });

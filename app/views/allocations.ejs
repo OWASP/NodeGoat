@@ -28,23 +28,28 @@
         </div>
 
         <% allocations.forEach((allocation) => { %>
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <strong>Asset Allocations for <%=allocation.firstName%> <%=allocation.lastName%></strong>
-                </div>
-                <div class="panel-body">
-                    <p>Domestic Stocks :
-                        <strong><%=allocation.stocks%> %</strong>
-                    </p>
-                    <p>Funds:
-                        <strong><%=allocation.funds%> %</strong>
-                    </p>
-                    <p>Bonds:
-                        <strong><%=allocation.bonds%> %</strong>
-                    </p>
-                </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <strong>Asset Allocations for
+                    <%=allocation.firstName%>
+                    <%=allocation.lastName%></strong>
             </div>
-            <% }); %>
+            <div class="panel-body">
+                <p>Domestic Stocks :
+                    <strong>
+                        <%=allocation.stocks%> %</strong>
+                </p>
+                <p>Funds:
+                    <strong>
+                        <%=allocation.funds%> %</strong>
+                </p>
+                <p>Bonds:
+                    <strong>
+                        <%=allocation.bonds%> %</strong>
+                </p>
+            </div>
+        </div>
+        <% }); %>
 
     </div>
 </div>

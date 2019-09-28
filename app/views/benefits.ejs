@@ -41,9 +41,15 @@
                 <tbody>
                     <% users.forEach((user) => { %>
                     <tr>
-                        <td><%= user._id %></td>
-                        <td><%= user.firstName %></td>
-                        <td><%= user.lastName %></td>
+                        <td>
+                            <%= user._id %>
+                        </td>
+                        <td>
+                            <%= user.firstName %>
+                        </td>
+                        <td>
+                            <%= user.lastName %>
+                        </td>
                         <td>
                             <form method="POST" action="/benefits">
                                 <div class="input-group">

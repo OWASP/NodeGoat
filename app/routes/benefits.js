@@ -16,8 +16,8 @@ function BenefitsHandler(db) {
                 user: {
                     isAdmin: true
                 },
-                title: 'Benefits Start Date',
-                content: 'benefits',
+                title: "Benefits Start Date",
+                content: "benefits",
                 updateSuccess: false,
                 updateError: false
             });
@@ -40,8 +40,8 @@ function BenefitsHandler(db) {
                     user: {
                         isAdmin: true
                     },
-                    title: 'Benefits Start Date',
-                    content: 'benefits',
+                    title: "Benefits Start Date",
+                    content: "benefits",
                     updateSuccess: true,
                     updateError: false
                 });

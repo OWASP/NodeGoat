@@ -9,7 +9,7 @@ var ResearchHandler = require("./research");
 
 var ErrorHandler = require("./error").errorHandler;
 
-var exports = function (app, db) {
+var exports = function(app, db) {
 
     "use strict";
 
@@ -69,14 +69,14 @@ var exports = function (app, db) {
     app.post("/memos", isLoggedIn, memosHandler.addMemos);
 
     // Handle redirect for learning resources link
-    app.get("/learn", isLoggedIn, function (req, res, next) {
+    app.get("/learn", isLoggedIn, function(req, res, next) {
         // Insecure way to handle redirects by taking redirect url from query string
         return res.redirect(req.query.url);
     });
 
     // Handle redirect for learning resources link
     app.get("/tutorial", tutorialsHandler.displayA1);
-    app.get("/tutorial/:page", function (req, res, next) {
+    app.get("/tutorial/:page", function(req, res, next) {
         return res.render("tutorial/layout", {
             title: tutorialsHandler.getTitle(req.params.page),
             content: `${req.params.page}`
