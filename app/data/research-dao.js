@@ -10,7 +10,7 @@ function ResearchDAO(db) {
         return new ResearchDAO(db);
     }
 
-    this.getBySymbol= function(symbol, callback) {
+    this.getBySymbol = function(symbol, callback) {
 
         function searchCriteria() {
 

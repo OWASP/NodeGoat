@@ -91,7 +91,7 @@ function AllocationsDAO(db) {
             var doneCounter = 0;
             var userAllocations = [];
 
-            allocations.forEach(function (alloc) {
+            allocations.forEach(function(alloc) {
                 userDAO.getUserById(alloc.userId, function(err, user) {
                     if (err) return callback(err, null);
 
