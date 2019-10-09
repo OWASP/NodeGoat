@@ -1,7 +1,7 @@
-var UserDAO = require("./user-dao").UserDAO;
+const UserDAO = require("./user-dao").UserDAO;
 
 /* The AllocationsDAO must be constructed with a connected database object */
-function AllocationsDAO(db) {
+const AllocationsDAO = function(db){
 
     "use strict";
 
@@ -12,15 +12,14 @@ function AllocationsDAO(db) {
         return new AllocationsDAO(db);
     }
 
-    var allocationsCol = db.collection("allocations");
-    var userDAO = new UserDAO(db);
+    const allocationsCol = db.collection("allocations");
+    const userDAO = new UserDAO(db);
 
-
-    this.update = function(userId, stocks, funds, bonds, callback) {
-        var parsedUserId = parseInt(userId);
+    this.update = (userId, stocks, funds, bonds, callback) => {
+        const parsedUserId = parseInt(userId);
 
         // Create allocations document
-        var allocations = {
+        const allocations = {
             userId: userId,
             stocks: stocks,
             funds: funds,
@@ -31,13 +30,13 @@ function AllocationsDAO(db) {
             userId: parsedUserId
         }, allocations, {
             upsert: true
-        }, function(err, result) {
+        }, (err, result) => {
 
             if (!err) {
 
                 console.log("Updated allocations");
 
-                userDAO.getUserById(userId, function(err, user) {
+                userDAO.getUserById(userId, (err, user) => {
 
                     if (err) return callback(err, null);
 
@@ -55,10 +54,10 @@ function AllocationsDAO(db) {
         });
     };
 
-    this.getByUserIdAndThreshold = function(userId, threshold, callback) {
-        var parsedUserId = parseInt(userId);
+    this.getByUserIdAndThreshold = (userId, threshold, callback) => {
+        const parsedUserId = parseInt(userId);
 
-        function searchCriteria() {
+        const searchCriteria = () => {
 
             if (threshold) {
                 /*
@@ -84,15 +83,15 @@ function AllocationsDAO(db) {
             };
         }
 
-        allocationsCol.find(searchCriteria()).toArray(function(err, allocations) {
+        allocationsCol.find(searchCriteria()).toArray((err, allocations) => {
             if (err) return callback(err, null);
             if (!allocations.length) return callback("ERROR: No allocations found for the user", null);
 
-            var doneCounter = 0;
-            var userAllocations = [];
+            let doneCounter = 0;
+            const userAllocations = [];
 
-            allocations.forEach(function(alloc) {
-                userDAO.getUserById(alloc.userId, function(err, user) {
+            allocations.forEach( (alloc) => {
+                userDAO.getUserById(alloc.userId, (err, user) => {
                     if (err) return callback(err, null);
 
                     alloc.userName = user.userName;
