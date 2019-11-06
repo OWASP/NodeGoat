@@ -3,6 +3,7 @@ var ProfileHandler = require("./profile");
 var BenefitsHandler = require("./benefits");
 var ContributionsHandler = require("./contributions");
 var AllocationsHandler = require("./allocations");
+var TutorialsHandler = require("./tutorials");
 var MemosHandler = require("./memos");
 var ResearchHandler = require("./research");
 
@@ -17,6 +18,7 @@ var exports = function(app, db) {
     var benefitsHandler = new BenefitsHandler(db);
     var contributionsHandler = new ContributionsHandler(db);
     var allocationsHandler = new AllocationsHandler(db);
+    var tutorialsHandler = new TutorialsHandler(db);
     var memosHandler = new MemosHandler(db);
     var researchHandler = new ResearchHandler(db);
 
@@ -73,11 +75,12 @@ var exports = function(app, db) {
     });
 
     // Handle redirect for learning resources link
-    app.get("/tutorial", function(req, res, next) {
-        return res.render("tutorial/a1");
-    });
+    app.get("/tutorial", tutorialsHandler.displayA1);
     app.get("/tutorial/:page", function(req, res, next) {
-        return res.render("tutorial/" + req.params.page);
+        return res.render("tutorial/layout", {
+            title: tutorialsHandler.getTitle(req.params.page),
+            content: `${req.params.page}`
+        });
     });
 
     // Research Page

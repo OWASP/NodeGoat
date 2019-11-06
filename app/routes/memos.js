@@ -22,8 +22,10 @@ function MemosHandler(db) {
 
         memosDAO.getAllMemos(function(err, docs) {
             if (err) return next(err);
-            return res.render("memos", {
+            return res.render("layout", {
+                content: "memos",
                 memosList: docs,
+                title: "Memos",
                 userId: userId
             });
         });

@@ -13,7 +13,18 @@ function ContributionsHandler(db) {
             if (error) return next(error);
 
             contrib.userId = userId; //set for nav menu items
-            return res.render("contributions", contrib);
+            contrib.updateSuccess = false;
+            contrib.updateError = false;
+            return res.render("layout", {
+                contrib,
+                title: "Contributions",
+                content: "contributions",
+                updateSuccess: false,
+                updateError: false,
+                preTax: 0,
+                afterTax: 0,
+                roth: 0
+            });
         });
     };
 
@@ -42,9 +53,15 @@ function ContributionsHandler(db) {
         }
         // Prevent more than 30% contributions
         if (preTax + afterTax + roth > 30) {
-            return res.render("contributions", {
+            return res.render("layout", {
                 updateError: "Contribution percentages cannot exceed 30 %",
-                userId: userId
+                updateSuccess: false,
+                userId: userId,
+                preTax: preTax,
+                afterTax: afterTax,
+                roth: roth,
+                title: "Contributions",
+                content: "contributions"
             });
         }
 
@@ -52,8 +69,13 @@ function ContributionsHandler(db) {
 
             if (err) return next(err);
 
-            contributions.updateSuccess = true;
-            return res.render("contributions", contributions);
+            return res.render("layout", {
+                contributions,
+                title: "Contributions",
+                content: "contributions",
+                updateError: false,
+                updateSuccess: true,
+            });
         });
 
     };

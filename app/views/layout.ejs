@@ -45,15 +45,13 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <!--  side nav -->
                 <ul class="nav navbar-nav side-nav">
-                    {% if user.isAdmin %}
                     <li><a id="benefits-menu-link" href="/benefits"><i class="fa fa-calendar"></i> Benefits</a>
                     </li>
-                    {% else %}
                     <li><a id="dashboard-menu-link" href="/"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li><a id="contributions-menu-link" href="/contributions"><i class="fa fa-bar-chart-o"></i> Contributions</a>
                     </li>
-                    <li><a id="allocations-menu-link" href="/allocations/{{userId}}"><i class="fa fa-table"></i> Allocations</a>
+                    <li><a id="allocations-menu-link" href="/allocations/"><i class="fa fa-table"></i> Allocations</a>
                     </li>
                     <li><a id="memos-menu-link" href="/memos"><i class="fa fa-table"></i> Memos</a>
                     </li>
@@ -63,7 +61,6 @@
                     </li>
                     <li><a id="research-menu-link" href="/research"><i class="fa fa-table"></i> Research</a>
                     </li>
-                    {% endif %}
                     <li><a id="logout-menu-link" href="/logout"><i class="fa fa-power-off"></i> Logout</a>
                     </li>
                 </ul>
@@ -72,13 +69,11 @@
                 <ul class="nav navbar-nav navbar-right navbar-user">
 
                     <li class="dropdown user-dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{firstName}} {{lastName}} <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            {% if !user.isAdmin %}
                             <li><a href="/profile"><i class="fa fa-user"></i> Profile</a>
                             </li>
                             <li class="divider"></li>
-                            {% endif %}
                             <li><a href="/logout"><i class="fa fa-power-off"></i> Log Out</a>
                             </li>
                         </ul>
@@ -92,15 +87,16 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <!-- <h1> <small>{% block title %}{% endblock %}</small></h1> -->
                     <ol class="breadcrumb">
-                        <li class="active"><i class="fa"></i> {% block title %}{% endblock %}</li>
+                        <li class="active"><i class="fa"></i>
+                            <%=title %>
+                        </li>
                     </ol>
                 </div>
             </div>
             <!-- /.row -->
 
-            {% block content %}{% endblock %}
+            <%- include(content) %>
 
         </div>
         <!-- /#page-wrapper -->

@@ -1,8 +1,6 @@
-{% extends "./layout.html" %} {% block title %}Benefits Start Date{% endblock %} {% block content %}
 <div class="row">
     <div class="col-lg-12">
-
-        {% if updateSuccess %}
+        <% if (updateSuccess) { %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-dismissable alert-success">
@@ -12,26 +10,24 @@
             </div>
         </div>
         <!-- /.row -->
-        {% endif %} {% if updateError %}
+        <% } %>
+        <% if (updateError) { %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-dismissable alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    {{data.updateError}}
+                    <%= updateError %>
                 </div>
             </div>
         </div>
         <!-- /.row -->
-        {% endif %}
+        <% } %>
     </div>
 </div>
 
 
 <div class="row">
     <div class="col-lg-12">
-
-
-
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead>
@@ -43,18 +39,22 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    {% for user in users %}
-
+                    <% users.forEach((user) => { %>
                     <tr>
-                        <td>{{user._id.toString()}}</td>
-                        <td>{{user.firstName}}</td>
-                        <td>{{user.lastName}}</td>
+                        <td>
+                            <%= user._id %>
+                        </td>
+                        <td>
+                            <%= user.firstName %>
+                        </td>
+                        <td>
+                            <%= user.lastName %>
+                        </td>
                         <td>
                             <form method="POST" action="/benefits">
                                 <div class="input-group">
-                                    <input type="hidden" name="userId" value="{{user._id.toString()}}"></input>
-                                    <input type="date" class="form-control" name="benefitStartDate" value="{{user.benefitStartDate}}"></input>
+                                    <input type="hidden" name="userId" value="<%= user._id %>"></input>
+                                    <input type="date" class="form-control" name="benefitStartDate" value="<%= user.benefitStartDate %>"></input>
                                     <span class="input-group-btn">
                                         <button type="submit" class="btn btn-default">Save</button>
                                     </span>
@@ -63,7 +63,7 @@
                             </form>
                         </td>
                     </tr>
-                    {% endfor %}
+                    <% }); %>
                 </tbody>
             </table>
 
@@ -71,5 +71,3 @@
         <!-- /.row -->
     </div>
 </div>
-
-{% endblock %}

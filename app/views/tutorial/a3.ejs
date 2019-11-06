@@ -1,4 +1,3 @@
-{% extends "./layout.html" %} {% block title %}A3-Cross-Site Scripting (XSS){% endblock %} {% block content %}
 <div class="row">
     <div class="col-lg-12">
         <div class="bs-example" style="margin-bottom: 40px;">
@@ -85,7 +84,7 @@
                                         <span style="color:red;">UNTRUSTED DATA</span>"&gt;</td>
                                     <td>Except for alphanumeric characters, escape all characters with the HTML Entity &amp;#xHH;
                                         format, including spaces. (HH = Hex Value)
-                                        <br/>
+                                        <br />
                                     </td>
                                 </tr>
                                 <tr>
@@ -94,7 +93,7 @@
                                         <span style="color:red;">UNTRUSTED DATA</span>"&gt;clickme&lt;/a&gt;</td>
                                     <td>Except for alphanumeric characters, escape all characters with ASCII values less
                                         than 256 with the HTML Entity &amp;#xHH; format, including spaces. (HH = Hex Value)
-                                        <br/>
+                                        <br />
                                     </td>
                                 </tr>
                                 <tr>
@@ -240,4 +239,3 @@ app.use(express.session({
 
     </div>
 </div>
-{% endblock %}
