@@ -27,8 +27,7 @@ describe("/allocations behaviour", () => {
     it("Should be an input", () => {
         cy.userSignIn();
         cy.visitPage("/allocations/1");
-        cy.get("input[name="
-            threshold "]");
+        cy.get('input[name="threshold"]');
     });
 
     it("Should redirect the user", () => {
@@ -36,13 +35,11 @@ describe("/allocations behaviour", () => {
         cy.userSignIn();
         cy.visitPage("/allocations/1");
 
-        cy.get("input[name="
-                threshold "]")
+        cy.get('input[name="threshold"]')
             .clear()
             .type(threshold);
 
-        cy.get("button[type="
-                submit "]")
+        cy.get('button[type="submit"]')
             .click();
 
         cy.location().should((loc) => {

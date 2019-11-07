@@ -43,8 +43,7 @@ describe("/login behaviour", () => {
             .first()
             .type("2099-01-10")
 
-        cy.get("button[type="
-                submit "]")
+        cy.get('button[type="submit"]')
             .first()
             .click()
 
