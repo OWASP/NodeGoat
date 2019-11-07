@@ -27,7 +27,7 @@ describe("/signup behaviour", () => {
         cy.visitPage("/signup")
         cy.get("form[role='form']")
             .find("input")
-            .should("have.length", 7)
+            .should("have.length", 6)
     })
 
     it("Should new user be added to the system", () => {
