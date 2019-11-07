@@ -73,6 +73,10 @@ function ContributionsHandler(db) {
                 contributions,
                 title: "Contributions",
                 content: "contributions",
+                userId: userId,
+                preTax: preTax,
+                afterTax: afterTax,
+                roth: roth,
                 updateError: false,
                 updateSuccess: true,
             });
