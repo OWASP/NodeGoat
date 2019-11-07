@@ -23,5 +23,13 @@
             </div>
         </div>
 
+        <% memosList.forEach(memo => { %>
+            <div class="panel panel-info">	
+                <div class="panel-body">	
+                    <p><%- memo.memo %></p>
+                </div>	
+            </div>
+        <% }); %>
+
     </div>
 </div>
