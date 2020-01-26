@@ -1,4 +1,4 @@
-var bcrypt = require("bcrypt-nodejs");
+const bcrypt = require("bcrypt-nodejs");
 
 /* The UserDAO must be constructed with a connected database object */
 function UserDAO(db) {
@@ -12,17 +12,17 @@ function UserDAO(db) {
         return new UserDAO(db);
     }
 
-    var usersCol = db.collection("users");
+    const usersCol = db.collection("users");
 
-    this.addUser = function(userName, firstName, lastName, password, email, callback) {
+    this.addUser = (userName, firstName, lastName, password, email, callback) => {
 
         // Create user document
         var user = {
-            userName: userName,
-            firstName: firstName,
-            lastName: lastName,
+            userName,
+            firstName,
+            lastName,
             benefitStartDate: this.getRandomFutureDate(),
-            password: password //received from request param
+            password //received from request param
             /*
             // Fix for A2-1 - Broken Auth
             // Stores password  in a safer way using one way encryption and salt hashing
@@ -31,41 +31,33 @@ function UserDAO(db) {
         };
 
         // Add email if set
-        if (email !== "") {
+        if (email) {
             user.email = email;
         }
 
-        this.getNextSequence("userId", function(err, id) {
+        this.getNextSequence("userId", (err, id) => {
             if (err) {
                 return callback(err, null);
             }
             console.log(typeof(id));
 
             user._id = id;
-
-            usersCol.insert(user, function(err, result) {
-
-                if (!err) {
-                    return callback(null, result.ops[0]);
-                }
-
-                return callback(err, null);
-            });
+            usersCol.insert(user, (err, result) => !err ? callback(null, result.ops[0]) : callback(err, null));
         });
     };
 
-    this.getRandomFutureDate = function() {
-        var today = new Date();
-        var day = (Math.floor(Math.random() * 10) + today.getDay()) % 29;
-        var month = (Math.floor(Math.random() * 10) + today.getMonth()) % 12;
-        var year = Math.ceil(Math.random() * 30) + today.getFullYear();
-        return year + "-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2);
+    this.getRandomFutureDate = () => {
+        const today = new Date();
+        const day = (Math.floor(Math.random() * 10) + today.getDay()) % 29;
+        const month = (Math.floor(Math.random() * 10) + today.getMonth()) % 12;
+        const year = Math.ceil(Math.random() * 30) + today.getFullYear();
+        return `${year}-${("0" + month).slice(-2)}-${("0" + day).slice(-2)}`
     };
 
     this.validateLogin = function(userName, password, callback) {
 
         // Helper function to compare passwords
-        function comparePassword(fromDB, fromUser) {
+        const comparePassword = (fromDB, fromUser) => {
             return fromDB === fromUser;
             /*
             // Fix for A2-Broken Auth
@@ -75,7 +67,7 @@ function UserDAO(db) {
         }
 
         // Callback to pass to MongoDB that validates a user document
-        function validateUserDoc(err, user) {
+        const validateUserDoc = (err, user) => {
 
             if (err) return callback(err, null);
 
@@ -102,19 +94,19 @@ function UserDAO(db) {
     };
 
     // This is the good one, see the next function
-    this.getUserById = function(userId, callback) {
+    this.getUserById = (userId, callback) => {
         usersCol.findOne({
             _id: parseInt(userId)
         }, callback);
     };
 
-    this.getUserByUserName = function(userName, callback) {
+    this.getUserByUserName = (userName, callback) => {
         usersCol.findOne({
             userName: userName
         }, callback);
     };
 
-    this.getNextSequence = function(name, callback) {
+    this.getNextSequence = (name, callback) => {
         db.collection("counters").findAndModify({
                 _id: name
             }, [], {
@@ -124,14 +116,8 @@ function UserDAO(db) {
             }, {
                 new: true
             },
-            function(err, data) {
-                if (err) {
-                    return callback(err, null);
-                }
-                callback(null, data.value.seq);
-            }
-        );
+            (err, data) =>  err ? callback(err, null) : callback(null, data.value.seq));
     };
 }
 
-module.exports.UserDAO = UserDAO;
+module.exports = { UserDAO };

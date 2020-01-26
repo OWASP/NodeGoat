@@ -10,36 +10,36 @@ function ProfileDAO(db) {
         return new ProfileDAO(db);
     }
 
-    var users = db.collection("users");
+    const users = db.collection("users");
 
     /* Fix for A6 - Sensitive Data Exposure
 
     // Use crypto module to save sensitive data such as ssn, dob in encrypted format
-    var crypto = require("crypto");
-    var config = require("../../config/config");
+    const crypto = require("crypto");
+    const config = require("../../config/config");
 
     /// Helper method create initialization vector
     // By default the initialization vector is not secure enough, so we create our own
-    var createIV = function() {
+    const createIV = () => {
         // create a random salt for the PBKDF2 function - 16 bytes is the minimum length according to NIST
-        var salt = crypto.randomBytes(16);
+        const salt = crypto.randomBytes(16);
         return crypto.pbkdf2Sync(config.cryptoKey, salt, 100000, 512, "sha512");
     };
 
     // Helper methods to encryt / decrypt
-    var encrypt = function(toEncrypt) {
+    const encrypt = (toEncrypt) => {
         config.iv = createIV();
-        var cipher = crypto.createCipheriv(config.cryptoAlgo, config.cryptoKey, config.iv);
-        return cipher.update(toEncrypt, "utf8", "hex") + cipher.final("hex");
+        const cipher = crypto.createCipheriv(config.cryptoAlgo, config.cryptoKey, config.iv);
+        return `${cipher.update(toEncrypt, "utf8", "hex")} ${cipher.final("hex")}`;
     };
 
-    var decrypt = function(toDecrypt) {
-        var decipher = crypto.createDecipheriv(config.cryptoAlgo, config.cryptoKey, config.iv);
-        return decipher.update(toDecrypt, "hex", "utf8") + decipher.final("utf8");
+    const decrypt = (toDecrypt) => {
+        const decipher = crypto.createDecipheriv(config.cryptoAlgo, config.cryptoKey, config.iv);
+        return `${decipher.update(toDecrypt, "hex", "utf8")} ${decipher.final("utf8")}`;
     };
     */
 
-    this.updateUser = function(userId, firstName, lastName, ssn, dob, address, bankAcc, bankRouting, callback) {
+    this.updateUser = (userId, firstName, lastName, ssn, dob, address, bankAcc, bankRouting, callback) => {
 
         // Create user document
         var user = {};
@@ -80,7 +80,7 @@ function ProfileDAO(db) {
             }, {
                 $set: user
             },
-            function(err, result) {
+            err => {
                 if (!err) {
                     console.log("Updated user profile");
                     return callback(null, user);
@@ -91,11 +91,11 @@ function ProfileDAO(db) {
         );
     };
 
-    this.getByUserId = function(userId, callback) {
+    this.getByUserId = (userId, callback) => {
         users.findOne({
                 _id: parseInt(userId)
             },
-            function(err, user) {
+            (err, user) => {
                 if (err) return callback(err, null);
                 /*
                 // Fix for A6 - Sensitive Data Exposure
@@ -110,4 +110,4 @@ function ProfileDAO(db) {
     };
 }
 
-module.exports.ProfileDAO = ProfileDAO;
+module.exports = { ProfileDAO };
