@@ -1,6 +1,6 @@
 // Error handling middleware
 
-const errorHandler = (err, req, res) => {
+const errorHandler = (err, req, res,next) => {
 
     "use strict";
 
