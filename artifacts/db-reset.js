@@ -93,8 +93,8 @@ MongoClient.connect(db, (err, db) =>  {
         parseResponse(err, data, "users.insertMany");
 
         data.ops.forEach((user) => {
-            var stocks = Math.floor((Math.random() * 40) + 1);
-            var funds = Math.floor((Math.random() * 40) + 1);
+            const stocks = Math.floor((Math.random() * 40) + 1);
+            const funds = Math.floor((Math.random() * 40) + 1);
 
             finalAllocations.push({
                 userId: user._id,
