@@ -1,6 +1,6 @@
 const { BenefitsDAO } = require("../data/benefits-dao");
 
-const BenefitsHandler = db => {
+function BenefitsHandler (db) {
     "use strict";
 
     const benefitsDAO = new BenefitsDAO(db);

@@ -2,7 +2,7 @@ const ProfileDAO = require("../data/profile-dao").ProfileDAO;
 const ESAPI = require('node-esapi')
 
 /* The ProfileHandler must be constructed with a connected db */
-const ProfileHandler = (db) => {
+function ProfileHandler (db) {
     "use strict";
 
     const profile = new ProfileDAO(db);

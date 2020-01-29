@@ -2,7 +2,7 @@ const UserDAO = require("../data/user-dao").UserDAO;
 const AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
 
 /* The SessionHandler must be constructed with a connected db */
-const SessionHandler = (db) => {
+function SessionHandler (db) {
     "use strict";
 
     const userDAO = new UserDAO(db);

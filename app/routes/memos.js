@@ -1,6 +1,6 @@
 const MemosDAO = require("../data/memos-dao").MemosDAO;
 
-const MemosHandler = (db) => {
+function MemosHandler (db) {
     "use strict";
 
     const memosDAO = new MemosDAO(db);
