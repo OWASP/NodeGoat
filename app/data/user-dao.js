@@ -17,7 +17,7 @@ function UserDAO(db) {
     this.addUser = (userName, firstName, lastName, password, email, callback) => {
 
         // Create user document
-        var user = {
+        const user = {
             userName,
             firstName,
             lastName,
@@ -54,7 +54,7 @@ function UserDAO(db) {
         return `${year}-${("0" + month).slice(-2)}-${("0" + day).slice(-2)}`
     };
 
-    this.validateLogin = function(userName, password, callback) {
+    this.validateLogin = (userName, password, callback) => {
 
         // Helper function to compare passwords
         const comparePassword = (fromDB, fromUser) => {
@@ -75,13 +75,13 @@ function UserDAO(db) {
                 if (comparePassword(password, user.password)) {
                     callback(null, user);
                 } else {
-                    var invalidPasswordError = new Error("Invalid password");
+                    const invalidPasswordError = new Error("Invalid password");
                     // Set an extra field so we can distinguish this from a db error
                     invalidPasswordError.invalidPassword = true;
                     callback(invalidPasswordError, null);
                 }
             } else {
-                var noSuchUserError = new Error("User: " + user + " does not exist");
+                const noSuchUserError = new Error("User: " + user + " does not exist");
                 // Set an extra field so we can distinguish this from a db error
                 noSuchUserError.noSuchUser = true;
                 callback(noSuchUserError, null);

@@ -42,7 +42,7 @@ function ProfileDAO(db) {
     this.updateUser = (userId, firstName, lastName, ssn, dob, address, bankAcc, bankRouting, callback) => {
 
         // Create user document
-        var user = {};
+        const user = {};
         if (firstName) {
             user.firstName = firstName;
         }
