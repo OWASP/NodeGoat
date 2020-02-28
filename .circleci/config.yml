@@ -1,0 +1,32 @@
+version: 2.1
+
+jobs:
+
+  Test:
+    docker:
+      - image: circleci/node:12.14.1
+    steps:
+      - checkout
+      - run:
+          name: Test
+          command: yarn test
+          no_output_timeout: 30m
+
+  Deploy:
+    docker:
+      - image: circleci/node:12.14.1
+    steps:
+      - checkout
+      - run:
+          name: Deploy
+          command: echo "run deploy command here"
+          no_output_timeout: 30m
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - Test
+      - Deploy:
+          requires:
+            - Test
