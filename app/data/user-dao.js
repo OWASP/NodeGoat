@@ -15,19 +15,21 @@ function UserDAO(db) {
     var usersCol = db.collection("users");
 
     this.addUser = function(userName, firstName, lastName, password, email, callback) {
-
+        //Generating the encryption
+        var salt = bcrypt.genSaltSync();
+        var passwordHash = bcrypt.hashSync(password, salt);//to prevent insecure passwords
         // Create user document
         var user = {
             userName: userName,
             firstName: firstName,
             lastName: lastName,
             benefitStartDate: this.getRandomFutureDate(),
-            password: password //received from request param
-            /*
+            password: passwordHash
+
             // Fix for A2-1 - Broken Auth
             // Stores password  in a safer way using one way encryption and salt hashing
-            password: bcrypt.hashSync(password, bcrypt.genSaltSync())
-            */
+            // password: bcrypt.hashSync(password, bcrypt.genSaltSync())
+
         };
 
         // Add email if set
@@ -66,12 +68,12 @@ function UserDAO(db) {
 
         // Helper function to compare passwords
         function comparePassword(fromDB, fromUser) {
-            return fromDB === fromUser;
-            /*
+          // return fromDB === fromUser;
+
             // Fix for A2-Broken Auth
             // compares decrypted password stored in this.addUser()
             return bcrypt.compareSync(fromDB, fromUser);
-            */
+
         }
 
         // Callback to pass to MongoDB that validates a user document
@@ -80,14 +82,27 @@ function UserDAO(db) {
             if (err) return callback(err, null);
 
             if (user) {
-                if (comparePassword(password, user.password)) {
+
+                // if (comparePassword(password, user.password)) {
+                //     callback(null, user);
+                // } else {
+                //     var invalidPasswordError = new Error("Invalid password");
+                //     // Set an extra field so we can distinguish this from a db error
+                //     invalidPasswordError.invalidPassword = true;
+                //     callback(invalidPasswordError, null);
+                // }
+
+                if (bcrypt.compareSync(password, user.password)) {
+
                     callback(null, user);
                 } else {
-                    var invalidPasswordError = new Error("Invalid password");
                     // Set an extra field so we can distinguish this from a db error
-                    invalidPasswordError.invalidPassword = true;
+
                     callback(invalidPasswordError, null);
                 }
+
+
+
             } else {
                 var noSuchUserError = new Error("User: " + user + " does not exist");
                 // Set an extra field so we can distinguish this from a db error
@@ -133,5 +148,34 @@ function UserDAO(db) {
         );
     };
 }
+
+
+// app.use(express.cookieParser());
+//
+// app.use(express.session({
+//     secret: "s3Cur3",
+//     cookie: {
+//         httpOnly: true,
+//         secure: true
+//     }
+// }));
+//
+// req.session.destroy(function() {
+//     res.redirect("/");
+// });
+//
+//
+// req.session.regenerate(function() {
+//
+//   req.session.userId = user._id;
+//
+//   if (user.isAdmin) {
+//     return res.redirect("/benefits");
+//   } else {
+//     return res.redirect("/dashboard");
+//   }
+//
+// })
+
 
 module.exports.UserDAO = UserDAO;
