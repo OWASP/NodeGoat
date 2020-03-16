@@ -68,7 +68,7 @@ function UserDAO(db) {
 
         // Helper function to compare passwords
         function comparePassword(fromDB, fromUser) {
-          // return fromDB === fromUser;
+             return fromDB === fromUser;
 
             // Fix for A2-Broken Auth
             // compares decrypted password stored in this.addUser()
@@ -97,7 +97,9 @@ function UserDAO(db) {
                     callback(null, user);
                 } else {
                     // Set an extra field so we can distinguish this from a db error
-
+                    var invalidPasswordError = new Error("Invalid password");
+                    //     // Set an extra field so we can distinguish this from a db error
+                    invalidPasswordError.invalidPassword = true;
                     callback(invalidPasswordError, null);
                 }
 
