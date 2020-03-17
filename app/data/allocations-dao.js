@@ -30,7 +30,7 @@ const AllocationsDAO = function(db){
             userId: parsedUserId
         }, allocations, {
             upsert: true
-        }, (err, result) => {
+        }, err => {
 
             if (!err) {
 
@@ -90,7 +90,7 @@ const AllocationsDAO = function(db){
             let doneCounter = 0;
             const userAllocations = [];
 
-            allocations.forEach( (alloc) => {
+            allocations.forEach( alloc => {
                 userDAO.getUserById(alloc.userId, (err, user) => {
                     if (err) return callback(err, null);
 

@@ -1,41 +1,39 @@
 "use strict";
 
-var express = require("express");
-var favicon = require("serve-favicon");
-var bodyParser = require("body-parser");
-var session = require("express-session");
-// var csrf = require('csurf');
-var consolidate = require("consolidate"); // Templating library adapter for Express
-var swig = require("swig");
-// var helmet = require("helmet");
-var MongoClient = require("mongodb").MongoClient; // Driver for connecting to MongoDB
-var http = require("http");
-var marked = require("marked");
-//var helmet = require("helmet");
-//var nosniff = require('dont-sniff-mimetype');
-var app = express(); // Web framework to handle routing requests
-var routes = require("./app/routes");
-var config = require("./config/config"); // Application config properties
+const express = require("express");
+const favicon = require("serve-favicon");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+// const csrf = require('csurf');
+const consolidate = require("consolidate"); // Templating library adapter for Express
+const swig = require("swig");
+// const helmet = require("helmet");
+const MongoClient = require("mongodb").MongoClient; // Driver for connecting to MongoDB
+const http = require("http");
+const marked = require("marked");
+//const nosniff = require('dont-sniff-mimetype');
+const app = express(); // Web framework to handle routing requests
+const routes = require("./app/routes");
+const { port, db, cookieSecret } = require("./config/config"); // Application config properties
 /*
 // Fix for A6-Sensitive Data Exposure
 // Load keys for establishing secure HTTPS connection
-var fs = require("fs");
-var https = require("https");
-var path = require("path");
-var httpsOptions = {
+const fs = require("fs");
+const https = require("https");
+const path = require("path");
+const httpsOptions = {
     key: fs.readFileSync(path.resolve(__dirname, "./artifacts/cert/server.key")),
     cert: fs.readFileSync(path.resolve(__dirname, "./artifacts/cert/server.crt"))
 };
 */
 
-MongoClient.connect(config.db, function(err, db) {
+MongoClient.connect(db, (err, db) => {
     if (err) {
         console.log("Error: DB: connect");
         console.log(err);
-
         process.exit(1);
     }
-    console.log("Connected to the database: " + config.db);
+    console.log(`Connected to the database: ${db}`);
 
     /*
     // Fix for A5 - Security MisConfig
@@ -78,10 +76,10 @@ MongoClient.connect(config.db, function(err, db) {
 
     // Enable session management using express middleware
     app.use(session({
-        // genid: function(req) {
+        // genid: (req) => {
         //    return genuuid() // use UUIDs for session IDs
         //},
-        secret: config.cookieSecret,
+        secret: cookieSecret,
         // Both mandatory in Express v4
         saveUninitialized: true,
         resave: true
@@ -108,7 +106,7 @@ MongoClient.connect(config.db, function(err, db) {
     // Enable Express csrf protection
     app.use(csrf());
     // Make csrf token available in templates
-    app.use(function(req, res, next) {
+    app.use((req, res, next) => {
         res.locals.csrftoken = req.csrfToken();
         next();
     });
@@ -117,8 +115,8 @@ MongoClient.connect(config.db, function(err, db) {
     // Register templating engine
     app.engine(".html", consolidate.swig);
     app.set("view engine", "html");
-    app.set("views", __dirname + "/app/views");
-    app.use(express.static(__dirname + "/app/assets"));
+    app.set("views", `${__dirname}/app/views`);
+    app.use(express.static(`${__dirname}/app/assets`));
 
 
     // Initializing marked library
@@ -142,15 +140,15 @@ MongoClient.connect(config.db, function(err, db) {
     });
 
     // Insecure HTTP connection
-    http.createServer(app).listen(config.port, function() {
-        console.log("Express http server listening on port " + config.port);
+    http.createServer(app).listen(port, () => {
+        console.log(`Express http server listening on port ${port}`);
     });
 
     /*
     // Fix for A6-Sensitive Data Exposure
     // Use secure HTTPS protocol
-    https.createServer(httpsOptions, app).listen(config.port,  function() {
-        console.log("Express https server listening on port " + config.port);
+    https.createServer(httpsOptions, app).listen(port, () => {
+        console.log(`Express http server listening on port ${port}`);
     });
     */
 
