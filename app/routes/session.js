@@ -1,49 +1,42 @@
-var UserDAO = require("../data/user-dao").UserDAO;
-var AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
+const UserDAO = require("../data/user-dao").UserDAO;
+const AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
 
 /* The SessionHandler must be constructed with a connected db */
-function SessionHandler(db) {
+function SessionHandler (db) {
     "use strict";
 
-    var userDAO = new UserDAO(db);
-    var allocationsDAO = new AllocationsDAO(db);
+    const userDAO = new UserDAO(db);
+    const allocationsDAO = new AllocationsDAO(db);
 
-    var prepareUserData = function(user, next) {
+    const prepareUserData = (user, next) => {
         // Generate random allocations
-        var stocks = Math.floor((Math.random() * 40) + 1);
-        var funds = Math.floor((Math.random() * 40) + 1);
-        var bonds = 100 - (stocks + funds);
+        const stocks = Math.floor((Math.random() * 40) + 1);
+        const funds = Math.floor((Math.random() * 40) + 1);
+        const bonds = 100 - (stocks + funds);
 
-        allocationsDAO.update(user._id, stocks, funds, bonds, function(err) {
+        allocationsDAO.update(user._id, stocks, funds, bonds, (err) => {
             if (err) return next(err);
         });
     };
 
-    this.isAdminUserMiddleware = function(req, res, next) {
+    this.isAdminUserMiddleware = (req, res, next) => {
         if (req.session.userId) {
-            userDAO.getUserById(req.session.userId, function(err, user) {
-                if (user && user.isAdmin) {
-                    next();
-                } else {
-                    return res.redirect("/login");
-                }
-            });
-        } else {
-            console.log("redirecting to login");
-            return res.redirect("/login");
-        }
+            return userDAO.getUserById(req.session.userId, (err, user) => user && user.isAdmin ? next() : res.redirect("/login"));
+        } 
+        console.log("redirecting to login");
+        return res.redirect("/login");
+        
     };
 
-    this.isLoggedInMiddleware = function(req, res, next) {
+    this.isLoggedInMiddleware = (req, res, next) => {
         if (req.session.userId) {
-            next();
-        } else {
-            console.log("redirecting to login");
-            return res.redirect("/login");
-        }
+            return next();
+        } 
+        console.log("redirecting to login");
+        return res.redirect("/login");
     };
 
-    this.displayLoginPage = function(req, res, next) {
+    this.displayLoginPage = (req, res, next) => {
         return res.render("login", {
             userName: "",
             password: "",
@@ -51,14 +44,12 @@ function SessionHandler(db) {
         });
     };
 
-    this.handleLoginRequest = function(req, res, next) {
-        var userName = req.body.userName;
-        var password = req.body.password;
-
-        userDAO.validateLogin(userName, password, function(err, user) {
-            var errorMessage = "Invalid username and/or password";
-            var invalidUserNameErrorMessage = "Invalid username";
-            var invalidPasswordErrorMessage = "Invalid password";
+    this.handleLoginRequest = (req, res, next) => {
+        const { userName, password }  = req.body
+        userDAO.validateLogin(userName, password, (err, user) => {
+            const errorMessage = "Invalid username and/or password";
+            const invalidUserNameErrorMessage = "Invalid username";
+            const invalidPasswordErrorMessage = "Invalid password";
             if (err) {
                 if (err.noSuchUser) {
                     console.log('Error: attempt to login with invalid user: ', userName);
@@ -66,7 +57,7 @@ function SessionHandler(db) {
                     // Fix for A1 - 3 Log Injection - encode/sanitize input for CRLF Injection
                     // that could result in log forging:
                     // - Step 1: Require a module that supports encoding
-                    // var ESAPI = require('node-esapi');
+                    // const ESAPI = require('node-esapi');
                     // - Step 2: Encode the user input that will be logged in the correct context
                     // following are a few examples:
                     // console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().encodeForHTML(userName));
@@ -107,23 +98,17 @@ function SessionHandler(db) {
             // Fix the problem by regenerating a session in each login
             // by wrapping the below code as a function callback for the method req.session.regenerate()
             // i.e:
-            // `req.session.regenerate(function() {})`
+            // `req.session.regenerate(() => {})`
             req.session.userId = user._id;
-            if (user.isAdmin) {
-              return res.redirect("/benefits");
-            } else {
-              return res.redirect("/dashboard");
-            }
+            return res.redirect(user.isAdmin ? "/benefits" : "/dashboard")
         });
     };
 
-    this.displayLogoutPage = function(req, res, next) {
-        req.session.destroy(function() {
-            res.redirect("/");
-        });
+    this.displayLogoutPage = (req, res) => {
+        req.session.destroy(() => res.redirect("/"));
     };
 
-    this.displaySignupPage = function(req, res, next) {
+    this.displaySignupPage = (req, res) => {
         res.render("signup", {
             userName: "",
             password: "",
@@ -135,17 +120,17 @@ function SessionHandler(db) {
         });
     };
 
-    function validateSignup(userName, firstName, lastName, password, verify, email, errors) {
+    const validateSignup = (userName, firstName, lastName, password, verify, email, errors) => {
 
-        var USER_RE = /^.{1,20}$/;
-        var FNAME_RE = /^.{1,100}$/;
-        var LNAME_RE = /^.{1,100}$/;
-        var EMAIL_RE = /^[\S]+@[\S]+\.[\S]+$/;
-        var PASS_RE = /^.{1,20}$/;
+        const USER_RE = /^.{1,20}$/;
+        const FNAME_RE = /^.{1,100}$/;
+        const LNAME_RE = /^.{1,100}$/;
+        const EMAIL_RE = /^[\S]+@[\S]+\.[\S]+$/;
+        const PASS_RE = /^.{1,20}$/;
         /*
         //Fix for A2-2 - Broken Authentication -  requires stronger password
         //(at least 8 characters with numbers and both lowercase and uppercase letters.)
-        var PASS_RE =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        const PASS_RE =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         */
 
         errors.userNameError = "";
@@ -186,24 +171,19 @@ function SessionHandler(db) {
         return true;
     }
 
-    this.handleSignup = function(req, res, next) {
+    this.handleSignup = (req, res, next) => {
 
-        var email = req.body.email;
-        var userName = req.body.userName;
-        var firstName = req.body.firstName;
-        var lastName = req.body.lastName;
-        var password = req.body.password;
-        var verify = req.body.verify;
+        const { email, userName, firstName, lastName, password, verify } = req.body;
 
         // set these up in case we have an error case
-        var errors = {
+        const errors = {
             "userName": userName,
             "email": email
         };
 
         if (validateSignup(userName, firstName, lastName, password, verify, email, errors)) {
 
-            userDAO.getUserByUserName(userName, function(err, user) {
+            userDAO.getUserByUserName(userName, (err, user) => {
 
                 if (err) return next(err);
 
@@ -212,23 +192,21 @@ function SessionHandler(db) {
                     return res.render("signup", errors);
                 }
 
-                userDAO.addUser(userName, firstName, lastName, password, email, function(err, user) {
+                userDAO.addUser(userName, firstName, lastName, password, email, (err, user) => {
 
                     if (err) return next(err);
 
                     //prepare data for the user
                     prepareUserData(user, next);
                     /*
-                    sessionDAO.startSession(user._id, function(err, sessionId) {
-
+                    sessionDAO.startSession(user._id, (err, sessionId) => {
                         if (err) return next(err);
-
                         res.cookie("session", sessionId);
                         req.session.userId = user._id;
                         return res.render("dashboard", user);
                     });
                     */
-                    req.session.regenerate(function() {
+                    req.session.regenerate(() => {
                         req.session.userId = user._id;
                         // Set userId property. Required for left nav menu links
                         user.userId = user._id;
@@ -244,25 +222,21 @@ function SessionHandler(db) {
         }
     };
 
-    this.displayWelcomePage = function(req, res, next) {
-        var userId;
+    this.displayWelcomePage = (req, res, next) => {
+        let userId;
 
         if (!req.session.userId) {
             console.log("welcome: Unable to identify user...redirecting to login");
-
             return res.redirect("/login");
         }
 
         userId = req.session.userId;
 
-        userDAO.getUserById(userId, function(err, doc) {
+        userDAO.getUserById(userId, (err, doc) => {
             if (err) return next(err);
-
             doc.userId = userId;
-
             return res.render("dashboard", doc);
         });
-
     };
 }
 
