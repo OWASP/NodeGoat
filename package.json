@@ -12,10 +12,10 @@
     "dont-sniff-mimetype": "^1.0.0",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "forever": "^0.15.1",
     "helmet": "^2.0.0",
     "marked": "0.3.9",
     "mongodb": "^2.1.18",
+    "needle": "2.2.4",
     "node-esapi": "0.0.1",
     "serve-favicon": "^2.3.0",
     "swig": "^1.4.2",
@@ -24,31 +24,35 @@
   "comments": {
     "//": "a9 insecure components"
   },
-  "engines": {
-    "node": "4.4.x",
-    "npm": "2.15.x"
-  },
   "scripts": {
     "start": "node server.js",
+    "dev": "PORT=5000 nodemon",
+    "test:e2e": "NODE_ENV=test cypress open",
+    "test:ci": "NODE_ENV=test cypress run",
     "test": "node node_modules/grunt-cli/bin/grunt test",
-    "db:seed": "grunt db-reset",
-    "precommit": "grunt precommit"
+    "db:seed": "NODE_ENV=test grunt db-reset",
+    "precommit": "grunt precommit",
+    "docker-mongo": "docker run -p 27017:27017 --name mongo  mongo:latest",
+    "start-infra": "docker-compose up",
+    "stop-infra": "docker-compose down",
+    "cy:verify": "cypress verify"
   },
   "devDependencies": {
     "async": "^2.0.0-rc.4",
+    "cypress": "^3.3.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-concurrent": "^2.3.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-env": "latest",
+    "grunt-if": "https://github.com/binarymist/grunt-if/tarball/master",
     "grunt-jsbeautifier": "^0.2.12",
     "grunt-mocha-test": "^0.12.7",
-    "grunt-nodemon": "^0.4.2",
-    "grunt-if": "https://github.com/binarymist/grunt-if/tarball/master",
     "grunt-npm-install": "^0.3.0",
     "grunt-retire": "^0.3.12",
     "mocha": "^2.4.5",
+    "nodemon": "^1.19.1",
     "selenium-webdriver": "^2.53.2",
     "should": "^8.3.1",
     "zaproxy": "^0.2.0"
