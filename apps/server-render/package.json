@@ -35,7 +35,10 @@
     "docker-mongo": "docker run -p 27017:27017 --name mongo  mongo:latest",
     "start-infra": "docker-compose up",
     "stop-infra": "docker-compose down",
-    "cy:verify": "cypress verify"
+    "cy:verify": "cypress verify",
+    "githook:commit-msg": "npm run precommit",
+    "githook:pre-push": "npm run test:ci",
+    "githook:post-merge": "npm install && npm install --package-lock-only"
   },
   "devDependencies": {
     "async": "^2.0.0-rc.4",
