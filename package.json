@@ -5,12 +5,30 @@
   "description": "A tool to learn OWASP Top 10 for node.js developers",
   "main": "index.js",
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "lerna": "^3.20.2",
+    "husky": "^4.2.3"
   },
   "scripts": {
-    "test": ""
+    "all:test-e2e": "lerna run --parallel test:e2e",
+    "all:test-ci": "lerna run --parallel test:ci",
+    "all:test": "lerna run --parallel test",
+    "all:deps-install": "lerna exec npm install && lerna exec npm install -- --package-lock-only && lerna bootstrap",
+    "all:deps-remove": "lerna exec -- rm -rf ./node_modules",
+    "all:infra-start": "lerna run --parallel start-infra",
+    "all:infra-stop": "lerna run --parallel stop-infra",
+    "server-render:docker-mongo": "lerna run --scope *-server-render docker-mongo",
+    "server-render:start": "lerna run --scope *-server-render start",
+    "server-render:dev": "lerna run --scope *-server-render dev"
   },
   "repository": "https://github.com/OWASP/NodejsGoat",
   "license": "Apache 2.0",
-  "homepage": "https://github.com/OWASP/NodeGoat#readme"
+  "homepage": "https://github.com/OWASP/NodeGoat#readme",
+  "husky": {
+    "hooks": {
+      "commit-msg": "lerna run --parallel githook:commit-msg",
+      "pre-commit": "lerna run --parallel githook:pre-commit",
+      "pre-push": "lerna run --parallel githook:pre-push",
+      "post-merge": "lerna  --parallel run githook:post-merge"
+    }
+  }
 }
