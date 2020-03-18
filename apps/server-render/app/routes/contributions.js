@@ -1,13 +1,15 @@
 const ContributionsDAO = require("../data/contributions-dao").ContributionsDAO;
 
 /* The ContributionsHandler must be constructed with a connected db */
-function ContributionsHandler (db) {
+function ContributionsHandler(db) {
     "use strict";
 
     const contributionsDAO = new ContributionsDAO(db);
 
     this.displayContributions = (req, res, next) => {
-        const { userId } = req.session;
+        const {
+            userId
+        } = req.session;
 
         contributionsDAO.getByUserId(userId, (error, contrib) => {
             if (error) return next(error);
@@ -31,7 +33,9 @@ function ContributionsHandler (db) {
         const afterTax = parseInt(req.body.afterTax);
         const roth = parseInt(req.body.roth);
         */
-        const { userId } = req.session;
+        const {
+            userId
+        } = req.session;
 
         //validate contributions
         const validations = [isNaN(preTax), isNaN(afterTax), isNaN(roth), preTax < 0, afterTax < 0, roth < 0]
