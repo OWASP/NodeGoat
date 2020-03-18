@@ -1,5 +1,5 @@
 {
-  "name": "owasp-nodejs-goat",
+  "name": "owasp-nodegoat-server-render",
   "private": true,
   "version": "1.3.0",
   "description": "A tool to learn OWASP Top 10 for node.js developers",
