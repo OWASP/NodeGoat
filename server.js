@@ -5,7 +5,7 @@ var favicon = require("serve-favicon");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 const frameguard = require('frameguard')
-// var csrf = require('csurf');
+var csrf = require('csurf');
 var consolidate = require("consolidate"); // Templating library adapter for Express
 var swig = require("swig");
 //var helmet = require("helmet");
@@ -110,7 +110,7 @@ MongoClient.connect(config.db, function(err, db) {
         res.locals.csrftoken = req.csrfToken();
         next();
     });
-    
+
 
     // Register templating engine
     app.engine(".html", consolidate.swig);
