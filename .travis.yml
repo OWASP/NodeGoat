@@ -2,9 +2,19 @@ sudo: required
 language: node_js
 services:
   - docker
+  - xvfb
 node_js:
+  - v8
+  - v10
   - v12
 
+## Missing dependency for Cypress https://github.com/cypress-io/cypress/issues/4069
+addons:
+  apt:
+    packages:
+    - libgconf-2-4
+
+  
 ## Cache NPM folder and Cypress binary
 ## to avoid downloading Cypress again and again
 cache:
