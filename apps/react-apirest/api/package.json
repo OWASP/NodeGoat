@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "lint": "standard",
-    "lint:fix": "standard --fix"
+    "lint:fix": "standard --fix",
+    "githook:commit-msg": "npm run lint"
   },
   "dependencies": {
     "cookie-parser": "~1.4.5",
