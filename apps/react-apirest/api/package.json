@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "test": "jest  --verbose",
+    "test:update": "jest --verbose --u",
+    "test:coverage": "jest --verbose  --coverage",
+    "test:watch": "jest --verbose  --watchAll",
     "lint": "standard",
     "lint:fix": "standard --fix",
     "githook:commit-msg": "npm run lint"
@@ -17,6 +21,8 @@
     "morgan": "~1.10.0"
   },
   "devDependencies": {
-    "standard": "^14.3.3"
+    "jest": "^25.1.0",
+    "standard": "^14.3.3",
+    "supertest": "^4.0.2"
   }
 }
