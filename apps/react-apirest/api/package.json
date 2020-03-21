@@ -10,7 +10,8 @@
     "test:watch": "jest --verbose  --watchAll",
     "lint": "standard",
     "lint:fix": "standard --fix",
-    "githook:commit-msg": "npm run lint"
+    "githook:commit-msg": "npm run lint",
+    "githook:pre-push": "npm run test:coverage"
   },
   "dependencies": {
     "cookie-parser": "~1.4.5",
