@@ -71,7 +71,16 @@ MongoClient.connect(db, (err, db) => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
         // Mandatory in Express v4
-        extended: false
+        extended: true
+        // Defining extended as true tells body-parser to use 'qs' as the package for parsing
+        // eg: query string of 'userName[$ne]=' creates { 'userName': {'$ne': ''} }
+        // Though this allows express to parse richer parameters like arrays and objects,
+        // it also enables us exploit MongoDB with the injection of operators
+        //
+        // extended: false
+        // False uses querystring package, a very simple parser
+        // eg: 'userName[$ne]=' is parsed to an object like { 'userName[$ne]': baz' }
+        // This less refined parser prevents this kind of injection
     }));
 
     // Enable session management using express middleware

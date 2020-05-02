@@ -243,6 +243,54 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <h3 class="panel-title">Source Code Example</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p><strong>This example demonstrates NoSQL Injection that will circumvent NodeGoat's login page and allow the attack to gain admin privledges.</strong></p>
+                        <p>In
+                            <code>data/user-dao.js</code>, the
+                            <code>validateLogin()</code> calls <code>findOne()</code> to request a document from the database that matches <code>userName</code> and <code>password</code>.
+                        </p>
+                        <pre>
+usersCol.findOne({'userName': userName, 'password': password}, (err, user) => {
+    ...</pre>
+                        <p>Sending this post data to <code>/login</code></p>
+                        <pre>
+POST http://localhost:4000/login HTTP/1.1
+...
+userName[$ne]=&password[$ne]=</pre>
+                        <p>will produce this <code>findOne()</code> call:</p>
+                        <pre>usersCol.findOne({'userName': {'$ne': ''}, 'password': {'$ne': ''}}, (err, user) => {</pre>
+                        <p>matching the first user in the database, who in this case happens to be the admin user.</p>
+                        <p>This is a bad approach:</p>
+                        <ul>
+                            <li>We are ceding responsibility to the database for password comparison. We can write that code more securely ourselves. </li>
+                            <li>We are not preventing the use of Mongodb's operator within user-supplied data.</li>
+                        </ul>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">How Do I Prevent It?</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p>We can prevent deny user-supplied operators by insisting on our own <code>$in</code> operator.</p>
+                                <pre>
+usersCol.findOne({
+    userName: { $in: [userName] }</pre>
+                                <p>This operator instructs the database to match from values in an array, in this case an array with one element, <code>userName</code>.</p>
+                                <p>If we pass bad post data with operators it will result in an <code>BadValue</code> error stating we cant nest operators instead of returning the user doc of the admin.</p>
+                                <p>It's a good practice to separate password comparison, as well. We should only query for the userName. From there we can send it off to the <code>validateUserDoc</code> callback which will do the password comparison.</p>
+                                <pre>
+usersCol.findOne({
+    userName: { $in: [userName] }
+}, validateUserDoc);</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
                         <h3 class="panel-title">SSJS Attack Mechanics</h3>
                     </div>
                     <div class="panel-body">

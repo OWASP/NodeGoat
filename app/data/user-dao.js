@@ -66,10 +66,20 @@ function UserDAO(db) {
             */
         }
 
+        /*
+        //Fix for A1 - 2 SQL and NoSQL Injection
         // Callback to pass to MongoDB that validates a user document
         const validateUserDoc = (err, user) => {
 
-            if (err) return callback(err, null);
+            if (err) {
+                if (err.codeName == 'BadValue') {
+                    const badValueError = new Error("Bad Value. Inputs ignored.");
+                    // Set an extra field so we can distinguish this from a db error
+                    badValueError.noSuchUser = true;
+                    return callback(badValueError, null);
+                }
+                return callback(err, null);
+            }
 
             if (user) {
                 if (comparePassword(password, user.password)) {
@@ -89,8 +99,22 @@ function UserDAO(db) {
         }
 
         usersCol.findOne({
-            userName: userName
+            userName: { $in: [userName] }
         }, validateUserDoc);
+        */
+
+        // This enter block can be removed and replaced with the fix above.
+        usersCol.findOne({'userName': userName, 'password': password}, (err, user) => {
+            if (err) return callback(err, null);
+            if (user) {
+                callback(null, user);
+            } else {
+                const noSuchUserError = new Error("User: " + user + " does not exist");
+                // Set an extra field so we can distinguish this from a db error
+                noSuchUserError.noSuchUser = true;
+                callback(noSuchUserError, null);
+            }
+        });
     };
 
     // This is the good one, see the next function
