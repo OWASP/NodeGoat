@@ -79,7 +79,7 @@ MongoClient.connect(db, (err, db) => {
         //
         // extended: false
         // False uses querystring package, a very simple parser
-        // eg: 'userName[$ne]=' is parsed to an object like { 'userName[$ne]': baz' }
+        // eg: 'userName[$ne]=' is parsed to an object like { 'userName[$ne]': '' }
         // This less refined parser prevents this kind of injection
     }));
 
