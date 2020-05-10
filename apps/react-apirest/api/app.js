@@ -5,9 +5,17 @@ const logger = require('morgan')
 
 const apiRouter = require('./routes/api')
 
+const appFactory = (db) => {
 const app = express()
 
-app.use(logger('dev'))
+  /**
+     * Expose connected Mongo Client in each request.
+     */
+  app.all("*", (req, res, next) => {
+    req.locals = {};
+    req.locals.db = db;
+    next();
+  });
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
@@ -25,4 +33,7 @@ app.use((error, req, res, next) => {
   res.json({ error })
 })
 
-module.exports = app
+  return app;
+}
+
+module.exports = appFactory;

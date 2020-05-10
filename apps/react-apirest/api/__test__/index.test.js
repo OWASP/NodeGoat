@@ -1,8 +1,28 @@
+/// <reference types="@types/jest" />
+
 const supertest = require('supertest')
-const app = require('../app')
-const request = supertest(app)
+const appFactory = require('../app')
+const { MongoClient } = require('mongodb');
 
 describe('NodeGoat react apirest api', () => {
+  let request;
+
+  beforeAll(async () => {
+    connection = await MongoClient.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+
+    db = await connection.db();
+    await initiliseData(db)
+
+    request = supertest(appFactory(db));
+  });
+
+  afterAll(async () => {
+    await connection.close();
+  });
+
   test('should handle NOT FOUND route', async done => {
     const response = await request.get('/invented-route')
 
@@ -19,3 +39,9 @@ describe('NodeGoat react apirest api', () => {
     done()
   })
 })
+
+
+function initiliseData(db) {
+  const initiliase = require('../artifacts/initialise-data')
+  return initiliase(db, { silent: true });
+}
