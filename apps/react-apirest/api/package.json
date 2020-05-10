@@ -19,7 +19,8 @@
     "dotenv": "^8.2.0",
     "express": "~4.17.1",
     "http-errors": "~1.7.3",
-    "morgan": "~1.10.0"
+    "mongodb": "^3.5.7",
+    "morgan": "~1.10.0",
   },
   "devDependencies": {
     "jest": "^25.1.0",
