@@ -5,8 +5,9 @@
   "description": "A tool to learn OWASP Top 10 for node.js developers",
   "main": "index.js",
   "devDependencies": {
-    "lerna": "^3.20.2",
-    "husky": "^4.2.3"
+    "grunt": "^1.1.0",
+    "husky": "^4.2.3",
+    "lerna": "^3.20.2"
   },
   "scripts": {
     "all:test-e2e": "lerna run --parallel test:e2e",
