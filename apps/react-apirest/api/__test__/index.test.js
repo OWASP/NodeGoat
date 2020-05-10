@@ -38,8 +38,33 @@ describe('NodeGoat react apirest api', () => {
     expect(response.body).toStrictEqual({ msg: 'respond with a resource' })
     done()
   })
-})
 
+  describe("/profile", () => {
+    // Testing if API3 vulnerability is present.
+    // Once vulnerability is fixed, add .skip() to prevent this test from failing.
+    test('should return password field in the response', async done => {
+      const response = await request
+        .get('/api/v1/profile')
+        .set("user-id", 1)
+
+      expect(response.status).toBe(200)
+      expect(response.body.password).toBeDefined();
+      done();
+    })
+
+    // Skipped test for FIXED API3 vulnerability.
+    // Once vulnerability is fixed, remove .skip().
+    test.skip('should return password field in the response', async done => {
+      const response = await request
+        .get('/api/v1/profile')
+        .set("user-id", 1)
+
+      expect(response.status).toBe(200)
+      expect(response.body.password).toBeUndefined();
+      done();
+    })
+  })
+})
 
 function initiliseData(db) {
   const initiliase = require('../artifacts/initialise-data')

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "debug": "cross-env DEBUG=api:* node ./bin/www",
     "test": "jest  --verbose",
     "test:update": "jest --verbose --u",
     "test:coverage": "jest --verbose  --coverage",
@@ -21,11 +22,13 @@
     "http-errors": "~1.7.3",
     "mongodb": "^3.5.7",
     "morgan": "~1.10.0",
+    "express-async-handler": "^1.1.4",
     "winston": "^3.2.1"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.1.5",
     "@types/jest": "^25.2.1",
+    "cross-env": "^7.0.2",
     "jest": "^25.1.0",
     "standard": "^14.3.3",
     "supertest": "^4.0.2"
