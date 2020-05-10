@@ -3,6 +3,8 @@
 const appFactory = require('../app');
 const debug = require('debug')('api:server');
 const http = require('http');
+const logger = require("../utils/logger");
+
 const { port, mongoUrl } = require('../config');
 
 const MongoClient = require("mongodb").MongoClient; // Driver for connecting to MongoDB
@@ -14,12 +16,14 @@ MongoClient.connect(mongoUrl, (err, mongoClient) => {
     process.exit(1);
   }
 
-  const app = appFactory(mongoClient.db());
-app.set('port', port);
+  logger.info(`Connected to the database: ${mongoUrl}`);
 
-const server = http.createServer(app);
-server.listen(port);
-server.on('error', onError);
+  const app = appFactory(mongoClient.db());
+  app.set('port', port);
+
+  const server = http.createServer(app);
+  server.listen(port);
+  server.on('error', onError);
   server.on('listening', () => onListening(server));
 })
 
@@ -33,7 +37,7 @@ function onError(error) {
     throw error;
   }
 
-  const bind = `${typeof port === 'string' ? 'Pipe' : 'Port'} ${port}`; 
+  const bind = `${typeof port === 'string' ? 'Pipe' : 'Port'} ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
