@@ -1,18 +1,19 @@
 const ApiError = require('./api-error')
-const UserModel = require('../models/user.model')
+const Db = require('mongodb').Db;
 
 class AuthService {
 
     /**
-     * @param {UserModel} userModel 
+     * @param {Db} db
      */
-    constructor(userModel) {
-        this.userModel = userModel;
+    constructor(db) {
+        this.db = db;
+        this.users = db.collection("users");
     }
 
     async login({ username, password }) {
 
-        const user = await this.userModel.users.findOne({
+        const user = await this.users.findOne({
             userName: username,
             password: password,
         });

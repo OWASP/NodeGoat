@@ -1,18 +1,19 @@
 const ApiError = require('./api-error')
-
+const Db = require('mongodb').Db;
 
 class UserService {
 
+
     /**
-     * 
-     * @param {UserModel} userModel 
+     * @param {Db} db
      */
-    constructor(userModel) {
-        this.userModel = userModel;
+    constructor(db) {
+        this.db = db;
+        this.users = db.collection("users");
     }
 
     async getUser(userId) {
-        const user = await this.userModel.getById(userId);
+        const user = await this.users.findOne({ _id: userId });
 
         if (!user) {
             throw new ApiError("Profile not found", 403);
@@ -32,6 +33,24 @@ class UserService {
         // return userDto;
 
         return user;
+    }
+
+    async updateUser(id, updateUserDto) {
+        /**
+         * API6:2019 Mass Assignment:
+         * Using whole request body in update operaton can result in assingning properties
+         * that should not be overwriten (e.g. due to missing permissons or read-only nature).
+         * How to prevent: Explicitly specifiy which fields should be updated. 
+         */
+        // updateUserDto = {
+        //     firstName: updateUserDto.firstName,
+        //     lastName: updateUserDto.lastName
+        // }
+
+        await this.users.updateOne(
+            { _id: id }, {
+            $set: updateUserDto
+        });
     }
 }
 

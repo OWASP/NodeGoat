@@ -40,28 +40,69 @@ describe('NodeGoat react apirest api', () => {
   })
 
   describe("/profile", () => {
-    // Testing if API3 vulnerability is present.
-    // Once vulnerability is fixed, add .skip() to prevent this test from failing.
-    test('should return password field in the response', async done => {
-      const response = await request
-        .get('/api/v1/profile')
-        .set("user-id", 1)
 
-      expect(response.status).toBe(200)
-      expect(response.body.password).toBeDefined();
-      done();
+    describe("GET", () => {
+      // Testing if API3 vulnerability is present.
+      // Once vulnerability is fixed, add .skip() to prevent this test from failing.
+      test('should return password field in the response', async done => {
+        const response = await request
+          .get('/api/v1/profile')
+          .set("user-id", 1)
+
+        expect(response.status).toBe(200)
+        expect(response.body.password).toBeDefined();
+        done();
+      })
+
+      // Skipped test for FIXED API3 vulnerability.
+      // Once vulnerability is fixed, remove .skip().
+      test.skip('should return password field in the response', async done => {
+        const response = await request
+          .get('/api/v1/profile')
+          .set("user-id", 1)
+
+        expect(response.status).toBe(200)
+        expect(response.body.password).toBeUndefined();
+        done();
+      })
     })
 
-    // Skipped test for FIXED API3 vulnerability.
-    // Once vulnerability is fixed, remove .skip().
-    test.skip('should return password field in the response', async done => {
-      const response = await request
-        .get('/api/v1/profile')
-        .set("user-id", 1)
+    describe("PUT", () => {
+      // Testing if API6 vulnerability is present.
+      // Once vulnerability is fixed, add .skip() to prevent this test from failing.
+      test('should change nonexisting property', async done => {
+        await request
+          .put('/api/v1/profile/2')
+          .send({ "nonExistingProperty": 1 })
+          .expect(200);
 
-      expect(response.status).toBe(200)
-      expect(response.body.password).toBeUndefined();
-      done();
+        const response = await request
+          .get('/api/v1/profile')
+          .set("user-id", 2)
+          .expect(200);
+
+        expect(response.body.nonExistingProperty).toBeDefined();
+
+        done();
+      })
+
+      // Skipped test for FIXED API6 vulnerability.
+      // Once vulnerability is fixed, remove .skip().
+      test.skip('should return password field in the response', async done => {
+        await request
+          .put('/api/v1/profile/2')
+          .send({ "nonExistingProperty": 1 })
+          .expect(200);
+
+        const response = await request
+          .get('/api/v1/profile')
+          .set("user-id", 2)
+          .expect(200);
+
+        expect(response.body.nonExistingProperty).toBeUndefined();
+
+        done();
+      })
     })
   })
 })

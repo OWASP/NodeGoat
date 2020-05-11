@@ -7,5 +7,6 @@ const router = express.Router();
 const userController = new UserController();
 
 router.get('/', asyncHandler(userController.getProfile))
+router.put('/:id', asyncHandler(userController.updateProfile))
 
 module.exports = router;

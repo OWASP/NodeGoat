@@ -1,4 +1,3 @@
-const UserModel = require('../models/user.model');
 const AuthService = require('../services/auth.service');
 
 class AuthController {
@@ -15,8 +14,7 @@ class AuthController {
             password: req.query.password,
         };
 
-        const userModel = new UserModel(req.locals.db);
-        const authService = new AuthService(userModel);
+        const authService = new AuthService(req.locals.db);
 
         const user = await authService.login(credentials);
 
