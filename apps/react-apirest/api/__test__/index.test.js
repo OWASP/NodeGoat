@@ -105,6 +105,70 @@ describe('NodeGoat react apirest api', () => {
       })
     })
   })
+
+  describe("/allocations", () => {
+    describe('GET /:id', () => {
+      let Cookies;
+
+      // Obtain cookies for further tests.
+      beforeAll(async () => {
+        const response = await request
+          .post('/api/v1/auth/login')
+          .query({ username: "admin", password: "Admin_123" })
+          .expect(200);
+
+        Cookies = response.headers['set-cookie'].pop().split(';')[0];
+      })
+
+      /**
+       * Test for NOT fixed API1:2019 Broken Object Level Authorization.
+       * Once vulnerability is fixed, this test should start failing.
+       */
+      test('VULNERABILITY: should NOT restrict access for authenticated but not authorised user', async () => {
+        const requestedUserId = 2; // different that logged in user (id = 1)
+        const req = request
+          .get(`/api/v1/allocations/${requestedUserId}`);
+
+        req.cookies = Cookies;
+
+        /**
+         * Note: Expected status code should be 401 when vulnerability is fixed. 
+         */
+        await req.expect(200);
+      });
+
+      /**
+      * Tests for fixed API1:2019 Broken Object Level Authorization.
+      * Remove .skip() to test if vulnerability was fixed correctly.
+      */
+      test.skip('should restrict access for not logged in user', async () => {
+        await request
+          .get('/api/v1/allocations/1')
+          .expect(401);
+      });
+
+      test.skip('should restrict access for authenticated but not authorised user', async () => {
+        const requestedUserId = 2; // different that logged in user (id = 1)
+        const req = request
+          .get(`/api/v1/allocations/${requestedUserId}`);
+
+        req.cookies = Cookies;
+
+        await req.expect(401);
+      });
+
+      test.skip('should allow access for authenticated and authorised user', async () => {
+        const requestedUserId = 1; // same as logged in user (id = 1)
+        const req = request
+          .get(`/api/v1/allocations/${requestedUserId}`);
+
+        req.cookies = Cookies;
+
+        await req.expect(200);
+      });
+    })
+
+  })
 })
 
 function initiliseData(db) {
