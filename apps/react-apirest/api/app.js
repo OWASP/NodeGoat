@@ -1,6 +1,7 @@
 const createError = require('http-errors')
 const express = require('express')
 const cookieParser = require('cookie-parser')
+const session = require("express-session");
 const requestsLogger = require('morgan')
 const apiRouter = require('./routes/api')
 const logger = require("./utils/logger");
@@ -21,6 +22,11 @@ const appFactory = (db) => {
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
   app.use(cookieParser())
+  app.use(session({
+    secret: "s3cr3t",
+    saveUninitialized: true,
+    resave: true,
+  }));
 
   app.use('/api/v1', apiRouter)
 
