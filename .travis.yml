@@ -32,7 +32,7 @@ before_script:
   ## travis to run this process in the background
   ## else it would block execution and hang travis
   - npm run all:deps-ci
-  - NODE_ENV=test npm run all:infra-start -- --silent &
+  - NODE_ENV=test npm run all:infra-start --silent &
 
 script:
   - npm run all:test-ci
