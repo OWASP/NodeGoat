@@ -33,7 +33,8 @@ before_script:
   ## else it would block execution and hang travis
   - npm run all:deps-ci
   - NODE_ENV=test npm run all:infra-start --silent &
-  - sleep 60
+  # FIXME: Wait until infra is ready (300s)
+  - sleep 300
 
 script:
   - npm run all:test-ci
