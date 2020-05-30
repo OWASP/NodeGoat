@@ -9,6 +9,7 @@
     "husky": "^4.2.3"
   },
   "scripts": {
+    "all:cy:verify": "lerna run --parallel cy:verify",
     "all:test-e2e": "lerna run --parallel test:e2e",
     "all:test-ci": "lerna run --parallel test:ci",
     "all:test": "lerna run --parallel test",
