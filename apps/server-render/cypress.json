@@ -5,5 +5,6 @@
     "screenshotsFolder": "test/e2e/screenshots",
     "videosFolder": "test/e2e/videos",
     "supportFile": "test/e2e/support/index.js",
-    "video": false
+    "video": false,
+    "defaultCommandTimeout": 10000
   }
