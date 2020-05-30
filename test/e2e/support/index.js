@@ -1,2 +1,0 @@
-
-require('./commands.js')

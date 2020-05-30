@@ -1,0 +1,103 @@
+{% extends "./layout.html" %} {% block title %}A8-Cross-Site Request Forgery (CSRF) {% endblock %} {% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="bs-example" style="margin-bottom: 40px;">
+            <span class="label label-warning">Exploitability: AVERAGE</span>
+            <span class="label label-warning">Prevalence: COMMON</span>
+            <span class="label label-danger">Detectability: EASY</span>
+            <span class="label label-warning">Technical Impact: MODERATE</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Description</h3>
+            </div>
+            <div class="panel-body">
+                A CSRF attack forces a logged-on victim’s browser to send a forged HTTP request, including the victim’s session cookie and any other automatically included authentication information, to a vulnerable web application. This allows the attacker to force the victim’s browser to generate requests that the vulnerable application processes as legitimate requests from the victim.
+            </div>
+        </div>
+        <!--
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Real World Attack Incident Examples</h3>
+            </div>
+            <div class="panel-body">
+                Screencast here ...
+            </div>
+        </div>
+-->
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Attack Mechanics</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    As browsers automatically send credentials like session cookies with HTTP requests to the server where cookies were received from, attackers can create malicious web pages which generate forged requests that are indistinguishable from legitimate ones.</p>
+                <p>For example, CSRF vulnerability can be exploited on profile form on the insecure demo application.</p>
+                <iframe width="560" height="315" src="//www.youtube.com/embed/vRDykS_2y3I?rel=0" frameborder="0" allowfullscreen></iframe>
+                <p>To exploit it:
+                    <ol>
+                        <li>An attacker would need to host a forged form like below on a malicious sever.
+                            <pre>
+    &lt;html lang="en"&gt;
+    &lt;head&gt;&lt;/head&gt;
+    	&lt;body&gt;
+    		&lt;form method="POST" action="http://TARGET_APP_URL_HERE/profile"&gt;
+    			&lt;h1&gt; You are about to win a brand new iPhone!&lt;/h1&gt;
+    			&lt;h2&gt; Click on the win button to claim it...&lt;/h2&gt;
+    			&lt;input type="hidden" name="bankAcc" value="9999999"/&gt;
+    			&lt;input type="hidden" name="bankRouting" value="88888888"/&gt;
+                                &lt;input type="submit" value="Win !!!"/&gt;
+    		&lt;/form&gt;
+    	&lt;/body&gt;
+    &lt;/html&gt;
+              </pre> Note: A sample app containing form for CSRF attack on NodeGoat app is available <a target="_blank" href="https://github.com/ckarande/nodegoat-csrf-attack">here</a>.
+                        </li>
+                        <li>Next, attacker would need to manage opening the form on logged in victim's browser and attract user to submit it. When user submits this form, it results in victim user's browser sending a malicious request to vulnerable server, causing CSRF attack.
+                        </li>
+                    </ol>
+                </p>
+
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">How Do I Prevent It?</h3>
+            </div>
+            <div class="panel-body">
+                <p>Express csrf middleware provides a very effective way to deal with csrf attack. By default this middleware generates a token named "_csrf" which should be added to requests which mutate state (PUT, POST, DELETE), within a hidden form field, or query-string, or header fields.</p>
+                <p>If using method-override middleware, it is very important that it is used before any middleware that needs to know the method of the request, including CSRF middleware. Otherwise an attacker can use non-state mutating methods (such as GET) to bypass the CSRF middleware checks, and use method override header to convert request to desired method.</p>
+                <p>When form is submitted, the middleware checks for existence of token and validates it by matching to the generated token for the response-request pair. If tokens do not match, it rejects the request. Thus making it really hard for an attacker to exploit CSRF.
+                </p>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Source Code Example</h3>
+            </div>
+            <div class="panel-body">
+                The
+                <code>server.js</code>includes the express CSRF middleware after session is initialized. Then creates a custom middleware to generate new token using
+                <code>req.csrfToken();</code>and exposes it to view by setting it in
+                <code>res.locals</code>
+                <pre>
+        //Enable Express csrf protection
+        app.use(express.csrf());
+
+        app.use(function(req, res, next) { 
+            res.locals.csrftoken = req.csrfToken(); 
+            next(); 
+        }); </pre> Next, this token can be included in a hidden form field in
+                <code>views/profile.html</code>as below.
+                <pre>
+    &lt;input type="hidden" name="_csrf" value="{{ csrftoken } }"&gt;</pre>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

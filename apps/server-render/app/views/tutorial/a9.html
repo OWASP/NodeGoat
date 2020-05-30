@@ -1,0 +1,161 @@
+{% extends "./layout.html" %} {% block title %}A9-Using Components with Known Vulnerabilities{% endblock %} {% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="bs-example" style="margin-bottom: 40px;">
+            <span class="label label-warning">Exploitability: AVERAGE</span>
+            <span class="label label-danger">Prevalence: WIDESPREAD</span>
+            <span class="label label-default">Detectability: DIFFICULT</span>
+            <span class="label label-warning">Technical Impact: MODERATE</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Description</h3>
+            </div>
+            <div class="panel-body">
+                <p>Components, such as libraries, frameworks, and other software modules, almost always run with full privileges. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications using components with known vulnerabilities may undermine application defenses and enable a range of possible attacks and impacts.
+                </p>
+                <p>Using insecure npm packages can lead to this vulnerability. Some projects today help test and alert on insecure dependencies:
+                    <ol>
+                        <li>
+                            The <a href="https://nodesecurity.io/advisories">Node Security project</a> is a great initiative and resource to know about related vulnerabilities.
+                        </li>
+                        <li>
+                            <a href="https://snyk.io/">Snyk.io</a> is another Node.js CLI tool and Platform to scan and detect vulnerable packages
+                        </li>
+                        <li>
+                            <a href="https://www.npmjs.com/package/npm-check">npm-check</a> Check for outdated, incorrect, and unused dependencies.
+                        </li>
+                        <li>
+                            <a href="https://david-dm.org/">David DM</a> gets you an overview of your project dependencies, the version you use and the latest available, so you can quickly see what's drifting
+                        </li>
+                        <li>
+                            <a href="https://www.npmjs.com/package/requiresafe">requireSafe</a> helps you keep your node applications secure
+                        </li>
+                        <li>
+                            <a href="http://www.bithound.io">bithound.io</a> is a Node.js code analysis service.
+                        </li>
+                        <li>
+                            <a href="#npm outdated">npm outdated</a> as well as 'yarn outdated' are both command line ways to show possibly out of date dependencies
+                        </li>
+                    </ol>
+
+                </p>
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Attack Mechanics</h3>
+            </div>
+            <div class="panel-body">
+                The npm packages are essential part of our node application. These packages could either accidentally or maliciously contain insecure code. Through insecure packages an attacker can:
+                <ul>
+                    <li>Create and run scripts at different stages during installation or usage of the package.</li>
+                    <li>Read, write, update, delete files on system</li>
+                    <li>Write and execute binary files</li>
+                    <li>Collect sensitive data send it remotely</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">How Do I Prevent It?</h3>
+            </div>
+            <div class="panel-body">
+                These are few measures we can take to protect against malicious npm packages
+                <ul>
+                    <li>Do not run application with root privileges</li>
+                    <li>Prefer packages that include static code analysis. Check JSHint/JSLint the configuration to know what rules code abide by</li>
+                    <li>Prefer packages that contain comprehensive unit tests and review tests for the functions our application uses</li>
+                    <li>Review code for any unexpected file or database access</li>
+                    <li>Research about how popular the package is, what other packages use it, if any other packages are written by the author, etc</li>
+                    <li>Lock version of packages used</li>
+                    <li>Watch Github repositories for notifications. This will inform us if any vulnerabilities are discovered in the package in future</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="source-code-example" class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Insecure Dependencies Example</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Description</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <p>
+                            The demo web application is using a popular library called <a href="https://github.com/chjj/marked"> Marked </a> which is a Markdown parser in JavaScript and provides an easy way to integrate markdown syntax for rich text to a website, replacing the need to build WYSIWYG editors.
+                        </p>
+
+                        <p>
+                            This library has reached almost millions of downloads a month, making it quite popular with also
+                            <strong> 11,000 </strong> stars on GitHub at one point.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Attack Mechanics</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <p>
+                            In this demo project we are using an insecure version of the Marked library that is vulnerable to XSS exploits.
+                        </p>
+
+                        <p>
+                            <strong>Scenario: </strong> A form on a page allows free text user input which is later parsed using the Marked library to markdown format and compiled in a dedicated view to show the rich text version. An attacker can exploit this form to insert malicious XSS strings which the Markdown library isn't filtering very well, resulting in an XSS attack.
+
+                        </p>
+
+                        <p>
+                            Try sending one of the following markdown syntax strings in the Memos section to exploit it and see which one succeeds:
+
+
+
+
+                            <ol>
+
+                                <li>
+                                    <code>
+                                        <xmp>
+                                            [Nice try](javascript:alert(1))
+                                        </xmp>
+                                    </code>
+                                </li>
+                                <li>
+                                    <code>
+                                        <xmp>
+                                            [Hi there](javascript&#58;alert(1&#41;)
+                                        </xmp>
+                                    </code>
+                                </li>
+                                <li>
+                                    <code>
+                                        <xmp>
+                                            [I'm here!](javascript&#58this;alert(1&#41;)
+                                        </xmp>
+                                    </code>
+                                </li>
+                            </ol>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
