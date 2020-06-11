@@ -26,7 +26,7 @@ function ContributionsDAO(db) {
         };
 
         contributionsDB.update({
-            userId
+                userId
             },
             contributions, {
                 upsert: true
@@ -83,4 +83,6 @@ function ContributionsDAO(db) {
     };
 }
 
-module.exports = { ContributionsDAO };
+module.exports = {
+    ContributionsDAO
+};

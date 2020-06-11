@@ -2,7 +2,7 @@ const UserDAO = require("../data/user-dao").UserDAO;
 const AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
 
 /* The SessionHandler must be constructed with a connected db */
-function SessionHandler (db) {
+function SessionHandler(db) {
     "use strict";
 
     const userDAO = new UserDAO(db);
@@ -22,16 +22,16 @@ function SessionHandler (db) {
     this.isAdminUserMiddleware = (req, res, next) => {
         if (req.session.userId) {
             return userDAO.getUserById(req.session.userId, (err, user) => user && user.isAdmin ? next() : res.redirect("/login"));
-        } 
+        }
         console.log("redirecting to login");
         return res.redirect("/login");
-        
+
     };
 
     this.isLoggedInMiddleware = (req, res, next) => {
         if (req.session.userId) {
             return next();
-        } 
+        }
         console.log("redirecting to login");
         return res.redirect("/login");
     };
@@ -45,7 +45,10 @@ function SessionHandler (db) {
     };
 
     this.handleLoginRequest = (req, res, next) => {
-        const { userName, password }  = req.body
+        const {
+            userName,
+            password
+        } = req.body
         userDAO.validateLogin(userName, password, (err, user) => {
             const errorMessage = "Invalid username and/or password";
             const invalidUserNameErrorMessage = "Invalid username";
@@ -173,7 +176,14 @@ function SessionHandler (db) {
 
     this.handleSignup = (req, res, next) => {
 
-        const { email, userName, firstName, lastName, password, verify } = req.body;
+        const {
+            email,
+            userName,
+            firstName,
+            lastName,
+            password,
+            verify
+        } = req.body;
 
         // set these up in case we have an error case
         const errors = {

@@ -2,13 +2,15 @@ const ProfileDAO = require("../data/profile-dao").ProfileDAO;
 const ESAPI = require('node-esapi')
 
 /* The ProfileHandler must be constructed with a connected db */
-function ProfileHandler (db) {
+function ProfileHandler(db) {
     "use strict";
 
     const profile = new ProfileDAO(db);
 
     this.displayProfile = (req, res, next) => {
-        const { userId } = req.session;
+        const {
+            userId
+        } = req.session;
 
 
 
@@ -31,7 +33,15 @@ function ProfileHandler (db) {
 
     this.handleProfileUpdate = (req, res, next) => {
 
-        const {firstName, lastName, ssn, dob, address, bankAcc, bankRouting} = req.body;
+        const {
+            firstName,
+            lastName,
+            ssn,
+            dob,
+            address,
+            bankAcc,
+            bankRouting
+        } = req.body;
 
         // Fix for Section: ReDoS attack
         // The following regexPattern that is used to validate the bankRouting number is insecure and vulnerable to
@@ -58,7 +68,9 @@ function ProfileHandler (db) {
             });
         }
 
-        const { userId } = req.session;
+        const {
+            userId
+        } = req.session;
 
         profile.updateUser(
             parseInt(userId),

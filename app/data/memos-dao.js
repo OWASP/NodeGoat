@@ -36,4 +36,6 @@ function MemosDAO(db) {
 
 }
 
-module.exports = { MemosDAO };
+module.exports = {
+    MemosDAO
+};

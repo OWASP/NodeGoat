@@ -110,4 +110,6 @@ function ProfileDAO(db) {
     };
 }
 
-module.exports = { ProfileDAO };
+module.exports = {
+    ProfileDAO
+};
