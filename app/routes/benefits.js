@@ -1,6 +1,8 @@
-const { BenefitsDAO } = require("../data/benefits-dao");
+const {
+    BenefitsDAO
+} = require("../data/benefits-dao");
 
-function BenefitsHandler (db) {
+function BenefitsHandler(db) {
     "use strict";
 
     const benefitsDAO = new BenefitsDAO(db);
@@ -21,7 +23,10 @@ function BenefitsHandler (db) {
     };
 
     this.updateBenefits = (req, res, next) => {
-        const { userId, benefitStartDate } = req.body;
+        const {
+            userId,
+            benefitStartDate
+        } = req.body;
 
         benefitsDAO.updateBenefits(userId, benefitStartDate, (error) => {
 

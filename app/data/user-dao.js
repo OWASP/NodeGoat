@@ -116,8 +116,10 @@ function UserDAO(db) {
             }, {
                 new: true
             },
-            (err, data) =>  err ? callback(err, null) : callback(null, data.value.seq));
+            (err, data) => err ? callback(err, null) : callback(null, data.value.seq));
     };
 }
 
-module.exports = { UserDAO };
+module.exports = {
+    UserDAO
+};

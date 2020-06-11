@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <title>404 error</title>
+    <style>
+    .error {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+    }
+
+    .error__code {
+        font-size: 16rem;
+        margin: 0;
+        font-weight: 900;
+        letter-spacing: 20px;
+        /* background: url(Error.jpg) center no-repeat; */
+        color: rgb(86, 82, 79);
+    }
+
+    .error__message {
+        font-size: 23px;
+    }
+
+    .error__back {
+        text-decoration: none;
+        background: #aca7a6aa;
+        color: #fff;
+        padding: 12px 24px;
+        display: inline-block;
+        border-radius: 25px;
+        font-size: 14px;
+        text-transform: uppercase;
+        transition: 0.4s;
+    }
+
+    .container .error__back:hover {
+        background: #e55039;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="error">
+            <h2 class="error__found">Opps! Page not found.</h2>
+            <h1 class="error__code">404</h1>
+            <p class="error__message">We can't find the page you're looking for.</p>
+            <a href="/" class="error__back">Home</a>
+        </div>
+    </div>
+</body>
+
+</html>

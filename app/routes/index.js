@@ -76,14 +76,21 @@ const index = (app, db) => {
     app.get("/tutorial", (req, res) => {
         return res.render("tutorial/a1");
     });
-    
+
     app.get("/tutorial/:page", (req, res) => {
-        const { page } = req.params
+        const {
+            page
+        } = req.params
         return res.render(`tutorial/${page}`);
     });
 
     // Research Page
     app.get("/research", isLoggedIn, researchHandler.displayResearch);
+
+    //404 Page
+    app.get("*", (req, res) => {
+        return res.render("404");
+    });
 
     // Error handling middleware
     app.use(ErrorHandler);
