@@ -1,5 +1,6 @@
 const _ = require("underscore");
 const path = require("path");
+const util = require('util')
 
 const finalEnv = process.env.NODE_ENV || "development";
 
@@ -8,6 +9,7 @@ const envConf = require(path.resolve(__dirname + "/../config/env/" + finalEnv.to
 
 const config = { ...allConf, ...envConf }
 
-console.log(`Current Config: ${config}`)
+console.log(`Current Config:`)
+console.log(util.inspect(config, false, null))
 
 module.exports = config;
