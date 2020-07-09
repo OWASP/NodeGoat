@@ -70,7 +70,7 @@ const AllocationsDAO = function(db){
                 const parsedThreshold = parseInt(threshold, 10);
                 
                 if (parsedThreshold >= 0 && parsedThreshold <= 99) {
-                    return {$where: `this.userId == ${parsedUserId} && this.stocks > ${threshold}`};
+                    return {$where: `this.userId == ${parsedUserId} && this.stocks > ${parsedThreshold}`};
                 }
                 throw `The user supplied threshold: ${parsedThreshold} was not valid.`;
                 */
