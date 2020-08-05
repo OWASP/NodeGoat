@@ -14,7 +14,7 @@
     "express-session": "^1.13.0",
     "forever": "^3.0.0",
     "helmet": "^2.0.0",
-    "marked": "0.3.9",
+    "marked": "0.3.5",
     "mongodb": "^2.1.18",
     "needle": "2.2.4",
     "node-esapi": "0.0.1",
@@ -23,7 +23,7 @@
     "underscore": "^1.8.3"
   },
   "comments": {
-    "//": "a9 insecure components"
+    "//": "do not upgrade the 'marked' package, version 0.3.5 is required for the a9 insecure components vulnerability"
   },
   "scripts": {
     "start": "node server.js",
