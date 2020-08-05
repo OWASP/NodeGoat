@@ -1,0 +1,30 @@
+version: 2.1
+jobs:
+
+  scan:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - checkout
+      - run:
+          name: Install njsscan
+          command: 'sudo pip3 install --upgrade njsscan'
+      - run:
+          name: Run njsscan
+          command: 'njsscan ~/repo/app'
+
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - checkout
+      - run: npm install
+
+workflows:
+  main:
+    jobs:
+      - scan
+      - build
+
