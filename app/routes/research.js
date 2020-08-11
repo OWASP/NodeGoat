@@ -1,6 +1,7 @@
 const ResearchDAO = require("../data/research-dao").ResearchDAO;
 const needle = require('needle');
 
+
 function ResearchHandler (db) {
     "use strict";
 

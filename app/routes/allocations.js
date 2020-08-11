@@ -1,5 +1,6 @@
 const AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
 
+
 function AllocationsHandler (db) {
     "use strict";
 

@@ -1,4 +1,5 @@
 /* The ResearchDAO must be constructed with a connected database object */
+
 function ResearchDAO(db) {
 
     "use strict";

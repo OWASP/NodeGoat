@@ -1,4 +1,5 @@
 /* The MemosDAO must be constructed with a connected database object */
+
 function MemosDAO(db) {
 
     "use strict";

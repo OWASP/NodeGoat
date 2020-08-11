@@ -1,4 +1,5 @@
 /* The BenefitsDAO must be constructed with a connected database object */
+
 function BenefitsDAO(db) {
 
     "use strict";

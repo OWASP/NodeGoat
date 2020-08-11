@@ -1,5 +1,6 @@
 const UserDAO = require("./user-dao").UserDAO;
 
+
 /* The AllocationsDAO must be constructed with a connected database object */
 const AllocationsDAO = function(db){
 

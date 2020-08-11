@@ -1,4 +1,5 @@
 /* The ProfileDAO must be constructed with a connected database object */
+
 function ProfileDAO(db) {
 
     "use strict";
