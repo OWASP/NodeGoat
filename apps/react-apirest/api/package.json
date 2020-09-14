@@ -1,0 +1,34 @@
+{
+  "name": "owasp-nodegoat-react-apirest-api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "jest  --verbose",
+    "test:update": "jest --verbose --u",
+    "test:coverage": "jest --verbose  --coverage",
+    "test:watch": "jest --verbose  --watchAll",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "githook:commit-msg": "npm run lint",
+    "githook:pre-push": "npm run test:coverage"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.5",
+    "debug": "~4.1.1",
+    "dotenv": "^8.2.0",
+    "express": "~4.17.1",
+    "http-errors": "~1.7.3",
+    "morgan": "~1.10.0"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0",
+    "standard": "^14.3.3",
+    "supertest": "^4.0.2"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  }
+}
