@@ -80,10 +80,6 @@ npm run dev
 
 The repo includes the Dockerfile and docker-compose.yml necessary to setup the app and the db instance then connect them together.
 
-* Change the db config in `config/env/development.js` to point to the respective Docker container.
-```
-db: "mongodb://mongo:27017/nodegoat",
-```
 * Build the images:
 ```
 docker-compose build
