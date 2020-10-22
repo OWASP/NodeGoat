@@ -1,8 +1,11 @@
 const UserDAO = require("../data/user-dao").UserDAO;
 const AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
+const {
+    environmentalScripts
+} = require("../../config/config");
 
 /* The SessionHandler must be constructed with a connected db */
-function SessionHandler (db) {
+function SessionHandler(db) {
     "use strict";
 
     const userDAO = new UserDAO(db);
@@ -22,16 +25,16 @@ function SessionHandler (db) {
     this.isAdminUserMiddleware = (req, res, next) => {
         if (req.session.userId) {
             return userDAO.getUserById(req.session.userId, (err, user) => user && user.isAdmin ? next() : res.redirect("/login"));
-        } 
+        }
         console.log("redirecting to login");
         return res.redirect("/login");
-        
+
     };
 
     this.isLoggedInMiddleware = (req, res, next) => {
         if (req.session.userId) {
             return next();
-        } 
+        }
         console.log("redirecting to login");
         return res.redirect("/login");
     };
@@ -40,12 +43,16 @@ function SessionHandler (db) {
         return res.render("login", {
             userName: "",
             password: "",
-            loginError: ""
+            loginError: "",
+            environmentalScripts
         });
     };
 
     this.handleLoginRequest = (req, res, next) => {
-        const { userName, password }  = req.body
+        const {
+            userName,
+            password
+        } = req.body
         userDAO.validateLogin(userName, password, (err, user) => {
             const errorMessage = "Invalid username and/or password";
             const invalidUserNameErrorMessage = "Invalid username";
@@ -69,18 +76,19 @@ function SessionHandler (db) {
                     return res.render("login", {
                         userName: userName,
                         password: "",
-                        loginError: invalidUserNameErrorMessage
+                        loginError: invalidUserNameErrorMessage,
                         //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
                         // loginError: errorMessage
+                        environmentalScripts
                     });
                 } else if (err.invalidPassword) {
                     return res.render("login", {
                         userName: userName,
                         password: "",
-                        loginError: invalidPasswordErrorMessage
+                        loginError: invalidPasswordErrorMessage,
                         //Fix for A2-2 Broken Auth - Uses identical error for both username, password error
                         // loginError: errorMessage
-
+                        environmentalScripts
                     });
                 } else {
                     return next(err);
@@ -116,7 +124,8 @@ function SessionHandler (db) {
             email: "",
             userNameError: "",
             emailError: "",
-            verifyError: ""
+            verifyError: "",
+            environmentalScripts
         });
     };
 
@@ -173,7 +182,14 @@ function SessionHandler (db) {
 
     this.handleSignup = (req, res, next) => {
 
-        const { email, userName, firstName, lastName, password, verify } = req.body;
+        const {
+            email,
+            userName,
+            firstName,
+            lastName,
+            password,
+            verify
+        } = req.body;
 
         // set these up in case we have an error case
         const errors = {
@@ -189,7 +205,10 @@ function SessionHandler (db) {
 
                 if (user) {
                     errors.userNameError = "User name already in use. Please choose another";
-                    return res.render("signup", errors);
+                    return res.render("signup", {
+                        ...errors,
+                        environmentalScripts
+                    });
                 }
 
                 userDAO.addUser(userName, firstName, lastName, password, email, (err, user) => {
@@ -203,7 +222,7 @@ function SessionHandler (db) {
                         if (err) return next(err);
                         res.cookie("session", sessionId);
                         req.session.userId = user._id;
-                        return res.render("dashboard", user);
+                        return res.render("dashboard", { ...user, environmentalScripts });
                     });
                     */
                     req.session.regenerate(() => {
@@ -211,14 +230,20 @@ function SessionHandler (db) {
                         // Set userId property. Required for left nav menu links
                         user.userId = user._id;
 
-                        return res.render("dashboard", user);
+                        return res.render("dashboard", {
+                            ...user,
+                            environmentalScripts
+                        });
                     });
 
                 });
             });
         } else {
             console.log("user did not validate");
-            return res.render("signup", errors);
+            return res.render("signup", {
+                ...errors,
+                environmentalScripts
+            });
         }
     };
 
@@ -235,7 +260,10 @@ function SessionHandler (db) {
         userDAO.getUserById(userId, (err, doc) => {
             if (err) return next(err);
             doc.userId = userId;
-            return res.render("dashboard", doc);
+            return res.render("dashboard", {
+                ...doc,
+                environmentalScripts
+            });
         });
     };
 }

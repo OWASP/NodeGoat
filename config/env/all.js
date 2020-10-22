@@ -13,5 +13,6 @@ module.exports = {
     cookieSecret: "session_cookie_secret_key_here",
     cryptoKey: "a_secure_key_for_crypto_here",
     cryptoAlgo: "aes256",
-    hostName: "localhost"
+    hostName: "localhost",
+    environmentalScripts: ["<script src='//localhost:35729/livereload.js'></script>"]
 };
