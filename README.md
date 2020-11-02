@@ -47,8 +47,14 @@ The database comes pre-populated with these user accounts created as part of the
      1) [Deploy a MongoDB Atlas free tier cluster](https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/) (M0 Sandbox)
      2) [Enable network access](https://docs.atlas.mongodb.com/security/add-ip-address-to-list/) to the cluster from your current IP address
      3) [Add a database user](https://docs.atlas.mongodb.com/tutorial/create-mongodb-user-for-cluster/) to the cluster
-     4) Set the `MONGODB_URI` environment variable to the connection string of your cluster. Your connection string can be viewed in the cluster's [connect dialog](https://docs.atlas.mongodb.com/tutorial/connect-to-your-cluster/#connect-to-your-atlas-cluster), and will be in the form:
-        <br>`mongodb+srv://<username>:<password>@<cluster>/<dbname>?retryWrites=true&w=majority`
+     4) Set the `MONGODB_URI` environment variable to the connection string of your cluster, which can be viewed in the cluster's
+        [connect dialog](https://docs.atlas.mongodb.com/tutorial/connect-to-your-cluster/#connect-to-your-atlas-cluster). Select "Connect your application",
+        set the driver to "Node.js" and the version to "2.2.12 or later". This will give a connection string in the form:
+        ```
+        mongodb://<username>:<password>@<cluster>/<dbname>?ssl=true&replicaSet=<rsname>&authSource=admin&retryWrites=true&w=majority
+        ```
+        The `<username>` and `<password>` fields need filling in with the details of the database user added earlier. The `<dbname>` field sets the name of the
+        database nodegoat will use in the cluster (eg "nodegoat"). The other fields will already be filled in with the correct details for your cluster.
 
 6) Populate MongoDB with the seed data required for the app:
    ```
@@ -116,8 +122,14 @@ This will allow you to fix vulnerabilities in your own forked version, then depl
    [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
    In the Create New App dialog, set the `MONGODB_URI` config var to the connection string of your MongoDB Atlas cluster.
-   Your connection string can be viewed in the cluster's [connect dialog](https://docs.atlas.mongodb.com/tutorial/connect-to-your-cluster/#connect-to-your-atlas-cluster), and will be in the form:
-   <br>`mongodb+srv://<username>:<password>@<cluster>/<dbname>?retryWrites=true&w=majority`
+   This can be viewed in the cluster's [connect dialog](https://docs.atlas.mongodb.com/tutorial/connect-to-your-cluster/#connect-to-your-atlas-cluster).
+   Select "Connect your application", set the driver to "Node.js" and the version to "2.2.12 or later".
+   This will give a connection string in the form:
+   ```
+   mongodb://<username>:<password>@<cluster>/<dbname>?ssl=true&replicaSet=<rsname>&authSource=admin&retryWrites=true&w=majority
+   ```
+   The `<username>` and `<password>` fields need filling in with the details of the database user added earlier. The `<dbname>` field sets the name of the
+   database nodegoat will use in the cluster (eg "nodegoat"). The other fields will already be filled in with the correct details for your cluster.
 
 
 ## Report bugs, Feedback, Comments
