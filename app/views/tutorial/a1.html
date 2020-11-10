@@ -237,10 +237,8 @@
                             <code>true</code>.</p>
                         <p>The same results can be achieved using other comparison operator such as
                             <code>$ne</code>.</p>
-                        <p>The demo application is vulnerable to the NoSQL Injection. For example, on the Allocations page, running a search with a malicious input `1'; return 1 == '1` retrieves allocations for all the users in the database.</p>
                     </div>
                 </div>
-
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">SSJS Attack Mechanics</h3>
@@ -268,26 +266,8 @@
                             <code>stocks</code> field as specified by
                             <code>threshold</code>. The problem is that these parameters are not validated, filtered, or sanitised, and vulnerable to SSJS Injection.
                         </p>
-
-
-                        <br/>
-                        <h5>NoSQL SSJS Injection</h5>
-                        <p>
-                            An attacker can send the following input for the
-                            <code>threshold</code> field in the requests query, which will create a valid JavaScript expression and satisfy the
-                            <code> $where</code> query as well, resulting in a DoS attack on the MongoDB server:
-                        </p>
-
-                        <pre>http://localhost:4000/allocations/2?threshold=5';while(true){};' </pre>
-                        <p>
-                            You can also just drop the following into the Stocks Threshold input box:
-                        </p>
-                        <pre>';while(true){};'</pre>
-
                     </div>
                 </div>
-
-
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">How Do I Prevent It?</h3>
@@ -299,9 +279,29 @@
                             <li>Input Validation: Validate inputs to detect malicious values. For NoSQL databases, also validate input types against expected types</li>
                             <li>Least Privilege: To minimize the potential damage of a successful injection attack, do not assign DBA or admin type access rights to your application accounts. Similarly minimize the privileges of the operating system account that the database process runs under.</li>
                         </ul>
-                        For the above NoSQL vulnerability, bare minimum fixes can be found in
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Source Code Example</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p><strong>Note: These vulnerabilities are not present when using an Atlas M0 cluster with NodeGoat.</strong></p>
+                        <p>The Allocations page of the demo application is vulnerable to NoSQL Injection. For example, set the stocks threshold filter to:</p>
+                        <pre>1'; return 1 == '1</pre>
+                        <p>This will retrieve allocations for all the users in the database.</p>
+                        <p>An attacker could also send the following input for the
+                            <code>threshold</code> field in the request's query, which will create a valid JavaScript expression and satisfy the
+                            <code> $where</code> query as well, resulting in a DoS attack on the MongoDB server:
+                        </p>
+                        <pre>http://localhost:4000/allocations/2?threshold=5';while(true){};' </pre>
+                        <p>
+                            You can also just drop the following into the Stocks Threshold input box:
+                        </p>
+                        <pre>';while(true){};'</pre>
+                        <p>For these vulnerabilities, bare minimum fixes can be found in
                         <code>allocations.html</code> and
-                        <code>allocations-dao.js</code>
+                        <code>allocations-dao.js</code></p>
                     </div>
                 </div>
             </div>
@@ -313,12 +313,12 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
                     <i class="fa fa-chevron-down"></i> A1 - 3 Log Injection
                 </a>
             </h4>
         </div>
-        <div id="collapseTwo" class="panel-collapse">
+        <div id="collapseThree" class="panel-collapse">
             <div class="panel-body">
 
 
@@ -360,7 +360,8 @@ Error: alex moldovan failed $1,000,000 transaction
                         <p>
                             An attacker may craft malicious input in hope of an escalated attack where the target isn't the logs themselves, but rather the actual logging system. For example, if an application has a back-office web app that manages viewing and tracking the logs, then an attacker may send an XSS payload into the log, which may not result in log forging on the log itself, but when viewed by a system administrator on the log viewing web app then it may compromise it and result in XSS injection that if the logs app is vulnerable.
                         </p>
-
+                    </div>
+                </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">How Do I Prevent It?</h3>
@@ -387,9 +388,15 @@ console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().enc
 console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().encodeForJavaScript(userName));
 console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().encodeForURL(userName));
                         </pre>
-
-                        For the above Log Injection vulnerability, example and fix can be found at
-                        <code>routes/session.js</code>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Source Code Example</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>For the above Log Injection vulnerability, example and fix can be found at
+                        <code>routes/session.js</code></p>
                     </div>
                 </div>
             </div>
