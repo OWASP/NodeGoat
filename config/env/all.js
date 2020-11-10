@@ -14,5 +14,6 @@ module.exports = {
     cryptoKey: "a_secure_key_for_crypto_here",
     cryptoAlgo: "aes256",
     hostName: "localhost",
-    environmentalScripts: ["<script src='//localhost:35729/livereload.js'></script>"]
+    environmentalScripts: []
 };
+

@@ -1,3 +1,1 @@
-module.exports = {
-   environmentalScripts: []
-};
+module.exports = {};
