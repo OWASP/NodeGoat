@@ -27,11 +27,11 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "PORT=5000 nodemon",
-    "test:e2e": "NODE_ENV=test cypress open",
-    "test:ci": "NODE_ENV=test cypress run",
+    "dev": "cross-env PORT=5000 nodemon",
+    "test:e2e": "cross-env NODE_ENV=test cypress open",
+    "test:ci": "cross-env NODE_ENV=test cypress run",
     "test": "node node_modules/grunt-cli/bin/grunt test",
-    "db:seed": "NODE_ENV=test grunt db-reset",
+    "db:seed": "cross-env NODE_ENV=test grunt db-reset",
     "precommit": "grunt precommit",
     "docker-mongo": "docker run -p 27017:27017 --name mongo  mongo:latest",
     "start-infra": "docker-compose up",
@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "async": "^2.0.0-rc.4",
+    "cross-env": "^7.0.2",
     "cypress": "^3.3.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
