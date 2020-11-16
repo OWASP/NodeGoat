@@ -5,10 +5,6 @@ describe('/logout behaviour', () => {
     cy.dbReset()
   })
 
-  after(() => {
-    cy.dbReset()
-  })
-
   it('Should redirect if the user has not logged in', () => {
     cy.visitPage('/logout')
     cy.url().should('include', 'login')

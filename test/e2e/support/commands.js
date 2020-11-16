@@ -1,7 +1,5 @@
-const { port, hostName } = require('../../../config/env/all')
-
 Cypress.Commands.add('signIn', (usr, pw) => {
-  cy.visit(`http://${hostName}:${port}/login`)
+  cy.visitPage('/login')
   cy.get('#userName').type(usr)
   cy.get('#password').type(pw)
   cy.get('[type="submit"]').click()
@@ -22,7 +20,7 @@ Cypress.Commands.add('userSignIn', () => {
 })
 
 Cypress.Commands.add('visitPage', (path = '/', config = {}) => {
-  cy.visit(`http://${hostName}:${port}${path}`, config)
+  cy.visit(path, config)
 })
 
 Cypress.Commands.add('dbReset', () => {

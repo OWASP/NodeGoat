@@ -5,10 +5,6 @@ describe('/memos behaviour', () => {
     cy.dbReset()
   })
 
-  after(() => {
-    cy.dbReset()
-  })
-
   afterEach(() => {
     cy.visitPage('/logout')
   })
