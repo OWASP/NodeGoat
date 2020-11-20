@@ -91,10 +91,10 @@
 
     <script src="../vendor/jquery.min.js"></script>
     <script src="../vendor/bootstrap/bootstrap.js"></script>
-    <!-- Load live reload script -->
-    <script>
-    document.write("<script src='http://" + (location.host || "localhost").split(":")[0] + ":35729/livereload.js'></" + "script>");
-    </script>
+    <!-- Load environmental scripts such as live reload -->
+    {% for script in environmentalScripts %}
+    {{script}}
+    {% endfor %}
 
 </body>
 

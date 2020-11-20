@@ -1,6 +1,9 @@
 const {
     BenefitsDAO
 } = require("../data/benefits-dao");
+const {
+    environmentalScripts
+} = require("../../config/config");
 
 function BenefitsHandler(db) {
     "use strict";
@@ -17,7 +20,8 @@ function BenefitsHandler(db) {
                 users,
                 user: {
                     isAdmin: true
-                }
+                },
+                environmentalScripts
             });
         });
     };
@@ -40,7 +44,8 @@ function BenefitsHandler(db) {
                     user: {
                         isAdmin: true
                     },
-                    updateSuccess: true
+                    updateSuccess: true,
+                    environmentalScripts
                 };
 
                 return res.render("benefits", data);

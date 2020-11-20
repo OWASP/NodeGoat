@@ -29,7 +29,7 @@ describe('/profile behaviour', () => {
         cy.visitPage('/profile')
         cy.get('form[role="form"]')
             .find('input')
-            .should('have.length', 8)
+            .should('have.length', 9)
     })
 
     it('Should first name be modified', () => {

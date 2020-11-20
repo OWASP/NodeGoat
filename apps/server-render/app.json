@@ -13,11 +13,17 @@
     "postdeploy": "node artifacts/db-reset.js"
   },
   "env": {
+    "MONGODB_URI": {
+      "description": "Connection string for MongoDB database to use. Must be publicly accessible.",
+      "value": ""
+    },
     "NODE_ENV": {
-      "value": "PRODUCTION"
+      "description": "NODE_ENV for build and runtime. Must be in lowercase for Heroku build process.",
+      "value": "production"
+    },
+    "NPM_CONFIG_ONLY": {
+       "description": "Controls devDependency install: \"production\" = skip, \"all\" = install",
+       "value": "production"
     }
-  },
-  "addons": [
-    "mongolab:sandbox"
-  ]
+  }
 }
