@@ -37,7 +37,7 @@ MongoClient.connect(db, (err, db) => {
         console.log(err);
         process.exit(1);
     }
-    console.log(`Connected to the database: ${db}`);
+    console.log(`Connected to the database`);
 
     /*
     // Fix for A5 - Security MisConfig

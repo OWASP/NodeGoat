@@ -1,4 +1,7 @@
 const AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
+const {
+    environmentalScripts
+} = require("../../config/config");
 
 function AllocationsHandler(db) {
     "use strict";
@@ -21,7 +24,8 @@ function AllocationsHandler(db) {
             if (err) return next(err);
             return res.render("allocations", {
                 userId,
-                allocations
+                allocations,
+                environmentalScripts
             });
         });
     };

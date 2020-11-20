@@ -1,5 +1,8 @@
 const ResearchDAO = require("../data/research-dao").ResearchDAO;
 const needle = require('needle');
+const {
+    environmentalScripts
+} = require("../../config/config");
 
 function ResearchHandler(db) {
     "use strict";
@@ -22,7 +25,9 @@ function ResearchHandler(db) {
             });
         }
 
-        return res.render("research");
+        return res.render("research", {
+            environmentalScripts
+        });
     };
 
 }
