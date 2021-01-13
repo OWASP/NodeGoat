@@ -138,6 +138,7 @@ MongoClient.connect(db, (err, db) => {
         autoescape: true // default value
         */
     });
+    console.log('foobar')
 
     // Insecure HTTP connection
     http.createServer(app).listen(port, () => {
