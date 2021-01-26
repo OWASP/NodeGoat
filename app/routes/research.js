@@ -13,7 +13,7 @@ function ResearchHandler(db) {
 
         if (req.query.symbol) {
             const url = req.query.url + req.query.symbol;
-            return needle.get(url, (error, newResponse) => {
+            return needle.get(url, (error, newResponse, body) => {
                 if (!error && newResponse.statusCode === 200) {
                     res.writeHead(200, {
                         "Content-Type": "text/html"
@@ -21,7 +21,9 @@ function ResearchHandler(db) {
                 }
                 res.write("<h1>The following is the stock information you requested.</h1>\n\n");
                 res.write("\n\n");
-                res.write(newResponse.body);
+                if (body) {
+                    res.write(body);
+                }
                 return res.end();
             });
         }
