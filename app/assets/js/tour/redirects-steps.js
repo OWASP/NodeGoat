@@ -1,3 +1,5 @@
+/* globals $, Tour */
+
 const redirectsTour = new Tour({
     name: "redirects"
 });

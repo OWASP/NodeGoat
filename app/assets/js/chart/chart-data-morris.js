@@ -1,3 +1,4 @@
+/* globals $, Morris */
 $(function() {
 
     "use strict";
