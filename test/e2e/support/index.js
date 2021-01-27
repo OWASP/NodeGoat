@@ -1,2 +1,2 @@
 
-require('./commands.js')
+require("./commands.js");

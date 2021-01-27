@@ -81,7 +81,7 @@ const AllocationsDAO = function(db){
             return {
                 userId: parsedUserId
             };
-        }
+        };
 
         allocationsCol.find(searchCriteria()).toArray((err, allocations) => {
             if (err) return callback(err, null);
@@ -109,6 +109,6 @@ const AllocationsDAO = function(db){
         });
     };
 
-}
+};
 
 module.exports.AllocationsDAO = AllocationsDAO;

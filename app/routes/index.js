@@ -84,7 +84,7 @@ const index = (app, db) => {
     app.get("/tutorial/:page", (req, res) => {
         const {
             page
-        } = req.params
+        } = req.params;
         return res.render(`tutorial/${page}`, {
             environmentalScripts
         });

@@ -20,8 +20,8 @@ function ResearchDAO(db) {
                     symbol
                 };
             }
-        }
-    }
+        };
+    };
 }
 
 module.exports = { ResearchDAO };
