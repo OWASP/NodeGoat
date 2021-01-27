@@ -33,10 +33,12 @@ describe("General behaviour", () => {
       .should("be.visible")
       .should("have.attr", "href", "/profile");
 
+    const learnUrl = "https://www.khanacademy.org/" +
+      "economics-finance-domain/core-finance/investment-vehicles-tutorial/ira-401ks/v/traditional-iras";
     cy.get("#learn-menu-link")
       .should("be.visible")
       .should("have.attr", "target", "_blank")
-      .should("have.attr", "href", "/learn?url=https://www.khanacademy.org/economics-finance-domain/core-finance/investment-vehicles-tutorial/ira-401ks/v/traditional-iras");
+      .should("have.attr", "href", "/learn?url=" + learnUrl);
 
     cy.get("#research-menu-link")
       .should("be.visible")

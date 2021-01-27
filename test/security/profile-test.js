@@ -135,9 +135,11 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
             },
             function includeInZapContext(includeInZapContextDone) {
                 // Inform Zap how to authenticate itself.
-                zaproxy.context.includeInContext("Default Context", "\\Q" + zapTargetApp + "\E.*", zapApiKey, function(err, resp) {
-                    includeInZapContextDone(state.error);
-                });
+                zaproxy.context.includeInContext("Default Context", "\\Q" + zapTargetApp + "\E.*", zapApiKey,
+                    function(err, resp) {
+                        includeInZapContextDone(state.error);
+                    }
+                );
             },
             function setAuthenticationMethod(setAuthenticationMethodDone) {
                 zaproxy.authentication.setAuthenticationMethod(
@@ -146,7 +148,8 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                     // Only the 'userName' onwards must be URL encoded. URL encoding entire line doesn't work.
                     "loginUrl=" +
                     zapTargetApp +
-                    "login&loginRequestData=userName%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D%26_csrf%3D",
+                    "login&loginRequestData=" +
+                    "userName%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D%26_csrf%3D",
                     zapApiKey,
                     function(err, resp) {
                         setAuthenticationMethodDone(state.error);
@@ -211,7 +214,8 @@ test.describe(zapTargetAppRoute + " regression test suite", function() {
                     false,
                     "",
                     "POST",
-                    "firstName=JohnseleniumJohn&lastName=DoeseleniumDoe&ssn=seleniumSSN&dob=12/23/5678&bankAcc=seleniumBankAcc&bankRouting=0198212#&address=seleniumAddress&_csrf=&submit=",
+                    "firstName=JohnseleniumJohn&lastName=DoeseleniumDoe&ssn=seleniumSSN&dob=12/23/5678&" +
+                    "bankAcc=seleniumBankAcc&bankRouting=0198212#&address=seleniumAddress&_csrf=&submit=",
                     zapApiKey,
                     function(err, resp) {
                         var statusValue;

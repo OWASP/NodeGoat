@@ -6,5 +6,9 @@ module.exports = {
    zapApiKey: "v9dn0balpqas1pcc281tn5ood1",
    // Required if debugging security regression tests.
    zapApiFeedbackSpeed: 5000, // Milliseconds.
-   environmentalScripts: [`<script>document.write("<script src='http://" + (location.host || "localhost").split(":")[0] + ":35729/livereload.js'></" + "script>");</script>`]
+   environmentalScripts: [
+      // jshint -W101
+      `<script>document.write("<script src='http://" + (location.host || "localhost").split(":")[0] + ":35729/livereload.js'></" + "script>");</script>`
+      // jshint +W101
+   ]
 };
