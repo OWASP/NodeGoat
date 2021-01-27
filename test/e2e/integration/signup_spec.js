@@ -1,6 +1,8 @@
 /// <reference types="Cypress" />
 
 describe("/signup behaviour", () => {
+  "use strict";
+
   before(() => {
     cy.dbReset();
   });

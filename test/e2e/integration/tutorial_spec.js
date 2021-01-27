@@ -1,6 +1,8 @@
 /// <reference types="Cypress" />
 
 describe("/tutorial behaviour", () => {
+  "use strict";
+
   it("Should have all the links in the side nav", () => {
     cy.visitPage("/tutorial");
     cy.url().should("include", "tutorial");

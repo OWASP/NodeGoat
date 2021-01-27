@@ -1,6 +1,8 @@
 /// <reference types="Cypress" />
 
 describe("/dashboard behaviour", () => {
+  "use strict";
+
   afterEach(() => {
     cy.visitPage("/logout");
   });

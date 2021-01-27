@@ -1,6 +1,8 @@
 /// <reference types="Cypress" />
 
 describe("General behaviour", () => {
+  "use strict";
+
   beforeEach(() => {
     cy.adminSignIn();
     cy.visitPage("/");

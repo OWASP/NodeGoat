@@ -1,6 +1,8 @@
 /// <reference types="Cypress" />
 
 describe("/profile behaviour", () => {
+  "use strict";
+
   before(() => {
     cy.dbReset();
   });

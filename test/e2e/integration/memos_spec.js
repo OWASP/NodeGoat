@@ -1,6 +1,8 @@
 /// <reference types="Cypress" />
 
 describe("/memos behaviour", () => {
+  "use strict";
+
   before(() => {
     cy.dbReset();
   });

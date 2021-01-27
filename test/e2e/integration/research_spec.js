@@ -1,6 +1,8 @@
 /// <reference types="Cypress" />
 
 describe("/research behaviour", () => {
+  "use strict";
+
   afterEach(() => {
     cy.visitPage("/logout");
   });
