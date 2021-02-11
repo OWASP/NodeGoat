@@ -1,0 +1,158 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.19.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - grunt-npm-install > npm > node-gyp > path-array > array-index > debug:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > nyc > istanbul-lib-instrument > babel-traverse > debug:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > nyc > istanbul-lib-instrument > babel-types > babel-traverse > debug:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > nyc > istanbul-lib-instrument > babel-template > babel-traverse > debug:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > nyc > istanbul-lib-instrument > babel-generator > babel-types > babel-traverse > debug:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > nyc > istanbul-lib-instrument > babel-template > babel-types > babel-traverse > debug:
+        patched: '2021-02-11T02:56:55.784Z'
+  'npm:extend:20180424':
+    - grunt-npm-install > npm > request > extend:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > node-gyp > request > extend:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > npm-registry-client > request > extend:
+        patched: '2021-02-11T02:56:55.784Z'
+  'npm:hoek:20180212':
+    - grunt-retire > retire > request > hawk > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > request > hawk > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-retire > retire > request > hawk > boom > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > request > hawk > boom > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-retire > retire > request > hawk > sntp > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > request > hawk > sntp > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > node-gyp > request > hawk > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > npm-registry-client > request > hawk > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-retire > retire > request > hawk > cryptiles > boom > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > request > hawk > cryptiles > boom > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > node-gyp > request > hawk > boom > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > npm-registry-client > request > hawk > boom > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > node-gyp > request > hawk > sntp > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > npm-registry-client > request > hawk > sntp > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > npm-registry-client > request > hawk > cryptiles > boom > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > coveralls > request > hawk > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > coveralls > request > hawk > boom > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > coveralls > request > hawk > sntp > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > coveralls > request > hawk > cryptiles > boom > hoek:
+        patched: '2021-02-11T02:56:55.784Z'
+  SNYK-JS-LODASH-567746:
+    - async > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-contrib-watch > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-jsbeautifier > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-contrib-watch > async > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-jsbeautifier > async > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt > grunt-legacy-log > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt > grunt-legacy-util > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-contrib-jshint > jshint > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - cypress > getos > async > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt > grunt-legacy-log > grunt-legacy-log-utils > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt > grunt-legacy-log > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-jsbeautifier > grunt > grunt-legacy-log > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt > grunt-legacy-util > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-jsbeautifier > grunt > grunt-legacy-util > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-jshint > jshint > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-contrib-watch > gaze > globule > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-retire > request > form-data > async > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt > grunt-legacy-log > grunt-legacy-log-utils > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-jsbeautifier > grunt > grunt-legacy-log > grunt-legacy-log-utils > lodash:
+        patched: '2021-02-11T02:56:55.784Z'
+  'npm:mime:20170907':
+    - zaproxy > request > mime:
+        patched: '2021-02-11T02:56:55.784Z'
+    - zaproxy > request > form-data > mime:
+        patched: '2021-02-11T02:56:55.784Z'
+  'npm:ms:20170412':
+    - grunt-npm-install > npm > node-gyp > path-array > array-index > debug > ms:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > nyc > istanbul-lib-instrument > babel-traverse > debug > ms:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > nyc > istanbul-lib-instrument > babel-types > babel-traverse > debug > ms:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > nyc > istanbul-lib-instrument > babel-template > babel-traverse > debug > ms:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > nyc > istanbul-lib-instrument > babel-generator > babel-types > babel-traverse > debug > ms:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > nyc > istanbul-lib-instrument > babel-template > babel-types > babel-traverse > debug > ms:
+        patched: '2021-02-11T02:56:55.784Z'
+  'npm:qs:20170213':
+    - grunt-npm-install > npm > request > qs:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > node-gyp > request > qs:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > npm-registry-client > request > qs:
+        patched: '2021-02-11T02:56:55.784Z'
+  'npm:stringstream:20180511':
+    - grunt-npm-install > npm > request > stringstream:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > node-gyp > request > stringstream:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > npm-registry-client > request > stringstream:
+        patched: '2021-02-11T02:56:55.784Z'
+  'npm:tough-cookie:20170905':
+    - grunt-npm-install > npm > request > tough-cookie:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > node-gyp > request > tough-cookie:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > npm-registry-client > request > tough-cookie:
+        patched: '2021-02-11T02:56:55.784Z'
+  'npm:tunnel-agent:20170305':
+    - grunt-retire > retire > request > tunnel-agent:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > request > tunnel-agent:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > node-gyp > request > tunnel-agent:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-npm-install > npm > npm-registry-client > request > tunnel-agent:
+        patched: '2021-02-11T02:56:55.784Z'
+    - grunt-if > grunt-contrib-nodeunit > nodeunit > tap > coveralls > request > tunnel-agent:
+        patched: '2021-02-11T02:56:55.784Z'
+  'npm:uglify-js:20151024':
+    - swig > uglify-js:
+        patched: '2021-02-11T02:56:55.784Z'
