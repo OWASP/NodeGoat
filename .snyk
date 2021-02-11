@@ -156,3 +156,20 @@ patch:
   'npm:uglify-js:20151024':
     - swig > uglify-js:
         patched: '2021-02-11T02:56:55.784Z'
+  SNYK-JS-LODASH-450202:
+    - async > lodash:
+        patched: '2021-02-11T03:00:56.440Z'
+    - grunt-contrib-watch > lodash:
+        patched: '2021-02-11T03:00:56.440Z'
+    - grunt-jsbeautifier > lodash:
+        patched: '2021-02-11T03:00:56.440Z'
+    - grunt-contrib-watch > async > lodash:
+        patched: '2021-02-11T03:00:56.440Z'
+    - grunt-jsbeautifier > async > lodash:
+        patched: '2021-02-11T03:00:56.440Z'
+    - grunt-contrib-jshint > jshint > lodash:
+        patched: '2021-02-11T03:00:56.440Z'
+    - grunt-if > grunt-contrib-jshint > jshint > lodash:
+        patched: '2021-02-11T03:00:56.440Z'
+    - grunt-contrib-watch > gaze > globule > lodash:
+        patched: '2021-02-11T03:00:56.440Z'
