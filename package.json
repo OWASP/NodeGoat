@@ -58,7 +58,7 @@
     "grunt-retire": "^1.0.4",
     "mocha": "^6.2.3",
     "nodemon": "^1.19.1",
-    "selenium-webdriver": "^3.0.0",
+    "selenium-webdriver": "^3.5.0",
     "should": "^8.3.1",
     "zaproxy": "^1.0.1"
   },
