@@ -21,3 +21,4 @@ report*.html
 
 # e2e
 test/e2e/screenshots/
+test/e2e/videos/
