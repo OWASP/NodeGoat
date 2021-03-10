@@ -7,7 +7,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Checkmarx Action
-        uses: checkmarx-ts/checkmarx-github-action@<version>
+        uses: checkmarx-ts/checkmarx-github-action@1.0.5
         with:
           cxServer: https://macpaw.checkmarx.net/
           cxUsername: MacpawAdmin@Cx.Com
