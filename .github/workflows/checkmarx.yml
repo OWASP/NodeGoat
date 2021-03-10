@@ -1,0 +1,15 @@
+name: Checkmarx SAST Scan
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Checkmarx Action
+        uses: checkmarx-ts/checkmarx-github-action@v1.0.5
+        with:
+          cxServer: https://macpaw.checkmarx.net/
+          cxUsername: MacpawAdmin@Cx.Com
+          cxPassword: ${{ secrets.CX_PASSWORD }}
+          cxTeam: /CxServer
