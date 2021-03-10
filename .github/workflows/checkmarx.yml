@@ -12,4 +12,4 @@ jobs:
           cxServer: https://macpaw.checkmarx.net/
           cxUsername: MacpawAdmin@Cx.Com
           cxPassword: ${{ secrets.CX_PASSWORD }}
-          cxTeam: \CxServer\SP\Company\TeamA
+          cxTeam: CxServer
