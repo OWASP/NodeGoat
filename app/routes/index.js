@@ -5,9 +5,7 @@ const ContributionsHandler = require("./contributions");
 const AllocationsHandler = require("./allocations");
 const MemosHandler = require("./memos");
 const ResearchHandler = require("./research");
-const {
-    environmentalScripts
-} = require("../../config/config");
+const tutorialRouter = require("./tutorial");
 const ErrorHandler = require("./error").errorHandler;
 
 const index = (app, db) => {
@@ -74,24 +72,11 @@ const index = (app, db) => {
         return res.redirect(req.query.url);
     });
 
-    // Handle redirect for learning resources link
-    app.get("/tutorial", (req, res) => {
-        return res.render("tutorial/a1", {
-            environmentalScripts
-        });
-    });
-
-    app.get("/tutorial/:page", (req, res) => {
-        const {
-            page
-        } = req.params;
-        return res.render(`tutorial/${page}`, {
-            environmentalScripts
-        });
-    });
-
     // Research Page
     app.get("/research", isLoggedIn, researchHandler.displayResearch);
+
+    // Mount tutorial router
+    app.use("/tutorial", tutorialRouter);
 
     // Error handling middleware
     app.use(ErrorHandler);
