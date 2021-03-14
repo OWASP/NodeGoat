@@ -12,14 +12,28 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:page", (req, res) => {
-    "use strict";
-    const {
-        page
-    } = req.params;
-    return res.render(`tutorial/${page}`, {
-        environmentalScripts
+const pages = [
+    "a1",
+    "a2",
+    "a3",
+    "a4",
+    "a5",
+    "a6",
+    "a7",
+    "a8",
+    "a9",
+    "a10",
+    "redos",
+    "ssrf"
+];
+
+for(const page of pages) {
+    router.get(`/${page}`, (req, res) => {
+        "use strict";
+        return res.render(`tutorial/${page}`, {
+            environmentalScripts
+        });
     });
-});
+}
 
 module.exports = router;
