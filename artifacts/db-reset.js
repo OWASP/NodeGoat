@@ -36,52 +36,50 @@ const USERS_TO_INSERT = [
         //"password" : "$2a$10$Tlx2cNv15M0Aia7wyItjsepeA8Y6PyBYaNdQqvpxkIUlcONf1ZHyq", // User2_123
     }];
 
-const tryDropCollection = (db, name) => {
-    return new Promise((resolve, reject) => {
-        db.dropCollection(name, (err, data) => {
-            if (!err) {
-                console.log(`Dropped collection: ${name}`);
-            }
-            resolve(undefined);
-        });
-    });
-}
-
 const parseResponse = (err, res, comm) => {
     if (err) {
-        console.log("ERROR:");
-        console.log(comm);
-        console.log(JSON.stringify(err));
+        console.error("ERROR:");
+        console.error(comm);
+        console.error(JSON.stringify(err));
         process.exit(1);
     }
     console.log(comm);
     console.log(JSON.stringify(res));
 }
 
+const dropDatabase = () => {
+    MongoClient.connect(db, (err, db) =>  {
+        if (err) {
+            console.error("ERROR: connect");
+            console.error(JSON.stringify(err));
+            process.exit(1);
+        }
+        console.log("Connected to the database");
 
-// Starting here
-MongoClient.connect(db, (err, db) =>  {
-    if (err) {
-        console.log("ERROR: connect");
-        console.log(JSON.stringify(err));
-        process.exit(1);
-    }
-    console.log("Connected to the database");
+        // remove existing database (if any)
+        console.log("Dropping existing database");
+        db.dropDatabase((err, data) => {
+            if (!err) {
+                console.error('Unable to drop the database');
+                console.error(err);     
+            } else {
+                console.log('Successfully dropped the database');
+                return data
+            }
+        });
+    });
+};
 
-    const collectionNames = [
-        "users",
-        "allocations",
-        "contributions",
-        "memos",
-        "counters"
-    ];
 
-    // remove existing data (if any), we don't want to look for errors here
-    console.log("Dropping existing collections");
-    const dropPromises = collectionNames.map((name) => tryDropCollection(db, name));
+const seedDatabase = () => {
+    MongoClient.connect(db, (err, db) =>  {
+        if (err) {
+            console.error("ERROR: connect");
+            console.error(JSON.stringify(err));
+            process.exit(1);
+        }
+        console.log("Connected to the database");
 
-    // Wait for all drops to finish (or fail) before continuing
-    Promise.all(dropPromises).then(() => {
         const usersCol = db.collection("users");
         const allocationsCol = db.collection("allocations");
         const countersCol = db.collection("counters");
@@ -125,11 +123,17 @@ MongoClient.connect(db, (err, db) =>  {
             finalAllocations.forEach(allocation => console.log(JSON.stringify(allocation)));
 
             allocationsCol.insertMany(finalAllocations, (err, data) => {
+                if (err) {
+                    console.error(err)
+                    process.exit(1);
+                }
                 parseResponse(err, data, "allocations.insertMany");
-                console.log("Database reset performed successfully")
+                console.log("Database reset performed successfully");
                 process.exit(0);
             });
-
         });
     });
-});
+}
+
+dropDatabase()
+seedDatabase()
