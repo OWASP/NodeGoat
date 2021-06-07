@@ -37,11 +37,30 @@ The database comes pre-populated with these user accounts created as part of the
    npm install
    ```
 
-5) Set up MongoDB. You can either install MongoDB locally or create a remote instance:
+5) Set up MongoDB. You can install MongoDB a variety of ways:
 
    * Using local MongoDB:
      1) Install [MongoDB Community Server](https://docs.mongodb.com/manual/administration/install-community/)
      2) Start [mongod](http://docs.mongodb.org/manual/reference/program/mongod/#bin.mongod)
+
+   * Using local docker instance:
+      1) Install [Docker](https://docs.docker.com/installation/)
+      2) Start the docker container first replacing `username` and `password` with your own:
+         ```bash
+         docker run -d -p 27017:27017 --name mongodb -e MONGO_INITDB_ROOT_USERNAME=username -e MONGO_INITDB_ROOT_PASSWORD=password -e MONGO_INITDB_DATABASE=nodegoat mongo
+         ```
+
+      2b) Or leave the environment variables off for immediate setup (unsecure):
+         ```bash
+         docker run -d -p 27017:27017 --name mongodb mongo
+         ```
+
+      3) Set the `MONGODB_URI` environment variable to point to the Docker container:
+         ```
+         mongodb://username:password@localhost:27017/nodegoat
+         ```
+         
+      3b) If you followed 2b, then make no changes to the environment.
 
    * Using remote MongoDB instance:
      1) [Deploy a MongoDB Atlas free tier cluster](https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/) (M0 Sandbox)
