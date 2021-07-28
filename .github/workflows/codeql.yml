@@ -1,0 +1,11 @@
+name: CodeQL Security Scan
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      LANGUAGE: javascript
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run CodeQL scan
+        uses: vedza/codeql-container-action@master
