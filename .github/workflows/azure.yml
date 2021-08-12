@@ -63,7 +63,7 @@ jobs:
           path: upload.zip
 
   pipeline-scan:
-    needs: build
+    needs: package
     runs-on: ubuntu-latest
     container: 
       image: veracode/pipeline-scan:latest
