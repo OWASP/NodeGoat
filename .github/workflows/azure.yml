@@ -62,40 +62,50 @@ jobs:
           name: scan-target
           path: upload.zip
 
-  scan:
+  pipeline-scan:
+    needs: build
     runs-on: ubuntu-latest
     container: 
       image: veracode/pipeline-scan:latest
       options: --user root # our normal luser doesn't have privs to write to github directories
+
     steps:
-      - name: get archive
-        uses: actions/download-artifact@v2
-        with:
-          name: scan-target
-          path: .
+    - name: Retrieve artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: CodePackage
+        path: /github/home
+    
+    #  Submit  project to pipeline scan
+    - name: Pipeline Scan
+      run: |
+        cd /github/home
+        java -jar /opt/veracode/pipeline-scan.jar --veracode_api_id="${{secrets.VERACODE_API_ID}}" --veracode_api_key="${{secrets.VERACODE_API_KEY}}" --fail_on_severity="Very High, High" --file="project.zip" --app_id="${{secrets.VERACODE_APP_ID}}" --json_output_file="results.json"
+      continue-on-error: true
 
-      - name: scan
-        run: |
-          java -jar /opt/veracode/pipeline-scan.jar 
-              -vid ${{ secrets.VERACODE_API_ID }}
-              -vkey ${{ secrets.VERACODE_API_KEY }}
-              --file upload.zip
-              --fail_on_severity="Very High,High"
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ScanResults
+        path: /github/home/results.json
 
-      - name: save filtered results file
-        uses: actions/upload-artifact@v2
-        with:
-          name: filtered-results
-          path: filtered_results.json
+  # Convert pipeline scan output to SARIF format  
+  process-results:
+    needs: pipeline-scan
+    runs-on: ubuntu-latest
+    steps:
 
-  # import-issues:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: get scan results
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: filtered-results
+    - name: Retrieve results
+      uses: actions/download-artifact@v2
+      with:
+        name: ScanResults
 
-  #     - name: import flaws
-  #       uses: my flaw importer
-
+    - name: convert
+      uses: veracode/veracode-pipeline-scan-results-to-sarif@master
+      with:
+        pipeline-results-json: results.json
+        output-results-sarif: veracode-results.sarif
+        finding-rule-level: "4:3:0"
+    - uses: github/codeql-action/upload-sarif@v1
+      with:
+    # Path to SARIF file relative to the root of the repository
+        sarif_file: veracode-results.sarif
