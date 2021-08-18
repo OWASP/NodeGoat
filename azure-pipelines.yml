@@ -10,7 +10,7 @@ jobs:
   - task: Docker@2
     displayName: Login to ACR
     inputs:
-      containerRegistry: 'jddintegrationtest'
+      containerRegistry: 'jddintegrationtest.azurecr.io/veracode/pipeline-scan:latest'
       command: login
       
   - script: |
