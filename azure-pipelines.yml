@@ -11,7 +11,7 @@ jobs:
     displayName: Login to ACR
     inputs:
       command: login
-      containerRegistry: my-acr
+
   - script: |
       - zip myapp.zip ./src/
       - java -jar /opt/veracode/pipeline-scan.jar
