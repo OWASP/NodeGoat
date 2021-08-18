@@ -5,10 +5,11 @@ pool:
 steps:
 
     
-- task: CmdLine@2
+- task: Bash@3
   inputs:
+    targetType: 'inline'
     script: |
-      docker run --rm \
+      docker run -it --rm \
           
           -v /host/os/path/to/myapp/:/myapp/ \
           veracode/pipeline-scan:cmd \
