@@ -1,11 +1,19 @@
+trigger: none
 
-- task: CmdLine@2
-  inputs:
-    script: |
-      docker run -it --rm \
-          --env VERACODE_API_KEY_ID=$VERACODE_API_ID \
-          --env VERACODE_API_KEY_SECRET=$VERACODE_API_KEY  \
-          -v /host/os/path/to/myapp/:/myapp/ \
-          veracode/pipeline-scan:cmd \
-              -vid $VERACODE_API_KEY_ID -vkey $VERACODE_API_KEY_SECRET \
-              --file /myapp/myapp.jar
+jobs:
+- job: scan-my-python-app
+  workspace:
+    clean: all
+  pool:
+    vmImage: 'veracode/pipeline-scan:latest'
+  steps:
+  - task: Docker@2
+    displayName: Login to ACR
+    inputs:
+      command: login
+      containerRegistry: my-acr
+  - script: |
+      - zip myapp.zip ./src/
+      - java -jar /opt/veracode/pipeline-scan.jar
+        -vid $VERACODE_API_ID -vkey $VERACODE_API_KEY
+        --file myapp.zip
