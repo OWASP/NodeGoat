@@ -19,6 +19,6 @@ steps:
       arguments: >
         --rm \
     -v /host/os/path/to/myapp/:/myapp/ \
-    veracode/pipeline-scan:cmd \
+    veracode/pipeline-scan\
         -vid $VERACODE_API_KEY_ID -vkey $VERACODE_API_KEY_SECRET \
         --file /myapp/myapp.jar
