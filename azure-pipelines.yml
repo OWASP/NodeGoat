@@ -8,7 +8,7 @@ steps:
     rootFolderOrFile: '$(Build.SourcesDirectory)'
     includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: 'NodeGoat'
+    archiveFile: '$(Build.SourcesDirectory)/NodeGoat.zip'
     replaceExistingArchive: true
 
     
