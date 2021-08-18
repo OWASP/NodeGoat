@@ -15,10 +15,7 @@ jobs:
       
   - script: |
      docker run -it --rm \
-   
-    -v /host/os/path/to/myapp/:/myapp/ \
-    veracode/pipeline-scan:cmd \
-        - zip myapp.zip ./src/ 
-    - java -jar /opt/veracode/pipeline-scan.jar
-        -vid $VERACODE_API_KEY_ID -vkey $VERACODE_API_KEY_SECRET
+     - zip myapp.zip ./src/
+     - java -jar /opt/veracode/pipeline-scan.jar
+        -vid $VERACODE_API_ID -vkey $VERACODE_API_KEY
         --file myapp.zip
