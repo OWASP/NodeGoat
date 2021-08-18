@@ -5,16 +5,19 @@ jobs:
   workspace:
     clean: all
   pool:
-    image: 'veracode/pipeline-scan'
+    vmImage: 'ubuntu-16.04'
   steps:
   - task: Docker@2
     displayName: Login to ACR
     inputs:
-      containerRegistry: 'jddintegrationtest.azurecr.io/veracode/pipeline-scan:latest'
+      containerRegistry: 'jddintegrationtest'
       command: login
       
   - script: |
-      - zip myapp.zip ./src/
-      - java -jar /opt/veracode/pipeline-scan.jar
-        -vid $VERACODE_API_ID -vkey $VERACODE_API_KEY
-        --file myapp.zip
+      docker run -it --rm \
+    --env VERACODE_API_KEY_ID=c2db7664... \
+    --env VERACODE_API_KEY_SECRET=24f62c81... \
+    -v /host/os/path/to/myapp/:/myapp/ \
+    veracode/pipeline-scan:cmd \
+        -vid $VERACODE_API_KEY_ID -vkey $VERACODE_API_KEY_SECRET \
+        --file /myapp/myapp.jar
