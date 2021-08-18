@@ -8,11 +8,13 @@ steps:
     rootFolderOrFile: '$(Build.SourcesDirectory)'
     includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: 'NodeGoat.zip'
+    archiveFile: 'NodeGoat'
     replaceExistingArchive: true
+
+    
     
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: docker run --tty --rm veracode/pipeline-scan:cmd -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f /home/vsts/work/1/s/NodeGoat.zip
+    script:  docker run --tty --rm veracode/pipeline-scan:cmd -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f /home/vsts/work/1/s/NodeGoat.zip
 
