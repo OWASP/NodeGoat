@@ -10,9 +10,6 @@ steps:
     targetType: 'inline'
     script: |
      docker run -it --rm \
-    --env VERACODE_API_KEY_ID=3d43e6c19ba62a029b4d74ef3274f64e \
-    --env VERACODE_API_KEY_SECRET=bcbf7a5c957bb8495ec1be6dbd71a7b6b7549eaed57bd04a81b9d4ec5f61c3c8d634bc68c8139828d0c714bdb1bac088304391e9043f59207801e6cdc062271e \
-    -v /host/os/path/to/myapp//myapp/ \
     veracode/pipeline-scan:cmd \
-        -vid $VERACODE_API_KEY_ID -vkey $VERACODE_API_KEY_SECRET \
-        --file /myapp/myapp.jar
+        -vid $(VERACODE_API_KEY_ID) -vkey $(VERACODE_API_KEY_SECRET) \
+        --file blah
