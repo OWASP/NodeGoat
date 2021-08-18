@@ -8,4 +8,4 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: docker run -it --rm veracode/pipeline-scan:cmd --help
+    script: docker run --tty --rm veracode/pipeline-scan:cmd --help
