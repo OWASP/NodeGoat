@@ -5,20 +5,22 @@ pool:
   vmImage: "windows-latest"
 
 steps:
-  - task: CmdLine@2
-    displayName: Veracode Pipeline Scan
+  - task: Docker@2
     inputs:
-      script: |
-        curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
-        unzip -o pipeline-scan-LATEST.zip
-        java -jar pipeline-scan.jar -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f $(build.artifactstagingdirectory)\Verademo-dotnet.zip || true
-      # VERACODE_API_ID and VERACODE_API_KEY environment variables must reference your API credentials.
-      # "|| true" specifies to continue build if Pipeline Scan discovers flaws.
-      # To fail the build for new flaws not listed in a baseline file, add an existing baseline file with "-bf <baseline filename>" and remove "|| true".
+      containerRegistry: "jddintegrationtest"
+      command: "login"
 
-  - task: PublishBuildArtifacts@1
-    displayName: Create Build Artifact for Veracode Pipeline Scan Results
+  - task: Docker@2
     inputs:
-      PathtoPublish: "results.json"
-      ArtifactName: "Build"
-      publishLocation: "Container"
+      containerRegistry: 'jddintegrationtest'
+      repository: veracode/pipeline-scan:latest
+      tags: $(tag)
+      command: 'run'
+      arguments: >
+        --rm \
+    --env VERACODE_API_KEY_ID=c2db7664... \
+    --env VERACODE_API_KEY_SECRET=24f62c81... \
+    -v /host/os/path/to/myapp/:/myapp/ \
+    veracode/pipeline-scan:cmd \
+        -vid $VERACODE_API_KEY_ID -vkey $VERACODE_API_KEY_SECRET \
+        --file /myapp/myapp.jar
