@@ -16,5 +16,6 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script:  docker run --tty --rm veracode/pipeline-scan:cmd -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f '$(Build.SourcesDirectory)/NodeGoat.zip'
+    script: ls /
+     docker run --tty --rm veracode/pipeline-scan:cmd -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f '$(Build.SourcesDirectory)/NodeGoat.zip'
 
