@@ -9,3 +9,15 @@ steps:
     repository: 'veracode/pipeline-scan'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
+    
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      docker run -it --rm \
+          --env VERACODE_API_KEY_ID=c2db7664... \
+          --env VERACODE_API_KEY_SECRET=24f62c81... \
+          -v /host/os/path/to/myapp/:/myapp/ \
+          veracode/pipeline-scan:cmd \
+              -vid $VERACODE_API_KEY_ID -vkey $VERACODE_API_KEY_SECRET \
+              --file /myapp/myapp.jar
