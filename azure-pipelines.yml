@@ -10,9 +10,8 @@ steps:
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     
-- task: PowerShell@2
+- task: CmdLine@2
   inputs:
-    targetType: 'inline'
     script: |
       docker run -it --rm \
           --env VERACODE_API_KEY_ID=c2db7664... \
