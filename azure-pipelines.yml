@@ -1,24 +1,11 @@
 trigger:
-  - master
-
+- master
 pool:
-  vmImage: "windows-latest"
-
+  vmImage: 'ubuntu-latest'
 steps:
-  - task: Docker@2
-    inputs:
-      containerRegistry: "jddintegrationtest"
-      command: "login"
-
-  - task: Docker@2
-    inputs:
-      containerRegistry: 'jddintegrationtest'
-      repository: veracode/pipeline-scan:latest
-      tags: $(tag)
-      command: 'run'
-      arguments: >
-        --rm \
-    -v /host/os/path/to/myapp/:/myapp/ \
-    veracode/pipeline-scan\
-        -vid $VERACODE_API_KEY_ID -vkey $VERACODE_API_KEY_SECRET \
-        --file /myapp/myapp.jar
+- task: Docker@2
+  inputs:
+    containerRegistry: 'jddintegrationtest'
+    repository: 'veracode/pipeline-scan'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
