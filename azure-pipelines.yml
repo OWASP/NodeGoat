@@ -1,7 +1,7 @@
 trigger: none
 
 jobs:
-- job: scan-my-python-app
+- job: scanpythonapp
   workspace:
     clean: all
   pool:
