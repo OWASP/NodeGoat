@@ -10,7 +10,7 @@ jobs:
   - task: Docker@2
     displayName: Login to ACR
     inputs:
-      containerRegistry: 'jd200'
+      containerRegistry: 'jddintegrationtest'
       command: login
       
   - script: |
