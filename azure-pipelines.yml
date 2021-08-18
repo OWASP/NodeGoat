@@ -3,17 +3,12 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 steps:
-- task: Docker@2
-  inputs:
-    containerRegistry: 'jddintegrationtest'
-    repository: 'veracode/pipeline-scan'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+
     
 - task: CmdLine@2
   inputs:
     script: |
-      docker run -it --rm \
+      docker run --rm \
           --env VERACODE_API_KEY_ID=c2db7664... \
           --env VERACODE_API_KEY_SECRET=24f62c81... \
           -v /host/os/path/to/myapp/:/myapp/ \
