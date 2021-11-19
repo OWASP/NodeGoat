@@ -9,7 +9,7 @@ const {
     environmentalScripts
 } = require("../../config/config");
 const ErrorHandler = require("./error").errorHandler;
-
+ 
 const index = (app, db) => {
 
     "use strict";
