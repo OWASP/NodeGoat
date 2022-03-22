@@ -1,6 +1,9 @@
 name: E2E Test
 on: [push, pull_request]
 
+env:
+  MONGODB_URI: mongodb://mongo:27017/nodegoat
+
 jobs:
   e2e-test:
     name: Node.js
