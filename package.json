@@ -28,8 +28,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "cross-env PORT=5000 nodemon",
-    "test:e2e": "cross-env NODE_ENV=test MONGODB_URI=mongodb://localhost:27017/nodegoat cypress open",
-    "test:ci": "cross-env NODE_ENV=test cypress run",
+    "test:e2e": "cross-env NODE_ENV=test MONGODB_URI=mongodb://mongo:27017/nodegoat cypress open",
+    "test:ci": "cross-env NODE_ENV=test MONGODB_URI=mongodb://mongo:27017/nodegoat cypress run",
     "test": "node node_modules/grunt-cli/bin/grunt test",
     "db:seed": "cross-env NODE_ENV=test grunt db-reset",
     "precommit": "grunt precommit",
