@@ -12,7 +12,9 @@ const MongoClient = require("mongodb").MongoClient; // Driver for connecting to 
 const http = require("http");
 const marked = require("marked");
 //const nosniff = require('dont-sniff-mimetype');
+const morgan = require('morgan');
 const app = express(); // Web framework to handle routing requests
+
 const routes = require("./app/routes");
 const { port, db, cookieSecret } = require("./config/config"); // Application config properties
 /*
@@ -27,6 +29,7 @@ const httpsOptions = {
 };
 */
 
+app.use(morgan('combined'))
 MongoClient.connect(db, (err, db) => {
     if (err) {
         console.log("Error: DB: connect");
@@ -111,6 +114,11 @@ MongoClient.connect(db, (err, db) => {
         next();
     });
     */
+
+    app.use((req, res, next) => {
+        console.log(`Received request from: ${req.ip}`);
+        next();
+    })
 
     // Register templating engine
     app.engine(".html", consolidate.swig);
