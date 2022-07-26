@@ -48,12 +48,12 @@ function SessionHandler(db) {
         });
     };
 
-    this.handleLoginRequest = (req, res, next) => {
+    this.handleLoginRequest = async (req, res, next) => {
         const {
             userName,
             password
         } = req.body
-        userDAO.validateLogin(userName, password, (err, user) => {
+        await userDAO.validateLogin(userName, password, (err, user) => {
             const errorMessage = "Invalid username and/or password";
             const invalidUserNameErrorMessage = "Invalid username";
             const invalidPasswordErrorMessage = "Invalid password";
@@ -199,7 +199,7 @@ function SessionHandler(db) {
 
         if (validateSignup(userName, firstName, lastName, password, verify, email, errors)) {
 
-            userDAO.getUserByUserName(userName, (err, user) => {
+            userDAO.getUserByUserName(userName, async (err, user) => {
 
                 if (err) return next(err);
 
@@ -211,7 +211,7 @@ function SessionHandler(db) {
                     });
                 }
 
-                userDAO.addUser(userName, firstName, lastName, password, email, (err, user) => {
+                await userDAO.addUser(userName, firstName, lastName, password, email, (err, user) => {
 
                     if (err) return next(err);
 

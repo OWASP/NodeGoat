@@ -5,7 +5,7 @@
   "description": "A tool to learn OWASP Top 10 for node.js developers",
   "main": "server.js",
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.15.1",
     "consolidate": "^0.14.1",
     "csurf": "^1.8.3",
@@ -59,6 +59,6 @@
     "should": "^8.3.1",
     "zaproxy": "^0.2.0"
   },
-  "repository": "https://github.com/OWASP/NodejsGoat",
+  "repository": "https://github.com/OWASP/NodeGoat",
   "license": "Apache 2.0"
 }
