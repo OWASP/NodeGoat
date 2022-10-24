@@ -20,7 +20,8 @@
     "node-esapi": "0.0.1",
     "serve-favicon": "^2.3.0",
     "swig": "^1.4.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "y18n": "^5.0.0"
   },
   "comments": {
     "//": "a9 insecure components"
