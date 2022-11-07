@@ -33,5 +33,5 @@ jobs:
         blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
         blackduck_url: ${{ secrets.BLACKDUCK_URL }}
         blackduck_scan_full: true
-        blackduck_scan_failure_severities: "['BLOCKER']"
+        blackduck_scan_failure_severities: "['ALL']"
 
