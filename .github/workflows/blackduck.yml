@@ -36,5 +36,5 @@ jobs:
         bridge_download_url: ${{ env.LINUX_BRIDGE_URL }}
       env:
         LINUX_BRIDGE_URL: "https://sig-repo.synopsys.com/artifactory/bds-integrations-release/com/synopsys/integration/synopsys-action/0.1.72/ci-package-0.1.72-linux64.zip"
-        DETECT.TOOLS: "DETECTOR,SIGNATURE_SCAN,IAC_SCAN"
-        DETECT.POLICY.CHECK.FAIL.ON.SEVERITIES: "BLOCKER"
+        DETECT.TOOLS: "IAC_SCAN"
+        DETECT.POLICY.CHECK.FAIL.ON.SEVERITIES: "NONE"
