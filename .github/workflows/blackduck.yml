@@ -28,7 +28,7 @@ jobs:
         cache: 'npm'
     - run: npm install
     - name: Synopsys Action
-    - uses: synopsys-sig/synopsys-action@0.1.0
+      uses: synopsys-sig/synopsys-action@0.1.0
       with:
         blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
         blackduck_url: ${{ secrets.BLACKDUCK_URL }}
