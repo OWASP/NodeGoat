@@ -34,8 +34,7 @@ jobs:
         blackduck_url: ${{ secrets.BLACKDUCK_URL }}
         blackduck_scan_full: true
         bridge_download_url: ${{ env.LINUX_BRIDGE_URL }}
-        DETECT_TOOLS: "IAC_SCAN"
       env:
         LINUX_BRIDGE_URL: "https://sig-repo.synopsys.com/artifactory/bds-integrations-release/com/synopsys/integration/synopsys-action/0.1.72/ci-package-0.1.72-linux64.zip"
-        DETECT_TOOLS: "DETECTOR,SIGNATURE_SCAN,IAC_SCAN"
+        detect_tools: "DETECTOR,SIGNATURE_SCAN,IAC_SCAN"
         DETECT_POLICY_CHECK_FAIL_ON_SEVERITIES: "NONE"
