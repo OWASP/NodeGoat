@@ -11,7 +11,7 @@ on:
 env:
   LINUX_BRIDGE_URL: "https://sig-repo.synopsys.com/artifactory/bds-integrations-release/com/synopsys/integration/synopsys-action/0.1.72/ci-package-0.1.72-linux64.zip"
   DETECT_TOOLS: "DETECTOR,SIGNATURE_SCAN,IAC_SCAN"
-  DETECT_DIAGNOSTIC: true
+  DETECT_DIAGNOSTIC: false
 jobs:
   build:
 
