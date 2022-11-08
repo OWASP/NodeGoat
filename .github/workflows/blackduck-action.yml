@@ -29,6 +29,8 @@ jobs:
       with:
           scan-mode: INTELLIGENT
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          detect-version: 7.9.0
+          detect-version: 8.2.0
           blackduck-url: ${{ secrets.BLACKDUCK_URL }}
           blackduck-api-token: ${{ secrets.BLACKDUCK_API_TOKEN }}
+      env:
+        DETECT_TOOLS: DETECTOR,SIGNATURE_SCAN,IAC_SCAN
