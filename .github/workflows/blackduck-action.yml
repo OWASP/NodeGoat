@@ -6,12 +6,35 @@ on:
     branches: [master]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["16.x"]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install
   security:
     name: security scans
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      
+    - name: Create Black Duck Policy
+      uses: blackducksoftware/create-policy-action@v0.0.1
+      with:
+        blackduck-url: ${{ secrets.BLACKDUCK_URL }}
+        blackduck-api-token: ${{ secrets.BLACKDUCK_API_TOKEN }}
+        policy-name: 'no high security risk'
+        no-fail-if-policy-exists: true      
       
     - name: Run Synopsys Detect Rapid Scan
       if: ${{github.event_name == 'pull_request'}}
