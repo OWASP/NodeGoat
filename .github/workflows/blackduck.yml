@@ -10,8 +10,6 @@ on:
     branches: [ "master" ]
 env:
   LINUX_BRIDGE_URL: "https://sig-repo.synopsys.com/artifactory/bds-integrations-release/com/synopsys/integration/synopsys-action/0.1.72/ci-package-0.1.72-linux64.zip"
-  DETECT_TOOLS: "DETECTOR,SIGNATURE_SCAN,IAC_SCAN"
-  DETECT_DIAGNOSTIC: true
 jobs:
   build:
 
@@ -30,6 +28,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
+    - run: export DETECT_TOOLS=DETECTOR,SIGNATURE_SCAN,IAC_SCAN
     - name: Synopsys Action
       uses: synopsys-sig/synopsys-action@v0.1.0
       with:
