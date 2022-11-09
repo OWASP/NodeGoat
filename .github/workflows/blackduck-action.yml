@@ -19,11 +19,15 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-  security:
-    needs: build
-    name: security scans
-    runs-on: ubuntu-latest
-    steps:
+
+    - name: Create Black Duck Policy
+      uses: blackducksoftware/create-policy-action@v0.0.1
+      with:
+        blackduck-url: ${{ secrets.BLACKDUCK_URL }}
+        blackduck-api-token: ${{ secrets.BLACKDUCK_API_TOKEN }}
+        policy-name: 'My Black Duck Policy For GitHub Actions'
+        no-fail-if-policy-exists: true
+
     - name: Run Synopsys Detect Rapid Scan
       if: ${{github.event_name == 'pull_request'}}
       uses: synopsys-sig/detect-action@v0.3.0
