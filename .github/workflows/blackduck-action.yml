@@ -25,7 +25,7 @@ jobs:
       with:
         blackduck-url: ${{ secrets.BLACKDUCK_URL }}
         blackduck-api-token: ${{ secrets.BLACKDUCK_API_TOKEN }}
-        policy-name: 'My Black Duck Policy For GitHub Actions'
+        policy-name: 'no high security risk'
         no-fail-if-policy-exists: true
 
     - name: Run Synopsys Detect Rapid Scan
