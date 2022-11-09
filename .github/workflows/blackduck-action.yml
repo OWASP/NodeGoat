@@ -20,14 +20,6 @@ jobs:
         cache: 'npm'
     - run: npm install
 
-    - name: Create Black Duck Policy
-      uses: blackducksoftware/create-policy-action@v0.0.1
-      with:
-        blackduck-url: ${{ secrets.BLACKDUCK_URL }}
-        blackduck-api-token: ${{ secrets.BLACKDUCK_API_TOKEN }}
-        policy-name: 'no high security risk'
-        no-fail-if-policy-exists: true
-
     - name: Run Synopsys Detect Rapid Scan
       if: ${{github.event_name == 'pull_request'}}
       uses: synopsys-sig/detect-action@v0.3.0
