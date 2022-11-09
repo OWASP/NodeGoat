@@ -24,9 +24,6 @@ jobs:
     name: security scans
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
     - name: Run Synopsys Detect Rapid Scan
       if: ${{github.event_name == 'pull_request'}}
       uses: synopsys-sig/detect-action@v0.3.0
