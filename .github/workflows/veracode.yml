@@ -11,10 +11,12 @@ jobs:
         filename: 'veracode.zip'
         path: .
      
-     
     - uses: actions/setup-java@v3.6.0
-      with: 
+      with:
         java-version: '8'
+        distribution: microsoft 
+        
+      
     - uses: actions/upload-artifact@v2 
       with:
         path: NodeGoat/veracode.zip 
