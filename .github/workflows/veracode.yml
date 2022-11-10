@@ -1,0 +1,31 @@
+name: security-action
+on: [push]
+jobs:   
+  Veracode-SAST-Policy-Scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: 'veracode.zip'
+        path: .
+          
+    - uses: actions/setup-java@v1 .
+      with: 
+        java-version: '8'
+    - uses: actions/upload-artifact@v2 
+      with:
+        path: NodeGoat/veracode.zip 
+
+    - uses: veracode/veracode-uploadandscan-action@master 
+      with:
+        vid: '${{ secrets.VERACODE_ID }}'
+        vkey: '${{ secrets.VERACODE_KEY }}'
+        criticality: 'VeryHigh'
+        appname: 'Node-Vulnerable-Demo'
+        createprofile: 'true'
+        filepath: 'veracode.zip'
+        deleteIncompleteScan: 'true'
+        version: ${{ github.run_id }}'
+        scantimeout: 30
