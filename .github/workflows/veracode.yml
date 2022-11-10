@@ -11,10 +11,9 @@ jobs:
         filename: 'veracode.zip'
         path: .
      
-    - uses: actions/setup-java@v3.6.0
+    - uses: Fleshgrinder/setup-java@1.0.0
       with:
-        java-version: '8'
-        distribution: microsoft 
+        version: '8'
         
       
     - uses: actions/upload-artifact@v2 
