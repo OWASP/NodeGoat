@@ -14,11 +14,10 @@ jobs:
       with:
         filename: 'veracode.zip'
         path: .
+    - name: Unzip the Pipeline Scanner
     - shell: bash
-    - name: Veracode SCA Agent-Based
       env:
         SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
-    - name: Archive Release
       run: |
         export SRCCLR_SCM_URI=${{ github.github_repository }}
         export SRCCLR_SCM_REF=${{ github.workflow }}
@@ -26,6 +25,7 @@ jobs:
         export SRCCLR_SCM_REV=${{ github.run_id }}        
         export EXTRA_ARGS='--update-advisor'
         curl -sSL 'https://download.sourceclear.com/ci.sh' | bash -s scan $EXTRA_ARGS
+        
   Veracode-SAST-Pipeline-Scan:
     runs-on: ubuntu-latest
     steps:
