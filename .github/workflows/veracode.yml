@@ -16,7 +16,7 @@ jobs:
         path: .
     - shell: bash
       env:
-        SRCCLR_API_TOKEN: ${{ secrets.SCA }}
+        SRCCLR_API_TOKEN: ${{ SRCCLR_API_TOKEN }}
       run: |
         export SRCCLR_SCM_URI=$GITHUB_REPOSITORY
         export SRCCLR_SCM_REF=${{ github.workflow }}
