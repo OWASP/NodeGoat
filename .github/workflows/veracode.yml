@@ -1,7 +1,11 @@
 name: security-action
-on: [push]
+on:
+  push:
+    branches:    
+      - '**'        
+      - '!master'   
 jobs:   
-  Veracode-SAST-Policy-Scan:
+  Veracode-Software-Composition-Analisys:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -10,26 +14,38 @@ jobs:
       with:
         filename: 'veracode.zip'
         path: .
-     
-    - uses: actions/setup-java@v3
-    
+    - shell: bash
+      env:
+        SRCCLR_API_TOKEN: ${{ secrets.SCA }}
+      run: |
+        export https://github.com/${_REPO_OWNER}/${REPO_NAME}
+        export SRCCLR_SCM_REF=${{ github.workflow }}
+        export SRCCLR_SCM_REF_TYPE="branch"
+        export SRCCLR_SCM_REV=${{ github.run_id }}        
+        export EXTRA_ARGS='--update-advisor'
+        curl -sSL 'https://download.sourceclear.com/ci.sh' | bash -s scan $EXTRA_ARGS
+  Veracode-SAST-Pipeline-Scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@master
       with:
-       distribution: 'zulu' # See 'Supported distributions' for available options
+        filename: 'veracode.zip'
+        path: .
+    - uses: actions/setup-java@v3   
+      with:
+       distribution: 'zulu'
        java-version: '8'
-        
-      
     - uses: actions/upload-artifact@v2 
       with:
-        path: NodeGoat/veracode.zip 
-
-    - uses: veracode/veracode-uploadandscan-action@master 
+        path: veracode.zip
+    - name: Download the Pipeline Scanner
+      uses: wei/curl@master
       with:
-        vid: '${{ secrets.VERACODE_ID }}'
-        vkey: '${{ secrets.VERACODE_KEY }}'
-        criticality: 'VeryHigh'
-        appname: 'Node-Vulnerable-Demo'
-        createprofile: 'true'
-        filepath: 'veracode.zip'
-        deleteIncompleteScan: 'true'
-        version: ${{ github.run_id }}'
-        scantimeout: 30
+        args: -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
+    - name: Unzip the Pipeline Scanner
+      run: unzip -qq -n pipeline-scan-LATEST.zip
+    - shell: bash
+      run: |
+        java -jar pipeline-scan.jar --veracode_api_id "${{ secrets.VERACODE_ID }}" --veracode_api_key "${{ secrets.VERACODE_KEY }}" --file "veracode.zip" --issue_details true
