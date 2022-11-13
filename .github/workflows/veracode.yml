@@ -18,7 +18,7 @@ jobs:
     - shell: bash
       env:
         SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
-      name: Unzip the Pipeline Scanner
+      name: Veracode SCA Agent-Based
       run: |
         export SRCCLR_SCM_URI=${{ github.github_repository }}
         export SRCCLR_SCM_REF=${{ github.workflow }}
