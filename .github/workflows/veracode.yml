@@ -14,10 +14,11 @@ jobs:
       with:
         filename: 'veracode.zip'
         path: .
-    - name: Unzip the Pipeline Scanner
+
     - shell: bash
       env:
         SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+      name: Unzip the Pipeline Scanner
       run: |
         export SRCCLR_SCM_URI=${{ github.github_repository }}
         export SRCCLR_SCM_REF=${{ github.workflow }}
