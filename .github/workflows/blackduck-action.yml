@@ -41,3 +41,4 @@ jobs:
           blackduck-api-token: ${{ secrets.BLACKDUCK_API_TOKEN }}
       env:
         DETECT_TOOLS: DETECTOR,SIGNATURE_SCAN,IAC_SCAN
+        DETECT_IMPACT_ANALYSIS_ENABLED: true
