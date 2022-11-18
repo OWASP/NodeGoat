@@ -22,17 +22,17 @@ jobs:
 
     - name: Run Synopsys Detect Rapid Scan
       if: ${{github.event_name == 'pull_request'}}
-      uses: synopsys-sig/detect-action@v0.3.0
+      uses: synopsys-sig/detect-action@v0.3.3
       with:
           scan-mode: RAPID
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          detect-version: 8.2.0
+          detect-version: 7.14.0
           blackduck-url: ${{ secrets.BLACKDUCK_URL }}
           blackduck-api-token: ${{ secrets.BLACKDUCK_API_TOKEN }}
 
     - name: Run Synopsys Detect Intelligent Scan
       if: ${{github.event_name == 'push'}}
-      uses: synopsys-sig/detect-action@v0.3.0
+      uses: synopsys-sig/detect-action@v0.3.3
       with:
           scan-mode: INTELLIGENT
           github-token: ${{ secrets.GITHUB_TOKEN }}
