@@ -1,0 +1,29 @@
+name: '[harissa] Dependency Check'
+on:
+  push: 
+  # pull_request:
+  #   branches:
+  #     - develop
+
+  workflow_dispatch:
+
+jobs:
+  depchecktest:
+    runs-on: ubuntu-latest
+    name: depecheck_test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
+        with:
+          project: 'test'
+          path: '.'
+          format: 'HTML'    
+          others: ''
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+           name: Depcheck report
+           path: ${{github.workspace}}/reports
