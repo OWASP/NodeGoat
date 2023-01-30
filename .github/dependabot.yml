@@ -1,3 +1,9 @@
 version: 2
 updates:
-  - target-branch: "develop"
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "develop"  
+    labels:
+      - "npm dependencies"
