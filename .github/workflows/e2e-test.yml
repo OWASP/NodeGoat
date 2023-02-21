@@ -44,3 +44,24 @@ jobs:
         run: |
           NODE_ENV=test npm start -- --silent &
           npm run test:ci
+
+  test:
+    name: OWASP ZAP SCANS
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+        ref: master
+      - name: Building Docker Node-Goat Image
+        run: docker-compose build
+      - name: Launching the app
+        run: docker-compose up --detach
+
+      - name: OWASP ZAP
+        uses: zaproxy/action-baseline@v0.4.0
+        with:
+          target: "http://localhost:4000"
+          fail_action: false
+          token: $
+          issue_title: Security Tests
