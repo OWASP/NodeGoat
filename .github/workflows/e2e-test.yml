@@ -41,6 +41,21 @@ jobs:
           timeout 60s bash -c 'until nc -z -w 2 localhost 27017 && echo MongoDB ready; do sleep 2; done'
 
       - name: Run E2E test suite
+        id: test-suite
         run: |
           NODE_ENV=test npm start -- --silent &
-          npm run test:ci
+          npm run test:ci -- --config video=true
+
+      - name: Prepare cypress artifacts
+        if: failure() && (steps.test-suite.outcome == 'failure')
+        working-directory: ./test/e2e
+        run: >
+          mkdir -p "screenshots" && find "screenshots" -mindepth 1 -maxdepth 1 -type d
+          -exec sh -c 'mv -- "videos/$(basename "$1").mp4" "$1"' _ {} \;
+
+      - name: Upload cypress artifacts
+        if: failure() && (steps.test-suite.outcome == 'failure')
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-artifacts-node${{ matrix.node-version }}
+          path: test/e2e/screenshots
