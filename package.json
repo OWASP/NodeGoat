@@ -5,7 +5,8 @@
   "description": "A tool to learn OWASP Top 10 for node.js developers",
   "main": "server.js",
   "dependencies": {
-    "bcrypt": "1.5.0",
+    "bcrypt": "5.1.0",
+    "grunt-nodemon": "0.4.2",
     "body-parser": "^1.15.1",
     "consolidate": "^0.14.1",
     "csurf": "^1.8.3",

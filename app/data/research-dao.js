@@ -24,4 +24,6 @@ function ResearchDAO(db) {
     };
 }
 
-module.exports = { ResearchDAO };
+module.exports = {
+    ResearchDAO
+};

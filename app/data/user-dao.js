@@ -1,5 +1,6 @@
-const bcrypt = require("bcrypt-nodejs");
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 /* The UserDAO must be constructed with a connected database object */
 function UserDAO(db) {
@@ -15,7 +16,7 @@ function UserDAO(db) {
 
     const usersCol = db.collection("users");
 
-    this.addUser = async(userName, firstName, lastName, password, email, callback) => {
+    this.addUser = async (userName, firstName, lastName, password, email, callback) => {
 
         // Create user document
         const user = {
@@ -23,7 +24,7 @@ function UserDAO(db) {
             firstName,
             lastName,
             benefitStartDate: this.getRandomFutureDate(),
-            password: await this.hashPassword(password, BCRYPT_SALT_ROUNDS)
+            password: bcrypt.hashSync(password, salt)
             /*
             // Fix for A2-1 - Broken Auth
             // Stores password in a safer way using one way encryption and salt hashing
@@ -118,8 +119,10 @@ function UserDAO(db) {
             }, {
                 new: true
             },
-            (err, data) =>  err ? callback(err, null) : callback(null, data.value.seq));
+            (err, data) => err ? callback(err, null) : callback(null, data.value.seq));
     };
 }
 
-module.exports = { UserDAO };
+module.exports = {
+    UserDAO
+};
