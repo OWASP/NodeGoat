@@ -19,8 +19,8 @@ Once the application is running, you can access the tutorial page at [http://loc
 ##### Default user accounts
 
 The database comes pre-populated with these user accounts created as part of the seed data -
-* Admin Account - u:admin p:Admin_123
-* User Accounts (u:user1 p:User1_123), (u:user2 p:User2_123)
+* Admin Account - u:`admin` p:`Admin_123`
+* User Accounts (u:`user1` p:`User1_123`), (u:`user2` p:`User2_123`)
 * New users can also be added using the sign-up page.
 
 ## How to Set Up Your Copy of NodeGoat
