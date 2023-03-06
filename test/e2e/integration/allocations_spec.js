@@ -1,46 +1,48 @@
 /// <reference types="Cypress" />
 
-describe('/allocations behaviour', () => {
+describe("/allocations behaviour", () => {
+  "use strict";
+
   before(() => {
-    cy.dbReset()
-  })
+    cy.dbReset();
+  });
 
   afterEach(() => {
-    cy.visitPage('/logout')
-  })
+    cy.visitPage("/logout");
+  });
 
-  it('Should redirect if the user has not logged in', () => {
-    cy.visitPage('/allocations/1')
-    cy.url().should('include', 'login')
-  })
+  it("Should redirect if the user has not logged in", () => {
+    cy.visitPage("/allocations/1");
+    cy.url().should("include", "login");
+  });
 
-  it('Should be accesible for a logged user', () => {
-    cy.userSignIn()
-    cy.visitPage('/allocations/1')
-    cy.url().should('include', 'allocations')
-  })
+  it("Should be accesible for a logged user", () => {
+    cy.userSignIn();
+    cy.visitPage("/allocations/1");
+    cy.url().should("include", "allocations");
+  });
 
-  it('Should be an input', () => {
-    cy.userSignIn()
-    cy.visitPage('/allocations/1')
-    cy.get('input[name="threshold"]')
-  })
+  it("Should be an input", () => {
+    cy.userSignIn();
+    cy.visitPage("/allocations/1");
+    cy.get("input[name='threshold']");
+  });
 
-  it('Should redirect the user', () => {
-    const threshold = 2
-    cy.userSignIn()
-    cy.visitPage('/allocations/1')
+  it("Should redirect the user", () => {
+    const threshold = 2;
+    cy.userSignIn();
+    cy.visitPage("/allocations/1");
 
-    cy.get('input[name="threshold"]')
+    cy.get("input[name='threshold']")
       .clear()
-      .type(threshold)
+      .type(threshold);
 
-    cy.get('button[type="submit"]')
-      .click()
+    cy.get("button[type='submit']")
+      .click();
 
     cy.location().should((loc) => {
-      expect(loc.search).to.eq(`?threshold=${threshold}`)
-      expect(loc.pathname).to.eq('/allocations/1')
-    })
-  })
-})
+      expect(loc.search).to.eq(`?threshold=${threshold}`);
+      expect(loc.pathname).to.eq("/allocations/1");
+    });
+  });
+});

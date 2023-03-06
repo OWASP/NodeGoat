@@ -51,7 +51,7 @@ function UserDAO(db) {
         const day = (Math.floor(Math.random() * 10) + today.getDay()) % 29;
         const month = (Math.floor(Math.random() * 10) + today.getMonth()) % 12;
         const year = Math.ceil(Math.random() * 30) + today.getFullYear();
-        return `${year}-${("0" + month).slice(-2)}-${("0" + day).slice(-2)}`
+        return `${year}-${("0" + month).slice(-2)}-${("0" + day).slice(-2)}`;
     };
 
     this.validateLogin = (userName, password, callback) => {
@@ -64,7 +64,7 @@ function UserDAO(db) {
             // compares decrypted password stored in this.addUser()
             return bcrypt.compareSync(fromDB, fromUser);
             */
-        }
+        };
 
         // Callback to pass to MongoDB that validates a user document
         const validateUserDoc = (err, user) => {
@@ -86,7 +86,7 @@ function UserDAO(db) {
                 noSuchUserError.noSuchUser = true;
                 callback(noSuchUserError, null);
             }
-        }
+        };
 
         usersCol.findOne({
             userName: userName

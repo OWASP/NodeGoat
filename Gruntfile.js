@@ -2,9 +2,13 @@
 
 var exec = require("child_process").exec;
 
-var JS_FILES = ["Gruntfile.js", "app/assets/js/**", "config/config.js", "app/data/**/*.js",
-    "app/routes/**/*.js", "server.js", "test/**/*.js"
+var APP_JS_FILES = ["app/assets/js/**/*.js", "config/**/*.js", "app/data/**/*.js",
+    "app/routes/**/*.js", "server.js"
 ];
+
+var SUPPORT_JS_FILES = ["Gruntfile.js", "artifacts/**/*.js", "test/**/*.js"];
+
+var JS_FILES = APP_JS_FILES.concat(SUPPORT_JS_FILES);
 
 
 module.exports = function(grunt) {
@@ -13,11 +17,15 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON("package.json"),
         watch: {
             js: {
-                files: JS_FILES,
+                files: APP_JS_FILES,
                 tasks: ["jshint"],
                 options: {
                     livereload: true
                 }
+            },
+            support: {
+                files: SUPPORT_JS_FILES,
+                tasks: ["jshint"]
             },
             html: {
                 files: ["app/views/**"],

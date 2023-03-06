@@ -18,7 +18,7 @@ function AllocationsHandler(db) {
         } = req.params;
         const {
             threshold
-        } = req.query
+        } = req.query;
 
         allocationsDAO.getByUserIdAndThreshold(userId, threshold, (err, allocations) => {
             if (err) return next(err);

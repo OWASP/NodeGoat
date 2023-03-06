@@ -1,5 +1,5 @@
 const ProfileDAO = require("../data/profile-dao").ProfileDAO;
-const ESAPI = require('node-esapi')
+const ESAPI = require("node-esapi");
 const {
     environmentalScripts
 } = require("../../config/config");
@@ -25,7 +25,7 @@ function ProfileHandler(db) {
             // while the developer intentions were correct in encoding the user supplied input so it
             // doesn't end up as an XSS attack, the context is incorrect as it is encoding the firstname for HTML
             // while this same variable is also used in the context of a URL link element
-            doc.website = ESAPI.encoder().encodeForHTML(doc.website)
+            doc.website = ESAPI.encoder().encodeForHTML(doc.website);
             // fix it by replacing the above with another template variable that is used for 
             // the context of a URL in a link header
             // doc.website = ESAPI.encoder().encodeForURL(doc.website)
@@ -61,7 +61,7 @@ function ProfileHandler(db) {
         const testComplyWithRequirements = regexPattern.test(bankRouting);
         // if the regex test fails we do not allow saving
         if (testComplyWithRequirements !== true) {
-            const firstNameSafeString = firstName
+            const firstNameSafeString = firstName;
             return res.render("profile", {
                 updateError: "Bank Routing number does not comply with requirements for format specified",
                 firstNameSafeString,

@@ -45,7 +45,7 @@ const tryDropCollection = (db, name) => {
             resolve(undefined);
         });
     });
-}
+};
 
 const parseResponse = (err, res, comm) => {
     if (err) {
@@ -56,7 +56,7 @@ const parseResponse = (err, res, comm) => {
     }
     console.log(comm);
     console.log(JSON.stringify(res));
-}
+};
 
 
 // Starting here
@@ -126,7 +126,7 @@ MongoClient.connect(db, (err, db) =>  {
 
             allocationsCol.insertMany(finalAllocations, (err, data) => {
                 parseResponse(err, data, "allocations.insertMany");
-                console.log("Database reset performed successfully")
+                console.log("Database reset performed successfully");
                 process.exit(0);
             });
 
