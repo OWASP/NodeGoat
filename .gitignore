@@ -22,3 +22,10 @@ report*.html
 # e2e
 test/e2e/screenshots/
 test/e2e/videos/
+
+# ignore sensitive files
+.env.local
+.env
+
+# ignore Snyk Code scanner files
+.dccache

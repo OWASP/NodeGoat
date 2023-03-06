@@ -22,28 +22,44 @@
                 <p>Using insecure npm packages can lead to this vulnerability. Some projects today help test and alert on insecure dependencies:
                     <ol>
                         <li>
-                            The <a href="https://nodesecurity.io/advisories">Node Security project</a> is a great initiative and resource to know about related vulnerabilities.
+                            <a href="https://docs.npmjs.com/cli/v6/commands/npm-audit">npm audit</a> is a vulnerability scanner built into the npm CLI (version 6 or later)
                         </li>
                         <li>
-                            <a href="https://snyk.io/">Snyk.io</a> is another Node.js CLI tool and Platform to scan and detect vulnerable packages
+                            <a href="https://docs.github.com/en/github/managing-security-vulnerabilities/configuring-dependabot-security-updates">Dependabot security updates</a> can automatically make GitHub pull requests to update vulnerable dependencies
                         </li>
                         <li>
-                            <a href="https://www.npmjs.com/package/npm-check">npm-check</a> Check for outdated, incorrect, and unused dependencies.
+                            <a href="https://snyk.io/">Snyk.io</a> is a Node.js CLI tool and Platform to scan and detect vulnerable packages
+                        </li>
+                    </ol>
+                </p>
+                <p>The tools above make use of vulnerability lists, which can also be viewed directly or searched here:
+                    <ol>
+                        <li>
+                            <a href="https://www.npmjs.com/advisories">NPM Security Advisories</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/advisories">GitHub Advisory Database</a>
+                        </li>
+                        <li>
+                            <a href="https://snyk.io/vuln">Snyk Vulnerability DB</a>
+                        </li>
+                    </ol>
+                </p>
+                <p>There are some other tools that can detect and update outdated packages:
+                    <ol>
+                        <li>
+                            <a href="https://docs.npmjs.com/cli/v6/commands/npm-outdated">npm outdated</a> and <a href="https://classic.yarnpkg.com/en/docs/cli/outdated">yarn outdated</a> are both command line ways to show possibly out of date dependencies
+                        </li>
+                        <li>
+                            <a href="https://docs.github.com/en/code-security/supply-chain-security/about-dependabot-version-updates">Dependabot version updates</a> can automatically make GitHub pull requests to update outdated dependencies
                         </li>
                         <li>
                             <a href="https://david-dm.org/">David DM</a> gets you an overview of your project dependencies, the version you use and the latest available, so you can quickly see what's drifting
                         </li>
                         <li>
-                            <a href="https://www.npmjs.com/package/requiresafe">requireSafe</a> helps you keep your node applications secure
-                        </li>
-                        <li>
-                            <a href="http://www.bithound.io">bithound.io</a> is a Node.js code analysis service.
-                        </li>
-                        <li>
-                            <a href="#npm outdated">npm outdated</a> as well as 'yarn outdated' are both command line ways to show possibly out of date dependencies
+                            <a href="https://www.npmjs.com/package/npm-check">npm-check</a> Check for outdated, incorrect, and unused dependencies
                         </li>
                     </ol>
-
                 </p>
             </div>
         </div>
