@@ -1,10 +1,13 @@
 {
-    "blacklistHosts": "*:35729",
-    "fixturesFolder": "test/e2e/fixtures",
-    "integrationFolder": "test/e2e/integration",
-    "pluginsFile": "test/e2e/plugins/index.js",
-    "screenshotsFolder": "test/e2e/screenshots",
-    "videosFolder": "test/e2e/videos",
-    "supportFile": "test/e2e/support/index.js",
-    "video": false
+  "projectId": "3hrkhu",
+  "baseUrl": "http://localhost:3000",
+  "defaultCommandTimeout": 10000,
+  "env": {
+    "baseUrl": "http://localhost:3000"
+  },
+  "downloadsFolder": "test/cypress/downloads",
+  "fixturesFolder": "test/cypress/fixtures",
+  "integrationFolder": "test/cypress/integration",
+  "pluginsFile": "test/cypress/plugins/index.ts",
+  "supportFile": "test/cypress/support/index.ts"
 }

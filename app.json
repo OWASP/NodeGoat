@@ -1,29 +1,23 @@
 {
-  "name": "OWASP NodeGoat",
-  "description": "Educational tool to learn about OWASP Top 10 for node.js apps.",
+  "name": "OWASP Juice Shop",
+  "description": "Probably the most modern and sophisticated insecure web application",
   "keywords": [
+    "web security",
+    "web application security",
+    "webappsec",
+    "owasp",
+    "pentest",
+    "pentesting",
     "security",
-    "node.js",
-    "OWASP Top 10"
+    "vulnerable",
+    "vulnerability",
+    "broken",
+    "bodgeit",
+    "ctf",
+    "capture the flag",
+    "awareness"
   ],
-  "website": "https://www.owasp.org/index.php/Projects/OWASP_Node_js_Goat_Project",
-  "logo": "https://www.owasp.org/skins/owasplogo.png",
-  "success_url": "/login",
-  "scripts": {
-    "postdeploy": "node artifacts/db-reset.js"
-  },
-  "env": {
-    "MONGODB_URI": {
-      "description": "Connection string for MongoDB database to use. Must be publicly accessible.",
-      "value": ""
-    },
-    "NODE_ENV": {
-      "description": "NODE_ENV for build and runtime. Must be in lowercase for Heroku build process.",
-      "value": "production"
-    },
-    "NPM_CONFIG_ONLY": {
-       "description": "Controls devDependency install: \"production\" = skip, \"all\" = install",
-       "value": "production"
-    }
-  }
+  "website": "https://owasp-juice.shop",
+  "repository": "https://github.com/juice-shop/juice-shop",
+  "logo": "https://raw.githubusercontent.com/juice-shop/juice-shop/master/frontend/src/assets/public/images/JuiceShop_Logo.png"
 }

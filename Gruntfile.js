@@ -1,194 +1,86 @@
-"use strict";
+/*
+ * Copyright (c) 2014-2023 Bjoern Kimminich & the OWASP Juice Shop contributors.
+ * SPDX-License-Identifier: MIT
+ */
 
-var exec = require("child_process").exec;
+'use strict'
 
-var APP_JS_FILES = ["app/assets/js/**/*.js", "config/**/*.js", "app/data/**/*.js",
-    "app/routes/**/*.js", "server.js"
-];
+module.exports = function (grunt) {
+  const os = grunt.option('os') || process.env.PCKG_OS_NAME || ''
+  const platform = grunt.option('platform') || process.env.PCKG_CPU_ARCH || ''
+  const node = grunt.option('node') || process.env.nodejs_version || process.env.PCKG_NODE_VERSION || ''
 
-var SUPPORT_JS_FILES = ["Gruntfile.js", "artifacts/**/*.js", "test/**/*.js"];
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
 
-var JS_FILES = APP_JS_FILES.concat(SUPPORT_JS_FILES);
-
-
-module.exports = function(grunt) {
-    // Project Configuration
-    grunt.initConfig({
-        pkg: grunt.file.readJSON("package.json"),
-        watch: {
-            js: {
-                files: APP_JS_FILES,
-                tasks: ["jshint"],
-                options: {
-                    livereload: true
-                }
-            },
-            support: {
-                files: SUPPORT_JS_FILES,
-                tasks: ["jshint"]
-            },
-            html: {
-                files: ["app/views/**"],
-                options: {
-                    livereload: true
-                }
-            },
-            css: {
-                files: ["app/assets/css/**"],
-                options: {
-                    livereload: true
-                }
-            }
-        },
-        jshint: {
-            all: JS_FILES,
-            options: {
-                jshintrc: true
-            }
-        },
-        jsbeautifier: {
-            files: JS_FILES.concat(["app/views/**", "app/assets/css/**"]),
-            options: {
-                html: {
-                    braceStyle: "collapse",
-                    indentChar: " ",
-                    indentScripts: "keep",
-                    indentSize: 4,
-                    maxPreserveNewlines: 10,
-                    preserveNewlines: true,
-                    unformatted: ["a", "sub", "sup", "b", "i", "u", "pre"],
-                    wrapLineLength: 0
-                },
-                css: {
-                    indentChar: " ",
-                    indentSize: 4
-                },
-                js: {
-                    braceStyle: "collapse",
-                    breakChainedMethods: false,
-                    e4x: false,
-                    evalCode: false,
-                    indentChar: " ",
-                    indentLevel: 0,
-                    indentSize: 4,
-                    indentWithTabs: false,
-                    jslintHappy: false,
-                    keepArrayIndentation: false,
-                    keepFunctionIndentation: false,
-                    maxPreserveNewlines: 10,
-                    preserveNewlines: true,
-                    spaceBeforeConditional: true,
-                    spaceInParen: false,
-                    unescapeStrings: false,
-                    wrapLineLength: 0
-                }
-            }
-        },
-        concurrent: {
-            tasks: ["nodemon", "watch"],
-            options: {
-                logConcurrentOutput: true
-            }
-        },
-        if: {
-            testSecurityDependenciesInstalled: {
-                options: {
-                    test: function() {
-                        console.log("Checking to see if chromedriver is installed.");
-                        try {
-                            return require.resolve("chromedriver");
-                        } catch (e) {
-                            console.log(e);
-                            console.log("We will now try to install it.");
-                            console.log("If this fails, please try installing manually,");
-                            console.log("there may be some help here:");
-                            console.log("https://github.com/vuejs/vue-router/issues/261#issuecomment-218618180");
-                            throw e;
-                        }
-                    }
-                },
-                ifTrue: ["mochaTest:security"],
-                ifFalse: ["npm-install:chromedriver@^2.21.2", "mochaTest:security"]
-            }
-        },
-        mochaTest: {
-            options: {
-                reporter: "spec"
-            },
-            unit: {
-                src: ["test/unit/*.js"],
-            },
-            security: {
-                src: ["test/security/*.js"]
-            }
-        },
-        env: {
-            test: {
-                NODE_ENV: "test"
-            }
-        },
-        retire: {
-            js: [],
-            node: ["./"],
-            options: {
-                verbose: true,
-                packageOnly: true,
-                jsRepository: "https://raw.github.com/bekk/retire.js/master/repository/jsrepository.json",
-                nodeRepository: "https://raw.github.com/bekk/retire.js/master/repository/npmrepository.json",
-            }
+    replace_json: {
+      manifest: {
+        src: 'package.json',
+        changes: {
+          'engines.node': (node || '<%= pkg.engines.node %>'),
+          os: (os ? [os] : '<%= pkg.os %>'),
+          cpu: (platform ? [platform] : '<%= pkg.cpu %>')
         }
+      }
+    },
 
-    });
+    compress: {
+      pckg: {
+        options: {
+          mode: os === 'linux' ? 'tgz' : 'zip',
+          archive: 'dist/<%= pkg.name %>-<%= pkg.version %>' + (node ? ('_node' + node) : '') + (os ? ('_' + os) : '') + (platform ? ('_' + platform) : '') + (os === 'linux' ? '.tgz' : '.zip')
+        },
+        files: [
+          {
+            src: [
+              'LICENSE',
+              '*.md',
+              'package.json',
+              'ctf.key',
+              'swagger.yml',
+              'server.ts',
+              'config.schema.yml',
+              'build/**',
+              '!build/reports/**',
+              'config/*.yml',
+              'data/*.ts',
+              'data/static/**',
+              'data/chatbot/.gitkeep',
+              'encryptionkeys/**',
+              'frontend/dist/frontend/**',
+              'frontend/src/**/*.ts',
+              'ftp/**',
+              'i18n/.gitkeep',
+              'lib/**',
+              'models/*.ts',
+              'node_modules/**',
+              'routes/*.ts',
+              'uploads/complaints/.gitkeep',
+              'views/**'
+            ],
+            dest: 'juice-shop_<%= pkg.version %>/'
+          }
+        ]
+      }
+    }
+  })
 
-    // Load NPM tasks
-    grunt.loadNpmTasks("grunt-contrib-watch");
-    grunt.loadNpmTasks("grunt-contrib-jshint");
-    grunt.loadNpmTasks("grunt-mocha-test");
-    grunt.loadNpmTasks("grunt-nodemon");
-    grunt.loadNpmTasks("grunt-concurrent");
-    grunt.loadNpmTasks("grunt-env");
-    grunt.loadNpmTasks("grunt-jsbeautifier");
-    grunt.loadNpmTasks("grunt-retire"); // run as: grunt retire
-    grunt.loadNpmTasks("grunt-if");
-    grunt.loadNpmTasks("grunt-npm-install");
+  grunt.registerTask('checksum', 'Create .md5 checksum files', function () {
+    const fs = require('fs')
+    const crypto = require('crypto')
+    fs.readdirSync('dist/').forEach(file => {
+      const buffer = fs.readFileSync('dist/' + file)
+      const md5 = crypto.createHash('md5')
+      md5.update(buffer)
+      const md5Hash = md5.digest('hex')
+      const md5FileName = 'dist/' + file + '.md5'
+      grunt.file.write(md5FileName, md5Hash)
+      grunt.log.write(`Checksum ${md5Hash} written to file ${md5FileName}.`).verbose.write('...').ok()
+      grunt.log.writeln()
+    })
+  })
 
-    // Making grunt default to force in order not to break the project.
-    grunt.option("force", true);
-
-    grunt.registerTask("db-reset", "(Re)init the database.", function(arg) {
-        var finalEnv = process.env.NODE_ENV || arg || "development";
-        var done;
-
-        done = this.async();
-        var cmd = process.platform === "win32" ? "NODE_ENV=" + finalEnv + " & " : "NODE_ENV=" + finalEnv + " ";
-
-        exec(
-            cmd + "node artifacts/db-reset.js",
-            function(err, stdout, stderr) {
-                if (err) {
-                    grunt.log.error("db-reset:");
-                    grunt.log.error(err);
-                    grunt.log.error(stderr);
-                } else {
-                    grunt.log.ok(stdout);
-                }
-                done();
-            }
-        );
-    });
-
-    // Code Validation, beautification task(s).
-    grunt.registerTask("precommit", ["jsbeautifier", "jshint"]);
-
-    // Test task.
-    grunt.registerTask("test", ["env:test", "mochaTest:unit"]);
-
-    // Security test task.
-    grunt.registerTask("testsecurity", ["env:test", "if:testSecurityDependenciesInstalled"]);
-
-    // start server.
-    grunt.registerTask("run", ["precommit", "concurrent"]);
-
-    // Default task(s).
-    grunt.registerTask("default", ["precommit", "concurrent"]);
-};
+  grunt.loadNpmTasks('grunt-replace-json')
+  grunt.loadNpmTasks('grunt-contrib-compress')
+  grunt.registerTask('package', ['replace_json:manifest', 'compress:pckg', 'checksum'])
+}
