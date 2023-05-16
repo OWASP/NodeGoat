@@ -1,0 +1,16 @@
+name: Security Checks
+on: [push]
+
+jobs:
+  test:
+    name: OWASP ZAP SCANS
+    runs-on: ubuntu-latest
+
+    steps:
+       - uses: actions/checkout@v2
+         with:
+          ref: master
+       - name: Building Docker Node-Goat Image
+         run: docker-compose build
+       - name: Launching the app
+         run: docker-compose up --detach
