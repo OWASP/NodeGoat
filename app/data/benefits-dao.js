@@ -40,4 +40,6 @@ function BenefitsDAO(db) {
     };
 }
 
-module.exports = { BenefitsDAO };
+module.exports = {
+    BenefitsDAO
+};

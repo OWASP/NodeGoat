@@ -1,6 +1,6 @@
 // Error handling middleware
 
-const errorHandler = (err, req, res,next) => {
+const errorHandler = (err, req, res, next) => {
 
     "use strict";
 
@@ -12,4 +12,6 @@ const errorHandler = (err, req, res,next) => {
     });
 };
 
-module.exports = { errorHandler };
+module.exports = {
+    errorHandler
+};

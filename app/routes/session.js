@@ -25,7 +25,7 @@ function SessionHandler(db) {
     this.isAdminUserMiddleware = (req, res, next) => {
         if (req.session.userId) {
             return userDAO.getUserById(req.session.userId, (err, user) => {
-               return user && user.isAdmin ? next() : res.redirect("/login");
+                return user && user.isAdmin ? next() : res.redirect("/login");
             });
         }
         console.log("redirecting to login");
@@ -50,13 +50,13 @@ function SessionHandler(db) {
         });
     };
 
-    this.handleLoginRequest = (req, res, next) => {
+    this.handleLoginRequest = async (req, res, next) => {
         const {
             userName,
             password
         } = req.body;
         userDAO.validateLogin(userName, password, (err, user) => {
-            const errorMessage = "Invalid username and/or password";
+            // const errorMessage = "Invalid username and/or password";
             const invalidUserNameErrorMessage = "Invalid username";
             const invalidPasswordErrorMessage = "Invalid password";
             if (err) {
@@ -78,7 +78,6 @@ function SessionHandler(db) {
                     // or if you know that this is a CRLF vulnerability you can target this specifically as follows:
                     // console.log('Error: attempt to login with invalid user: %s',
                     //     userName.replace(/(\r\n|\r|\n)/g, '_'));
-
                     return res.render("login", {
                         userName: userName,
                         password: "",
@@ -108,7 +107,6 @@ function SessionHandler(db) {
             // attacker was able to get their hands on the cookie id before the user logged-in,
             // then the old session id will render useless as the logged-in user with new privileges
             // holds a new session id now.
-
             // Fix the problem by regenerating a session in each login
             // by wrapping the below code as a function callback for the method req.session.regenerate()
             // i.e:
@@ -205,7 +203,7 @@ function SessionHandler(db) {
 
         if (validateSignup(userName, firstName, lastName, password, verify, email, errors)) {
 
-            userDAO.getUserByUserName(userName, (err, user) => {
+            userDAO.getUserByUserName(userName, async (err, user) => {
 
                 if (err) return next(err);
 
@@ -217,7 +215,7 @@ function SessionHandler(db) {
                     });
                 }
 
-                userDAO.addUser(userName, firstName, lastName, password, email, (err, user) => {
+                await userDAO.addUser(userName, firstName, lastName, password, email, (err, user) => {
 
                     if (err) return next(err);
 

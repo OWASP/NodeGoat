@@ -93,7 +93,7 @@
                         </p>
                         <p>
                             <b>File System Access</b>
-                            <br/>
+                            <br />
                         </p>
                         <iframe width="560" height="315" src="//www.youtube.com/embed/Mr-Jh9bjSLo?rel=0" frameborder="0" allowfullscreen></iframe>
                         <p>
@@ -221,7 +221,7 @@
                         <p>If this statement is not prepared or properly handled when constructed, an attacker may be able to supply
                             <code>admin' --</code>in the username field to access the admin user's account bypassing the condition that checks for the password. The resultant SQL query would looks like:</p>
                         <pre>SELECT * FROM accounts WHERE username = 'admin' -- AND password = ''</pre>
-                        <br/>
+                        <br />
                         <h5>2. NoSQL Injection</h5>
                         <p>The equivalent of above query for NoSQL MongoDB database is:</p>
                         <pre>db.accounts.find({username: username, password: password});</pre>
@@ -300,8 +300,8 @@
                         </p>
                         <pre>';while(true){};'</pre>
                         <p>For these vulnerabilities, bare minimum fixes can be found in
-                        <code>allocations.html</code> and
-                        <code>allocations-dao.js</code></p>
+                            <code>allocations.html</code> and
+                            <code>allocations-dao.js</code></p>
                     </div>
                 </div>
             </div>
@@ -347,19 +347,19 @@ var userName = req.body.userName;
 console.log('Error: attempt to login with invalid user: ', userName);
                         </pre>
                         <p>When user input is unsanitized and the output mechanism is an ordinary terminal stdout facility then the application will be vulnerable to CRLF injection, where an attacker can create a malicious payload as follows:
-                        <pre>
+                            <pre>
 curl http://localhost:4000/login -X POST --data 'userName=vyva%0aError: alex moldovan failed $1,000,000 transaction&password=Admin_123&_csrf='
                         </pre>
-                        Where the <code>userName</code> parameter is encoding in the request the LF symbol which will result in a new line to begin. Resulting log output will look as follows:
-                        <pre>
+                            Where the <code>userName</code> parameter is encoding in the request the LF symbol which will result in a new line to begin. Resulting log output will look as follows:
+                            <pre>
 Error: attempt to login with invalid user:  vyva
 Error: alex moldovan failed $1,000,000 transaction
                         </pre>
-                        <br/>
-                        <h5>2. Log Injection Escalation </h5>
-                        <p>
-                            An attacker may craft malicious input in hope of an escalated attack where the target isn't the logs themselves, but rather the actual logging system. For example, if an application has a back-office web app that manages viewing and tracking the logs, then an attacker may send an XSS payload into the log, which may not result in log forging on the log itself, but when viewed by a system administrator on the log viewing web app then it may compromise it and result in XSS injection that if the logs app is vulnerable.
-                        </p>
+                            <br />
+                            <h5>2. Log Injection Escalation </h5>
+                            <p>
+                                An attacker may craft malicious input in hope of an escalated attack where the target isn't the logs themselves, but rather the actual logging system. For example, if an application has a back-office web app that manages viewing and tracking the logs, then an attacker may send an XSS payload into the log, which may not result in log forging on the log itself, but when viewed by a system administrator on the log viewing web app then it may compromise it and result in XSS injection that if the logs app is vulnerable.
+                            </p>
                     </div>
                 </div>
                 <div class="panel panel-default">
@@ -396,7 +396,7 @@ console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().enc
                     </div>
                     <div class="panel-body">
                         <p>For the above Log Injection vulnerability, example and fix can be found at
-                        <code>routes/session.js</code></p>
+                            <code>routes/session.js</code></p>
                     </div>
                 </div>
             </div>
