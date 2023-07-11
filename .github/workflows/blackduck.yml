@@ -11,16 +11,10 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: [ mac ]    
-    strategy:
-      matrix:
-        node-version: [16.19.0]
+    runs-on: [ mac ]
 
     steps:
     - uses: actions/checkout@v3
-
-    - run: npm install
-    - run: npm run build --if-present
     
     - name: Synopsys Detect
       id: blackduck
@@ -42,4 +36,4 @@ jobs:
          BLACKDUCK_TRUST_CERT: true
          DETECT_PROJECT_APPLICATION_ID: '248982' 
          DETECT_PROJECT_TAGS: "bottomzone,contractors,internal,nexus,nonmodifiedoss,notdistributed,weboat"
-         DETECT_WAIT_FOR_RESULTS: true 
+         DETECT_WAIT_FOR_RESULTS: true
