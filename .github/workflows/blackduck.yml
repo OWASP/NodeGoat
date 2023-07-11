@@ -2,8 +2,8 @@ name: Synopsys-Actions
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "master" ]
+  # push:
+  #   branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -22,9 +22,9 @@ jobs:
       with:
          blackduck_url: ${{ secrets.BLACKDUCK_URL }}
          blackduck_apitoken: ${{ secrets.BLACKDUCK_API_TOKEN }}
-         blackduck_automation_fixpr: true
-         blackduck_scan_full: true
-        #  blackduck_automation_prcomment: true
+         #blackduck_automation_fixpr: true
+         blackduck_scan_full: false
+         blackduck_automation_prcomment: true
          github_token: ${{ secrets.PAT }}
          include_diagnostics: true
 

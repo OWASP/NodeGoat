@@ -1,17 +1,28 @@
-version: "3.7"
-
+version: "2"
 services:
-  web:
+  goof:
     build: .
+    container_name: goof
     environment:
-      NODE_ENV:
-      MONGODB_URI: mongodb://mongo:27017/nodegoat
-    command: sh -c "until nc -z -w 2 mongo 27017 && echo 'mongo is ready for connections' && node artifacts/db-reset.js && npm start; do sleep 2; done"
+      - DOCKER=1
     ports:
-      - "4000:4000"
-
-  mongo:
-    image: mongo:4.4
-    user: mongodb
-    expose:
-      - 27017
+      - "3001:3001"
+      - "9229:9229"
+    links:
+      - goof-mongo
+    depends_on:
+      - goof-mongo
+  goof-mongo:
+    container_name: goof-mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+  good-mysql:
+    container_name: goof-mysql
+    platform: linux/x86_64
+    image: mysql:5
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: acme
+    ports:
+      - "3306:3306"
