@@ -83,7 +83,7 @@ const index = (app, db) => {
 
     app.get("/tutorial/:page", (req, res) => {
         const {
-            parseInt(page)
+            page
         } = req.params
         return res.render(`tutorial/${page}`, {
             environmentalScripts
