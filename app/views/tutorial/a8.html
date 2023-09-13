@@ -18,7 +18,7 @@
                 <h3 class="panel-title">Description</h3>
             </div>
             <div class="panel-body">
-                A CSRF attack forces a logged-on victim’s browser to send a forged HTTP request, including the victim’s session cookie and any other automatically included authentication information, to a vulnerable web application. This allows the attacker to force the victim’s browser to generate requests that vulnerable application processes are legitimate requests from the victim.
+                A CSRF attack forces a logged-on victim’s browser to send a forged HTTP request, including the victim’s session cookie and any other automatically included authentication information, to a vulnerable web application. This allows the attacker to force the victim’s browser to generate requests that the vulnerable application processes as legitimate requests from the victim.
             </div>
         </div>
         <!--
@@ -70,9 +70,9 @@
                 <h3 class="panel-title">How Do I Prevent It?</h3>
             </div>
             <div class="panel-body">
-                <p>Express csrf middleware provide a very effective way to deal with csrf attack. By default this middleware generates a token named "_csrf" which should be added to requests which mutate state (PUT, POST, DELETE), within a hidden form field, or query-string, or header fields.</p>
+                <p>Express csrf middleware provides a very effective way to deal with csrf attack. By default this middleware generates a token named "_csrf" which should be added to requests which mutate state (PUT, POST, DELETE), within a hidden form field, or query-string, or header fields.</p>
                 <p>If using method-override middleware, it is very important that it is used before any middleware that needs to know the method of the request, including CSRF middleware. Otherwise an attacker can use non-state mutating methods (such as GET) to bypass the CSRF middleware checks, and use method override header to convert request to desired method.</p>
-                <p>When form is submitted, the middleware checks for existence of token and validates it by matching to the generated token for the response-request pair. If fails to match, it rejects the request. Thus making it really hard for an attacker to exploit CSRF.
+                <p>When form is submitted, the middleware checks for existence of token and validates it by matching to the generated token for the response-request pair. If tokens do not match, it rejects the request. Thus making it really hard for an attacker to exploit CSRF.
                 </p>
             </div>
         </div>

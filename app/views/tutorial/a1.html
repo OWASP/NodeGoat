@@ -21,15 +21,15 @@
                 Injection flaws occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization.
             </div>
         </div>
-        <!-- 
-        <div class="panel panel-info"> 
-            <div class="panel-heading"> 
-                <h3 class="panel-title">Real World Attack Incident Examples</h3> 
-            </div> 
-            <div class="panel-body"> 
-                Screencast here ... 
-            </div> 
-        </div> 
+        <!--
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Real World Attack Incident Examples</h3>
+            </div>
+            <div class="panel-body">
+                Screencast here ...
+            </div>
+        </div>
         -->
     </div>
 </div>
@@ -151,7 +151,7 @@
                         <p>In
                             <code>routes/contributions.js</code>, the
                             <code>handleContributionsUpdate()</code>function insecurely uses
-                            <code>eval()</code>to covert user supplied contribution amounts to integer.
+                            <code>eval()</code>to convert user supplied contribution amounts to integer.
                             <pre>
         // Insecure use of eval() to parse inputs
         var preTax = eval(req.body.preTax);
@@ -239,8 +239,35 @@
                             <code>$ne</code>.</p>
                     </div>
                 </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">SSJS Attack Mechanics</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Server-side JavaScript Injection (SSJS) is an attack where JavaScript code is injected and executed in a server component. MongoDB specifically, is vulnerable to this attack when queries are run without proper sanitization.
+                        </p>
 
+                        <h5>$where operator</h5>
+                        <p>
+                            MongoDB's
+                            <code>$where</code> operator performs JavaScript expression evaluation on the MongoDB server. If the user is able to inject direct code into such queries then such an attack can take place
+                        </p>
 
+                        <p>
+                            Lets consider an example query:
+                        </p>
+                        <pre> db.allocationsCollection.find({ $where: "this.userId == '" + parsedUserId + "' && " + "this.stocks > " + "'" + threshold + "'" }); </pre>
+
+                        <p>
+                            The code will match all documents which have a
+                            <code>userId</code> field as specified by
+                            <code>parsedUserId</code> and a
+                            <code>stocks</code> field as specified by
+                            <code>threshold</code>. The problem is that these parameters are not validated, filtered, or sanitised, and vulnerable to SSJS Injection.
+                        </p>
+                    </div>
+                </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">How Do I Prevent It?</h3>
@@ -254,10 +281,129 @@
                         </ul>
                     </div>
                 </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Source Code Example</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p><strong>Note: These vulnerabilities are not present when using an Atlas M0 cluster with NodeGoat.</strong></p>
+                        <p>The Allocations page of the demo application is vulnerable to NoSQL Injection. For example, set the stocks threshold filter to:</p>
+                        <pre>1'; return 1 == '1</pre>
+                        <p>This will retrieve allocations for all the users in the database.</p>
+                        <p>An attacker could also send the following input for the
+                            <code>threshold</code> field in the request's query, which will create a valid JavaScript expression and satisfy the
+                            <code> $where</code> query as well, resulting in a DoS attack on the MongoDB server:
+                        </p>
+                        <pre>http://localhost:4000/allocations/2?threshold=5';while(true){};' </pre>
+                        <p>
+                            You can also just drop the following into the Stocks Threshold input box:
+                        </p>
+                        <pre>';while(true){};'</pre>
+                        <p>For these vulnerabilities, bare minimum fixes can be found in
+                        <code>allocations.html</code> and
+                        <code>allocations-dao.js</code></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <!-- /NoSQL Injection -->
+
+    <!-- Log Injection -->
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                    <i class="fa fa-chevron-down"></i> A1 - 3 Log Injection
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse">
+            <div class="panel-body">
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Description</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Log injection vulnerabilities enable an attacker to forge and tamper with an application's logs.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Attack Mechanics</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>An attacker may craft a malicious request that may deliberately fail, which the application will log, and when attacker's user input is unsanitized, the payload is sent as-is to the logging facility. Vulnerabilities may vary depending on the logging facility:</p>
+                        <h5>1. Log Forging (CRLF) </h5>
+                        <p>Lets consider an example where an application logs a failed attempt to login to the system. A very common example for this is as follows:
+                        </p>
+                        <pre>
+var userName = req.body.userName;
+console.log('Error: attempt to login with invalid user: ', userName);
+                        </pre>
+                        <p>When user input is unsanitized and the output mechanism is an ordinary terminal stdout facility then the application will be vulnerable to CRLF injection, where an attacker can create a malicious payload as follows:
+                        <pre>
+curl http://localhost:4000/login -X POST --data 'userName=vyva%0aError: alex moldovan failed $1,000,000 transaction&password=Admin_123&_csrf='
+                        </pre>
+                        Where the <code>userName</code> parameter is encoding in the request the LF symbol which will result in a new line to begin. Resulting log output will look as follows:
+                        <pre>
+Error: attempt to login with invalid user:  vyva
+Error: alex moldovan failed $1,000,000 transaction
+                        </pre>
+                        <br/>
+                        <h5>2. Log Injection Escalation </h5>
+                        <p>
+                            An attacker may craft malicious input in hope of an escalated attack where the target isn't the logs themselves, but rather the actual logging system. For example, if an application has a back-office web app that manages viewing and tracking the logs, then an attacker may send an XSS payload into the log, which may not result in log forging on the log itself, but when viewed by a system administrator on the log viewing web app then it may compromise it and result in XSS injection that if the logs app is vulnerable.
+                        </p>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">How Do I Prevent It?</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        As always when dealing with user input:
+                        <ul>
+                            <li>
+                                Do not allow user input into logs
+                            </li>
+                            <li>
+                                Encode to proper context, or sanitize user input
+                            </li>
+                        </ul>
+
+                        Encoding example:
+                        <pre>
+// Step 1: Require a module that supports encoding
+var ESAPI = require('node-esapi');
+// - Step 2: Encode the user input that will be logged in the correct context
+// following are a few examples:
+console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().encodeForHTML(userName));
+console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().encodeForJavaScript(userName));
+console.log('Error: attempt to login with invalid user: %s', ESAPI.encoder().encodeForURL(userName));
+                        </pre>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Source Code Example</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>For the above Log Injection vulnerability, example and fix can be found at
+                        <code>routes/session.js</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Log Injection -->
+
 </div>
 <!-- end accordions -->
 {% endblock %}

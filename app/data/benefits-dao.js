@@ -10,19 +10,17 @@ function BenefitsDAO(db) {
         return new BenefitsDAO(db);
     }
 
-    var usersCol = db.collection("users");
+    const usersCol = db.collection("users");
 
-    this.getAllNonAdminUsers = function(callback) {
+    this.getAllNonAdminUsers = callback => {
         usersCol.find({
             "isAdmin": {
                 $ne: true
             }
-        }).toArray(function(err, users) {
-            callback(null, users);
-        });
+        }).toArray((err, users) => callback(null, users));
     };
 
-    this.updateBenefits = function(userId, startDate, callback) {
+    this.updateBenefits = (userId, startDate, callback) => {
         usersCol.update({
                 _id: parseInt(userId)
             }, {
@@ -30,7 +28,7 @@ function BenefitsDAO(db) {
                     benefitStartDate: startDate
                 }
             },
-            function(err, result) {
+            (err, result) => {
                 if (!err) {
                     console.log("Updated benefits");
                     return callback(null, result);
@@ -42,4 +40,4 @@ function BenefitsDAO(db) {
     };
 }
 
-module.exports.BenefitsDAO = BenefitsDAO;
+module.exports = { BenefitsDAO };

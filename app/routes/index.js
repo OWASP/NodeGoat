@@ -1,25 +1,30 @@
-var SessionHandler = require("./session");
-var ProfileHandler = require("./profile");
-var BenefitsHandler = require("./benefits");
-var ContributionsHandler = require("./contributions");
-var AllocationsHandler = require("./allocations");
-var ErrorHandler = require("./error").errorHandler;
+const SessionHandler = require("./session");
+const ProfileHandler = require("./profile");
+const BenefitsHandler = require("./benefits");
+const ContributionsHandler = require("./contributions");
+const AllocationsHandler = require("./allocations");
+const MemosHandler = require("./memos");
+const ResearchHandler = require("./research");
+const tutorialRouter = require("./tutorial");
+const ErrorHandler = require("./error").errorHandler;
 
-var exports = function(app, db) {
+const index = (app, db) => {
 
     "use strict";
 
-    var sessionHandler = new SessionHandler(db);
-    var profileHandler = new ProfileHandler(db);
-    var benefitsHandler = new BenefitsHandler(db);
-    var contributionsHandler = new ContributionsHandler(db);
-    var allocationsHandler = new AllocationsHandler(db);
+    const sessionHandler = new SessionHandler(db);
+    const profileHandler = new ProfileHandler(db);
+    const benefitsHandler = new BenefitsHandler(db);
+    const contributionsHandler = new ContributionsHandler(db);
+    const allocationsHandler = new AllocationsHandler(db);
+    const memosHandler = new MemosHandler(db);
+    const researchHandler = new ResearchHandler(db);
 
     // Middleware to check if a user is logged in
-    var isLoggedIn = sessionHandler.isLoggedInMiddleware;
+    const isLoggedIn = sessionHandler.isLoggedInMiddleware;
 
     //Middleware to check if user has admin rights
-    var isAdmin = sessionHandler.isAdminUserMiddleware;
+    const isAdmin = sessionHandler.isAdminUserMiddleware;
 
     // The main page of the app
     app.get("/", sessionHandler.displayWelcomePage);
@@ -57,22 +62,24 @@ var exports = function(app, db) {
     // Allocations Page
     app.get("/allocations/:userId", isLoggedIn, allocationsHandler.displayAllocations);
 
+    // Memos Page
+    app.get("/memos", isLoggedIn, memosHandler.displayMemos);
+    app.post("/memos", isLoggedIn, memosHandler.addMemos);
+
     // Handle redirect for learning resources link
-    app.get("/learn", isLoggedIn, function(req, res, next) {
+    app.get("/learn", isLoggedIn, (req, res) => {
         // Insecure way to handle redirects by taking redirect url from query string
         return res.redirect(req.query.url);
     });
 
-    // Handle redirect for learning resources link
-    app.get("/tutorial", function(req, res, next) {
-        return res.render("tutorial/a1");
-    });
-    app.get("/tutorial/:page", function(req, res, next) {
-        return res.render("tutorial/" + req.params.page);
-    });
+    // Research Page
+    app.get("/research", isLoggedIn, researchHandler.displayResearch);
+
+    // Mount tutorial router
+    app.use("/tutorial", tutorialRouter);
 
     // Error handling middleware
     app.use(ErrorHandler);
 };
 
-module.exports = exports;
+module.exports = index;

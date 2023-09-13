@@ -1,9 +1,10 @@
+/* globals $, Morris */
 $(function() {
 
     "use strict";
 
     if ($("#morris-chart-area").length > 0) {
-        var oneYearAgo = new Date().getFullYear() - 1,
+        let oneYearAgo = new Date().getFullYear() - 1,
             twoYearsAgo = oneYearAgo - 1,
             threeYearsAgo = oneYearAgo - 2;
 

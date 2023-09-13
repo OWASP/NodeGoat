@@ -1,44 +1,51 @@
-var BenefitsDAO = require("../data/benefits-dao").BenefitsDAO;
+const {
+    BenefitsDAO
+} = require("../data/benefits-dao");
+const {
+    environmentalScripts
+} = require("../../config/config");
 
 function BenefitsHandler(db) {
     "use strict";
 
-    var benefitsDAO = new BenefitsDAO(db);
+    const benefitsDAO = new BenefitsDAO(db);
 
-    this.displayBenefits = function(req, res, next) {
+    this.displayBenefits = (req, res, next) => {
 
-        benefitsDAO.getAllNonAdminUsers(function(error, users) {
+        benefitsDAO.getAllNonAdminUsers((error, users) => {
 
             if (error) return next(error);
 
             return res.render("benefits", {
-                users: users,
+                users,
                 user: {
                     isAdmin: true
-                }
+                },
+                environmentalScripts
             });
         });
     };
 
-    this.updateBenefits = function(req, res, next) {
-        var userId = req.body.userId;
-        var benefitStartDate = req.body.benefitStartDate;
+    this.updateBenefits = (req, res, next) => {
+        const {
+            userId,
+            benefitStartDate
+        } = req.body;
 
-        benefitsDAO.updateBenefits(userId, benefitStartDate, function(error) {
+        benefitsDAO.updateBenefits(userId, benefitStartDate, (error) => {
 
             if (error) return next(error);
 
-            benefitsDAO.getAllNonAdminUsers(function(error, users) {
-                var data;
-
+            benefitsDAO.getAllNonAdminUsers((error, users) => {
                 if (error) return next(error);
 
-                data = {
-                    users: users,
+                const data = {
+                    users,
                     user: {
                         isAdmin: true
                     },
-                    updateSuccess: true
+                    updateSuccess: true,
+                    environmentalScripts
                 };
 
                 return res.render("benefits", data);

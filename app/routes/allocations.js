@@ -1,24 +1,32 @@
-var AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
+const AllocationsDAO = require("../data/allocations-dao").AllocationsDAO;
+const {
+    environmentalScripts
+} = require("../../config/config");
 
 function AllocationsHandler(db) {
     "use strict";
 
-    var allocationsDAO = new AllocationsDAO(db);
+    const allocationsDAO = new AllocationsDAO(db);
 
-
-    this.displayAllocations = function(req, res, next) {
+    this.displayAllocations = (req, res, next) => {
         /*
         // Fix for A4 Insecure DOR -  take user id from session instead of from URL param
-        var userId = req.session.userId;
+        const { userId } = req.session;
         */
-        var userId = req.params.userId;
+        const {
+            userId
+        } = req.params;
+        const {
+            threshold
+        } = req.query;
 
-        allocationsDAO.getByUserId(userId, function(err, docs) {
+        allocationsDAO.getByUserIdAndThreshold(userId, threshold, (err, allocations) => {
             if (err) return next(err);
-
-            docs.userId = userId; //set for nav menu items
-
-            return res.render("allocations", docs);
+            return res.render("allocations", {
+                userId,
+                allocations,
+                environmentalScripts
+            });
         });
     };
 }

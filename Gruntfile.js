@@ -2,9 +2,13 @@
 
 var exec = require("child_process").exec;
 
-var JS_FILES = ["Gruntfile.js", "app/assets/js/**", "config/config.js", "app/data/**/*.js",
-    "app/routes/**/*.js", "server.js", "test/**/*.js"
+var APP_JS_FILES = ["app/assets/js/**/*.js", "config/**/*.js", "app/data/**/*.js",
+    "app/routes/**/*.js", "server.js"
 ];
+
+var SUPPORT_JS_FILES = ["Gruntfile.js", "artifacts/**/*.js", "test/**/*.js"];
+
+var JS_FILES = APP_JS_FILES.concat(SUPPORT_JS_FILES);
 
 
 module.exports = function(grunt) {
@@ -13,11 +17,15 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON("package.json"),
         watch: {
             js: {
-                files: JS_FILES,
+                files: APP_JS_FILES,
                 tasks: ["jshint"],
                 options: {
                     livereload: true
                 }
+            },
+            support: {
+                files: SUPPORT_JS_FILES,
+                tasks: ["jshint"]
             },
             html: {
                 files: ["app/views/**"],
@@ -73,23 +81,6 @@ module.exports = function(grunt) {
                     spaceInParen: false,
                     unescapeStrings: false,
                     wrapLineLength: 0
-                }
-            }
-        },
-        nodemon: {
-            dev: {
-                options: {
-                    file: "server.js",
-                    args: [],
-                    ignoredFiles: ["README.md", "node_modules/**"],
-                    watchedExtensions: ["js", "html", "css"],
-                    watchedFolders: ["app/data", "app/routes", "app/assets", "app/views", "app/views/tutorial"],
-                    debug: true,
-                    delayTime: 1,
-                    env: {
-                        PORT: 5000
-                    },
-                    cwd: __dirname
                 }
             }
         },
@@ -165,7 +156,7 @@ module.exports = function(grunt) {
     grunt.option("force", true);
 
     grunt.registerTask("db-reset", "(Re)init the database.", function(arg) {
-        var finalEnv = arg || "development";
+        var finalEnv = process.env.NODE_ENV || arg || "development";
         var done;
 
         done = this.async();
