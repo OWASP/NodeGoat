@@ -64,7 +64,8 @@ grunt db-reset:development
 npm start
 ```
 
-### OPTION 3 - Run NodeGoat on Docker
+
+### OPTION 3 - Run NodeGoat on Docker  
 
 **You need to install [docker](https://docs.docker.com/installation/) and [docker compose](https://docs.docker.com/compose/install/) to be able to use this option**
 
