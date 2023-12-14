@@ -7,9 +7,9 @@
   },
   "scanSettingsSAST": {
     "enableScan": true,
-    "scanPullRequests": true,
-    "incrementalScan": true,
-    "baseBranches": [develop],
+    "scanPullRequests": false,
+    "incrementalScan": false,
+    "baseBranches": [],
     "snippetSize": 10
   },
   "checkRunSettings": {
