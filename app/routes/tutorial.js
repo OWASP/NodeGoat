@@ -12,6 +12,17 @@ router.get("/", (req, res) => {
     });
 });
 
+let a = 10;
+let b = 20;
+
+//create a temporary variable
+let temp;
+
+//swap variables
+temp = a;
+a = b;
+b = temp;
+
 const pages = [
     "a1",
     "a2",
