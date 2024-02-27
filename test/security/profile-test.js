@@ -38,6 +38,19 @@ var sutUserPassword = "User1_123";
 
 chrome.setDefaultService(service);
 
+
+const port = process.env.PORT || 4000;
+let db = process.env.MONGODB_URI || "mongodb://localhost:27017/nodegoat";
+//comment
+module.exports = {
+    port,
+    db,
+    cookieSecret: "session_cookie_secret_key_here",
+    cryptoKey: "a_secure_key_for_crypto_here",
+    cryptoAlgo: "aes256",
+    hostName: "localhost",
+    environmentalScripts: []
+};
 // Easiest way to understand how this works and go through the steps is to
 // setup authentication for a user using Zap manually first
 // using the following link: https://github.com/zaproxy/zaproxy/wiki/FAQformauth
