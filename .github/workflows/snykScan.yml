@@ -1,4 +1,4 @@
-name: Example workflow using Snyk
+name: snyk scan
 on: push
 jobs:
   security:
