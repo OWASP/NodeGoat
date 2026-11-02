@@ -1,4 +1,3 @@
-
 name: E2E Test
 
 on: [push, pull_request]
@@ -6,7 +5,7 @@ on: [push, pull_request]
 jobs:
   e2e-test:
     name: Node.js
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: false
@@ -14,7 +13,7 @@ jobs:
         node-version: ["10.x", "12.x", "14.x"]
 
     steps:
-      - name: Checkout
+      - name: Checkout https://github.com/${{ github.repository }}@${{ github.ref }}
         uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -31,6 +30,11 @@ jobs:
             ~/.npm
             ~/.cache
           key: ${{ runner.os }}-node${{ matrix.node-version }}-E2E-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Cypress system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgconf-2-4
 
       - name: Install dependencies
         run: |
