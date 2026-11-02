@@ -13,7 +13,7 @@ jobs:
         node-version: ["10.x", "12.x", "14.x"]
 
     steps:
-      - name: Checkout https://github.com/${{ github.repository }}@${{ github.ref }}
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -43,14 +43,31 @@ jobs:
 
       - name: Start MongoDB
         run: |
-          docker run -d -p 27017:27017 mongo:4.0
-          timeout 60s bash -c 'until nc -z -w 2 localhost 27017 && echo MongoDB ready; do sleep 2; done'
+          docker run -d --name nodegoat-mongo -p 27017:27017 mongo:4.0
+
+          for i in {1..30}; do
+            if docker exec nodegoat-mongo mongo --quiet --eval "db.adminCommand('ping').ok" 2>/dev/null | grep -q '^1$'; then
+              echo "MongoDB ready"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          echo "MongoDB failed to become ready"
+          docker logs nodegoat-mongo
+          exit 1
 
       - name: Run E2E test suite
         id: test-suite
         run: |
           NODE_ENV=test npm start -- --silent &
           npm run test:ci -- --config video=true
+
+      - name: Show MongoDB logs on failure
+        if: failure()
+        run: |
+          docker ps -a
+          docker logs nodegoat-mongo || true
 
       - name: Prepare cypress artifacts
         if: failure() && (steps.test-suite.outcome == 'failure')
