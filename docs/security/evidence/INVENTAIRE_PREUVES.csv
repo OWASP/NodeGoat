@@ -1,0 +1,30 @@
+id,statut,domaine,chemin,description,sha256
+IMG-01,AFTER | fonctionnement normal,contributions,evidence/after/contributions/20261103-103925.png,Formulaire Contributions : message de mise à jour pour des données normales,799dcc053dd859805c1bab44cf875e3f8a28c17f58c588c9942929d00a006782
+IMG-02,AFTER | fonctionnement normal,contributions,evidence/after/contributions/20261103-103952.png,Formulaire Contributions : vue de contrôle,9b73873d2141c952b570f5a63c9f6eb760a0be1317b0fac817fa0c59c1e0fe44
+IMG-03,AFTER | validation,contributions,evidence/after/contributions/20261103-104011.png,Message de validation Contributions,1631cb79eb09b74d7303e32d224e337b3fd08932d762a351fa57cd7ee008de28
+IMG-04,AFTER | validation,contributions,evidence/after/contributions/20261103-104156.png,"Message de validation Contributions, rejet de saisie",a566a74d4aaeb338ef6042f3e754f06bc5b28fcad9c3ef1ca4bda7b6b965a90b
+IMG-05,AFTER | validation,contributions,evidence/after/contributions/20261103-104215.png,Contrôle des limites Contributions,12c9cea580c40a2456fc7773f499eb5c857d80358a302951212a09e7ee8aadc4
+IMG-06,AFTER | saisie de test,contributions,evidence/after/contributions/20261103-104225.png,Valeur négative saisie dans Contributions,54241ff4aabeaf4c4e20968e19677ab96f95314e946375f494871ddea8389aae
+IMG-07,AFTER | résultat,contributions,evidence/after/contributions/20261103-104243.png,Message de rejet d’une valeur négative,63d81534a3cba22f8512829d2c8f7726e2f0b62e6b2cfc82cd4625eaeda1dc21
+IMG-08,AFTER | validation,contributions,evidence/after/contributions/20261103-104253.png,Autre contrôle de saisie Contributions,d8aeecf2e12086f3681dabd66ee065cbdc9006b645c9b9240f238799d2a6e8cc
+IMG-09,AFTER | saisie de test,contributions,evidence/after/contributions/20261103-104305.png,Chaîne 10abc saisie dans Contributions avant soumission,48e5a47a1260bb98db6a23fe932248d2f92edbf0a57c3cb745a7e589a5617ae3
+IMG-10,AFTER | résultat,contributions,evidence/after/contributions/20261103-104314.png,Erreur de validation Contributions après essai de 10abc,888d9fa3217ed1019dfc9bd4896ae414a15674bff0ddb6a91219b057b419840d
+IMG-11,AFTER | fonctionnement normal,allocations,evidence/after/allocations/20261103-111326.png,Filtre stock normal avec seuil 10,36b578f3132c643b552d453ecc9a2882d9ec79b1cfc91255e2c4c3e0fbe64619
+IMG-12,AFTER | fonctionnement normal,allocations,evidence/after/allocations/20261103-111355.png,Filtre stock normal avec seuil 0,33e1c58f57999e3866bbdadc6c69d04f68fe3124e1797bc2c1c2b94036c5dd0b
+IMG-13,AFTER | saisie de test,allocations,evidence/after/allocations/20261103-111407.png,Seuil 100 saisi dans le formulaire,8a900a60820a627ba1ad6be3b7a7042ffe24888315e08dd1805a69fd8a5c1e14
+IMG-14,AFTER | résultat,allocations,evidence/after/allocations/20261103-111425.png,Rejet du seuil 100 : Invalid threshold,dd09377759557505f6e3bf7a552e1fdfa0113de66c6b95cda04de99dafeece3d
+IMG-15,AFTER | saisie de test,allocations,evidence/after/allocations/20261103-111456.png,Tentative de saisie JavaScript dans threshold,036841cdbe9f5ee61c51ec021e200970825f21537f2081c170bdaea1fe1dc3bd
+IMG-16,AFTER | résultat,allocations,evidence/after/allocations/20261103-111506.png,Rejet de la tentative JavaScript : Invalid threshold,b57a563853463d070603e3e5203123d50865626e06f5e217b58c41572014bb24
+IMG-17,AFTER | saisie de test,allocations,evidence/after/allocations/20261103-111526.png,Tentative de boucle JavaScript dans threshold,aa0c9a4cc7537b513e94a1cc3870ae2e61da3ba99298c381e54766a20ff271f7
+IMG-18,AFTER | résultat,allocations,evidence/after/allocations/20261103-111541.png,Rejet de la tentative de boucle : Invalid threshold,ac0d512678d2c4c55c52b4f9c04827e9bc7971f52c49e57da5afb669bb20089c
+IMG-19,AFTER | tentative,benefits,evidence/after/benefits/20261103-113448.png,Tentative de navigation vers /benefits avec compte ordinaire,4a9f1de2070872ca500bbd10a008fce6edd51ffd1242f51867e7eb412b2806e7
+IMG-20,AFTER | redirection,benefits,evidence/after/benefits/20261103-113459.png,Page /login après tentative d’accès non administrateur,b17d53aee32f431f461503091e0e6113b8b03efead5f6ac8d7fc6c7607d81e01
+IMG-21,AFTER | compte A,memos,evidence/after/memos/20261103-122059.png,Compte A : mémo TEST-PRIVE-GHAITH-2026 affiché,a94cb78aacb3b2e10812f159990ac90a90b06f82d1aef5a7c42670d7dcc21b3a
+IMG-22,AFTER | compte B,memos,evidence/after/memos/20261103-122229.png,Compte B : mémo TEST-PRIVE-GHAITH-2026 absent,a1b0bc34147df7cf5e6e42287f6d76e9847c5e7b8a0402af5f95c9b1e9173472
+IMG-23,CI | historique,ci,evidence/after/ci/20261103-105539.png,Ancien pipeline Contributions avec E2E en échec,4a9233c96887242b12d111d3698a9e99b4c78dde34f8365e9cb0b71fa7e9d92e
+IMG-24,CI | historique,ci,evidence/after/ci/20261103-110329.png,Pipeline Contributions après amélioration E2E,d966bebc6a75300378f1c5fec8e6ad8fa5cd3fb395991c870297d758bd6924c8
+IMG-25,CI | work/ghaith,ci,evidence/after/ci/20261103-112115.png,Workflow après correction Allocations : trois contrôles verts,2db4dabd1dd4a1ac94721cb3775933dd233036e67b15e895debd6b0870a35e8e
+IMG-26,CI | work/moetaz,ci,evidence/after/ci/20261103-112601.png,Workflows Moetaz : cinq contrôles verts,dd9de58ea87be311031f1ecaca358c5e23af359dfe7eb4d00b14dfc369eccf5e
+IMG-27,CI | work/ghaith,ci,evidence/after/ci/20261103-114744.png,Échec E2E Benefits dû à un ancien test obsolète,f48905001106c0337283fef3ea9e2a016fcdc50bb9e72e662f59795ff06cb68b
+IMG-28,CI | work/ghaith,ci,evidence/after/ci/20261103-115445.png,Workflows Benefits après adaptation du test Cypress : verts,6fda350f099cec949101474e6829a38c02e8a8fd610b07483ad45d8f49ec5edc
+IMG-29,CI | work/ghaith,ci,evidence/after/ci/20261103-122725.png,Workflows Memos sur commit 146e888 : verts,d0726860013a4a29ef629473c2b4d3f711501a497ff118159680e1df718c422e
