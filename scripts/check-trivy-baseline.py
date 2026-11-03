@@ -2,12 +2,11 @@
 
 import json
 import sys
-from pathlib import Path
 
 
-def fail(message, code=2):
+def fail(message):
     print(f"ERREUR : {message}", file=sys.stderr)
-    return code
+    return 2
 
 
 def load_json(path):
@@ -16,6 +15,24 @@ def load_json(path):
             return json.load(file)
     except (OSError, json.JSONDecodeError) as error:
         raise ValueError(f"Impossible de lire {path} : {error}")
+
+
+def required_text(data, field, context):
+    value = data.get(field)
+
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"Champ {field} manquant ou invalide : {context}")
+
+    return value
+
+
+def identity(vulnerability, target, context):
+    return (
+        required_text(vulnerability, "VulnerabilityID", context),
+        required_text(vulnerability, "PkgName", context),
+        required_text(vulnerability, "InstalledVersion", context),
+        required_text({"Target": target}, "Target", context),
+    )
 
 
 def main():
@@ -27,97 +44,83 @@ def main():
     try:
         report = load_json(sys.argv[1])
         baseline = load_json(sys.argv[2])
+
+        if not isinstance(report, dict) or not isinstance(
+            report.get("Results"), list
+        ):
+            raise ValueError("Format du rapport Trivy invalide.")
+
+        if not isinstance(baseline, dict):
+            raise ValueError("Format du baseline invalide.")
+
+        baseline_vulns = baseline.get("vulnerabilities")
+
+        if not isinstance(baseline_vulns, list):
+            raise ValueError("Liste des vulnérabilités absente du baseline.")
+
+        baseline_keys = set()
+
+        for index, vuln in enumerate(baseline_vulns):
+            if not isinstance(vuln, dict):
+                raise ValueError(f"Entrée invalide dans le baseline : {index}")
+
+            if vuln.get("severity") not in {"HIGH", "CRITICAL"}:
+                raise ValueError("Sévérité inattendue dans le baseline.")
+
+            key = (
+                required_text(vuln, "vulnerability_id", f"baseline #{index}"),
+                required_text(vuln, "package", f"baseline #{index}"),
+                required_text(vuln, "installed_version", f"baseline #{index}"),
+                required_text(vuln, "target", f"baseline #{index}"),
+            )
+            baseline_keys.add(key)
+
+        current = {}
+
+        for result_index, result in enumerate(report["Results"]):
+            if not isinstance(result, dict):
+                raise ValueError(f"Résultat Trivy invalide : {result_index}")
+
+            vulnerabilities = result.get("Vulnerabilities") or []
+
+            if not isinstance(vulnerabilities, list):
+                raise ValueError("Liste de vulnérabilités invalide.")
+
+            target = result.get("Target")
+
+            for vuln_index, vuln in enumerate(vulnerabilities):
+                if not isinstance(vuln, dict):
+                    raise ValueError("Entrée de vulnérabilité invalide.")
+
+                severity = vuln.get("Severity")
+
+                if severity not in {"HIGH", "CRITICAL"}:
+                    continue
+
+                context = f"rapport, résultat #{result_index}, vulnérabilité #{vuln_index}"
+                key = identity(vuln, target, context)
+                current[key] = vuln
+
     except ValueError as error:
         return fail(str(error))
 
-    if not isinstance(report, dict) or "Results" not in report:
-        return fail("Format du rapport Trivy invalide.")
+    new_findings = sorted(set(current) - baseline_keys)
 
-    if not isinstance(baseline, dict):
-        return fail("Format du baseline invalide.")
-
-    baseline_vulns = baseline.get("vulnerabilities")
-    if not isinstance(baseline_vulns, list):
-        return fail("Liste des vulnérabilités absente du baseline.")
-
-    baseline_fingerprints = set()
-
-    for item in baseline_vulns:
-        if not isinstance(item, dict):
-            return fail("Entrée invalide dans le baseline.")
-
-        if item.get("severity") not in {"HIGH", "CRITICAL"}:
-            return fail("Le baseline contient une sévérité inattendue.")
-
-        fingerprint = item.get("fingerprint")
-        if not isinstance(fingerprint, str) or not fingerprint.strip():
-            return fail("Fingerprint manquant dans le baseline.")
-
-        baseline_fingerprints.add(fingerprint)
-
-    results = report.get("Results") or []
-    if not isinstance(results, list):
-        return fail("La section Results du rapport est invalide.")
-
-    current = {}
-    missing_fingerprints = 0
-
-    for result in results:
-        if not isinstance(result, dict):
-            return fail("Résultat invalide dans le rapport Trivy.")
-
-        vulnerabilities = result.get("Vulnerabilities") or []
-        if not isinstance(vulnerabilities, list):
-            return fail("Liste de vulnérabilités invalide.")
-
-        for vuln in vulnerabilities:
-            if not isinstance(vuln, dict):
-                return fail("Entrée de vulnérabilité invalide.")
-
-            if vuln.get("Severity") not in {"HIGH", "CRITICAL"}:
-                continue
-
-            fingerprint = vuln.get("Fingerprint")
-            if not isinstance(fingerprint, str) or not fingerprint.strip():
-                missing_fingerprints += 1
-                continue
-
-            current.setdefault(
-                fingerprint,
-                (vuln, result.get("Target", "cible inconnue"))
-            )
-
-    if missing_fingerprints:
-        return fail(
-            f"{missing_fingerprints} vulnérabilité(s) HIGH/CRITICAL "
-            "sans fingerprint. Comparaison impossible."
-        )
-
-    new_findings = [
-        (fingerprint, data)
-        for fingerprint, data in current.items()
-        if fingerprint not in baseline_fingerprints
-    ]
-
-    print(f"Baseline : {len(baseline_fingerprints)} empreintes")
-    print(f"Rapport actuel : {len(current)} empreintes HIGH/CRITICAL")
+    print(f"Baseline : {len(baseline_keys)} vulnérabilités connues")
+    print(f"Rapport actuel : {len(current)} vulnérabilités HIGH/CRITICAL")
 
     if new_findings:
-        print(f"\nÉCHEC : {len(new_findings)} nouvelle(s) vulnérabilité(s) détectée(s).")
+        print(
+            f"\nÉCHEC : {len(new_findings)} nouvelle(s) "
+            "vulnérabilité(s) détectée(s)."
+        )
 
-        for _, (vuln, target) in sorted(
-            new_findings,
-            key=lambda item: (
-                item[1][0].get("Severity", ""),
-                item[1][0].get("VulnerabilityID", "")
-            )
-        ):
+        for key in new_findings:
+            vuln = current[key]
+
             print(
-                f"- {vuln.get('Severity')} | "
-                f"{vuln.get('VulnerabilityID', 'ID inconnu')} | "
-                f"{vuln.get('PkgName', 'package inconnu')}@"
-                f"{vuln.get('InstalledVersion', '?')} | "
-                f"{target}"
+                f"- {vuln['Severity']} | {key[0]} | "
+                f"{key[1]}@{key[2]} | {key[3]}"
             )
 
         return 1

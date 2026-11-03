@@ -36,3 +36,6 @@ trivy-results.json
 # Python cache
 __pycache__/
 *.py[cod]
+
+# Downloaded Trivy CI report
+trivy-ci-results.json
