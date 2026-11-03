@@ -57,33 +57,31 @@ const AllocationsDAO = function(db){
     this.getByUserIdAndThreshold = (userId, threshold, callback) => {
         const parsedUserId = parseInt(userId);
 
-        const searchCriteria = () => {
+        // SECURE: Validate the threshold and use a MongoDB query object.
+        if (!/^\d+$/.test(String(userId)) ||
+            !Number.isSafeInteger(parsedUserId)) {
+            return callback(new Error("Invalid user ID"), null);
+        }
 
-            if (threshold) {
-                /*
-                // Fix for A1 - 2 NoSQL Injection - escape the threshold parameter properly
-                // Fix this NoSQL Injection which doesn't sanitze the input parameter 'threshold' and allows attackers
-                // to inject arbitrary javascript code into the NoSQL query:
-                // 1. 0';while(true){}'
-                // 2. 1'; return 1 == '1
-                // Also implement fix in allocations.html for UX.                             
-                const parsedThreshold = parseInt(threshold, 10);
-                
-                if (parsedThreshold >= 0 && parsedThreshold <= 99) {
-                    return {$where: `this.userId == ${parsedUserId} && this.stocks > ${parsedThreshold}`};
-                }
-                throw `The user supplied threshold: ${parsedThreshold} was not valid.`;
-                */
-                return {
-                    $where: `this.userId == ${parsedUserId} && this.stocks > '${threshold}'`
-                };
-            }
-            return {
-                userId: parsedUserId
-            };
+        const searchCriteria = {
+            userId: parsedUserId
         };
 
-        allocationsCol.find(searchCriteria()).toArray((err, allocations) => {
+        if (threshold !== undefined &&
+            threshold !== null &&
+            threshold !== "") {
+
+            if (typeof threshold !== "string" ||
+                !/^\d{1,2}$/.test(threshold)) {
+                return callback(new Error("Invalid threshold"), null);
+            }
+
+            searchCriteria.stocks = {
+                $gt: Number(threshold)
+            };
+        }
+
+        allocationsCol.find(searchCriteria).toArray((err, allocations) => {
             if (err) return callback(err, null);
             if (!allocations.length) return callback("ERROR: No allocations found for the user", null);
 
