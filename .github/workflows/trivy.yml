@@ -24,5 +24,29 @@ jobs:
           scan-ref: .
           scanners: vuln
           vuln-type: library
-          format: table
+          format: json
+          output: trivy-results.json
           exit-code: '0'
+
+      - name: Summarize Trivy severities
+        if: always()
+        run: |
+          if [ -f trivy-results.json ]; then
+            jq -r '
+              [.Results[]?.Vulnerabilities[]?] as $vulns |
+              "Total vulnerabilities: \($vulns | length)",
+              ($vulns | map(.Severity) | sort | group_by(.) |
+              .[] | "\(.[0]): \(length)")
+            ' trivy-results.json
+          else
+            echo "Trivy report not generated"
+          fi
+
+      - name: Upload Trivy report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-report
+          path: trivy-results.json
+          if-no-files-found: warn
+          retention-days: 30
