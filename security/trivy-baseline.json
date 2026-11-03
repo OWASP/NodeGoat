@@ -1,0 +1,485 @@
+{
+  "baseline_commit": "4b7e9c0",
+  "vulnerabilities": [
+    {
+      "fingerprint": "sha256:0081ecbb930b7d0fef54e8d46186f467243f7648e950a20a771056741fa458ab",
+      "vulnerability_id": "CVE-2021-44906",
+      "package": "minimist",
+      "installed_version": "0.0.10",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:0737e41ccaf4190dd4b6b9522a9068a13df7c7f28739f1c9df6dd37b89da210b",
+      "vulnerability_id": "CVE-2026-102278",
+      "package": "brace-expansion",
+      "installed_version": "1.1.11",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:0cbc6d5360524c9b64eebbf90aa492f163dfafa658df73de7598e1c5091acb83",
+      "vulnerability_id": "CVE-2026-27601",
+      "package": "underscore",
+      "installed_version": "1.9.1",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:0fa5d890897e8cab9150fe5a863d6a85f71ec6925e087170a6c1bec663ceed21",
+      "vulnerability_id": "CVE-2021-23440",
+      "package": "set-value",
+      "installed_version": "2.0.0",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:10404491b6dc2827c9aa90333319bac77079110585b3e930fb97ac98da12563b",
+      "vulnerability_id": "CVE-2021-23358",
+      "package": "underscore",
+      "installed_version": "1.9.1",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:1055b4f3c17c46c7a605c28842c39f71718d39a4c390b03814364cba6fd1fef5",
+      "vulnerability_id": "CVE-2022-38900",
+      "package": "decode-uri-component",
+      "installed_version": "0.2.0",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:16401612cb44144b93c17e7452e7d5f4741ebed89ee89bc6d86cb3fea6462c6e",
+      "vulnerability_id": "CVE-2023-45311",
+      "package": "fsevents",
+      "installed_version": "1.2.9",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:1888c217f93d1aaaf02df2a68fa6edc9ce8ee1b74cc6dc7094eda659f6e42d6b",
+      "vulnerability_id": "CVE-2026-4867",
+      "package": "path-to-regexp",
+      "installed_version": "0.1.7",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:1da918a601d67995723e0bf9040a6aa05eaf79b41a308567871dd9683053610d",
+      "vulnerability_id": "CVE-2021-44906",
+      "package": "minimist",
+      "installed_version": "1.2.5",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:23f16299183128a743aa850add5f179471bd2d9520aa7a0f7a317a8cf050ffe6",
+      "vulnerability_id": "CVE-2026-26960",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:26c36e3747abeb64e085653a52c238a5385a20b8b9d3334282a377b126e33af8",
+      "vulnerability_id": "CVE-2017-16114",
+      "package": "marked",
+      "installed_version": "0.3.5",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:2d3f6166569f2addfb2bfd62499fe371851eb6ae9b4fcef96d32ad1a0487113c",
+      "vulnerability_id": "CVE-2021-44906",
+      "package": "minimist",
+      "installed_version": "1.2.0",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:3190c7595f46a0416f30b24843bed5a795a04629fbe29cedb7f014bb4e522402",
+      "vulnerability_id": "CVE-2026-31802",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:386bbd17497d7b4a1d621d7552e29cf8464c5d9541e97174fcc691233fe97a90",
+      "vulnerability_id": "CVE-2021-3820",
+      "package": "i",
+      "installed_version": "0.3.6",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:3f9031a10a9c823e99102864dc77c4ecc5a6840babc31de00e1b40124e2e1916",
+      "vulnerability_id": "CVE-2019-10747",
+      "package": "set-value",
+      "installed_version": "0.4.3",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:475b3d1bc1ab381cd65bb4d84f455d17180403cd8235f3afcb1e0c4c15cb43ae",
+      "vulnerability_id": "CVE-2026-59873",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:4a94ec918fb8ec1ea73a95f5573fda964b7196309b50ba625fd8b9b5ce3d4c02",
+      "vulnerability_id": "CVE-2026-23950",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:4f0d025795ec2634681ac91d60b7a1b64b2aa9eb6aec907f441fd243549c748f",
+      "vulnerability_id": "CVE-2021-23440",
+      "package": "set-value",
+      "installed_version": "0.4.3",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:53e6ce5f727440029349dda387c3d31c4bbd2c265f67aecf96aa9b76fe0c6b26",
+      "vulnerability_id": "CVE-2024-45590",
+      "package": "body-parser",
+      "installed_version": "1.18.3",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:5480fdc2f9d545230c4aecb26520f2766a956e5d83f20f22575e0fba945913d6",
+      "vulnerability_id": "CVE-2026-27904",
+      "package": "minimatch",
+      "installed_version": "3.0.4",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:57ba5f6087ff22668f25faec0490a37edaf7321e8e99acc2a387968e95aaecf8",
+      "vulnerability_id": "CVE-2022-21681",
+      "package": "marked",
+      "installed_version": "0.3.5",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:63c41445d67793c194484dbcef5473dc8f7edff0f89a1c3858f0a512e3d8595c",
+      "vulnerability_id": "CVE-2026-29786",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:66c33e970822c8b04e01a7cc2e922a43ca6a2f549dd5a9573a1c79328d8d420e",
+      "vulnerability_id": "CVE-2026-111181",
+      "package": "body-parser",
+      "installed_version": "1.18.3",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:66f4a9c259ecf8d7e1a02d948a1bd9dd5e0d779f93bde9e5036c2c8dc4e78973",
+      "vulnerability_id": "CVE-2021-37701",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:6bd0a700c447fa8fbed3ef9574cea498fae9de205e751df94d3f101723ed8ef9",
+      "vulnerability_id": "CVE-2022-25883",
+      "package": "semver",
+      "installed_version": "5.7.0",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:6e570677845137dd04c09961649d158f53d82bed41381a2ff2a33db8e4540ca9",
+      "vulnerability_id": "CVE-2026-90711",
+      "package": "proxy-addr",
+      "installed_version": "2.0.4",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:6e7057f0992dd4d1e93256f91904cd5a897612a302a8e80af87063e19c70f3cb",
+      "vulnerability_id": "CVE-2026-14257",
+      "package": "brace-expansion",
+      "installed_version": "1.1.11",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:7982cb04724e3c79f9a53155859eec89dfb2a2e4ec0c4f381ed20c37b080615c",
+      "vulnerability_id": "CVE-2026-23745",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:7a30946e243673c983c30f70031b9c33b17e09e69e86f04afca1c244c927d50e",
+      "vulnerability_id": "CVE-2026-69152",
+      "package": "brace-expansion",
+      "installed_version": "1.1.11",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:7acd30c0f0e5bfb6449d6ba74fb91548f68323e518ea318916433cc0d3be8283",
+      "vulnerability_id": "CVE-2026-27903",
+      "package": "minimatch",
+      "installed_version": "3.0.4",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:7d248e4ef0c84870a7709561e780cdc7c57c15e84c477716eb9b03fe0aa80613",
+      "vulnerability_id": "CVE-2022-21680",
+      "package": "marked",
+      "installed_version": "0.3.5",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:8725892ae09afda7a958042395bdbbe28fbbcb3a32563ea1e2a99104f3367539",
+      "vulnerability_id": "CVE-2021-37713",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:8d06fb4ee9ce141875048c24df7b010ad15e61f60472731c58e60abe902ef0f1",
+      "vulnerability_id": "CVE-2022-21803",
+      "package": "nconf",
+      "installed_version": "0.10.0",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:9268e8b11511c206cce1276988bcef7d2797b3baef48d0dabe353b1864f47ea5",
+      "vulnerability_id": "CVE-2026-13149",
+      "package": "brace-expansion",
+      "installed_version": "1.1.11",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:9784c018ef2cad6a6787b9cad3e45459681119caee05a58a752173bd7c1e5416",
+      "vulnerability_id": "GHSA-mh5c-679w-hh4r",
+      "package": "mongodb",
+      "installed_version": "2.2.36",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:9b5e368deb9aa6f9bb609e8db532db2c80c8f4bd6d16fa5ca75f1b551c1165a2",
+      "vulnerability_id": "CVE-2020-7788",
+      "package": "ini",
+      "installed_version": "1.3.5",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:9ce7648feee904a475a7d42bf0cd3ebc970c3c62bb1883d34e647b63826c8771",
+      "vulnerability_id": "CVE-2019-20149",
+      "package": "kind-of",
+      "installed_version": "6.0.2",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:a31b76d7619d5f8a88dbd28552a1d6f35e4102ae4610d3f69d1bb34964c0f786",
+      "vulnerability_id": "CVE-2026-118664",
+      "package": "decode-uri-component",
+      "installed_version": "0.2.0",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:a8ec8adecace0e0ca220ed513cee65ce24bbabf67f139c6b2c9736bae14e4d58",
+      "vulnerability_id": "CVE-2024-45296",
+      "package": "path-to-regexp",
+      "installed_version": "0.1.7",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:a953f1a4d019072d379d1eaa2ec0750bdbda6464361526b9bc05328a96649090",
+      "vulnerability_id": "CVE-2021-32803",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:af0160dbcf8d2e20ddbd4ea092e7fa3df1d36fab11a7817a2bab2632fe3753b5",
+      "vulnerability_id": "CVE-2021-44906",
+      "package": "minimist",
+      "installed_version": "0.0.8",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:b1392db13311193f20d7aaebf5cb55c6dd5f3c244a4521c5132bee669c7ab439",
+      "vulnerability_id": "CVE-2021-32804",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:b7621d45aef7f1c668ee413c9da49422fc88a40c7a63f3698313f9999052952d",
+      "vulnerability_id": "CVE-2020-7774",
+      "package": "y18n",
+      "installed_version": "3.2.1",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:c011081a6a81fa30545a06e46b812f4293e1ffa36d48d5c26f6056b607de8977",
+      "vulnerability_id": "CVE-2026-73566",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:caf3ab7bfe14ce9f1fa2e3eb087bd2a02c37bebf61d4244a6bef2d025865aa1c",
+      "vulnerability_id": "CVE-2022-24999",
+      "package": "qs",
+      "installed_version": "6.5.2",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:cb7e36133706a35359ed59243faf07148035deab25dd9279e52d466bb676f713",
+      "vulnerability_id": "CVE-2026-59874",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:cbd20b77842ab51c8aadc01bdf59a076bdc869458b67e6f02055a4d056a02357",
+      "vulnerability_id": "CVE-2026-24842",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:cd89e2ec23b82255bfcf99ce90a28d34664266d3ed72b9e5dc1861b693188fcb",
+      "vulnerability_id": "CVE-2024-4068",
+      "package": "braces",
+      "installed_version": "2.3.2",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:d185a4ff9d4dc62319694f3b86cffc1b3bf949760fc7125d70592169a6342574",
+      "vulnerability_id": "CVE-2026-26996",
+      "package": "minimatch",
+      "installed_version": "3.0.4",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:d7d6326cc1f9e39f5b13f58a50d340d43a66b64785983432c01d9c292daeabf4",
+      "vulnerability_id": "CVE-2021-37712",
+      "package": "tar",
+      "installed_version": "4.4.8",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:d9459808d14c167b8783ef7cfc19481a6b900dcb73d0d046518adfb755f4bd66",
+      "vulnerability_id": "CVE-2019-10746",
+      "package": "mixin-deep",
+      "installed_version": "1.3.1",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:df3f059946040e991a728bfdc9112cc43becd4f915b516b7dbd4f4517ba71f57",
+      "vulnerability_id": "CVE-2024-52798",
+      "package": "path-to-regexp",
+      "installed_version": "0.1.7",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:e0fc31ce3c74b9b0f2fef6d752fefbc13a306ec2dc63a449ef2a6ae018796781",
+      "vulnerability_id": "CVE-2019-10747",
+      "package": "set-value",
+      "installed_version": "2.0.0",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:e370c9fa7100292f5e7ae6197d897757dcf31b845d87b64bc93414c0d2deec3f",
+      "vulnerability_id": "CVE-2017-20165",
+      "package": "debug",
+      "installed_version": "2.2.0",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:e45c27ba8aab0a0fe57f02a4518024f5590c7e2aeb734f9bf5fafe34270541d3",
+      "vulnerability_id": "CVE-2026-102276",
+      "package": "brace-expansion",
+      "installed_version": "1.1.11",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:e7d032a86eed58d32bfedb66f6388b8b9ec14098f605f1f19e50736559783808",
+      "vulnerability_id": "CVE-2022-3517",
+      "package": "minimatch",
+      "installed_version": "3.0.4",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:edc4ac1c87afe940bb7ff0710759daab5a3d8baac51ef8d7d1495ac4e0b0142f",
+      "vulnerability_id": "CVE-2023-25345",
+      "package": "swig",
+      "installed_version": "1.4.2",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:f3c41ecd1b80ac959045f83f2610a90094b69ab720559706e660a3158b086eb0",
+      "vulnerability_id": "CVE-2022-25883",
+      "package": "semver",
+      "installed_version": "5.6.0",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:f619183f39aee24195c96a47684d8f08f674c4c1927a4af2723c5ada95e0a069",
+      "vulnerability_id": "CVE-2022-21803",
+      "package": "nconf",
+      "installed_version": "0.6.9",
+      "severity": "HIGH",
+      "target": "package-lock.json"
+    },
+    {
+      "fingerprint": "sha256:ffe112564f280c5ffacf75947b021258a0e45c690452a96ca50d50830ae2930e",
+      "vulnerability_id": "CVE-2020-7610",
+      "package": "bson",
+      "installed_version": "1.0.9",
+      "severity": "CRITICAL",
+      "target": "package-lock.json"
+    }
+  ]
+}

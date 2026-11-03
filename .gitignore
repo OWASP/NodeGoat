@@ -29,3 +29,10 @@ test/e2e/videos/
 
 # ignore Snyk Code scanner files
 .dccache
+
+# Trivy generated report
+trivy-results.json
+
+# Python cache
+__pycache__/
+*.py[cod]

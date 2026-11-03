@@ -28,6 +28,12 @@ jobs:
           output: trivy-results.json
           exit-code: '0'
 
+      - name: Enforce Trivy Security Baseline
+        run: |
+          python3 scripts/check-trivy-baseline.py \
+            trivy-results.json \
+            security/trivy-baseline.json
+
       - name: Summarize Trivy severities
         if: always()
         run: |
