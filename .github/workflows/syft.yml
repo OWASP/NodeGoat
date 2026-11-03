@@ -1,0 +1,53 @@
+name: Syft SBOM Generation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sbom:
+    name: Generate Software Bill of Materials
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install Syft
+        id: install-syft
+        uses: anchore/sbom-action/download-syft@v0
+
+      - name: Generate SPDX and CycloneDX SBOMs
+        env:
+          SYFT_CMD: ${{ steps.install-syft.outputs.cmd }}
+        run: |
+          "$SYFT_CMD" dir:. \
+            --source-name "nodegoat" \
+            --source-version "$GITHUB_SHA" \
+            -o spdx-json=sbom.spdx.json \
+            -o cyclonedx-json=sbom.cyclonedx.json
+
+      - name: Validate SBOM files
+        run: |
+          test -s sbom.spdx.json
+          test -s sbom.cyclonedx.json
+
+          jq -e '.spdxVersion != null' sbom.spdx.json > /dev/null
+          jq -e '.bomFormat == "CycloneDX"' sbom.cyclonedx.json > /dev/null
+
+          echo "SPDX JSON valide"
+          echo "CycloneDX JSON valide"
+
+      - name: Upload SBOM artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: nodegoat-sbom
+          path: |
+            sbom.spdx.json
+            sbom.cyclonedx.json
+          if-no-files-found: error
+          retention-days: 30

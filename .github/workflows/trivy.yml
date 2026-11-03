@@ -1,0 +1,58 @@
+name: Trivy Vulnerability Scan
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  trivy:
+    name: Scan dependencies
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln
+          vuln-type: library
+          format: json
+          output: trivy-results.json
+          exit-code: '0'
+
+      - name: Enforce Trivy Security Baseline
+        run: |
+          python3 scripts/check-trivy-baseline.py \
+            trivy-results.json \
+            security/trivy-baseline.json
+
+      - name: Summarize Trivy severities
+        if: always()
+        run: |
+          if [ -f trivy-results.json ]; then
+            jq -r '
+              [.Results[]?.Vulnerabilities[]?] as $vulns |
+              "Total vulnerabilities: \($vulns | length)",
+              ($vulns | map(.Severity) | sort | group_by(.) |
+              .[] | "\(.[0]): \(length)")
+            ' trivy-results.json
+          else
+            echo "Trivy report not generated"
+          fi
+
+      - name: Upload Trivy report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-report
+          path: trivy-results.json
+          if-no-files-found: warn
+          retention-days: 30
