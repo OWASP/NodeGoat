@@ -32,3 +32,6 @@ temp/
 *.swp
 *.swo
 .DS_Store
+
+# TLS certificates and private keys
+artifacts/cert/

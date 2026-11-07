@@ -42,3 +42,6 @@ __pycache__/
 # Downloaded Trivy CI report
 trivy-ci-results.json
 .env.*
+
+# TLS certificates and private keys
+/artifacts/cert/
