@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build-and-push:
-    name: Build and publish image to GHCR
+    name: Build, publish and scan NodeGoat image
     runs-on: ubuntu-24.04
 
     steps:
@@ -49,3 +49,22 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Scan published image with Trivy
+        uses: aquasecurity/trivy-action@0.36.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+          format: table
+          output: trivy-image-report.txt
+          vuln-type: os,library
+          severity: CRITICAL,HIGH,MEDIUM
+          exit-code: '0'
+
+      - name: Upload Trivy image report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-image-report
+          path: trivy-image-report.txt
+          if-no-files-found: ignore
+          retention-days: 30
