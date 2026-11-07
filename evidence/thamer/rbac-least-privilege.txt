@@ -1,0 +1,13 @@
+NodeGoat RBAC - Least Privilege Verification
+Cluster: kind-nodegoat-calico
+Namespace: nodegoat
+ServiceAccount: nodegoat-sa
+Role: nodegoat-readonly
+
+get secrets: NO
+list secrets: NO
+list pods: YES
+
+Conclusion:
+The NodeGoat ServiceAccount can list Pods but cannot get or list Secrets.
+This confirms the intended namespace-scoped least-privilege policy.

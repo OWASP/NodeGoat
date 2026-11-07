@@ -1,0 +1,45 @@
+
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: deny-privileged-containers
+spec:
+  evaluation:
+    mode: Kubernetes
+
+  validationActions:
+    - Deny
+
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+
+  matchConditions:
+    - name: nodegoat-namespace-only
+      expression: object.metadata.namespace == "nodegoat"
+
+  validations:
+    - expression: >-
+        object.spec.containers.all(c,
+          !has(c.securityContext) ||
+          !has(c.securityContext.privileged) ||
+          c.securityContext.privileged == false
+        ) &&
+        (!has(object.spec.initContainers) ||
+          object.spec.initContainers.all(c,
+            !has(c.securityContext) ||
+            !has(c.securityContext.privileged) ||
+            c.securityContext.privileged == false
+          )
+        ) &&
+        (!has(object.spec.ephemeralContainers) ||
+          object.spec.ephemeralContainers.all(c,
+            !has(c.securityContext) ||
+            !has(c.securityContext.privileged) ||
+            c.securityContext.privileged == false
+          )
+        )
+      message: "Les conteneurs privilegies sont interdits dans nodegoat."

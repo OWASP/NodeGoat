@@ -1,0 +1,63 @@
+Name:         allow-nodegoat-egress
+Namespace:    nodegoat
+Created on:   2026-11-03 21:24:27 +0100 CET
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     app=nodegoat
+  Not affecting ingress traffic
+  Allowing egress traffic:
+    To Port: 27017/TCP
+    To:
+      PodSelector: app=mongodb
+    ----------
+    To Port: 53/UDP
+    To Port: 53/TCP
+    To:
+      NamespaceSelector: kubernetes.io/metadata.name=kube-system
+      PodSelector: k8s-app=kube-dns
+  Policy Types: Egress
+
+
+Name:         allow-nodegoat-ingress
+Namespace:    nodegoat
+Created on:   2026-11-03 21:24:27 +0100 CET
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     app=nodegoat
+  Allowing ingress traffic:
+    To Port: 4000/TCP
+    From:
+      NamespaceSelector: kubernetes.io/metadata.name=nodegoat
+  Not affecting egress traffic
+  Policy Types: Ingress
+
+
+Name:         allow-nodegoat-to-mongodb
+Namespace:    nodegoat
+Created on:   2026-11-03 21:24:27 +0100 CET
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     app=mongodb
+  Allowing ingress traffic:
+    To Port: 27017/TCP
+    From:
+      PodSelector: app=nodegoat
+  Not affecting egress traffic
+  Policy Types: Ingress
+
+
+Name:         default-deny
+Namespace:    nodegoat
+Created on:   2026-11-03 21:24:27 +0100 CET
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     <none> (Allowing the specific traffic to all pods in this namespace)
+  Allowing ingress traffic:
+    <none> (Selected pods are isolated for ingress connectivity)
+  Allowing egress traffic:
+    <none> (Selected pods are isolated for egress connectivity)
+  Policy Types: Ingress, Egress

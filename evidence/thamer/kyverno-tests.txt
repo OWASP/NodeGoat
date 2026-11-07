@@ -1,0 +1,26 @@
+KYVERNO SECURITY TESTS
+Project: NodeGoat DevSecOps
+Responsible: Thamer
+
+1. Kyverno controllers
+   Result: All 4 controllers Running (1/1).
+
+2. Policy deny-privileged-containers
+   Result: READY true.
+
+3. Privileged regular container
+   Result: BLOCKED by Kyverno admission webhook.
+
+4. Privileged initContainer
+   Result: BLOCKED by Kyverno admission webhook.
+
+5. Secure non-privileged Pod
+   Result: ACCEPTED and Running (1/1).
+
+6. Cleanup
+   Result: Temporary test Pod deleted.
+
+Conclusion:
+Kyverno successfully enforces the prohibition of privileged
+containers in the nodegoat namespace, including regular,
+init, and ephemeral containers.

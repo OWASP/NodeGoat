@@ -1,0 +1,22 @@
+NetworkPolicy Isolation Tests
+Cluster: kind-nodegoat-calico
+Namespace: nodegoat
+CNI: Calico
+
+Test 1: attacker-test -> DNS
+Result: BLOCKED
+
+Test 2: attacker-test -> MongoDB (10.96.129.177:27017)
+Result: BLOCKED
+
+Test 3: NodeGoat -> DNS
+Result: ALLOWED
+Resolved IP: 10.96.129.177
+
+Test 4: NodeGoat -> MongoDB (TCP 27017)
+Result: ALLOWED
+
+Conclusion:
+Default-deny network isolation is enforced.
+Only the required application-to-database and application DNS
+communications are allowed by the configured NetworkPolicies.
