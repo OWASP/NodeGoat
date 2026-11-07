@@ -2,6 +2,8 @@
 services:
   web:
     build: .
+    env_file:
+      - .env
     read_only: true
     tmpfs:
       - /tmp:rw,noexec,nosuid,size=64m
@@ -12,9 +14,9 @@ services:
     cap_drop:
       - ALL
     environment:
-      NODE_ENV:
+      NODE_ENV: development
       MONGODB_URI: mongodb://mongo:27017/nodegoat
-    command: sh -c "until nc -z -w 2 mongo 27017 && echo 'mongo is ready for connections' && node artifacts/db-reset.js && npm start; do sleep 2; done"
+    command: sh -c "until nc -z -w 2 mongo 27017; do sleep 2; done; npm start"
     ports:
       - "127.0.0.1:4000:4000"
 

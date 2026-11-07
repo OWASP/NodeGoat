@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodegoat
+  namespace: nodegoat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodegoat
+  template:
+    metadata:
+      labels:
+        app: nodegoat
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: nodegoat
+          image: nodegoat-devsecops-web:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 4000
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: development
+            - name: PORT
+              value: "4000"
+            - name: MONGODB_URI
+              value: mongodb://mongodb:27017/nodegoat
+            - name: COOKIE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: nodegoat-secrets
+                  key: COOKIE_SECRET
+            - name: CRYPTO_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: nodegoat-secrets
+                  key: CRYPTO_KEY
+          readinessProbe:
+            httpGet:
+              path: /login
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /login
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodegoat
+  namespace: nodegoat
+spec:
+  type: ClusterIP
+  selector:
+    app: nodegoat
+  ports:
+    - name: http
+      port: 4000
+      targetPort: 4000
+      protocol: TCP

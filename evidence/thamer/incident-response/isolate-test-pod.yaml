@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: isolate-falco-test-shell
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      run: falco-test-shell
+  policyTypes:
+    - Ingress
+    - Egress

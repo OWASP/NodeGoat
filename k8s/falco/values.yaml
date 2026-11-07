@@ -1,0 +1,17 @@
+driver:
+  enabled: true
+  kind: modern_ebpf
+  sysfsMountPath: /sys/kernel
+  modernEbpf:
+    leastPrivileged: true
+    sysfsMount: true
+
+controller:
+  kind: daemonset
+
+tty: true
+
+falcoctl:
+  artifact:
+    follow:
+      enabled: false

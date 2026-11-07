@@ -1,0 +1,15 @@
+customRules:
+  nodegoat-rules.yaml: |-
+    - rule: NodeGoat Shell in Container
+      desc: Detect shell execution inside a container
+      condition: >
+        evt.type = execve
+        and container.id != host
+        and proc.name in (sh, ash, bash, zsh)
+        and not proc.cmdline contains "docker-entrypoint.sh"
+      output: >
+        NODEGOAT ALERT: Shell executed in container
+        (user=%user.name command=%proc.cmdline
+        container=%container.name image=%container.image)
+      priority: WARNING
+      tags: [nodegoat, container, execution, mitre_execution]

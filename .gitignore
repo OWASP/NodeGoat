@@ -26,6 +26,8 @@ test/e2e/videos/
 # ignore sensitive files
 .env.local
 .env
+.env.*
+!.env.example
 
 # ignore Snyk Code scanner files
 .dccache
@@ -39,3 +41,4 @@ __pycache__/
 
 # Downloaded Trivy CI report
 trivy-ci-results.json
+.env.*

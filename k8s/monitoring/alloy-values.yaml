@@ -1,0 +1,59 @@
+controller:
+  type: daemonset
+
+rbac:
+  create: true
+  namespaces:
+    - falco
+  rules:
+    - apiGroups: [""]
+      resources: ["pods", "pods/log"]
+      verbs: ["get", "list", "watch"]
+
+alloy:
+  configMap:
+    create: true
+    content: |-
+      discovery.kubernetes "falco" {
+        role = "pod"
+
+        namespaces {
+          names = ["falco"]
+        }
+      }
+
+      discovery.relabel "falco" {
+        targets = discovery.kubernetes.falco.targets
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_container_name"]
+          regex         = "falco"
+          action        = "keep"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_namespace"]
+          target_label  = "namespace"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_name"]
+          target_label  = "pod"
+        }
+
+        rule {
+          target_label = "app"
+          replacement  = "falco"
+        }
+      }
+
+      loki.source.kubernetes "falco" {
+        targets    = discovery.relabel.falco.output
+        forward_to = [loki.write.local.receiver]
+      }
+
+      loki.write "local" {
+        endpoint {
+          url = "http://loki.monitoring.svc.cluster.local:3100/loki/api/v1/push"
+        }
+      }

@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: 54cadf631a8f38b6a7549fce36536441ce5a70d07bbdff1dc649e3e0e3ddbef6
+    cni.projectcalico.org/podIP: 10.245.176.186/32
+    cni.projectcalico.org/podIPs: 10.245.176.186/32
+  creationTimestamp: "2026-11-07T11:24:45Z"
+  generation: 1
+  labels:
+    run: falco-test-shell
+  name: falco-test-shell
+  namespace: default
+  resourceVersion: "29964"
+  uid: 3144d8e9-bb16-4fdc-9a86-a4800e1c1fee
+spec:
+  containers:
+  - command:
+    - sleep
+    - "3600"
+    image: alpine:3.21
+    imagePullPolicy: IfNotPresent
+    name: falco-test-shell
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-h24kx
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: falco-test-control-plane
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Never
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-h24kx
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-11-07T11:24:46Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-11-07T11:24:45Z"
+    observedGeneration: 1
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-11-07T11:24:46Z"
+    observedGeneration: 1
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-11-07T11:24:46Z"
+    observedGeneration: 1
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-11-07T11:24:45Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://075a0aa20a18540050889086e08227304268db0e7f06a0330dad25a7a2ecabcd
+    image: docker.io/library/alpine:3.21
+    imageID: docker.io/library/alpine@sha256:ee16d92f96db08d9d2d07da48555a27f3a69d8f0759021dbc601195ed0d2b5bd
+    lastState: {}
+    name: falco-test-shell
+    ready: true
+    resources: {}
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-11-07T11:24:46Z"
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 6
+        - 10
+        - 11
+        - 20
+        - 26
+        - 27
+        uid: 0
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-h24kx
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.19.0.2
+  hostIPs:
+  - ip: 172.19.0.2
+  observedGeneration: 1
+  phase: Running
+  podIP: 10.245.176.186
+  podIPs:
+  - ip: 10.245.176.186
+  qosClass: BestEffort
+  resources: {}
+  startTime: "2026-11-07T11:24:45Z"

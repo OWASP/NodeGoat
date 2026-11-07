@@ -1,0 +1,2 @@
+NAME                            STATUS   ROLES           AGE   VERSION
+nodegoat-calico-control-plane   Ready    control-plane   24m   v1.37.0

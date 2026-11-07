@@ -1,0 +1,112 @@
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"allow-nodegoat-egress","namespace":"nodegoat"},"spec":{"egress":[{"ports":[{"port":27017,"protocol":"TCP"}],"to":[{"podSelector":{"matchLabels":{"app":"mongodb"}}}]},{"ports":[{"port":53,"protocol":"UDP"},{"port":53,"protocol":"TCP"}],"to":[{"namespaceSelector":{"matchLabels":{"kubernetes.io/metadata.name":"kube-system"}},"podSelector":{"matchLabels":{"k8s-app":"kube-dns"}}}]}],"podSelector":{"matchLabels":{"app":"nodegoat"}},"policyTypes":["Egress"]}}
+    creationTimestamp: "2026-11-03T20:24:27Z"
+    generation: 1
+    name: allow-nodegoat-egress
+    namespace: nodegoat
+    resourceVersion: "2341"
+    uid: 96ba063b-1909-4fbc-9ed8-df1d893c3d6d
+  spec:
+    egress:
+    - ports:
+      - port: 27017
+        protocol: TCP
+      to:
+      - podSelector:
+          matchLabels:
+            app: mongodb
+    - ports:
+      - port: 53
+        protocol: UDP
+      - port: 53
+        protocol: TCP
+      to:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system
+        podSelector:
+          matchLabels:
+            k8s-app: kube-dns
+    podSelector:
+      matchLabels:
+        app: nodegoat
+    policyTypes:
+    - Egress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"allow-nodegoat-ingress","namespace":"nodegoat"},"spec":{"ingress":[{"from":[{"namespaceSelector":{"matchLabels":{"kubernetes.io/metadata.name":"nodegoat"}}}],"ports":[{"port":4000,"protocol":"TCP"}]}],"podSelector":{"matchLabels":{"app":"nodegoat"}},"policyTypes":["Ingress"]}}
+    creationTimestamp: "2026-11-03T20:24:27Z"
+    generation: 1
+    name: allow-nodegoat-ingress
+    namespace: nodegoat
+    resourceVersion: "2342"
+    uid: 89529495-b1ad-4cf0-90e8-bf386f5e8162
+  spec:
+    ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: nodegoat
+      ports:
+      - port: 4000
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: nodegoat
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"allow-nodegoat-to-mongodb","namespace":"nodegoat"},"spec":{"ingress":[{"from":[{"podSelector":{"matchLabels":{"app":"nodegoat"}}}],"ports":[{"port":27017,"protocol":"TCP"}]}],"podSelector":{"matchLabels":{"app":"mongodb"}},"policyTypes":["Ingress"]}}
+    creationTimestamp: "2026-11-03T20:24:27Z"
+    generation: 1
+    name: allow-nodegoat-to-mongodb
+    namespace: nodegoat
+    resourceVersion: "2340"
+    uid: f2e36665-cd04-4831-b0d0-6ffb79a6c56f
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: nodegoat
+      ports:
+      - port: 27017
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: mongodb
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"default-deny","namespace":"nodegoat"},"spec":{"podSelector":{},"policyTypes":["Ingress","Egress"]}}
+    creationTimestamp: "2026-11-03T20:24:27Z"
+    generation: 1
+    name: default-deny
+    namespace: nodegoat
+    resourceVersion: "2339"
+    uid: 56c75fa6-557d-4d49-b900-62f4f576c769
+  spec:
+    podSelector: {}
+    policyTypes:
+    - Ingress
+    - Egress
+kind: List
+metadata:
+  resourceVersion: ""
