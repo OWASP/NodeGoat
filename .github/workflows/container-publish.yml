@@ -86,3 +86,38 @@ jobs:
           path: trivy-image-secrets.txt
           if-no-files-found: ignore
           retention-days: 30
+
+      - name: Install Syft
+        id: install-syft
+        uses: anchore/sbom-action/download-syft@v0
+
+      - name: Generate SPDX and CycloneDX SBOMs for published image
+        env:
+          SYFT_CMD: ${{ steps.install-syft.outputs.cmd }}
+        run: |
+          "$SYFT_CMD" "registry:ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}" \
+            --source-name "nodegoat-image" \
+            --source-version "$GITHUB_SHA" \
+            -o spdx-json=sbom-image.spdx.json \
+            -o cyclonedx-json=sbom-image.cyclonedx.json
+
+      - name: Validate image SBOM files
+        run: |
+          test -s sbom-image.spdx.json
+          test -s sbom-image.cyclonedx.json
+
+          jq -e '.spdxVersion != null' sbom-image.spdx.json > /dev/null
+          jq -e '.bomFormat == "CycloneDX"' sbom-image.cyclonedx.json > /dev/null
+
+          echo "Image SPDX SBOM valide"
+          echo "Image CycloneDX SBOM valide"
+
+      - name: Upload image SBOM artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: nodegoat-image-sbom
+          path: |
+            sbom-image.spdx.json
+            sbom-image.cyclonedx.json
+          if-no-files-found: error
+          retention-days: 30
