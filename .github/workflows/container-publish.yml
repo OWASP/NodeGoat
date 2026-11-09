@@ -10,6 +10,7 @@ on:
 permissions:
   contents: read
   packages: write
+  id-token: write
 
 jobs:
   build-and-push:
@@ -111,6 +112,48 @@ jobs:
 
           echo "Image SPDX SBOM valide"
           echo "Image CycloneDX SBOM valide"
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v4.1.2
+
+      - name: Sign image with Cosign (Keyless)
+        env:
+          IMAGE_REF: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+        run: |
+          cosign sign --yes "$IMAGE_REF"
+
+      - name: Attest SPDX SBOM to image
+        env:
+          IMAGE_REF: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+        run: |
+          cosign attest --yes \
+            --type https://spdx.dev/Document \
+            --predicate sbom-image.spdx.json \
+            "$IMAGE_REF"
+
+      - name: Verify image signature
+        env:
+          IMAGE_REF: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+          CERTIFICATE_IDENTITY: https://github.com/${{ github.repository }}/.github/workflows/container-publish.yml@${{ github.ref }}
+        run: |
+          cosign verify \
+            --certificate-identity "$CERTIFICATE_IDENTITY" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            "$IMAGE_REF"
+
+      - name: Verify SPDX SBOM attestation
+        env:
+          IMAGE_REF: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+          CERTIFICATE_IDENTITY: https://github.com/${{ github.repository }}/.github/workflows/container-publish.yml@${{ github.ref }}
+        run: |
+          cosign verify-attestation \
+            --type https://spdx.dev/Document \
+            --certificate-identity "$CERTIFICATE_IDENTITY" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            "$IMAGE_REF" > verified-spdx-attestation.json
+
+          test -s verified-spdx-attestation.json
+          echo "Signature et attestation SPDX vérifiées."
 
       - name: Upload image SBOM artifacts
         uses: actions/upload-artifact@v7
