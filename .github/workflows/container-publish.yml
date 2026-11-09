@@ -68,3 +68,21 @@ jobs:
           path: trivy-image-report.txt
           if-no-files-found: ignore
           retention-days: 30
+
+      - name: Scan published image for secrets with Trivy
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+          scanners: secret
+          format: table
+          output: trivy-image-secrets.txt
+          exit-code: '1'
+
+      - name: Upload Trivy secrets report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-image-secrets-report
+          path: trivy-image-secrets.txt
+          if-no-files-found: ignore
+          retention-days: 30
