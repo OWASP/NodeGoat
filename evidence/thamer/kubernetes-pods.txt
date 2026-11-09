@@ -1,0 +1,3 @@
+NAME                        READY   STATUS    RESTARTS   AGE     IP              NODE                            NOMINATED NODE   READINESS GATES
+mongodb-56bcd64b89-6f4tm    1/1     Running   0          10m     10.244.72.134   nodegoat-calico-control-plane   <none>           <none>
+nodegoat-74fb979685-42kdh   1/1     Running   0          6m25s   10.244.72.135   nodegoat-calico-control-plane   <none>           <none>

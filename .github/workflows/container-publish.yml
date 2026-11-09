@@ -1,0 +1,166 @@
+name: Build and Publish NodeGoat Image
+
+on:
+  push:
+    branches:
+      - master
+      - work/moetaz
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  build-and-push:
+    name: Build, publish and scan NodeGoat image
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha,format=long
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Scan published image with Trivy
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+          format: table
+          output: trivy-image-report.txt
+          vuln-type: os,library
+          severity: CRITICAL,HIGH,MEDIUM
+          exit-code: '0'
+
+      - name: Upload Trivy image report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-image-report
+          path: trivy-image-report.txt
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Scan published image for secrets with Trivy
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+          scanners: secret
+          format: table
+          output: trivy-image-secrets.txt
+          exit-code: '1'
+
+      - name: Upload Trivy secrets report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-image-secrets-report
+          path: trivy-image-secrets.txt
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Install Syft
+        id: install-syft
+        uses: anchore/sbom-action/download-syft@v0
+
+      - name: Generate SPDX and CycloneDX SBOMs for published image
+        env:
+          SYFT_CMD: ${{ steps.install-syft.outputs.cmd }}
+        run: |
+          "$SYFT_CMD" "registry:ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}" \
+            --source-name "nodegoat-image" \
+            --source-version "$GITHUB_SHA" \
+            -o spdx-json=sbom-image.spdx.json \
+            -o cyclonedx-json=sbom-image.cyclonedx.json
+
+      - name: Validate image SBOM files
+        run: |
+          test -s sbom-image.spdx.json
+          test -s sbom-image.cyclonedx.json
+
+          jq -e '.spdxVersion != null' sbom-image.spdx.json > /dev/null
+          jq -e '.bomFormat == "CycloneDX"' sbom-image.cyclonedx.json > /dev/null
+
+          echo "Image SPDX SBOM valide"
+          echo "Image CycloneDX SBOM valide"
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v4.1.2
+
+      - name: Sign image with Cosign (Keyless)
+        env:
+          IMAGE_REF: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+        run: |
+          cosign sign --yes "$IMAGE_REF"
+
+      - name: Attest SPDX SBOM to image
+        env:
+          IMAGE_REF: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+        run: |
+          cosign attest --yes \
+            --type https://spdx.dev/Document \
+            --predicate sbom-image.spdx.json \
+            "$IMAGE_REF"
+
+      - name: Verify image signature
+        env:
+          IMAGE_REF: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+          CERTIFICATE_IDENTITY: https://github.com/${{ github.repository }}/.github/workflows/container-publish.yml@${{ github.ref }}
+        run: |
+          cosign verify \
+            --certificate-identity "$CERTIFICATE_IDENTITY" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            "$IMAGE_REF"
+
+      - name: Verify SPDX SBOM attestation
+        env:
+          IMAGE_REF: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+          CERTIFICATE_IDENTITY: https://github.com/${{ github.repository }}/.github/workflows/container-publish.yml@${{ github.ref }}
+        run: |
+          cosign verify-attestation \
+            --type https://spdx.dev/Document \
+            --certificate-identity "$CERTIFICATE_IDENTITY" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            "$IMAGE_REF" > verified-spdx-attestation.json
+
+          test -s verified-spdx-attestation.json
+          echo "Signature et attestation SPDX vérifiées."
+
+      - name: Upload image SBOM artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: nodegoat-image-sbom
+          path: |
+            sbom-image.spdx.json
+            sbom-image.cyclonedx.json
+          if-no-files-found: error
+          retention-days: 30

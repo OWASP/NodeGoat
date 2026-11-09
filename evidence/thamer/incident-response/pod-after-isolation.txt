@@ -1,0 +1,2 @@
+NAME               READY   STATUS    RESTARTS   AGE   IP               NODE                       NOMINATED NODE   READINESS GATES
+falco-test-shell   1/1     Running   0          19m   10.245.176.186   falco-test-control-plane   <none>           <none>

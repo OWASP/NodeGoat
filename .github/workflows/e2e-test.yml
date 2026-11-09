@@ -1,10 +1,11 @@
 name: E2E Test
+
 on: [push, pull_request]
 
 jobs:
   e2e-test:
     name: Node.js
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: false
@@ -12,23 +13,28 @@ jobs:
         node-version: ["10.x", "12.x", "14.x"]
 
     steps:
-      - name: Checkout https://github.com/${{ github.repository }}@${{ github.ref }}
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Use cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ~/.npm
             ~/.cache
           key: ${{ runner.os }}-node${{ matrix.node-version }}-E2E-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Cypress system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgconf-2-4
 
       - name: Install dependencies
         run: |
@@ -37,14 +43,31 @@ jobs:
 
       - name: Start MongoDB
         run: |
-          docker run -d -p 27017:27017 mongo:4.0
-          timeout 60s bash -c 'until nc -z -w 2 localhost 27017 && echo MongoDB ready; do sleep 2; done'
+          docker run -d --name nodegoat-mongo -p 27017:27017 mongo:4.0
+
+          for i in {1..30}; do
+            if docker exec nodegoat-mongo mongo --quiet --eval "db.adminCommand('ping').ok" 2>/dev/null | grep -q '^1$'; then
+              echo "MongoDB ready"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          echo "MongoDB failed to become ready"
+          docker logs nodegoat-mongo
+          exit 1
 
       - name: Run E2E test suite
         id: test-suite
         run: |
           NODE_ENV=test npm start -- --silent &
           npm run test:ci -- --config video=true
+
+      - name: Show MongoDB logs on failure
+        if: failure()
+        run: |
+          docker ps -a
+          docker logs nodegoat-mongo || true
 
       - name: Prepare cypress artifacts
         if: failure() && (steps.test-suite.outcome == 'failure')
@@ -55,7 +78,7 @@ jobs:
 
       - name: Upload cypress artifacts
         if: failure() && (steps.test-suite.outcome == 'failure')
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-artifacts-node${{ matrix.node-version }}
           path: test/e2e/screenshots

@@ -1,0 +1,56 @@
+Name:             falco-test-shell
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             falco-test-control-plane/172.19.0.2
+Start Time:       Sat, 07 Nov 2026 12:24:45 +0100
+Labels:           run=falco-test-shell
+Annotations:      cni.projectcalico.org/containerID: 54cadf631a8f38b6a7549fce36536441ce5a70d07bbdff1dc649e3e0e3ddbef6
+                  cni.projectcalico.org/podIP: 10.245.176.186/32
+                  cni.projectcalico.org/podIPs: 10.245.176.186/32
+Status:           Running
+IP:               10.245.176.186
+IPs:
+  IP:  10.245.176.186
+Containers:
+  falco-test-shell:
+    Container ID:  containerd://075a0aa20a18540050889086e08227304268db0e7f06a0330dad25a7a2ecabcd
+    Image:         alpine:3.21
+    Image ID:      docker.io/library/alpine@sha256:ee16d92f96db08d9d2d07da48555a27f3a69d8f0759021dbc601195ed0d2b5bd
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sleep
+      3600
+    State:          Running
+      Started:      Sat, 07 Nov 2026 12:24:46 +0100
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-h24kx (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       True
+  ContainersReady             True
+  PodScheduled                True
+Volumes:
+  kube-api-access-h24kx:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  11m   default-scheduler  Successfully assigned default/falco-test-shell to falco-test-control-plane
+  Normal  Pulled     11m   kubelet            spec.containers{falco-test-shell}: Container image "alpine:3.21" already present on machine and can be accessed by the pod
+  Normal  Created    11m   kubelet            spec.containers{falco-test-shell}: Container created
+  Normal  Started    11m   kubelet            spec.containers{falco-test-shell}: Container started

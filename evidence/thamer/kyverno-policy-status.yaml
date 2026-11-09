@@ -1,0 +1,186 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"policies.kyverno.io/v1","kind":"ValidatingPolicy","metadata":{"annotations":{},"name":"deny-privileged-containers"},"spec":{"evaluation":{"mode":"Kubernetes"},"matchConditions":[{"expression":"object.metadata.namespace == \"nodegoat\"","name":"nodegoat-namespace-only"}],"matchConstraints":{"resourceRules":[{"apiGroups":[""],"apiVersions":["v1"],"operations":["CREATE","UPDATE"],"resources":["pods"]}]},"validationActions":["Deny"],"validations":[{"expression":"object.spec.containers.all(c,\n  !has(c.securityContext) ||\n  !has(c.securityContext.privileged) ||\n  c.securityContext.privileged == false\n) \u0026\u0026 (!has(object.spec.initContainers) ||\n  object.spec.initContainers.all(c,\n    !has(c.securityContext) ||\n    !has(c.securityContext.privileged) ||\n    c.securityContext.privileged == false\n  )\n) \u0026\u0026 (!has(object.spec.ephemeralContainers) ||\n  object.spec.ephemeralContainers.all(c,\n    !has(c.securityContext) ||\n    !has(c.securityContext.privileged) ||\n    c.securityContext.privileged == false\n  )\n)","message":"Les conteneurs privilegies sont interdits dans nodegoat."}]}}
+  creationTimestamp: "2026-11-04T11:38:04Z"
+  generation: 2
+  name: deny-privileged-containers
+  resourceVersion: "17903"
+  uid: cfe879b5-94f2-4693-91e1-ef95dfce9912
+spec:
+  evaluation:
+    mode: Kubernetes
+  matchConditions:
+  - expression: object.metadata.namespace == "nodegoat"
+    name: nodegoat-namespace-only
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - pods
+  validationActions:
+  - Deny
+  validations:
+  - expression: |-
+      object.spec.containers.all(c,
+        !has(c.securityContext) ||
+        !has(c.securityContext.privileged) ||
+        c.securityContext.privileged == false
+      ) && (!has(object.spec.initContainers) ||
+        object.spec.initContainers.all(c,
+          !has(c.securityContext) ||
+          !has(c.securityContext.privileged) ||
+          c.securityContext.privileged == false
+        )
+      ) && (!has(object.spec.ephemeralContainers) ||
+        object.spec.ephemeralContainers.all(c,
+          !has(c.securityContext) ||
+          !has(c.securityContext.privileged) ||
+          c.securityContext.privileged == false
+        )
+      )
+    message: Les conteneurs privilegies sont interdits dans nodegoat.
+status:
+  autogen:
+    configs:
+      cronjobs:
+        spec:
+          evaluation:
+            mode: Kubernetes
+          matchConditions:
+          - expression: object.metadata.namespace == "nodegoat"
+            name: nodegoat-namespace-only
+          matchConstraints:
+            resourceRules:
+            - apiGroups:
+              - batch
+              apiVersions:
+              - v1
+              operations:
+              - CREATE
+              - UPDATE
+              resources:
+              - cronjobs
+          validationActions:
+          - Deny
+          validations:
+          - expression: |-
+              object.spec.jobTemplate.spec.template.spec.containers.all(c,
+                !has(c.securityContext) ||
+                !has(c.securityContext.privileged) ||
+                c.securityContext.privileged == false
+              ) && (!has(object.spec.jobTemplate.spec.template.spec.initContainers) ||
+                object.spec.jobTemplate.spec.template.spec.initContainers.all(c,
+                  !has(c.securityContext) ||
+                  !has(c.securityContext.privileged) ||
+                  c.securityContext.privileged == false
+                )
+              ) && (!has(object.spec.jobTemplate.spec.template.spec.ephemeralContainers) ||
+                object.spec.jobTemplate.spec.template.spec.ephemeralContainers.all(c,
+                  !has(c.securityContext) ||
+                  !has(c.securityContext.privileged) ||
+                  c.securityContext.privileged == false
+                )
+              )
+            message: Les conteneurs privilegies sont interdits dans nodegoat.
+        targets:
+        - group: batch
+          kind: CronJob
+          resource: cronjobs
+          version: v1
+      defaults:
+        spec:
+          evaluation:
+            mode: Kubernetes
+          matchConditions:
+          - expression: object.metadata.namespace == "nodegoat"
+            name: nodegoat-namespace-only
+          matchConstraints:
+            resourceRules:
+            - apiGroups:
+              - apps
+              apiVersions:
+              - v1
+              operations:
+              - CREATE
+              - UPDATE
+              resources:
+              - daemonsets
+              - deployments
+              - replicasets
+              - statefulsets
+            - apiGroups:
+              - batch
+              apiVersions:
+              - v1
+              operations:
+              - CREATE
+              - UPDATE
+              resources:
+              - jobs
+          validationActions:
+          - Deny
+          validations:
+          - expression: |-
+              object.spec.template.spec.containers.all(c,
+                !has(c.securityContext) ||
+                !has(c.securityContext.privileged) ||
+                c.securityContext.privileged == false
+              ) && (!has(object.spec.template.spec.initContainers) ||
+                object.spec.template.spec.initContainers.all(c,
+                  !has(c.securityContext) ||
+                  !has(c.securityContext.privileged) ||
+                  c.securityContext.privileged == false
+                )
+              ) && (!has(object.spec.template.spec.ephemeralContainers) ||
+                object.spec.template.spec.ephemeralContainers.all(c,
+                  !has(c.securityContext) ||
+                  !has(c.securityContext.privileged) ||
+                  c.securityContext.privileged == false
+                )
+              )
+            message: Les conteneurs privilegies sont interdits dans nodegoat.
+        targets:
+        - group: apps
+          kind: DaemonSet
+          resource: daemonsets
+          version: v1
+        - group: apps
+          kind: Deployment
+          resource: deployments
+          version: v1
+        - group: apps
+          kind: ReplicaSet
+          resource: replicasets
+          version: v1
+        - group: apps
+          kind: StatefulSet
+          resource: statefulsets
+          version: v1
+        - group: batch
+          kind: Job
+          resource: jobs
+          version: v1
+  conditionStatus:
+    conditions:
+    - lastTransitionTime: "2026-11-04T11:38:05Z"
+      message: Webhook configured.
+      reason: Succeeded
+      status: "True"
+      type: WebhookConfigured
+    - lastTransitionTime: "2026-11-04T11:38:05Z"
+      message: Policy is ready for reporting.
+      reason: Succeeded
+      status: "True"
+      type: RBACPermissionsGranted
+    message: 'skip generating ValidatingAdmissionPolicy: not enabled.'
+    ready: true
+  generated: false

@@ -12,20 +12,21 @@ function MemosDAO(db) {
 
     const memosCol = db.collection("memos");
 
-    this.insert = (memo, callback) => {
+    this.insert = (memo, userId, callback) => {
 
         // Create allocations document
         const memos = {
             memo,
+            userId,
             timestamp: new Date()
         };
 
         memosCol.insert(memos, (err, result) => !err ? callback(null, result) : callback(err, null));
     };
 
-    this.getAllMemos = (callback) => {
+    this.getAllMemos = (userId, callback) => {
 
-        memosCol.find({}).sort({
+        memosCol.find({ userId }).sort({
             timestamp: -1
         }).toArray((err, memos) => {
             if (err) return callback(err, null);
