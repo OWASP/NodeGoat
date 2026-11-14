@@ -80,7 +80,7 @@ jobs:
           format: 'ALL'
           out: 'dependency-check-report'
           args: >
-            --failOnCVSS 7
+            --failOnCVSS 11
 
       - name: Guardar reporte SCA
         if: always()
@@ -89,5 +89,46 @@ jobs:
           name: dependency-check-report
           path: dependency-check-report/
           if-no-files-found: warn
+
+      - name: Quality Gate SCA - CVSS mayor o igual a 7
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          report = Path("dependency-check-report/dependency-check-report.json")
+          if not report.exists():
+              print("ERROR: No se encontro el reporte SCA")
+              sys.exit(1)
+
+          data = json.loads(report.read_text(encoding="utf-8"))
+          findings = []
+
+          for dependency in data.get("dependencies", []):
+              for vulnerability in dependency.get("vulnerabilities", []):
+                  scores = []
+                  for key in ("cvssv3", "cvssv4", "cvssv2"):
+                      cvss = vulnerability.get(key) or {}
+                      score = cvss.get("baseScore")
+                      if score is not None:
+                          scores.append(float(score))
+
+                  if scores and max(scores) >= 7.0:
+                      findings.append((
+                          dependency.get("fileName", "desconocido"),
+                          vulnerability.get("name", "sin identificador"),
+                          max(scores)
+                      ))
+
+          for package, vulnerability, score in findings:
+              print(f"BLOCKED: {package} | {vulnerability} | CVSS {score}")
+
+          if findings:
+              print(f"QUALITY GATE FAILED: {len(findings)} vulnerabilidades CVSS >= 7")
+              sys.exit(1)
+
+          print("QUALITY GATE PASSED: Sin vulnerabilidades CVSS >= 7")
+          PY
 
  
