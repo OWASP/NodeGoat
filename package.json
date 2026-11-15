@@ -10,7 +10,7 @@
     "consolidate": "^0.14.1",
     "csurf": "^1.8.3",
     "dont-sniff-mimetype": "^1.0.0",
-    "express": "^4.13.4",
+    "express": "^4.21.2",
     "express-session": "^1.13.0",
     "forever": "^2.0.0",
     "helmet": "^2.0.0",
