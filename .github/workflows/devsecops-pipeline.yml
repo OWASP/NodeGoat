@@ -131,4 +131,26 @@ jobs:
           print("QUALITY GATE PASSED: Sin vulnerabilidades CVSS >= 7")
           PY
 
- 
+  quality-gate-validation:
+    name: Validacion controlada - Quality Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Comprobar politica de seguridad
+        run: |
+          python - <<'PY'
+          import sys
+
+          def quality_gate(vulnerabilidades):
+              return all(cvss < 7.0 for cvss in vulnerabilidades)
+
+          caso_seguro = [2.5, 4.3, 6.9]
+          caso_inseguro = [4.0, 7.5, 9.8]
+
+          assert quality_gate(caso_seguro), "ERROR: caso seguro rechazado"
+          assert not quality_gate(caso_inseguro), "ERROR: caso inseguro aceptado"
+
+          print("SUCCESS: Quality Gate permite CVSS menores a 7")
+          print("SUCCESS: Quality Gate bloquea CVSS iguales o mayores a 7")
+          print("VALIDACION CONTROLADA COMPLETADA")
+          PY
