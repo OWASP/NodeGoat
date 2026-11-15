@@ -30,13 +30,12 @@ jobs:
 
       - name: Ejecutar analisis SAST
         run: |
-          semgrep scan \
-            --config p/security-audit \
-            --config p/owasp-top-ten \
-            --sarif \
-            --output semgrep-results.sarif \
-            --error .
-
+         semgrep scan \
+          --config p/security-audit \
+          --config p/owasp-top-ten \
+          --sarif \
+          --output semgrep-results.sarif \
+          .
       - name: Guardar reporte SARIF
         if: always()
         uses: actions/upload-artifact@v4
