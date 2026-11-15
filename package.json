@@ -20,7 +20,7 @@
     "node-esapi": "0.0.1",
     "serve-favicon": "^2.3.0",
     "swig": "^1.4.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.13.8"
   },
   "comments": {
     "//": "a9 insecure components"
@@ -52,7 +52,7 @@
     "grunt-jsbeautifier": "^0.2.12",
     "grunt-mocha-test": "^0.12.7",
     "grunt-npm-install": "^0.3.0",
-    "grunt-retire": "^0.3.12",
+    "grunt-retire": "^1.0.9",
     "jshint": "2.12.0",
     "mocha": "^2.4.5",
     "nodemon": "^1.19.1",
