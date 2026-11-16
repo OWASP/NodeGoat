@@ -11,6 +11,13 @@ const swig = require("swig");
 const MongoClient = require("mongodb").MongoClient; // Driver for connecting to MongoDB
 const http = require("http");
 const marked = require("marked");
+const { JSDOM } = require("jsdom");
+const createDOMPurify = require("dompurify");
+const DOMPurify = createDOMPurify(new JSDOM("").window);
+const renderSafeMarkdown = (content) => {
+  const html = marked.parse(String(content ?? ""));
+  return DOMPurify.sanitize(html);
+};
 //const nosniff = require('dont-sniff-mimetype');
 const app = express(); // Web framework to handle routing requests
 const routes = require("./app/routes");
@@ -126,7 +133,7 @@ MongoClient.connect(db, (err, db) => {
     marked.setOptions({
         sanitize: true
     });
-    app.locals.marked = marked;
+    app.locals.marked = { parse: renderSafeMarkdown };
 
     // Application routes
     routes(app, db);
