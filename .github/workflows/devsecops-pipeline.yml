@@ -1,0 +1,155 @@
+
+name: DevSecOps Pipeline
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sast-semgrep:
+    name: SAST - Semgrep
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar Semgrep
+        run: python -m pip install semgrep
+
+      - name: Ejecutar analisis SAST
+        run: |
+         semgrep scan \
+          --config p/security-audit \
+          --config p/owasp-top-ten \
+          --sarif \
+          --output semgrep-results.sarif \
+          .
+      - name: Guardar reporte SARIF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-sarif-report
+          path: semgrep-results.sarif
+          if-no-files-found: warn 
+  sbom-cyclonedx:
+    name: SBOM - CycloneDX
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Instalar Syft
+        uses: anchore/sbom-action/download-syft@v0
+
+      - name: Generar SBOM CycloneDX
+        run: syft dir:. -o cyclonedx-json=sbom.cyclonedx.json
+
+      - name: Guardar SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-cyclonedx
+          path: sbom.cyclonedx.json
+          if-no-files-found: error
+
+  sca-dependency-check:
+    name: SCA - OWASP Dependency-Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Analizar dependencias con Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'NodeGoat'
+          path: '.'
+          format: 'ALL'
+          out: 'dependency-check-report'
+          args: >
+            --failOnCVSS 11
+
+      - name: Guardar reporte SCA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: dependency-check-report/
+          if-no-files-found: warn
+
+      - name: Quality Gate SCA - CVSS mayor o igual a 7
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          report = Path("dependency-check-report/dependency-check-report.json")
+          if not report.exists():
+              print("ERROR: No se encontro el reporte SCA")
+              sys.exit(1)
+
+          data = json.loads(report.read_text(encoding="utf-8"))
+          findings = []
+
+          for dependency in data.get("dependencies", []):
+              for vulnerability in dependency.get("vulnerabilities", []):
+                  scores = []
+                  for key in ("cvssv3", "cvssv4", "cvssv2"):
+                      cvss = vulnerability.get(key) or {}
+                      score = cvss.get("baseScore")
+                      if score is not None:
+                          scores.append(float(score))
+
+                  if scores and max(scores) >= 7.0:
+                      findings.append((
+                          dependency.get("fileName", "desconocido"),
+                          vulnerability.get("name", "sin identificador"),
+                          max(scores)
+                      ))
+
+          for package, vulnerability, score in findings:
+              print(f"BLOCKED: {package} | {vulnerability} | CVSS {score}")
+
+          if findings:
+              print(f"QUALITY GATE FAILED: {len(findings)} vulnerabilidades CVSS >= 7")
+              sys.exit(1)
+
+          print("QUALITY GATE PASSED: Sin vulnerabilidades CVSS >= 7")
+          PY
+
+  quality-gate-validation:
+    name: Validacion controlada - Quality Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Comprobar politica de seguridad
+        run: |
+          python - <<'PY'
+          import sys
+
+          def quality_gate(vulnerabilidades):
+              return all(cvss < 7.0 for cvss in vulnerabilidades)
+
+          caso_seguro = [2.5, 4.3, 6.9]
+          caso_inseguro = [4.0, 7.5, 9.8]
+
+          assert quality_gate(caso_seguro), "ERROR: caso seguro rechazado"
+          assert not quality_gate(caso_inseguro), "ERROR: caso inseguro aceptado"
+
+          print("SUCCESS: Quality Gate permite CVSS menores a 7")
+          print("SUCCESS: Quality Gate bloquea CVSS iguales o mayores a 7")
+          print("VALIDACION CONTROLADA COMPLETADA")
+          PY
