@@ -133,7 +133,7 @@ MongoClient.connect(db, (err, db) => {
     marked.setOptions({
         sanitize: true
     });
-    app.locals.marked = { parse: renderSafeMarkdown };
+    app.locals.marked = renderSafeMarkdown;
 
     // Application routes
     routes(app, db);
